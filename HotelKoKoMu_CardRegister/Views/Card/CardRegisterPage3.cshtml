@@ -1,75 +1,25 @@
 ﻿
 @{
     ViewBag.Title = "CardRegisterPage3";
+    Layout = "~/Views/Shared/_CardRegisterLayout.cshtml";
 }
 
-
-<table class="table-bordered kokomuTable">
-    <tbody>
-        <tr>
-            <td class="td1">
-                <label>宿泊者名</label>
-            </td>
-            <td class="td2">
-                <textarea></textarea>
-            </td>
-            <td class="td3">
-                <label>カナ名</label>
-            </td>
-            <td class="td4">
-                <input type="text" />
-            </td>
-        </tr>
-        <tr>
-            <td class="td1">
-                <label>郵便番号</label>
-            </td>
-            <td class="td2">
-                <input type="text" />
-            </td>
-            <td class="td3">
-                <label>電話番号</label>
-            </td>
-            <td class="td4">
-                <input type="text" />
-            </td>
-        </tr>
-        <tr>
-            <td rowspan="2">
-                <label>住所</label>
-            </td>
-            <td colspan="3">
-                <input type="text" />
-            </td>
-
-
-        </tr>
-        <tr>
-            <td colspan="3">
-                <input type="text" />
-            </td>
-        </tr>
-        <tr>
-            <td class="td1">
-                <label>勤務先</label>
-            </td>
-            <td colspan="3">
-                <input type="text" />
-            </td>
-        </tr>
-        <tr>
-            <td class="td1">
-                <label>国籍</label>
-            </td>
-            <td class="td2">
-                <input type="text" />
-            </td>
-            <td class="td3">
-                <label>パスポート</label>
-            </td>
-            <td class="td4">
-                <input type="text" />
-            </td>
-        </tr>
-    </tbody>
-</table>
+<div class="col-md-12">
+    <div class="row">
+        <div class="col-md-12">
+            <label>宿泊者名（漢字）</label><br />
+            <textarea id="txtGuestName" rows="4"></textarea>
+        </div>
+    </div>
+    <div class="row clsbtngroup" >
+        <div class="col-md-4 ">
+            <button class="clsRedo" id="btnRedo">やり直し</button>           
+        </div>
+        <div class="col-md-4">
+            <button class="clsConfirm" id="btnConfirm">確定</button>
+        </div>
+        <div class="col-md-4">
+            <button class="clsInputKeyboard" id="btnInputKeyboard">キーボード入力</button>
+        </div>
+    </div>
+</div>

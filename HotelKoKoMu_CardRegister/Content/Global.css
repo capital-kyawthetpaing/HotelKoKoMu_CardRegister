@@ -3,12 +3,42 @@
     font-size:x-large;
 }
 
-.td1{
-    width:15%;
+.kokomuTable{
+    width:100%;
+}
+
+.kokomuTable td {
+    border: 1px solid black;
+    padding: 0px;
+    margin: 0px;
+}
+
+.kokomuTable tr {
+    height:40px;
+}
+
+.kokomuTable td input {
+    width: 100%;
+    height: 40px;
+    padding: 0px;
+    margin: 0px;
+    border:none;
+    padding-left:3px;
+}
+
+.kokomuTable td label {
+    width: 100%;
+    text-align:center;
+    vertical-align:middle;
+    margin:0px;
+}
+
+.td1 {
+    width: 15%;
 }
 
 .td2{
-    width:30%;
+    width:35%;
 }
 
 .td3{
@@ -16,5 +46,5 @@
 }
 
 .td4{
-    width:30%;
+    width:35%;
 }

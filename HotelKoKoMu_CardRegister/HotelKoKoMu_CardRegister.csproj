@@ -259,7 +259,7 @@
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
-    <Content Include="Views\Card\CargRegisterPage1.cshtml" />
+    <Content Include="Views\Card\CardRegisterPage1.cshtml" />
     <Content Include="Views\Shared\_CardRegisterLayout.cshtml" />
     <Content Include="Scripts\umd\popper.min.js.map" />
     <Content Include="Scripts\umd\popper.js.map" />
@@ -271,7 +271,7 @@
     <Content Include="Scripts\popper.js.map" />
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
-    <Content Include="Views\Card\CargRegisterPage2.cshtml" />
+    <Content Include="Views\Card\CardRegisterPage2.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

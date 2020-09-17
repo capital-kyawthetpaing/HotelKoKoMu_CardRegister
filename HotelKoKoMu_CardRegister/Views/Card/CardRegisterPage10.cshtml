@@ -1,7 +1,26 @@
 ﻿
 @{
     ViewBag.Title = "CardRegisterPage10";
+    Layout = "~/Views/Shared/_CardRegisterLayout.cshtml";
 }
 
-<h2>CardRegisterPage10</h2>
+<div class="col-md-12">
+    <div class="row">
+        <div class="col-md-12">
+            <label style="padding-left:20px;">住所１</label><br />
+            <textarea id="txtGuestName" rows="4"></textarea>
+        </div>
+    </div>
+    <div class="row clsbtngroup">
+        <div class="col-md-4 ">
+            <button class="clsRedo" id="btnRedo">やり直し</button>
+        </div>
+        <div class="col-md-4">
+            <button class="clsConfirm" id="btnConfirm">確定</button>
+        </div>
+        <div class="col-md-4">
+            <button class="clsInputKeyboard" id="btnInputKeyboard">キーボード入力</button>
+        </div>
+    </div>
+</div>
 

@@ -15,14 +15,13 @@ namespace HotelKoKoMu_CardRegister.Controllers
         }
         public ActionResult CardRegisterPage2()
         {
-         
             return View();
         }
-        public ActionResult CardRegisterPage21()
+
+        public ActionResult CardRegisterPage3()
         {
-
             return View();
-        }
 
+        }
     }
 }

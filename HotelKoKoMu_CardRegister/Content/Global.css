@@ -52,3 +52,24 @@
 .td4{
     width:35%;
 }
+
+.btn1{
+    background-color:red;
+    width:200px;
+    height:50px;
+    text-align:center;
+    padding-right:100px;
+}
+.btn2 {
+    background-color: green;
+    width: 200px;
+    height: 50px;
+    text-align: center;
+    padding-right:100px;
+}
+.btn3 {
+    background-color: darkslateblue;
+    width: 200px;
+    height: 50px;
+    text-align: center;
+}

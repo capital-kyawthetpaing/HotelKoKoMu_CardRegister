@@ -272,6 +272,16 @@
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
     <Content Include="Views\Card\CardRegisterPage2.cshtml" />
+    <Content Include="Views\Card\CardRegisterPage21.cshtml" />
+    <Content Include="Views\Card\CardRegisterPage3.cshtml" />
+    <Content Include="Views\Card\CardRegisterPage4.cshtml" />
+    <Content Include="Views\Card\CardRegisterPage5.cshtml" />
+    <Content Include="Views\Card\CardRegisterPage6.cshtml" />
+    <Content Include="Views\Card\CardRegisterPage22.cshtml" />
+    <Content Include="Views\Card\CardRegisterPage10.cshtml" />
+    <Content Include="Views\Card\CardRegisterPage9.cshtml" />
+    <Content Include="Views\Card\CardRegisterPage8.cshtml" />
+    <Content Include="Views\Card\CardRegisterPage7.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

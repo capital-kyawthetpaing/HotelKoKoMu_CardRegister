@@ -23,7 +23,47 @@ namespace HotelKoKoMu_CardRegister.Controllers
             return View();
 
         }
+        public ActionResult CardRegisterPage4()
+        {
+            return View();
+
+        }
+        public ActionResult CardRegisterPage5()
+        {
+            return View();
+
+        }
+        public ActionResult CardRegisterPage6()
+        {
+            return View();
+
+        }
+        public ActionResult CardRegisterPage7()
+        {
+            return View();
+
+        }
+        public ActionResult CardRegisterPage8()
+        {
+            return View();
+
+        }
+        public ActionResult CardRegisterPage9()
+        {
+            return View();
+
+        }
+        public ActionResult CardRegisterPage10()
+        {
+            return View();
+
+        }
         public ActionResult CardRegisterPage21()
+        {
+            return View();
+
+        }
+        public ActionResult CardRegisterPage22()
         {
             return View();
 

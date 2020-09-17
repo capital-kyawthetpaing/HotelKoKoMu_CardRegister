@@ -282,6 +282,7 @@
     <Content Include="Views\Card\CardRegisterPage9.cshtml" />
     <Content Include="Views\Card\CardRegisterPage8.cshtml" />
     <Content Include="Views\Card\CardRegisterPage7.cshtml" />
+    <Content Include="Views\Card\CardRegisterPage11.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

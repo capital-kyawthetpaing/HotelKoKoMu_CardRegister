@@ -1,4 +1,8 @@
-﻿.card-header{
+﻿.card{
+    border:1px solid black;
+}
+
+.card-header{
     color: white;
     font-size:x-large;
 }

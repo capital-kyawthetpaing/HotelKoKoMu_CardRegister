@@ -56,6 +56,9 @@
 .td4{
     width:35%;
 }
-.btn btndone{
 
-}
+
+.rowspace {
+    border-collapse: separate;
+    border-spacing: 0 20px;
+} 

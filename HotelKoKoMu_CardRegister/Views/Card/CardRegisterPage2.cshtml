@@ -3,5 +3,42 @@
     ViewBag.Title = "CardRegisterPage2";
 }
 
-<h2>CargRegisterPage2</h2>
+@{
+    ViewBag.Title = "CargRegisterPage2";
+    Layout = "~/Views/Shared/_CardRegisterLayout.cshtml";
+}
+
+
+<div contenteditable="true" style="height:200px; padding-top:20px;">
+    <label style="padding-left:20px;">宿泊者名（漢字）</label><br/>
+    <input type="text" class="tdarea" />
+</div>
+
+<div style="padding-top:-30px;">
+    <div class="row">
+        <div class="col-md-4" style="padding-left:70px;">
+            <div class="text-s text-custom1 text-uppercase mb-1">
+                <button class="btn1">やり直し</button>
+                @*<input type="button" class="btn1" name="やり直し" value="やり直し" />*@
+            </div>
+        </div>
+        <div class="col-md-4" style=" padding-left:70px;">
+            <div class="text-s text-custom1 text-uppercase mb-1">
+                <button class="btn2">確定</button>
+                @*<input type="button" class="btn2" name="確定" value="確定" />*@
+            </div>
+        </div>
+        <div class="col-md-4" style="padding-left:70px;">
+            <div class="text-s text-custom1 text-uppercase mb-1">
+                <button class="btn3">キーボード入力</button>
+                @*<input type="button" class="btn3" name="キーボード入力" value="キーボード入力" />*@
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+
+
 

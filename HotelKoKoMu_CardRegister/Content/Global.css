@@ -64,8 +64,7 @@ textarea {
     margin-top: 30px;
 }
 
-.clsRedo, .clsConfirm, .clsInputKeyboard, .clsfinish {
-    width: 100%;
+.clsRedo, .clsConfirm, .clsInputKeyboard, .clsfinish {    
     height: 50px;
     text-align: center;
     border-radius: 8px;

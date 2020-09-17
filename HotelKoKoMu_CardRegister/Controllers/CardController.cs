@@ -9,11 +9,11 @@ namespace HotelKoKoMu_CardRegister.Controllers
     public class CardController : Controller
     {
         // GET: Card
-        public ActionResult CargRegisterPage1()
+        public ActionResult CardRegisterPage1()
         {
             return View();
         }
-        public ActionResult CargRegisterPage2()
+        public ActionResult CardRegisterPage2()
         {
             return View();
         }

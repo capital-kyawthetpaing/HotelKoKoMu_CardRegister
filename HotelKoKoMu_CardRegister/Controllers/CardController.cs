@@ -14,8 +14,7 @@ namespace HotelKoKoMu_CardRegister.Controllers
             return View();
         }
         public ActionResult CargRegisterPage2()
-        {
-            //test
+        {           
             return View();
         }
     }

@@ -4,24 +4,38 @@
     Layout = "~/Views/Shared/_CardRegisterLayout.cshtml";
 }
 
-<table class="table-bordered kokomuTable">
-    <tbody>
-
-        <tr>
-            <td>
-                <input type="text" />
-            </td>
-        </tr>
-
-    </tbody>
-</table>
-
 <div>
-    <div class="row" style="border:none;">
-        <input type="button" class="btn1" style="padding-right:50%;" name="やり直し" value="やり直し" />
-        <input type="button" class="btn2" style="padding-right:50%;" name="確定" value="確定" />
-        <input type="button" class="btn3" name="キーボード入力" value="キーボード入力" />
+    <div class="row">
+        <label>宿泊者名（漢字）</label>
     </div>
+</div>
+@*<div>
+    <div class="row">
+        <input type="text" style="width:70%; height:50%;" />
+    </div>
+</div>*@
+<div style="padding-top:40px;">
+    <div class="row">
+        <div class="col-md-4" style="padding-left:70px;">
+            <div class="text-s text-custom1 text-uppercase mb-1">
+                <button class="btn1">やり直し</button>
+                @*<input type="button" class="btn1" name="やり直し" value="やり直し" />*@
+            </div>
+        </div>
+        <div class="col-md-4" style=" padding-left:70px;">
+            <div class="text-s text-custom1 text-uppercase mb-1">
+                <button class="btn2">確定</button>
+                @*<input type="button" class="btn2" name="確定" value="確定" />*@
+            </div>
+        </div>
+        <div class="col-md-4" style="padding-left:70px;">
+            <div class="text-s text-custom1 text-uppercase mb-1">
+                <button class="btn3">キーボード入力</button>
+                @*<input type="button" class="btn3" name="キーボード入力" value="キーボード入力" />*@
+            </div>
+        </div>
+    </div>
+    
 </div>
 
 

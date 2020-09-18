@@ -288,6 +288,10 @@
     <Content Include="Views\Card\CardRegisterPage16.cshtml" />
     <Content Include="Views\Card\CardRegisterPage18.cshtml" />
     <Content Include="Views\Card\CardRegisterPage20.cshtml" />
+    <Content Include="Views\Card\CardRegisterPage13.cshtml" />
+    <Content Include="Views\Card\CardRegisterPage15.cshtml" />
+    <Content Include="Views\Card\CardRegisterPage17.cshtml" />
+    <Content Include="Views\Card\CardRegisterPage19.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

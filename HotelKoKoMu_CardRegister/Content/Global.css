@@ -9,6 +9,7 @@
 .card-header {
     color: white;
     font-size: x-large;
+     font-weight:bold;
 }
 
 .kokomuTable {
@@ -19,10 +20,12 @@
         border: 1px solid black;
         padding: 0px;
         margin: 0px;
+        border: 2px solid black;
     }
 
     .kokomuTable tr {
-        height: 40px;
+        height: 45px;
+        border: 2px solid black;
     }
 
     .kokomuTable td input {
@@ -69,7 +72,7 @@ textarea {
     text-align: center;
     border-radius: 8px;
     font-size: 16px;
-    font-weight: bold;
+    /*font-weight: bold;*/
     color: white;
 }
 
@@ -102,5 +105,5 @@ textarea {
 }
 
 label {
-    font-weight: bold;
+    /*font-weight: bold;*/
 }

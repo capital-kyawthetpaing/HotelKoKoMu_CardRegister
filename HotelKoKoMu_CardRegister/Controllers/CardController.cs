@@ -117,7 +117,6 @@ namespace HotelKoKoMu_CardRegister.Controllers
         public ActionResult CardRegisterPage22()
         {
             return View();
-
         }
     }
 }

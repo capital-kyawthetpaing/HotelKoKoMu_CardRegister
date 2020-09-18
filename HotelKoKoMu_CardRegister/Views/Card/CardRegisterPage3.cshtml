@@ -22,44 +22,17 @@
             <button class="clsInputKeyboard" id="btnInputKeyboard">戻る</button>
         </div>
     </div>
+
 </div>
-<div id="keyboard">
-    <input type="text" ID="keyboard" style="width:200px;">
-</div>
+
 
 @section Scripts
 {
-    <link href="http://code.jquery.com/ui/1.9.0/themes/ui-darkness/jquery-ui.css" rel="stylesheet">
-    <script src="http://code.jquery.com/ui/1.9.0/jquery-ui.min.js"></script>
-    <link href="~/Content/Keyboard-master/css/keyboard.css" rel="stylesheet" />
-    <script src="~/Content/Keyboard-master/js/jquery.keyboard.js"></script>
-    <script src="~/Content/Keyboard-master/js/jquery.keyboard.extension-typing.js"></script>
-
-
     <script type="text/javascript">
         $(document).ready(function () {
-            $('#keyboard').keyboard({
-                // Prevents direct input in the preview window when true
-                lockInput: true,
-                preventPaste: true,
-                autoAccept: true,
-                visible: function (e, kb, el) {
-                    if (!kb.$keyboard.find('.ui-keyboard-lock').length) {
-                        kb.$keyboard.append('<button class="ui-keyboard-button ui-keyboard-lock ui-state-default ui-corner-all"><span class="ui-icon-locked ui-icon"></span></button>');
-                        kb.$keyboard.find('.ui-keyboard-lock').click(function () {
-                            var locked = !kb.options.lockInput;
-                            kb.options.lockInput = locked;
-                            kb.$preview
-                                .toggleClass('ui-keyboard-lockedinput', locked)
-                                .prop('readonly', locked);
-                            $(this).find('span')
-                                .toggleClass('ui-icon-locked', locked)
-                                .toggleClass('ui-icon-unlocked', !locked);
-                        });
-                    }
-                }
-            })
-                .addTyping();
+            $('#txtGuestName').focus(function () {
+                this.blur();
+            });
         });
     </script>
 }

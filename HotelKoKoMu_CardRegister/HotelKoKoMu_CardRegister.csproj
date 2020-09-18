@@ -142,7 +142,6 @@
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
-    <Content Include="Scripts\Canvas.js" />
     <Content Include="Scripts\esm\popper-utils.js" />
     <Content Include="Scripts\esm\popper-utils.min.js" />
     <Content Include="Scripts\esm\popper.js" />
@@ -289,7 +288,10 @@
     <Content Include="Views\Card\CardRegisterPage16.cshtml" />
     <Content Include="Views\Card\CardRegisterPage18.cshtml" />
     <Content Include="Views\Card\CardRegisterPage20.cshtml" />
-    <Content Include="Views\Home\Test.cshtml" />
+    <Content Include="Views\Card\CardRegisterPage13.cshtml" />
+    <Content Include="Views\Card\CardRegisterPage15.cshtml" />
+    <Content Include="Views\Card\CardRegisterPage17.cshtml" />
+    <Content Include="Views\Card\CardRegisterPage19.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

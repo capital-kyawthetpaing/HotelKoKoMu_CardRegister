@@ -22,14 +22,14 @@ namespace HotelKoKoMu_CardRegister.Resources {
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Resources.Tools.StronglyTypedResourceBuilder", "16.0.0.0")]
     [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    public class CardRegisterPage1 {
+    public class Resources {
         
         private static global::System.Resources.ResourceManager resourceMan;
         
         private static global::System.Globalization.CultureInfo resourceCulture;
         
         [global::System.Diagnostics.CodeAnalysis.SuppressMessageAttribute("Microsoft.Performance", "CA1811:AvoidUncalledPrivateCode")]
-        internal CardRegisterPage1() {
+        internal Resources() {
         }
         
         /// <summary>
@@ -39,7 +39,7 @@ namespace HotelKoKoMu_CardRegister.Resources {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("HotelKoKoMu_CardRegister.Resources.CardRegisterPage1", typeof(CardRegisterPage1).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("HotelKoKoMu_CardRegister.Resources.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -66,6 +66,24 @@ namespace HotelKoKoMu_CardRegister.Resources {
         public static string Address {
             get {
                 return ResourceManager.GetString("Address", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Address1.
+        /// </summary>
+        public static string Address1 {
+            get {
+                return ResourceManager.GetString("Address1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Address2.
+        /// </summary>
+        public static string Address2 {
+            get {
+                return ResourceManager.GetString("Address2", resourceCulture);
             }
         }
         
@@ -183,6 +201,15 @@ namespace HotelKoKoMu_CardRegister.Resources {
         public static string Passport {
             get {
                 return ResourceManager.GetString("Passport", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Passport No.
+        /// </summary>
+        public static string PassportNo {
+            get {
+                return ResourceManager.GetString("PassportNo", resourceCulture);
             }
         }
         

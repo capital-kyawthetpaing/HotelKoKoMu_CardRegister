@@ -127,15 +127,15 @@
     </Compile>
     <Compile Include="MultiLanguages.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Resources\CardRegisterPage1.Designer.cs">
+    <Compile Include="Resources\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>CardRegisterPage1.resx</DependentUpon>
+      <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <Compile Include="Resources\CardRegisterPage1.Ja.Designer.cs">
+    <Compile Include="Resources\Resources.Ja.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>CardRegisterPage1.Ja.resx</DependentUpon>
+      <DependentUpon>Resources.Ja.resx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -320,13 +320,13 @@
     <Service Include="{4A0DDDB5-7A95-4FBF-97CC-616D07737A77}" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Resources\CardRegisterPage1.Ja.resx">
+    <EmbeddedResource Include="Resources\Resources.Ja.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>CardRegisterPage1.Ja.Designer.cs</LastGenOutput>
+      <LastGenOutput>Resources.Ja.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <EmbeddedResource Include="Resources\CardRegisterPage1.resx">
+    <EmbeddedResource Include="Resources\Resources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>CardRegisterPage1.Designer.cs</LastGenOutput>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

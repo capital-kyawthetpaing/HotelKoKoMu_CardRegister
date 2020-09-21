@@ -1,7 +1,9 @@
-﻿using System;
+﻿using Microsoft.Ajax.Utilities;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Helpers;
 using System.Web.Mvc;
 
 namespace HotelKoKoMu_CardRegister.Controllers
@@ -118,13 +120,10 @@ namespace HotelKoKoMu_CardRegister.Controllers
         {
             return View();
         }
-
-        public ActionResult ChangeLanguage(string lang)
+        public ActionResult ChangeLanguage(string key, string value)
         {
-           
-            //string controllerName = ControllerContext.RouteData.Values["Controller"].ToString();
-            new MultiLanguages().SetLanguage(lang);
-            return RedirectToAction("CardRegisterPage1", "Card");
+            new MultiLanguages().SetLanguage(value);
+            return this.Json(new { success = true });
         }
      
     }

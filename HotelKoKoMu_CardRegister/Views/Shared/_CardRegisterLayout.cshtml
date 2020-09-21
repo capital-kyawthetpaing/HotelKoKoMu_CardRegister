@@ -1,4 +1,9 @@
-﻿<!DOCTYPE html>
+﻿@{
+    var controllerName = this.ViewContext.RouteData.Values["controller"].ToString();
+    var actionName = this.ViewContext.RouteData.Values["action"].ToString();
+}
+
+<!DOCTYPE html>
 <html>
 <head>
     <meta name="viewport" content="width=device-width" />
@@ -17,15 +22,33 @@
         </div>
         <div style="padding:5px">
 
+
             @{
+                var multiLanguageList = new List<SelectListItem>();
                 foreach (var i in HotelKoKoMu_CardRegister.MultiLanguages.AvailableLanguages)
                 {
-                    @Html.ActionLink(i.LanguageFullName, "ChangeLanguage", "Card", new { lang = i.LanguageCultureName }, null) <text> </text>
+                    multiLanguageList.Add(new SelectListItem { Text = i.LanguageFullName, Value = i.LanguageCultureName });
                 }
+                @Html.DropDownList("MultiLanguage", multiLanguageList)
             }
+
+
         </div>
        
     </div>
 </body>
 </html>
 @RenderSection("scripts", required: false)
+<script>
+    $(document).ready(function () {
+        $('#MultiLanguage').val('').trigger("change");;
+        $("#MultiLanguage").change(function () {
+          
+            if ($(this).val() != "") {
+                 $.post('@Url.Action("ChangeLanguage", "Card")',{ key: "lang", value: $(this).val() }, function (data) {
+                                location.href = '@Url.Action(actionName, controllerName)';
+                            });
+            }
+        })
+    })
+</script>

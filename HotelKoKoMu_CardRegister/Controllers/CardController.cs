@@ -6,7 +6,7 @@ using System.Web.Mvc;
 
 namespace HotelKoKoMu_CardRegister.Controllers
 {
-    public class CardController : Controller
+    public class CardController : MultiLanguageController
     {
         // GET: Card
         public ActionResult CardRegisterPage1()
@@ -118,5 +118,14 @@ namespace HotelKoKoMu_CardRegister.Controllers
         {
             return View();
         }
+
+        public ActionResult ChangeLanguage(string lang)
+        {
+           
+            //string controllerName = ControllerContext.RouteData.Values["Controller"].ToString();
+            new MultiLanguages().SetLanguage(lang);
+            return RedirectToAction("CardRegisterPage1", "Card");
+        }
+     
     }
 }

@@ -7,11 +7,11 @@
     <div class="row">
         <div class="col-md-12" id="divCanvas">
             <label>宿泊者名（漢字）</label><br />
-            <canvas id="cvsGuestName" width="1030" height="130"></canvas>
+            <canvas id="cvsGuestName" width="1030" height="130" class="cvsHandWriting"></canvas>
         </div>
     </div>
     <div class="row clsbtngroup">
-        <div class="col-md-4 ">
+        <div class="col-md-4">
             <button class="clsRedo" id="btnRedo">やり直し</button>
         </div>
         <div class="col-md-4">
@@ -25,14 +25,15 @@
 
 @section Scripts
 {
+
     <script type="text/javascript">
-      
+
         var canvas = document.getElementById('cvsGuestName'),
             ctx = canvas.getContext('2d'),
             moveflg = 0,
             Xpoint,
             Ypoint;
-        
+
         //初期値（サイズ、色、アルファ値）の決定
         var defSize = 7,
             defColor = "#555";
@@ -40,39 +41,43 @@
         // キャンバスを白色に塗る
         ctx.fillStyle = 'rgb(255,255,255)';
 
-        
+        // ストレージの初期化
+        //var myStorage = localStorage;
+        //window.onload = initLocalStorage();
+
         // Event handler to resize the canvas when the document view is changed
-        window.addEventListener('resize', resizeCanvas, false);
-      
+         window.addEventListener('resize', resizeCanvas, false);
+
         // PC対応
         canvas.addEventListener('mousedown', startPoint, false);
         canvas.addEventListener('mousemove', movePoint, false);
         canvas.addEventListener('mouseup', endPoint, false);
-       
-        
-        function startPoint(e) {           
+
+
+        function startPoint(e) {
             e.preventDefault();
-            ctx.beginPath();           
+            ctx.beginPath();
             Xpoint = e.layerX;
-            Ypoint = e.layerY;            
+            Ypoint = e.layerY;
             ctx.moveTo(Xpoint, Ypoint);
         }
 
         function resizeCanvas() {
             var canvasWidth = $("#divCanvas").width();
             canvas.width = canvasWidth;
+            ctx.restore();
         }
 
         resizeCanvas();
 
         function movePoint(e) {
-           
-            if (e.buttons === 1 || e.witch === 1 || e.type == 'touchmove') {               
+
+            if (e.buttons === 1 || e.witch === 1 || e.type == 'touchmove') {
                 Xpoint = e.layerX;
                 Ypoint = e.layerY;
                 moveflg = 1;
                 ctx.lineTo(Xpoint, Ypoint);
-                ctx.lineCap = "round";               
+                ctx.lineCap = "round";
                 ctx.lineWidth = defSize * 2;
                 ctx.strokeStyle = defColor;
                 ctx.stroke();
@@ -80,7 +85,7 @@
         }
 
         function endPoint(e) {
-            
+
             if (moveflg === 0) {
                 ctx.lineTo(Xpoint - 1, Ypoint - 1);
                 ctx.lineCap = "round";
@@ -89,7 +94,6 @@
                 ctx.stroke();
             }
             moveflg = 0;
-            //setLocalStoreage();
         }
 
     </script>

@@ -111,6 +111,7 @@
         }
 
         $(document).ready(function () {
+          
             $("#divtextarea").hide();
             $('#divcomplete').hide();
             BindLableName();
@@ -126,11 +127,12 @@
         });
 
         function BindLableName() {
-             var title = '@Model.lblName';
+            var title = '@Model.lblName'; 
             if (title == 'GuestName') {
                 $('#lblcanvas').text('@HotelKoKoMu_CardRegister.Resources.Resources.GuestName');
                 $('#lbltextarea').text('@HotelKoKoMu_CardRegister.Resources.Resources.GuestName');
             }
+            
         }
     </script>
 }

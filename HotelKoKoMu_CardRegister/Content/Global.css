@@ -76,6 +76,7 @@ textarea {
 }
 
 .clsRedo {
+    
     width: 80%;
     margin-left: 25px;
     background-color: #d74715;
@@ -83,14 +84,16 @@ textarea {
 }
 
 .clsConfirm {
-    width: 80%;
+   
+     width: 80%;
     margin-left: 25px;
     background-color: #417b27;
     border-bottom-color: #293756;
 }
 
 .clsInputKeyboard {
-    width: 80%;
+   
+     width: 80%;
     margin-left: 25px;
     background-color: #203045;
     border-bottom-color: #505f83;

@@ -51,6 +51,11 @@
         canvas.addEventListener('mousemove', movePoint, false);
         canvas.addEventListener('mouseup', endPoint, false);
 
+        // スマホ対応
+        canvas.addEventListener('touchstart', startPoint, false);
+        canvas.addEventListener('touchmove', movePoint, false);
+        canvas.addEventListener('touchend', endPoint, false);
+
 
         function startPoint(e) {
             e.preventDefault();

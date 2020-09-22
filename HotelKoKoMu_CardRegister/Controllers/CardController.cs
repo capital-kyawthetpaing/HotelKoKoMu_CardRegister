@@ -5,6 +5,8 @@ using System.Linq;
 using System.Web;
 using System.Web.Helpers;
 using System.Web.Mvc;
+using HotelKoKoMu_CardRegister.Models;
+
 
 namespace HotelKoKoMu_CardRegister.Controllers
 {
@@ -121,9 +123,9 @@ namespace HotelKoKoMu_CardRegister.Controllers
             return View();
         }
 
-        public ActionResult RegisterPage()
+        public ActionResult RegisterPage(CardRegisterModel cardModel)
         {
-            return View();
+            return View(cardModel);
         }
         public ActionResult ChangeLanguage(string key, string value)
         {

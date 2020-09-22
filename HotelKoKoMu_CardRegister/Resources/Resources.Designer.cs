@@ -250,7 +250,7 @@ namespace HotelKoKoMu_CardRegister.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to HotelYoucom.
+        ///   Looks up a localized string similar to Hotel Youcom.
         /// </summary>
         public static string Title {
             get {

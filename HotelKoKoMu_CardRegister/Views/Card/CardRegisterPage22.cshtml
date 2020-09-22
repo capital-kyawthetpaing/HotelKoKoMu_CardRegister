@@ -1,8 +1,12 @@
-﻿
+﻿@using HotelKoKoMu_CardRegister.Models;
+@model HotelKoKoMu_CardRegister.Models.CardRegisterModel
 @{
     ViewBag.Title = "CardRegisterPage22";
     Layout = "~/Views/Shared/_CardRegisterLayout.cshtml";
+    CardRegisterModel cardRegisterModel = new CardRegisterModel();
 }
+<script src="~/Scripts/iziModal.js"></script>
+<link href="~/Content/iziModal.css" rel="stylesheet" />
 
 <table class="table-bordered kokomuTable">
     <tbody>
@@ -110,6 +114,142 @@
 <div class="col-md-4 offset-md-4">
     <button class="clsfinish" id="btnfinish">@HotelKoKoMu_CardRegister.Resources.Resources.Complete</button>
 </div>
+
+@Html.Partial("~/Views/CommonForm/AddCardInformation.cshtml", cardRegisterModel)
+
+@section Scripts
+{
+
+    <script type="text/javascript">
+
+        var canvas = document.getElementById('cvsGuestName'),
+            ctx = canvas.getContext('2d'),
+            moveflg = 0,
+            Xpoint,
+            Ypoint;
+
+        //初期値（サイズ、色、アルファ値）の決定
+        var defSize = 7,
+            defColor = "#555";
+
+        // キャンバスを白色に塗る
+        ctx.fillStyle = 'rgb(255,255,255)';
+
+        // ストレージの初期化
+        //var myStorage = localStorage;
+        //window.onload = initLocalStorage();
+
+        // Event handler to resize the canvas when the document view is changed
+        window.addEventListener('resize', resizeCanvas, false);
+
+        // PC対応
+        canvas.addEventListener('mousedown', startPoint, false);
+        canvas.addEventListener('mousemove', movePoint, false);
+        canvas.addEventListener('mouseup', endPoint, false);
+
+        // スマホ対応
+        canvas.addEventListener('touchstart', startPoint, false);
+        canvas.addEventListener('touchmove', movePoint, false);
+        canvas.addEventListener('touchend', endPoint, false);
+
+
+        function startPoint(e) {
+            alert("startpoint");
+            e.preventDefault();
+            ctx.beginPath();
+            Xpoint = e.layerX;
+            Ypoint = e.layerY;
+            ctx.moveTo(Xpoint, Ypoint);
+        }
+
+        function resizeCanvas() {
+        //    alert($("#divCanvas").width());
+            var canvasWidth = $("#divCanvas").width();
+            alert(canvasWidth);
+            canvas.width = canvasWidth;
+            ctx.restore();
+        }
+
+        //resizeCanvas();
+
+        function movePoint(e) {
+            alert("move");
+            if (e.buttons === 1 || e.witch === 1 || e.type == 'touchmove') {
+                Xpoint = e.layerX;
+                Ypoint = e.layerY;
+                moveflg = 1;
+                ctx.lineTo(Xpoint, Ypoint);
+                ctx.lineCap = "round";
+                ctx.lineWidth = defSize * 2;
+                ctx.strokeStyle = defColor;
+                ctx.stroke();
+            }
+        }
+
+        function endPoint(e) {
+            alert("end");
+            if (moveflg === 0) {
+                ctx.lineTo(Xpoint - 1, Ypoint - 1);
+                ctx.lineCap = "round";
+                ctx.lineWidth = defSize * 2;
+                ctx.strokeStyle = defColor;
+                ctx.stroke();
+            }
+            moveflg = 0;
+        }
+
+        function resetCanvas() {
+            ctx.clearRect(0, 0, ctx.canvas.clientWidth, ctx.canvas.clientHeight);
+            ctx.fillStyle = 'rgb(255,255,255)';
+        }
+
+        $(document).ready(function () {
+
+            //modal for adding card information
+            $("#addCardInformation").iziModal({
+                top: 30,
+                width: "65%"
+            });
+
+            $(".kokomuTable td").click(function () {
+            var text = $(this).find("label").attr("id")
+
+                if (text == "lblGuestName") {
+                    resizeCanvas();
+                    $('#addCardInformation').iziModal('open');
+                }
+                
+
+            if (text == "lblKanagataName")
+                location.href = '@Url.Action("CardRegisterPage4", "Card")';
+
+            if (text == "lblPostalCode")
+                location.href = '@Url.Action("CardRegisterPage6", "Card")';
+
+            if (text == "lblPhoneNo")
+                location.href = '@Url.Action("CardRegisterPage8", "Card")';
+
+            if (text == "lblAddress1")
+                location.href = '@Url.Action("CardRegisterPage10", "Card")';
+
+            if (text == "lblAddress2")
+                location.href = '@Url.Action("CardRegisterPage12", "Card")';
+
+            if (text == "lblWorkPlace")
+                location.href = '@Url.Action("CardRegisterPage14", "Card")';
+
+            if (text == "lblCountry")
+                location.href = '@Url.Action("CardRegisterPage16", "Card")';
+
+            if (text == "lblPassport")
+                location.href = '@Url.Action("CardRegisterPage18", "Card")';
+
+            if (text == "lblSign")
+                location.href = '@Url.Action("CardRegisterPage20", "Card")';
+        });
+        });
+    </script>
+}
 
 
 

@@ -4,7 +4,7 @@
     Layout = "~/Views/Shared/_CardRegisterLayout.cshtml";
 }
 
-<table class="table-bordered kokomuTable">
+<table class="table-bordered kokomuTable" id="table1">
     <tbody>
         <tr>
             <td class="td1" id="tdGuestName">
@@ -39,13 +39,14 @@
                 <label>@HotelKoKoMu_CardRegister.Resources.Resources.Address</label>
             </td>
             <td colspan="3">
-                <label id="lblAddress"></label>
+                <label id="lblAddress1"></label>
             </td>
 
 
         </tr>
         <tr>
             <td colspan="3">
+                <label id="lblAddress2"></label>
             </td>
         </tr>
         <tr>
@@ -109,6 +110,53 @@
 <div class="col-md-4 offset-md-4">
     <button class="clsfinish" id="btnfinish">@HotelKoKoMu_CardRegister.Resources.Resources.Complete</button>
 </div>
+
+@section Scripts{
+    <script type="text/javascript">
+
+        $(".kokomuTable td").click(function () {
+            var text = $(this).find("label").attr("id")
+
+            if (text == "lblGuestName")
+                location.href = '@Url.Action("CardRegisterPage2", "Card")';
+
+            if (text == "lblKanagataName")
+                location.href = '@Url.Action("CardRegisterPage2", "Card")';
+
+            if (text == "lblPostalCode")
+                location.href = '@Url.Action("CardRegisterPage2", "Card")';
+
+            if (text == "lblPhoneNo")
+                location.href = '@Url.Action("CardRegisterPage2", "Card")';
+
+            if (text == "lblAddress1")
+                location.href = '@Url.Action("CardRegisterPage2", "Card")';
+
+            if (text == "lblAddress2")
+                location.href = '@Url.Action("CardRegisterPage2", "Card")';
+
+            if (text == "lblWorkPlace")
+                location.href = '@Url.Action("CardRegisterPage2", "Card")';
+
+            if (text == "lblCountry")
+                location.href = '@Url.Action("CardRegisterPage2", "Card")';
+
+            if (text == "lblPassport")
+                location.href = '@Url.Action("CardRegisterPage18", "Card")';
+
+            if (text == "lblArrivalDate")
+                location.href = '@Url.Action("CardRegisterPage2", "Card")';
+
+            if (text == "lblDepartureDate")
+                location.href = '@Url.Action("CardRegisterPage18", "Card")';
+
+            if (text == "lblSign")
+                location.href = '@Url.Action("CardRegisterPage20", "Card")';
+        });
+     
+    </script>
+
+}
 
 
 

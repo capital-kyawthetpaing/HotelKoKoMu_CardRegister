@@ -1,15 +1,22 @@
-﻿@{
-    ViewBag.Title = "CargRegisterPage2";
+﻿
+
+@{
+    ViewBag.Title = "RegisterPage";
     Layout = "~/Views/Shared/_CardRegisterLayout.cshtml";
 }
 
 <div class="col-md-12">
     <div class="row">
-        <div class="col-md-12" id="divCanvas">
-            <label>@HotelKoKoMu_CardRegister.Resources.Resources.GuestName_Kanji</label><br />
+        <div class="col-md-12" id="divCanvas" >
+            <label></label><br />
             <canvas id="cvsGuestName" width="1030" height="130" class="cvsHandWriting"></canvas>
         </div>
+        <div class="col-md-12" id="divtextarea">
+            <label></label><br />
+            <textarea id="txtGuestName" rows="4"></textarea>
+        </div>
     </div>
+   
     <div class="row clsbtngroup">
         <div class="col-md-4">
             <button class="clsRedo" id="btnRedo">@HotelKoKoMu_CardRegister.Resources.Resources.Redo</button>
@@ -17,8 +24,11 @@
         <div class="col-md-4">
             <button class="clsConfirm" id="btnConfirm">@HotelKoKoMu_CardRegister.Resources.Resources.Confirm</button>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-4" id="divkeyboard">
             <button class="clsInputKeyboard" id="btnInputKeyboard">@HotelKoKoMu_CardRegister.Resources.Resources.Insertkeyboard</button>
+        </div>
+        <div class="col-md-4" id="divcomplete">
+            <button class="clsInputKeyboard" id="btnInputKeyboard">@HotelKoKoMu_CardRegister.Resources.Resources.Complete</button>
         </div>
     </div>
 </div>
@@ -26,14 +36,6 @@
 @section Scripts
 {
     <script type="text/javascript">
-        $(document).ready(function () {
-            $("#btnRedo").click(function () {
-                resetCanvas();
-            });
-
-           
-        });
-
         var canvas = document.getElementById('cvsGuestName'),
             ctx = canvas.getContext('2d'),
             moveflg = 0,
@@ -107,13 +109,25 @@
             moveflg = 0;
         }
 
-        function resetCanvas() {
-            ctx.clearRect(0, 0, ctx.canvas.clientWidth, ctx.canvas.clientHeight);
-            ctx.fillStyle = 'rgb(255,255,255)';
-        }
+        $(document).ready(function () {
+            $("#divtextarea").hide();
+            $('#divcomplete').hide();
+        });
+
+        $("#divkeyboard").click(function () {
+           
+            $("#divCanvas").hide();
+            $("#divkeyboard").hide();
+            $("#divtextarea").show();
+            $("#divcomplete").show();
+        });
+
+       
 
     </script>
 }
+
+
 
 
 

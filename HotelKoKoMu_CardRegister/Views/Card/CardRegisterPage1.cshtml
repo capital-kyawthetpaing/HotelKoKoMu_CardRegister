@@ -41,6 +41,8 @@
             <td colspan="3">
                 <label id="lblAddress1"></label>
             </td>
+
+
         </tr>
         <tr>
             <td colspan="3">
@@ -79,15 +81,13 @@
                 <label>@HotelKoKoMu_CardRegister.Resources.Resources.ArrivalDate</label>
             </td>
             <td class="td2" style="border-right:hidden;">
-                @*<label id="lblArrivalDate"></label>*@
-                <input type="date" id="lblArrivalDate" name="lblArrivalDate" />
+                <label id="lblArrivalDate"></label>
             </td>
             <td class="td1" style="border-right:hidden;">
                 <label>@HotelKoKoMu_CardRegister.Resources.Resources.DepartureDate</label>
             </td>
             <td class="td2">
-                @*<label id="lblDepartureDate"></label>*@
-                <input type="date" id="lblDepartureDate" name="lblDepartureDate" />
+                <label id="lblDepartureDate"></label>
             </td>
         </tr>
     </tbody>
@@ -111,13 +111,7 @@
     <button class="clsfinish" id="btnfinish">@HotelKoKoMu_CardRegister.Resources.Resources.Complete</button>
 </div>
 
-
 @section Scripts{
-
-    @*<link href="styles.css" rel="stylesheet" />
-    <link href="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/themes/base/jquery-ui.css" rel="stylesheet" type="text/css" />
-    <script src="http://ajax.googleapis.com/ajax/libs/jqueryui/1.8/jquery-ui.min.js"></script>*@
-
     <script type="text/javascript">
 
         $(".kokomuTable td").click(function () {
@@ -150,19 +144,13 @@
             if (text == "lblPassport")
                 location.href = '@Url.Action("CardRegisterPage18", "Card")';
 
-            @*if (text == "lblArrivalDate") 
-                location.href = '@Url.Action("CardRegisterPage2", "Card")';
-
-            if (text == "lblDepartureDate")
-                location.href = '@Url.Action("CardRegisterPage18", "Card")';*@
-
             if (text == "lblSign")
                 location.href = '@Url.Action("CardRegisterPage20", "Card")';
         });
-
+     
     </script>
-}
 
+}
 
 
 

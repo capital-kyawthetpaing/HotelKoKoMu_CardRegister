@@ -120,6 +120,11 @@ namespace HotelKoKoMu_CardRegister.Controllers
         {
             return View();
         }
+
+        public ActionResult RegisterPage()
+        {
+            return View();
+        }
         public ActionResult ChangeLanguage(string key, string value)
         {
             new MultiLanguages().SetLanguage(value);

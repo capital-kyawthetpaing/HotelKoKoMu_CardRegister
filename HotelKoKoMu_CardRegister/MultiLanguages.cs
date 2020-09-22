@@ -11,12 +11,12 @@ namespace HotelKoKoMu_CardRegister
     {
         public static List<Languages> AvailableLanguages = new List<Languages> {
             new Languages {
-                LanguageFullName = "English", LanguageCultureName = "en"
+                LanguageFullName = "English", LanguageCultureName = "en",ImageIcon="en.png"
             },
             new Languages {
-                LanguageFullName = "Japanese", LanguageCultureName = "Ja"
+                LanguageFullName = "Japanese", LanguageCultureName = "Ja",ImageIcon="jp.png"
             },
-           
+
         };
         public static bool IsLanguageAvailable(string lang)
         {
@@ -50,6 +50,11 @@ namespace HotelKoKoMu_CardRegister
             set;
         }
         public string LanguageCultureName
+        {
+            get;
+            set;
+        }
+        public string ImageIcon
         {
             get;
             set;

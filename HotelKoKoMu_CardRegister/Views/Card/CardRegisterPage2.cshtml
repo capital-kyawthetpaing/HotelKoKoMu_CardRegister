@@ -7,7 +7,6 @@
     <div class="row">
         <div class="col-md-12" id="divCanvas">
             <label>@HotelKoKoMu_CardRegister.Resources.Resources.GuestName_Kanji</label><br />
-            @*<label>宿泊者名（漢字）</label><br />*@
             <canvas id="cvsGuestName" width="1030" height="130" class="cvsHandWriting"></canvas>
         </div>
     </div>
@@ -26,9 +25,7 @@
 
 @section Scripts
 {
-
     <script type="text/javascript">
-
         var canvas = document.getElementById('cvsGuestName'),
             ctx = canvas.getContext('2d'),
             moveflg = 0,

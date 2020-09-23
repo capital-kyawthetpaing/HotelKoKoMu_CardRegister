@@ -62,9 +62,9 @@
     $(document).ready(function () {
 
         $("#MultiLanguage").msDropdown();
+
         $("#MultiLanguage").val('@lang').trigger('change');
-        $("#MultiLanguage").change(function () {
-            var cultureName = $(this).val();          
+        $("#MultiLanguage").change(function () {                  
             if ($(this).val() != "") {
                 $.post('@Url.Action("ChangeLanguage", "Card")', { key: "lang", value: $(this).val() }, function (data) {
                     window.location.reload();                    

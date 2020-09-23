@@ -81,15 +81,22 @@
                 <label>@HotelKoKoMu_CardRegister.Resources.Resources.ArrivalDate</label>
             </td>
             <td class="td2" style="border-right:hidden;">
+                <div class='col-md-12'>
+                    <div class="form-group pmd-textfield pmd-textfield-floating-label">
+                        <label class="control-label" for="regular1">Select Date and Time</label>
+                        <input type="text" class="form-control" data-header-left="true" id="datepicker-left-header">
+                    </div>
+                </div>
+
                 @*<label id="lblArrivalDate"></label>*@
-                <input type="date" placeholder="yyyy-mm-dd" id="lblArrivalDate" name="lblArrivalDate" />
+                @*<input type="date" data-date-format="YYYY/MM/DD" placeholder="yyyy-mm-dd" id="dtpArrivalDate" name="lblArrivalDate" />*@
             </td>
             <td class="td1" style="border-right:hidden;">
                 <label>@HotelKoKoMu_CardRegister.Resources.Resources.DepartureDate</label>
             </td>
             <td class="td2">
                 @*<label id="lblDepartureDate"></label>*@
-                <input type="date" placeholder="yyyy-mm-dd" id="lblDepartureDate" name="lblDepartureDate" />
+                <input type="date" placeholder="yyyy-mm-dd" id="dtpDepartureDate" name="lblDepartureDate" />
             </td>
         </tr>
     </tbody>
@@ -115,9 +122,13 @@
 
 @section Scripts{
     <script type="text/javascript">
-        $("#lblArrivalDate").
 
-        $(".kokomuTable td").click(function () {
+        $(document).ready(function () {
+
+            $('#dtpArrivalDate').datetimepicker();
+            //$("#dtpArrivalDate").val(moment(new Date()).format("YYYY-MM-DD"));
+
+               $(".kokomuTable td").click(function () {
             var text = $(this).find("label").attr("id")
 
             if (text == "lblGuestName")
@@ -150,6 +161,11 @@
             if (text == "lblSign")
                 location.href = '@Url.Action("CardRegisterPage20", "Card")';
         });
+
+        });
+
+
+
 
     </script>
 

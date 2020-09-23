@@ -1,7 +1,9 @@
 ﻿@{
-    var controllerName = this.ViewContext.RouteData.Values["controller"].ToString();
-    var actionName = this.ViewContext.RouteData.Values["action"].ToString();
+    //var controllerName = this.ViewContext.RouteData.Values["controller"].ToString();
+    //var actionName = this.ViewContext.RouteData.Values["action"].ToString();
     var lang = HttpContext.Current.Request.Cookies["culture"].Value;
+    //var langName = HttpContext.Current.Request.Cookies["cultureName"].Value;
+    // HttpCookie langCookie = new HttpCookie("cultureName", "");
 }
 
 <!DOCTYPE html>
@@ -21,14 +23,25 @@
 <body>
    
     <div class="container" style="margin-top:10px;">
-        <div style="padding:5px">
-            <select id="MultiLanguage" style="width:170px;">
-                @foreach (var i in HotelKoKoMu_CardRegister.MultiLanguages.AvailableLanguages)
-                {
-                    <option value="@i.LanguageCultureName" data-image="../images/@i.ImageIcon">@i.LanguageFullName</option>
-                }
-            </select>
+
+        <div class="card" style="margin-bottom:5px;border:none!important;">
+            <div class="card-body" style="margin:0px;padding:0px;">
+                <div class="row">
+                    <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="padding-right:0px;padding:0px;">
+                        <div class="col-lg-2 col-md-2 col-sm-12 col-xs-12 offset-lg-10 offset-md-10">
+                            <select id="MultiLanguage" class="col-lg-12 col-md-12 col-sm-12 col-xs-12" style="width:100%;">
+                                <option value="" data-image="">Select Language</option>
+                                @foreach (var i in HotelKoKoMu_CardRegister.MultiLanguages.AvailableLanguages)
+                                {
+                                    <option value="@i.LanguageCultureName" data-image="../images/@i.ImageIcon">@i.LanguageFullName</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
+
         <div class="card">
                 <h5 class="card-header text-center" style="margin-top: 15px;border-radius: unset; background-color: #1b5696">
                     <img src="../images/logo.jpg" class="imgcss" style="width:50px; height:50px;">
@@ -49,13 +62,12 @@
     $(document).ready(function () {
 
         $("#MultiLanguage").msDropdown();
-
-         $('#MultiLanguage').val('@lang').trigger("change");       
-
+        $("#MultiLanguage").val('@lang').trigger('change');
         $("#MultiLanguage").change(function () {
+            var cultureName = $(this).val();          
             if ($(this).val() != "") {
-                 $.post('@Url.Action("ChangeLanguage", "Card")',{ key: "lang", value: $(this).val() }, function (data) {
-                                location.href = '@Url.Action(actionName, controllerName)';
+                $.post('@Url.Action("ChangeLanguage", "Card")', { key: "lang", value: $(this).val() }, function (data) {
+                    window.location.reload();                    
                  });
             }
         })

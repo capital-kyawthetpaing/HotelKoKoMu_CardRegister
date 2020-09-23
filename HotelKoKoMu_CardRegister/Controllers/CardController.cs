@@ -113,10 +113,9 @@ namespace HotelKoKoMu_CardRegister.Controllers
             return View();
 
         }
-        public ActionResult CardRegisterPage21()
-        {
-            return View();
-
+        public ActionResult CardRegisterPage21(CardRegisterModel cardModel)
+        {            
+            return View(cardModel);
         }
         public ActionResult CardRegisterPage22()
         {
@@ -125,10 +124,13 @@ namespace HotelKoKoMu_CardRegister.Controllers
 
         public ActionResult RegisterPage(CardRegisterModel cardModel)
         {
+           // TempData["CardRegisterModel"] = cardModel;
+            //TempData.Keep("CardRegisterModel");
             return View(cardModel);
         }
         public ActionResult ChangeLanguage(string key, string value)
         {
+           // TempData.Keep("CardRegisterModel");
             new MultiLanguages().SetLanguage(value);
             return this.Json(new { success = true });
         }

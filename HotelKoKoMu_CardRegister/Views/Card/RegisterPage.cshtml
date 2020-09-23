@@ -1,9 +1,12 @@
-﻿@model HotelKoKoMu_CardRegister.Models.CardRegisterModel
+﻿@using HotelKoKoMu_CardRegister.Models;
+@model HotelKoKoMu_CardRegister.Models.CardRegisterModel
 @{
 
     ViewBag.Title = "RegisterPage";
     Layout = "~/Views/Shared/_CardRegisterLayout.cshtml";
-   
+    CardRegisterModel cardRegisterModel = TempData["CardRegisterModel"] as CardRegisterModel;
+    TempData.Keep("CardRegisterModel");
+
 }
 
 <div class="col-md-12">
@@ -37,6 +40,12 @@
 @section Scripts
 {
     <script type="text/javascript">
+        $(document).ready(function () {
+            $("#btnConfirm").click(function () {
+                window.location.href = "@Url.Action("CardRegisterPage21","Card")?GuestName=" + $("#txtGuestName").val();
+            })
+        });
+        
         var canvas = document.getElementById('cvsGuestName'),
             ctx = canvas.getContext('2d'),
             moveflg = 0,
@@ -127,7 +136,8 @@
         });
 
         function BindLableName() {
-            var title = '@Model.lblName'; 
+
+            var title = '@Model.lblName';
             if (title == 'GuestName') {
                 $('#lblcanvas').text('@HotelKoKoMu_CardRegister.Resources.Resources.GuestName');
                 $('#lbltextarea').text('@HotelKoKoMu_CardRegister.Resources.Resources.GuestName');

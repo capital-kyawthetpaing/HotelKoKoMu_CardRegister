@@ -45,7 +45,7 @@
                 window.location.href = "@Url.Action("CardRegisterPage21","Card")?GuestName=" + $("#txtGuestName").val();
             })
         });
-        
+
         var canvas = document.getElementById('cvsGuestName'),
             ctx = canvas.getContext('2d'),
             moveflg = 0,
@@ -120,7 +120,7 @@
         }
 
         $(document).ready(function () {
-          
+
             $("#divtextarea").hide();
             $('#divcomplete').hide();
             BindLableName();
@@ -142,7 +142,17 @@
                 $('#lblcanvas').text('@HotelKoKoMu_CardRegister.Resources.Resources.GuestName');
                 $('#lbltextarea').text('@HotelKoKoMu_CardRegister.Resources.Resources.GuestName');
             }
-            
+
+            if (title == 'KanagataName') {
+                $('#lblcanvas').text('@HotelKoKoMu_CardRegister.Resources.Resources.KanaName');
+                $('#lbltextarea').text('@HotelKoKoMu_CardRegister.Resources.Resources.KanaName');
+            }
+
+            if (title == 'PostalCode') {
+                $('#lblcanvas').text('@HotelKoKoMu_CardRegister.Resources.Resources.PostalCode');
+                $('#lbltextarea').text('@HotelKoKoMu_CardRegister.Resources.Resources.PostalCode');
+            }
+
         }
     </script>
 }

@@ -30,8 +30,10 @@
             $("#btnRedo").click(function () {
                 resetCanvas();
             });
+        });
 
-           
+        $("#btnInputKeyboard").click(function () {
+            location.href = '@Url.Action("CardRegisterPage3", "Card")';
         });
 
         var canvas = document.getElementById('cvsGuestName'),

@@ -1,22 +1,23 @@
-﻿
-
+﻿@model HotelKoKoMu_CardRegister.Models.CardRegisterModel
 @{
+
     ViewBag.Title = "RegisterPage";
     Layout = "~/Views/Shared/_CardRegisterLayout.cshtml";
+   
 }
 
 <div class="col-md-12">
     <div class="row">
-        <div class="col-md-12" id="divCanvas" >
-            <label></label><br />
+        <div class="col-md-12" id="divCanvas">
+            <label id="lblcanvas"></label><br />
             <canvas id="cvsGuestName" width="1030" height="130" class="cvsHandWriting"></canvas>
         </div>
         <div class="col-md-12" id="divtextarea">
-            <label></label><br />
+            <label id="lbltextarea"></label><br />
             <textarea id="txtGuestName" rows="4"></textarea>
         </div>
     </div>
-   
+
     <div class="row clsbtngroup">
         <div class="col-md-4">
             <button class="clsRedo" id="btnRedo">@HotelKoKoMu_CardRegister.Resources.Resources.Redo</button>
@@ -54,7 +55,7 @@
         //window.onload = initLocalStorage();
 
         // Event handler to resize the canvas when the document view is changed
-         window.addEventListener('resize', resizeCanvas, false);
+        window.addEventListener('resize', resizeCanvas, false);
 
         // PC対応
         canvas.addEventListener('mousedown', startPoint, false);
@@ -110,20 +111,29 @@
         }
 
         $(document).ready(function () {
+          
             $("#divtextarea").hide();
             $('#divcomplete').hide();
+            BindLableName();
         });
 
         $("#divkeyboard").click(function () {
-           
+
             $("#divCanvas").hide();
             $("#divkeyboard").hide();
             $("#divtextarea").show();
             $("#divcomplete").show();
+            BindLableName();
         });
 
-       
-
+        function BindLableName() {
+            var title = '@Model.lblName'; 
+            if (title == 'GuestName') {
+                $('#lblcanvas').text('@HotelKoKoMu_CardRegister.Resources.Resources.GuestName');
+                $('#lbltextarea').text('@HotelKoKoMu_CardRegister.Resources.Resources.GuestName');
+            }
+            
+        }
     </script>
 }
 

@@ -3,10 +3,12 @@
 @{
     ViewBag.Title = "CardRegisterPage22";
     Layout = "~/Views/Shared/_CardRegisterLayout.cshtml";
-    CardRegisterModel cardRegisterModel = new CardRegisterModel();
 }
-<script src="~/Scripts/iziModal.js"></script>
-<link href="~/Content/iziModal.css" rel="stylesheet" />
+<style>
+    .modal-footer{
+        display:inline-block!important;
+    }
+</style>
 
 <table class="table-bordered kokomuTable">
     <tbody>
@@ -115,7 +117,46 @@
     <button class="clsfinish" id="btnfinish">@HotelKoKoMu_CardRegister.Resources.Resources.Complete</button>
 </div>
 
-@Html.Partial("~/Views/CommonForm/AddCardInformation.cshtml", cardRegisterModel)
+<div class="modal" id="myModal">
+    <div class="modal-dialog modal-lg">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header" style="background-color:#1b5696;color:white;">
+                <h4 class="modal-title">Card Information</h4>
+                <button type="button" class="close" data-dismiss="modal" style="color:white;">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="col-md-12" id="divCanvas">
+                    <label class="clsName">@HotelKoKoMu_CardRegister.Resources.Resources.GuestName_Kanji</label><br />
+                    <canvas id="cvsGuestName" width="1000" height="130" class="cvsHandWriting"></canvas>
+                </div>
+
+                @*<div class="row">
+            <div class="col-md-12" id="divCanvas">
+                <label class="clsName">@HotelKoKoMu_CardRegister.Resources.Resources.GuestName_Kanji</label><br />
+                <canvas id="cvsGuestName" width="1000" height="130" class="cvsHandWriting"></canvas>
+            </div>
+        </div>*@
+
+            </div>
+            <div class="modal-footer">
+                <div class="row">
+                    <div class="col-md-4">
+                        <button class="clsRedo" id="btnRedo">@HotelKoKoMu_CardRegister.Resources.Resources.Redo</button>
+                    </div>
+                    <div class="col-sm-4">
+                        <button class="clsConfirm" id="btnConfirm">@HotelKoKoMu_CardRegister.Resources.Resources.Confirm</button>
+                    </div>
+                    <div class="col-sm-4">
+                        <button class="clsInputKeyboard" id="btnInputKeyboard">@HotelKoKoMu_CardRegister.Resources.Resources.Insertkeyboard</button>
+                    </div>
+                </div>               
+            </div>
+        </div>
+
+    </div>
+</div>
 
 @section Scripts
 {
@@ -154,7 +195,6 @@
 
 
         function startPoint(e) {
-            alert("startpoint");
             e.preventDefault();
             ctx.beginPath();
             Xpoint = e.layerX;
@@ -162,18 +202,15 @@
             ctx.moveTo(Xpoint, Ypoint);
         }
 
-        function resizeCanvas() {
-        //    alert($("#divCanvas").width());
+        function resizeCanvas() {           
             var canvasWidth = $("#divCanvas").width();
-            alert(canvasWidth);
             canvas.width = canvasWidth;
             ctx.restore();
         }
 
-        //resizeCanvas();
+        resizeCanvas();
 
         function movePoint(e) {
-            alert("move");
             if (e.buttons === 1 || e.witch === 1 || e.type == 'touchmove') {
                 Xpoint = e.layerX;
                 Ypoint = e.layerY;
@@ -187,7 +224,6 @@
         }
 
         function endPoint(e) {
-            alert("end");
             if (moveflg === 0) {
                 ctx.lineTo(Xpoint - 1, Ypoint - 1);
                 ctx.lineCap = "round";
@@ -205,22 +241,23 @@
 
         $(document).ready(function () {
 
-            //modal for adding card information
-            $("#addCardInformation").iziModal({
-                top: 30,
-                width: "65%"
+            $("#btnInputKeyboard").click(function () {
+                $("#divCanvas").addClass('d-none');
+                $("#divKeyboardInput").removeClass('d-none');
             });
+           
 
             $(".kokomuTable td").click(function () {
             var text = $(this).find("label").attr("id")
 
                 if (text == "lblGuestName") {
-                    resizeCanvas();
-                    $('#addCardInformation').iziModal('open');
+                    alert($("#divCanvas").width());
+                    @*$(".clsName").text('@HotelKoKoMu_CardRegister.Resources.Resources.GuestName');*@
+                    $('#myModal').modal('show');
                 }
                 
 
-            if (text == "lblKanagataName")
+            @*if (text == "lblKanagataName")
                 location.href = '@Url.Action("CardRegisterPage4", "Card")';
 
             if (text == "lblPostalCode")
@@ -245,7 +282,7 @@
                 location.href = '@Url.Action("CardRegisterPage18", "Card")';
 
             if (text == "lblSign")
-                location.href = '@Url.Action("CardRegisterPage20", "Card")';
+                location.href = '@Url.Action("CardRegisterPage20", "Card")';*@
         });
         });
     </script>

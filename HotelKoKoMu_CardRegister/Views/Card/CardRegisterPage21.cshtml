@@ -1,4 +1,4 @@
-﻿
+﻿@model HotelKoKoMu_CardRegister.Models.CardRegisterModel
 @{
     ViewBag.Title = "CardRegisterPage21";
     Layout = "~/Views/Shared/_CardRegisterLayout.cshtml";
@@ -118,7 +118,7 @@
             var text = $(this).find("label").attr("id")
 
             if (text == "lblGuestName")
-                location.href = '@Url.Action("RegisterPage", "Card")';
+                location.href = '@Url.Action("RegisterPage", "Card")?lblName=GuestName';
         });
 
     </script>

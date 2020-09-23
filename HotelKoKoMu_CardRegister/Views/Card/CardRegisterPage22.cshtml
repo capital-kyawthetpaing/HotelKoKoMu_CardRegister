@@ -5,9 +5,10 @@
     Layout = "~/Views/Shared/_CardRegisterLayout.cshtml";
 }
 <style>
-    .modal-footer{
-        display:inline-block!important;
+    .modal-footer {
+        display: inline-block !important;
     }
+    
 </style>
 
 <table class="table-bordered kokomuTable">
@@ -117,27 +118,23 @@
     <button class="clsfinish" id="btnfinish">@HotelKoKoMu_CardRegister.Resources.Resources.Complete</button>
 </div>
 
-<div class="modal" id="myModal">
-    <div class="modal-dialog modal-lg">
+
+<div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-lg" >
 
         <!-- Modal content-->
-        <div class="modal-content">
+        <div class="modal-content" >
             <div class="modal-header" style="background-color:#1b5696;color:white;">
                 <h4 class="modal-title">Card Information</h4>
                 <button type="button" class="close" data-dismiss="modal" style="color:white;">&times;</button>
             </div>
             <div class="modal-body">
-                <div class="col-md-12" id="divCanvas">
-                    <label class="clsName">@HotelKoKoMu_CardRegister.Resources.Resources.GuestName_Kanji</label><br />
-                    <canvas id="cvsGuestName" width="1000" height="130" class="cvsHandWriting"></canvas>
+                <div class="row">
+                    <div class="col-md-12" id="divCanvas">
+                        <label>@HotelKoKoMu_CardRegister.Resources.Resources.GuestName_Kanji</label><br />
+                        <canvas id="cvsGuestName" width="760" height="130"></canvas>
+                    </div>
                 </div>
-
-                @*<div class="row">
-            <div class="col-md-12" id="divCanvas">
-                <label class="clsName">@HotelKoKoMu_CardRegister.Resources.Resources.GuestName_Kanji</label><br />
-                <canvas id="cvsGuestName" width="1000" height="130" class="cvsHandWriting"></canvas>
-            </div>
-        </div>*@
 
             </div>
             <div class="modal-footer">
@@ -145,19 +142,18 @@
                     <div class="col-md-4">
                         <button class="clsRedo" id="btnRedo">@HotelKoKoMu_CardRegister.Resources.Resources.Redo</button>
                     </div>
-                    <div class="col-sm-4">
+                    <div class="col-md-4">
                         <button class="clsConfirm" id="btnConfirm">@HotelKoKoMu_CardRegister.Resources.Resources.Confirm</button>
                     </div>
-                    <div class="col-sm-4">
+                    <div class="col-md-4">
                         <button class="clsInputKeyboard" id="btnInputKeyboard">@HotelKoKoMu_CardRegister.Resources.Resources.Insertkeyboard</button>
                     </div>
-                </div>               
+                </div>
             </div>
         </div>
 
     </div>
 </div>
-
 @section Scripts
 {
 
@@ -202,10 +198,16 @@
             ctx.moveTo(Xpoint, Ypoint);
         }
 
-        function resizeCanvas() {           
+        function resizeCanvas() {
+           
             var canvasWidth = $("#divCanvas").width();
             canvas.width = canvasWidth;
-            ctx.restore();
+            //ctx.restore();
+            //alert(window.innerWidth + "/" + canvasWidth);
+            //if (canvasWidth > 0) {
+            //    canvas.width = canvasWidth;
+            //    ctx.restore();
+            //}
         }
 
         resizeCanvas();
@@ -245,17 +247,16 @@
                 $("#divCanvas").addClass('d-none');
                 $("#divKeyboardInput").removeClass('d-none');
             });
-           
+
 
             $(".kokomuTable td").click(function () {
-            var text = $(this).find("label").attr("id")
-
+                var text = $(this).find("label").attr("id");
                 if (text == "lblGuestName") {
-                    alert($("#divCanvas").width());
+
                     @*$(".clsName").text('@HotelKoKoMu_CardRegister.Resources.Resources.GuestName');*@
                     $('#myModal').modal('show');
                 }
-                
+
 
             @*if (text == "lblKanagataName")
                 location.href = '@Url.Action("CardRegisterPage4", "Card")';

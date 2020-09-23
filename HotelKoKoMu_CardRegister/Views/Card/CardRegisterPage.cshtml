@@ -1,0 +1,310 @@
+﻿@using HotelKoKoMu_CardRegister.Models;
+@model HotelKoKoMu_CardRegister.Models.CardRegisterModel
+@{
+    ViewBag.Title = "CardRegisterPage";
+    Layout = "~/Views/Shared/_CardRegisterLayout.cshtml";
+}
+<style>
+    .modal-footer {
+        display: inline-block !important;
+    }
+</style>
+
+<table class="table-bordered kokomuTable">
+    <tbody>
+        <tr>
+            <td class="td1">
+                <label>@HotelKoKoMu_CardRegister.Resources.Resources.GuestName</label>
+            </td>
+            <td class="td2">
+                <label id="lblGuestName"></label>
+            </td>
+            <td class="td1">
+                <label>@HotelKoKoMu_CardRegister.Resources.Resources.KanaName</label>
+            </td>
+            <td class="td2">
+                <label id="lblKanagataName"></label>
+            </td>
+        </tr>
+        <tr>
+            <td class="td1">
+                <label>@HotelKoKoMu_CardRegister.Resources.Resources.PostalCode</label>
+            </td>
+            <td class="td2">
+                <label id="lblPostalCode"></label>
+            </td>
+            <td class="td1">
+                <label>@HotelKoKoMu_CardRegister.Resources.Resources.PhoneNo</label>
+            </td>
+            <td class="td2">
+                <label id="lblPhoneNo"></label>
+            </td>
+        </tr>
+        <tr>
+            <td rowspan="2">
+                <label>@HotelKoKoMu_CardRegister.Resources.Resources.Address</label>
+            </td>
+            <td colspan="3">
+                <label id="lblAddress1"></label>
+            </td>
+
+
+        </tr>
+        <tr>
+            <td colspan="3">
+                <label id="lblAddress2"></label>
+            </td>
+        </tr>
+        <tr>
+            <td class="td1">
+                <label>@HotelKoKoMu_CardRegister.Resources.Resources.WorkPlace</label>
+            </td>
+            <td colspan="3">
+                <label id="lblWorkPlace"></label>
+            </td>
+        </tr>
+        <tr>
+            <td class="td1">
+                <label>@HotelKoKoMu_CardRegister.Resources.Resources.Nationality</label>
+            </td>
+            <td class="td2">
+                <label id="lblCountry"></label>
+            </td>
+            <td class="td1">
+                <label>@HotelKoKoMu_CardRegister.Resources.Resources.Passport</label>
+            </td>
+            <td class="td2">
+                <label id="lblPassport"></label>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<table class="kokomuTable rowspace">
+    <tbody>
+        <tr>
+            <td class="td1" style="border-right:hidden;">
+                <label>@HotelKoKoMu_CardRegister.Resources.Resources.ArrivalDate</label>
+            </td>
+            <td class="td2" style="border-right:hidden;">
+                <label id="lblArrivalDate"></label>
+            </td>
+            <td class="td1" style="border-right:hidden;">
+                <label>@HotelKoKoMu_CardRegister.Resources.Resources.DepartureDate</label>
+            </td>
+            <td class="td2">
+                <label id="lblDepartureDate"></label>
+            </td>
+        </tr>
+    </tbody>
+</table>
+<table class="kokomuTable">
+    <tbody>
+        <tr>
+            <td class="td1">
+                <label>@HotelKoKoMu_CardRegister.Resources.Resources.Sign</label>
+            </td>
+
+            <td colspan="3">
+                <label id="lblSign"></label>
+            </td>
+
+        </tr>
+    </tbody>
+
+</table>
+<div class="col-md-4 offset-md-4">
+    <button class="clsfinish" id="btnfinish">@HotelKoKoMu_CardRegister.Resources.Resources.Complete</button>
+</div>
+
+
+<div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-lg">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header" style="background-color:#1b5696;color:white;">
+                <h4 class="modal-title">Card Information</h4>
+                <button type="button" class="close" data-dismiss="modal" style="color:white;">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12" id="divCanvas">
+                        <label>@HotelKoKoMu_CardRegister.Resources.Resources.GuestName_Kanji</label><br />
+                        <canvas id="cvsGuestName" width="760" height="130"></canvas>
+                    </div>
+                </div>
+                <div class="row d-none" id="divName">
+                    <div class="col-md-12">
+                        <label>@HotelKoKoMu_CardRegister.Resources.Resources.GuestName_Kanji</label><br />
+                        <textarea id="txtGuestName" rows="5"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="row">
+                    <div class="col-md-4">
+                        <button class="clsRedo" id="btnRedo">@HotelKoKoMu_CardRegister.Resources.Resources.Redo</button>
+                    </div>
+                    <div class="col-md-4">
+                        <button class="clsConfirm" id="btnConfirm">@HotelKoKoMu_CardRegister.Resources.Resources.Confirm</button>
+                    </div>
+                    <div class="col-md-4">
+                        <button class="clsInputKeyboard" id="btnInputKeyboard">@HotelKoKoMu_CardRegister.Resources.Resources.Insertkeyboard</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+@section Scripts
+{
+
+    <script type="text/javascript">
+
+
+        var canvas = document.getElementById('cvsGuestName'),
+            ctx = canvas.getContext('2d'),
+            moveflg = 0,
+            Xpoint,
+            Ypoint;
+
+        //初期値（サイズ、色、アルファ値）の決定
+        var defSize = 7,
+            defColor = "#555";
+
+        // キャンバスを白色に塗る
+        ctx.fillStyle = 'rgb(255,255,255)';
+
+        // ストレージの初期化
+        //var myStorage = localStorage;
+        //window.onload = initLocalStorage();
+
+        // Event handler to resize the canvas when the document view is changed
+        window.addEventListener('resize', resizeCanvas, false);
+
+        // PC対応
+        canvas.addEventListener('mousedown', startPoint, false);
+        canvas.addEventListener('mousemove', movePoint, false);
+        canvas.addEventListener('mouseup', endPoint, false);
+
+        // スマホ対応
+        canvas.addEventListener('touchstart', startPoint, false);
+        canvas.addEventListener('touchmove', movePoint, false);
+        canvas.addEventListener('touchend', endPoint, false);
+
+
+        function startPoint(e) {
+            e.preventDefault();
+            ctx.beginPath();
+            Xpoint = e.layerX;
+            Ypoint = e.layerY;
+            ctx.moveTo(Xpoint, Ypoint);
+        }
+
+        function resizeCanvas() {
+
+            var canvasWidth = $("#divCanvas").width();
+            canvas.width = canvasWidth;
+            //ctx.restore();
+            //alert(window.innerWidth + "/" + canvasWidth);
+            //if (canvasWidth > 0) {
+            //    canvas.width = canvasWidth;
+            //    ctx.restore();
+            //}
+        }
+
+        resizeCanvas();
+
+        function movePoint(e) {
+            if (e.buttons === 1 || e.witch === 1 || e.type == 'touchmove') {
+                Xpoint = e.layerX;
+                Ypoint = e.layerY;
+                moveflg = 1;
+                ctx.lineTo(Xpoint, Ypoint);
+                ctx.lineCap = "round";
+                ctx.lineWidth = defSize * 2;
+                ctx.strokeStyle = defColor;
+                ctx.stroke();
+            }
+        }
+
+        function endPoint(e) {
+            if (moveflg === 0) {
+                ctx.lineTo(Xpoint - 1, Ypoint - 1);
+                ctx.lineCap = "round";
+                ctx.lineWidth = defSize * 2;
+                ctx.strokeStyle = defColor;
+                ctx.stroke();
+            }
+            moveflg = 0;
+        }
+
+        function resetCanvas() {
+            ctx.clearRect(0, 0, ctx.canvas.clientWidth, ctx.canvas.clientHeight);
+            ctx.fillStyle = 'rgb(255,255,255)';
+        }
+
+        $(document).ready(function () {
+
+            $("#btnInputKeyboard").click(function () {
+                $("#divCanvas").addClass('d-none');
+                $("#divName").removeClass('d-none');
+            });
+
+            $("#btnRedo").click(function () {
+                $("#txtGuestName").val('');
+            });
+
+            $("#btnConfirm").click(function () {
+                $("#lblGuestName").text($("#txtGuestName").val());
+                $('#myModal').modal('hide');
+            })
+
+
+            $(".kokomuTable td").click(function () {
+                var text = $(this).find("label").attr("id");
+                if (text == "lblGuestName") {
+
+                    @*$(".clsName").text('@HotelKoKoMu_CardRegister.Resources.Resources.GuestName');*@
+                    $('#myModal').modal('show');
+                }
+
+
+            @*if (text == "lblKanagataName")
+                location.href = '@Url.Action("CardRegisterPage4", "Card")';
+
+            if (text == "lblPostalCode")
+                location.href = '@Url.Action("CardRegisterPage6", "Card")';
+
+            if (text == "lblPhoneNo")
+                location.href = '@Url.Action("CardRegisterPage8", "Card")';
+
+            if (text == "lblAddress1")
+                location.href = '@Url.Action("CardRegisterPage10", "Card")';
+
+            if (text == "lblAddress2")
+                location.href = '@Url.Action("CardRegisterPage12", "Card")';
+
+            if (text == "lblWorkPlace")
+                location.href = '@Url.Action("CardRegisterPage14", "Card")';
+
+            if (text == "lblCountry")
+                location.href = '@Url.Action("CardRegisterPage16", "Card")';
+
+            if (text == "lblPassport")
+                location.href = '@Url.Action("CardRegisterPage18", "Card")';
+
+            if (text == "lblSign")
+                location.href = '@Url.Action("CardRegisterPage20", "Card")';*@
+        });
+        });
+    </script>
+}
+
+
+
+
+
+

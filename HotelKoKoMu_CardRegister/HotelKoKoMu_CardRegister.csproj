@@ -294,26 +294,10 @@
     <Content Include="Views\Card\CardRegisterPage2.cshtml" />
     <Content Include="Views\Card\CardRegisterPage21.cshtml" />
     <Content Include="Views\Card\CardRegisterPage3.cshtml" />
-    <Content Include="Views\Card\CardRegisterPage4.cshtml" />
-    <Content Include="Views\Card\CardRegisterPage5.cshtml" />
-    <Content Include="Views\Card\CardRegisterPage6.cshtml" />
     <Content Include="Views\Card\CardRegisterPage22.cshtml" />
-    <Content Include="Views\Card\CardRegisterPage10.cshtml" />
-    <Content Include="Views\Card\CardRegisterPage9.cshtml" />
-    <Content Include="Views\Card\CardRegisterPage8.cshtml" />
-    <Content Include="Views\Card\CardRegisterPage7.cshtml" />
-    <Content Include="Views\Card\CardRegisterPage11.cshtml" />
-    <Content Include="Views\Card\CardRegisterPage12.cshtml" />
-    <Content Include="Views\Card\CardRegisterPage14.cshtml" />
-    <Content Include="Views\Card\CardRegisterPage16.cshtml" />
-    <Content Include="Views\Card\CardRegisterPage18.cshtml" />
-    <Content Include="Views\Card\CardRegisterPage20.cshtml" />
-    <Content Include="Views\Card\CardRegisterPage13.cshtml" />
-    <Content Include="Views\Card\CardRegisterPage15.cshtml" />
-    <Content Include="Views\Card\CardRegisterPage17.cshtml" />
-    <Content Include="Views\Card\CardRegisterPage19.cshtml" />
     <Content Include="Views\Card\RegisterPage.cshtml" />
     <Content Include="Views\CommonForm\AddCardInformation.cshtml" />
+    <Content Include="Views\Card\CardRegisterPage.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

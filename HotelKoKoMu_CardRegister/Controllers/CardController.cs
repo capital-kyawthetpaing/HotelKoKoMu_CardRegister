@@ -27,92 +27,6 @@ namespace HotelKoKoMu_CardRegister.Controllers
             return View();
 
         }
-        public ActionResult CardRegisterPage4()
-        {
-            return View();
-
-        }
-        public ActionResult CardRegisterPage5()
-        {
-            return View();
-
-        }
-        public ActionResult CardRegisterPage6()
-        {
-            return View();
-
-        }
-        public ActionResult CardRegisterPage7()
-        {
-            return View();
-
-        }
-        public ActionResult CardRegisterPage8()
-        {
-            return View();
-
-        }
-        public ActionResult CardRegisterPage9()
-        {
-            return View();
-
-        }
-        public ActionResult CardRegisterPage10()
-        {
-            return View();
-
-        }
-        public ActionResult CardRegisterPage11()
-        {
-            return View();
-
-        }
-
-        public ActionResult CardRegisterPage12()
-        {
-            return View();
-
-        }
-        public ActionResult CardRegisterPage13()
-        {
-            return View();
-
-        }
-        public ActionResult CardRegisterPage14()
-        {
-            return View();
-
-        }
-        public ActionResult CardRegisterPage15()
-        {
-            return View();
-
-        }
-        public ActionResult CardRegisterPage16()
-        {
-            return View();
-
-        }
-        public ActionResult CardRegisterPage17()
-        {
-            return View();
-
-        }
-        public ActionResult CardRegisterPage18()
-        {
-            return View();
-
-        }
-        public ActionResult CardRegisterPage19()
-        {
-            return View();
-
-        }
-        public ActionResult CardRegisterPage20()
-        {
-            return View();
-
-        }
         public ActionResult CardRegisterPage21(CardRegisterModel cardModel)
         {            
             return View(cardModel);
@@ -128,12 +42,17 @@ namespace HotelKoKoMu_CardRegister.Controllers
             //TempData.Keep("CardRegisterModel");
             return View(cardModel);
         }
+        public ActionResult CardRegisterPage()
+        {
+            return View();
+        }
+        //for MultiLanguageChange
         public ActionResult ChangeLanguage(string key, string value)
         {
-           // TempData.Keep("CardRegisterModel");
+            // TempData.Keep("CardRegisterModel");
             new MultiLanguages().SetLanguage(value);
             return this.Json(new { success = true });
         }
-     
+
     }
 }

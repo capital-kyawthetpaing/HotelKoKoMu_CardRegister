@@ -81,21 +81,21 @@ textarea {
 }
 
 .clsClear {
-    width: 80%;
+    width: 70%;
     margin-left: 25px;
     background-color: #d74715;
     border-bottom-color: #888690;
 }
 
-.clsConfirm {   
-    width: 80%;
+.clsConfirm {
+    width: 70%;
     margin-left: 25px;
     background-color: #417b27;
     border-bottom-color: #293756;
 }
 
-.clsInputKeyboard {   
-    width: 80%;
+.clsInputKeyboard {
+    width: 70%;
     margin-left: 25px;
     background-color: #203045;
     border-bottom-color: #505f83;
@@ -109,7 +109,7 @@ textarea {
 }
 
 .clsCancel {
-    width: 80%;
+    width: 50%;
     margin-left: 25px;
     background-color: #505f83;
     border-bottom-color: #888690;

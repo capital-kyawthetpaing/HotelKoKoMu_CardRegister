@@ -84,7 +84,8 @@
                 <div class='col-md-12'>
                     <div class="form-group pmd-textfield pmd-textfield-floating-label">
                         <label class="control-label" for="regular1">Select Date and Time</label>
-                        <input type="text" class="form-control" data-header-left="true" id="datepicker-left-header">
+                        @*<input type="date" class="form-control" data-header-left="true" id="datepicker-left-header">*@
+                        <input type="date" class="ts-inputbox" style="color: black;" name="datepicker" id="txtStartDate" runat="server" />
                     </div>
                 </div>
 
@@ -124,11 +125,16 @@
     <script type="text/javascript">
 
         $(document).ready(function () {
+            var d = new Date();
+            var currMonth = d.getMonth();
+            var currYear = d.getFullYear();
+            var currDay = d.getDay();
+            var startDate = new Date(currYear, currMonth, currDay);
 
-            $('#dtpArrivalDate').datetimepicker();
-            //$("#dtpArrivalDate").val(moment(new Date()).format("YYYY-MM-DD"));
+            $("#datepicker").datepicker();
+            $("#datepicker").datepicker("setDate", startDate);
 
-               $(".kokomuTable td").click(function () {
+               @*$(".kokomuTable td").click(function () {
             var text = $(this).find("label").attr("id")
 
             if (text == "lblGuestName")
@@ -160,7 +166,7 @@
 
             if (text == "lblSign")
                 location.href = '@Url.Action("CardRegisterPage20", "Card")';
-        });
+        });*@
 
         });
 

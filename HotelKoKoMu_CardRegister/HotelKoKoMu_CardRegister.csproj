@@ -301,7 +301,6 @@
     <Content Include="Views\Card\CardRegisterPage3.cshtml" />
     <Content Include="Views\Card\CardRegisterPage22.cshtml" />
     <Content Include="Views\Card\RegisterPage.cshtml" />
-    <Content Include="Views\CommonForm\AddCardInformation.cshtml" />
     <Content Include="Views\Card\CardRegisterPage.cshtml" />
   </ItemGroup>
   <ItemGroup>

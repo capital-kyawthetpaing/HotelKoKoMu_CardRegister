@@ -68,7 +68,7 @@
                 <label>@HotelKoKoMu_CardRegister.Resources.Resources.Nationality</label>
             </td>
             <td class="td2">
-                <label id="lblCountry"></label>
+                <label id="lblNationality"></label>
             </td>
             <td class="td1">
                 <label>@HotelKoKoMu_CardRegister.Resources.Resources.Passport</label>
@@ -118,26 +118,26 @@
 </div>
 
 
-<div id="myModal" class="modal fade" role="dialog">
-    <div class="modal-dialog modal-lg">
+<div id="CardRegisterModal" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-xl">
 
         <!-- Modal content-->
         <div class="modal-content">
             <div class="modal-header" style="background-color:#1b5696;color:white;">
-                <h4 class="modal-title">Card Information</h4>
+                <h4 class="modal-title">Card Registration</h4>
                 <button type="button" class="close" data-dismiss="modal" style="color:white;">&times;</button>
             </div>
             <div class="modal-body">
                 <div class="row">
                     <div class="col-md-12" id="divCanvas">
-                        <label>@HotelKoKoMu_CardRegister.Resources.Resources.GuestName_Kanji</label><br />
-                        <canvas id="cvsGuestName" width="760" height="130"></canvas>
+                        <label id="lblcanvas"></label><br />
+                        <canvas id="csvRegister" width="760" height="130"></canvas>
                     </div>
                 </div>
                 <div class="row d-none" id="divName">
                     <div class="col-md-12">
-                        <label>@HotelKoKoMu_CardRegister.Resources.Resources.GuestName_Kanji</label><br />
-                        <textarea id="txtGuestName" rows="5"></textarea>
+                        <label id="lbltext"></label><br />
+                        <textarea id="txtRegister" rows="5"></textarea>
                     </div>
                 </div>
             </div>
@@ -158,13 +158,24 @@
 
     </div>
 </div>
+
 @section Scripts
 {
 
     <script type="text/javascript">
 
+        var guestname = '';
+        var kananame = '';
+        var phoneno = '';
+        var address1 = '';
+        var address2 = '';
+        var postalcode = '';
+        var passport = '';
+        var nationality = '';
+        var sign = '';
+        var workplace = '';
 
-        var canvas = document.getElementById('cvsGuestName'),
+        var canvas = document.getElementById('csvRegister'),
             ctx = canvas.getContext('2d'),
             moveflg = 0,
             Xpoint,
@@ -175,7 +186,7 @@
             defColor = "#555";
 
         // キャンバスを白色に塗る
-        ctx.fillStyle = 'rgb(255,255,255)';
+        ctx.fillStyle = 'rgb(255,255,255)'; 
 
         // ストレージの初期化
         //var myStorage = localStorage;
@@ -194,6 +205,7 @@
         canvas.addEventListener('touchmove', movePoint, false);
         canvas.addEventListener('touchend', endPoint, false);
 
+      
 
         function startPoint(e) {
             e.preventDefault();
@@ -204,15 +216,8 @@
         }
 
         function resizeCanvas() {
-
-            var canvasWidth = $("#divCanvas").width();
-            canvas.width = canvasWidth;
-            //ctx.restore();
-            //alert(window.innerWidth + "/" + canvasWidth);
-            //if (canvasWidth > 0) {
-            //    canvas.width = canvasWidth;
-            //    ctx.restore();
-            //}
+            var modalWidth = $(".modal-dialog").css('max-width');
+            canvas.width = parseInt(modalWidth.replace('px', '')) - 35;
         }
 
         resizeCanvas();
@@ -254,12 +259,11 @@
             });
 
             $("#btnRedo").click(function () {
-                $("#txtGuestName").val('');
+                $("#txtRegister").val('');
             });
 
             $("#btnConfirm").click(function () {
-                $("#lblGuestName").text($("#txtGuestName").val());
-                $('#myModal').modal('hide');
+                ConfirmData();
             })
 
 
@@ -267,38 +271,176 @@
                 var text = $(this).find("label").attr("id");
                 if (text == "lblGuestName") {
 
-                    @*$(".clsName").text('@HotelKoKoMu_CardRegister.Resources.Resources.GuestName');*@
-                    $('#myModal').modal('show');
+                    $("#lblcanvas").text('@HotelKoKoMu_CardRegister.Resources.Resources.GuestName_Kanji');
+                    $("#lbltext").text('@HotelKoKoMu_CardRegister.Resources.Resources.GuestName_Kanji');
+                    guestname = '@HotelKoKoMu_CardRegister.Resources.Resources.GuestName_Kanji';
+                    ModalShow();
+
                 }
 
+                if (text == "lblKanagataName") {
 
-            @*if (text == "lblKanagataName")
-                location.href = '@Url.Action("CardRegisterPage4", "Card")';
+                    $("#lblcanvas").text('@HotelKoKoMu_CardRegister.Resources.Resources.GuestName_Kana');
+                    $("#lbltext").text('@HotelKoKoMu_CardRegister.Resources.Resources.GuestName_Kana');
+                    kananame = '@HotelKoKoMu_CardRegister.Resources.Resources.GuestName_Kana';
+                    ModalShow();
+                }
 
-            if (text == "lblPostalCode")
-                location.href = '@Url.Action("CardRegisterPage6", "Card")';
+                if (text == "lblPostalCode") {
 
-            if (text == "lblPhoneNo")
-                location.href = '@Url.Action("CardRegisterPage8", "Card")';
+                    $("#lblcanvas").text('@HotelKoKoMu_CardRegister.Resources.Resources.PostalCode');
+                    $("#lbltext").text('@HotelKoKoMu_CardRegister.Resources.Resources.PostalCode');
+                    postalcode = '@HotelKoKoMu_CardRegister.Resources.Resources.PostalCode';
+                    ModalShow();
+                }
 
-            if (text == "lblAddress1")
-                location.href = '@Url.Action("CardRegisterPage10", "Card")';
+                if (text == "lblPhoneNo") {
 
-            if (text == "lblAddress2")
-                location.href = '@Url.Action("CardRegisterPage12", "Card")';
+                    $("#lblcanvas").text('@HotelKoKoMu_CardRegister.Resources.Resources.PhoneNo');
+                    $("#lbltext").text('@HotelKoKoMu_CardRegister.Resources.Resources.PhoneNo');
+                    phoneno = '@HotelKoKoMu_CardRegister.Resources.Resources.PhoneNo';
+                    ModalShow();
+                }
 
-            if (text == "lblWorkPlace")
-                location.href = '@Url.Action("CardRegisterPage14", "Card")';
+                if (text == "lblAddress1") {
 
-            if (text == "lblCountry")
-                location.href = '@Url.Action("CardRegisterPage16", "Card")';
+                    $("#lblcanvas").text('@HotelKoKoMu_CardRegister.Resources.Resources.Address1');
+                    $("#lbltext").text('@HotelKoKoMu_CardRegister.Resources.Resources.Address1');
+                    address1 = '@HotelKoKoMu_CardRegister.Resources.Resources.Address1';
+                    ModalShow();
+                }
 
-            if (text == "lblPassport")
-                location.href = '@Url.Action("CardRegisterPage18", "Card")';
+                if (text == "lblAddress2") {
 
-            if (text == "lblSign")
-                location.href = '@Url.Action("CardRegisterPage20", "Card")';*@
-        });
+                    $("#lblcanvas").text('@HotelKoKoMu_CardRegister.Resources.Resources.Address2');
+                    $("#lbltext").text('@HotelKoKoMu_CardRegister.Resources.Resources.Address2');
+                    address2 = '@HotelKoKoMu_CardRegister.Resources.Resources.Address2';
+                    ModalShow();
+                }
+
+                if (text == "lblWorkPlace") {
+
+                    $("#lblcanvas").text('@HotelKoKoMu_CardRegister.Resources.Resources.WorkPlace');
+                    $("#lbltext").text('@HotelKoKoMu_CardRegister.Resources.Resources.WorkPlace');
+                    workplace = '@HotelKoKoMu_CardRegister.Resources.Resources.WorkPlace';
+                    ModalShow();
+                }
+
+                if (text == "lblNationality") {
+
+                    $("#lblcanvas").text('@HotelKoKoMu_CardRegister.Resources.Resources.Nationality');
+                    $("#lbltext").text('@HotelKoKoMu_CardRegister.Resources.Resources.Nationality');
+                    nationality = '@HotelKoKoMu_CardRegister.Resources.Resources.Nationality';
+                    ModalShow();
+                }
+
+                if (text == "lblPassport") {
+
+                    $("#lblcanvas").text('@HotelKoKoMu_CardRegister.Resources.Resources.PassportNo');
+                    $("#lbltext").text('@HotelKoKoMu_CardRegister.Resources.Resources.PassportNo');
+                    passport = '@HotelKoKoMu_CardRegister.Resources.Resources.PassportNo';
+                    ModalShow();
+                }
+
+                if (text == "lblSign") {
+
+                    $("#lblcanvas").text('@HotelKoKoMu_CardRegister.Resources.Resources.Sign');
+                    $("#lbltext").text('@HotelKoKoMu_CardRegister.Resources.Resources.Sign');
+                    sign = '@HotelKoKoMu_CardRegister.Resources.Resources.Sign';
+                    ModalShow();
+                    
+                }
+
+            });
+
+            function ModalShow() {
+                $("#divCanvas").removeClass('d-none');
+                $("#divName").addClass('d-none');
+                $('#CardRegisterModal').modal('show');
+            }
+
+            function ConfirmData() {
+
+                if ($("#lblcanvas").text() == guestname ||
+                    $("#lbltext").text() == guestname) {
+
+                    $("#lblGuestName").text($("#txtRegister").val());
+                    $('#CardRegisterModal').modal('hide');
+                    $("#txtRegister").val('');
+                }
+
+                if ($("#lblcanvas").text() == kananame ||
+                    $("#lbltext").text() == kananame) {
+
+                     $("#lblKanagataName").text($("#txtRegister").val());
+                     $('#CardRegisterModal').modal('hide');
+                     $("#txtRegister").val('');
+                }
+
+                if ($("#lblcanvas").text() == postalcode ||
+                    $("#lbltext").text() == postalcode) {
+
+                    $("#lblPostalCode").text($("#txtRegister").val());
+                    $('#CardRegisterModal').modal('hide');
+                    $("#txtRegister").val('');
+                }
+
+                if ($("#lblcanvas").text() == phoneno ||
+                    $("#lbltext").text() == phoneno) {
+
+                    $("#lblPhoneNo").text($("#txtRegister").val());
+                    $('#CardRegisterModal').modal('hide');
+                    $("#txtRegister").val('');
+                }
+
+                if ($("#lblcanvas").text() == address1 ||
+                    $("#lbltext").text() == address1) {
+
+                    $("#lblAddress1").text($("#txtRegister").val());
+                    $('#CardRegisterModal').modal('hide');
+                    $("#txtRegister").val('');
+                }
+
+                if ($("#lblcanvas").text() == address2 ||
+                    $("#lbltext").text() == address2) {
+
+                    $("#lblAddress2").text($("#txtRegister").val());
+                    $('#CardRegisterModal').modal('hide');
+                    $("#txtRegister").val('');
+                }
+
+                if ($("#lblcanvas").text() == workplace ||
+                    $("#lbltext").text() == workplace) {
+
+                    $("#lblWorkPlace").text($("#txtRegister").val());
+                    $('#CardRegisterModal').modal('hide');
+                    $("#txtRegister").val('');
+                }
+
+                if ($("#lblcanvas").text() == nationality ||
+                    $("#lbltext").text() == nationality) {
+
+                    $("#lblNationality").text($("#txtRegister").val());
+                    $('#CardRegisterModal').modal('hide');
+                    $("#txtRegister").val('');
+                }
+
+                if ($("#lblcanvas").text() == passport ||
+                    $("#lbltext").text() == passport) {
+
+                    $("#lblPassport").text($("#txtRegister").val());
+                    $('#CardRegisterModal').modal('hide');
+                    $("#txtRegister").val('');
+                }
+
+                if ($("#lblcanvas").text() == sign ||
+                    $("#lbltext").text() == sign) {
+
+                    $("#lblSign").text($("#txtRegister").val());
+                    $('#CardRegisterModal').modal('hide');
+                    $("#txtRegister").val('');
+                }
+            }
         });
     </script>
 }

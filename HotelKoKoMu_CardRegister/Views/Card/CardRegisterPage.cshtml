@@ -14,6 +14,7 @@
     <tbody>
         <tr>
             <td class="td1">
+               
                 <label>@HotelKoKoMu_CardRegister.Resources.Resources.GuestName</label>
             </td>
             <td class="td2">
@@ -47,8 +48,6 @@
             <td colspan="3">
                 <label id="lblAddress1"></label>
             </td>
-
-
         </tr>
         <tr>
             <td colspan="3">
@@ -98,6 +97,7 @@
         </tr>
     </tbody>
 </table>
+
 <table class="kokomuTable">
     <tbody>
         <tr>
@@ -113,15 +113,15 @@
     </tbody>
 
 </table>
+
 <div class="col-md-4 offset-md-4">
     <button class="clsfinish" id="btnfinish">@HotelKoKoMu_CardRegister.Resources.Resources.Complete</button>
 </div>
 
 
 <div id="myModal" class="modal fade" role="dialog">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog modal-xl">
 
-        <!-- Modal content-->
         <div class="modal-content">
             <div class="modal-header" style="background-color:#1b5696;color:white;">
                 <h4 class="modal-title">Card Information</h4>
@@ -129,9 +129,9 @@
             </div>
             <div class="modal-body">
                 <div class="row">
-                    <div class="col-md-12" id="divCanvas">
+                    <div class="col-md-12 col-sm-12 col-xs-12" id="divCanvas">
                         <label>@HotelKoKoMu_CardRegister.Resources.Resources.GuestName_Kanji</label><br />
-                        <canvas id="cvsGuestName" width="760" height="130"></canvas>
+                        <canvas id="cvsGuestName" width="760" height="130" style="max-width:100%;"></canvas>
                     </div>
                 </div>
                 <div class="row d-none" id="divName">
@@ -158,11 +158,11 @@
 
     </div>
 </div>
+
+
 @section Scripts
 {
-
     <script type="text/javascript">
-
 
         var canvas = document.getElementById('cvsGuestName'),
             ctx = canvas.getContext('2d'),
@@ -204,15 +204,8 @@
         }
 
         function resizeCanvas() {
-
-            var canvasWidth = $("#divCanvas").width();
-            canvas.width = canvasWidth;
-            //ctx.restore();
-            //alert(window.innerWidth + "/" + canvasWidth);
-            //if (canvasWidth > 0) {
-            //    canvas.width = canvasWidth;
-            //    ctx.restore();
-            //}
+            var modalWidth = $(".modal-dialog").css('max-width');           
+            canvas.width = parseInt(modalWidth.replace('px', '')) - 35;
         }
 
         resizeCanvas();
@@ -266,7 +259,7 @@
             $(".kokomuTable td").click(function () {
                 var text = $(this).find("label").attr("id");
                 if (text == "lblGuestName") {
-
+                   
                     @*$(".clsName").text('@HotelKoKoMu_CardRegister.Resources.Resources.GuestName');*@
                     $('#myModal').modal('show');
                 }

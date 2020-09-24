@@ -8,7 +8,6 @@
     .modal-footer {
         display: inline-block !important;
     }
-    
 </style>
 
 <table class="table-bordered kokomuTable">
@@ -118,191 +117,109 @@
     <button class="clsfinish" id="btnfinish">@HotelKoKoMu_CardRegister.Resources.Resources.Complete</button>
 </div>
 
-<div id="myModal" class="modal fade" role="dialog">
-    <div class="modal-dialog modal-xl">
+<h1>GeeksforGeeks</h1>
+<b>Draw anything you want</b>
+<hr>
+<canvas id="canvas"></canvas>
 
-        <!-- Modal content-->
-        <div class="modal-content">
-            <div class="modal-header" style="background-color:#1b5696;color:white;">
-                <h4 class="modal-title">Card Information</h4>
-                <button type="button" class="close" data-dismiss="modal" style="color:white;">&times;</button>
-            </div>
-            <div class="modal-body">
-                <div class="row">
-                    <div class="col-md-12" id="divCanvas" style="border:1px solid #808080">
-                        <label>@HotelKoKoMu_CardRegister.Resources.Resources.GuestName_Kanji</label><br />
-                        <canvas id="cvsGuestName" width="760" height="130"></canvas>
-                    </div>
-                </div>
-                <div class="row d-none" id="divName">
-                    <div class="col-md-12">
-                        <label>@HotelKoKoMu_CardRegister.Resources.Resources.GuestName_Kanji</label><br />
-                        <textarea id="txtGuestName" rows="5"></textarea>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <div class="row">
-                    <div class="col-md-4">
-                        <button class="clsRedo" id="btnRedo">@HotelKoKoMu_CardRegister.Resources.Resources.Redo</button>
-                    </div>
-                    <div class="col-md-4">
-                        <button class="clsConfirm" id="btnConfirm">@HotelKoKoMu_CardRegister.Resources.Resources.Confirm</button>
-                    </div>
-                    <div class="col-md-4">
-                        <button class="clsInputKeyboard" id="btnInputKeyboard">@HotelKoKoMu_CardRegister.Resources.Resources.Insertkeyboard</button>
-                    </div>
-                </div>
-            </div>
-        </div>
 
-    </div>
-</div>
 
 @section Scripts
 {
-
+   
     <script type="text/javascript">
-
-       
-        var canvas = document.getElementById('cvsGuestName'),
-            ctx = canvas.getContext('2d'),
-            moveflg = 0,
-            Xpoint,
-            Ypoint;
-
-        //初期値（サイズ、色、アルファ値）の決定
-        var defSize = 7,
-            defColor = "#555";
-
-        // キャンバスを白色に塗る
-        ctx.fillStyle = 'rgb(255,255,255)';
-
-        // ストレージの初期化
-        //var myStorage = localStorage;
-        //window.onload = initLocalStorage();
-
-        // Event handler to resize the canvas when the document view is changed
-        window.addEventListener('resize', resizeCanvas, false);
-
-        // PC対応
-        canvas.addEventListener('mousedown', startPoint, false);
-        canvas.addEventListener('mousemove', movePoint, false);
-        canvas.addEventListener('mouseup', endPoint, false);
-
-        // スマホ対応
-        canvas.addEventListener('touchstart', startPoint, false);
-        canvas.addEventListener('touchmove', movePoint, false);
-        canvas.addEventListener('touchend', endPoint, false);
-
-
-        function startPoint(e) {
-            e.preventDefault();
-            ctx.beginPath();
-            Xpoint = e.layerX;
-            Ypoint = e.layerY;
-            ctx.moveTo(Xpoint, Ypoint);
-        }
-
-        function resizeCanvas() {    
-            // Make it visually fill the positioned parent
-            canvas.style.width = window.offsetWidth;
-           // canvas.style.height = '100%';
-            // ...then set the internal size to match
-            canvas.width = canvas.offsetWidth;
-            //canvas.height = canvas.offsetHeight;
-
-            //var canvasWidth = $("#divCanvas").width();
-            //canvas.width = canvasWidth;
-        }
-
-        resizeCanvas();
-
-        function movePoint(e) {
-            if (e.buttons === 1 || e.witch === 1 || e.type == 'touchmove') {
-                Xpoint = e.layerX;
-                Ypoint = e.layerY;
-                moveflg = 1;
-                ctx.lineTo(Xpoint, Ypoint);
-                ctx.lineCap = "round";
-                ctx.lineWidth = defSize * 2;
-                ctx.strokeStyle = defColor;
-                ctx.stroke();
-            }
-        }
-
-        function endPoint(e) {
-            if (moveflg === 0) {
-                ctx.lineTo(Xpoint - 1, Ypoint - 1);
-                ctx.lineCap = "round";
-                ctx.lineWidth = defSize * 2;
-                ctx.strokeStyle = defColor;
-                ctx.stroke();
-            }
-            moveflg = 0;
-        }
-
-        function resetCanvas() {
-            ctx.clearRect(0, 0, ctx.canvas.clientWidth, ctx.canvas.clientHeight);
-            ctx.fillStyle = 'rgb(255,255,255)';
-        }
-
         $(document).ready(function () {
 
-            $("#btnInputKeyboard").click(function () {
-                $("#divCanvas").addClass('d-none');
-                $("#divName").removeClass('d-none');
-            });
+          
+        })
+        // wait for the content of the window element 
+        // to load, then performs the operations. 
+        // This is considered best practice. 
+        window.addEventListener('load', () => {
 
-            $("#btnRedo").click(function () {
-                $("#txtGuestName").val('');
-            });
-
-            $("#btnConfirm").click(function () {
-                $("#lblGuestName").text($("#txtGuestName").val());
-                $('#myModal').modal('hide');
-            })
-
-
-            $(".kokomuTable td").click(function () {
-                var text = $(this).find("label").attr("id");
-                if (text == "lblGuestName") {
-
-                    @*$(".clsName").text('@HotelKoKoMu_CardRegister.Resources.Resources.GuestName');*@
-                    $('#myModal').modal('show');
-                }
-
-
-            @*if (text == "lblKanagataName")
-                location.href = '@Url.Action("CardRegisterPage4", "Card")';
-
-            if (text == "lblPostalCode")
-                location.href = '@Url.Action("CardRegisterPage6", "Card")';
-
-            if (text == "lblPhoneNo")
-                location.href = '@Url.Action("CardRegisterPage8", "Card")';
-
-            if (text == "lblAddress1")
-                location.href = '@Url.Action("CardRegisterPage10", "Card")';
-
-            if (text == "lblAddress2")
-                location.href = '@Url.Action("CardRegisterPage12", "Card")';
-
-            if (text == "lblWorkPlace")
-                location.href = '@Url.Action("CardRegisterPage14", "Card")';
-
-            if (text == "lblCountry")
-                location.href = '@Url.Action("CardRegisterPage16", "Card")';
-
-            if (text == "lblPassport")
-                location.href = '@Url.Action("CardRegisterPage18", "Card")';
-
-            if (text == "lblSign")
-                location.href = '@Url.Action("CardRegisterPage20", "Card")';*@
+            resize(); // Resizes the canvas once the window loads 
+            document.addEventListener('mousedown', startPainting);
+            document.addEventListener('mouseup', stopPainting);
+            document.addEventListener('mousemove', sketch);
+            window.addEventListener('resize', resize);
         });
-        });
+
+        const canvas = document.querySelector('#canvas');
+
+        // Context for the canvas for 2 dimensional operations 
+        const ctx = canvas.getContext('2d');
+
+        // Resizes the canvas to the available size of the window. 
+        function resize() {
+            ctx.canvas.width = window.innerWidth;
+            ctx.canvas.height = window.innerHeight;
+        }
+
+        // Stores the initial position of the cursor 
+        let coord = { x: 0, y: 0 };
+
+        // This is the flag that we are going to use to  
+        // trigger drawing 
+        let paint = false;
+
+        // Updates the coordianates of the cursor when  
+        // an event e is triggered to the coordinates where  
+        // the said event is triggered. 
+        function getPosition(event) {
+            coord.x = event.clientX - canvas.offsetLeft;
+            coord.y = event.clientY - canvas.offsetTop;
+        }
+
+        // The following functions toggle the flag to start 
+        // and stop drawing 
+        function startPainting(event) {
+            paint = true;
+            getPosition(event);
+        }
+        function stopPainting() {
+            paint = false;
+        }
+
+        function sketch(event) {
+            if (!paint) return;
+            ctx.beginPath();
+
+            ctx.lineWidth = 5;
+
+            // Sets the end of the lines drawn 
+            // to a round shape. 
+            ctx.lineCap = 'round';
+
+            ctx.strokeStyle = 'green';
+
+            // The cursor to start drawing 
+            // moves to this coordinate 
+            ctx.moveTo(coord.x, coord.y);
+
+            // The position of the cursor 
+            // gets updated as we move the 
+            // mouse around. 
+            getPosition(event);
+
+            // A line is traced from start 
+            // coordinate to this coordinate 
+            ctx.lineTo(coord.x, coord.y);
+
+            // Draws the line. 
+            ctx.stroke();
+        }
+            //$(".kokomuTable td").click(function () {
+            //    var text = $(this).find("label").attr("id")
+
+            //    if (text == "lblGuestName") {
+            //        ShowPopUp();
+            //    }
+
+            //});
+      
     </script>
 }
+
 
 
 

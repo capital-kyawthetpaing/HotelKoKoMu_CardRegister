@@ -119,7 +119,7 @@
 
 
 <div id="CardRegisterModal" class="modal fade" role="dialog">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog modal-xl">
 
         <!-- Modal content-->
         <div class="modal-content">
@@ -216,15 +216,8 @@
         }
 
         function resizeCanvas() {
-
-            var canvasWidth = $("#divCanvas").width();
-            canvas.width = canvasWidth;
-            //ctx.restore();
-            //alert(window.innerWidth + "/" + canvasWidth);
-            //if (canvasWidth > 0) {
-            //    canvas.width = canvasWidth;
-            //    ctx.restore();
-            //}
+            var modalWidth = $(".modal-dialog").css('max-width');
+            canvas.width = parseInt(modalWidth.replace('px', '')) - 35;
         }
 
         resizeCanvas();

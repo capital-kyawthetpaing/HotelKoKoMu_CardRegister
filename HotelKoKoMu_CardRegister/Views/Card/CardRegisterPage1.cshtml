@@ -84,7 +84,7 @@
                 <div class='col-md-12'>
                     <div class="form-group pmd-textfield pmd-textfield-floating-label">
                         <label class="control-label" for="regular1">Select Date and Time</label>
-                        <input type="text" class="form-control" data-header-left="true" id="datepicker-left-header">
+                        <input type="date" class="form-control" data-header-left="true" id="datepicker-left-header">
                     </div>
                 </div>
 
@@ -95,8 +95,8 @@
                 <label>@HotelKoKoMu_CardRegister.Resources.Resources.DepartureDate</label>
             </td>
             <td class="td2">
-                @*<label id="lblDepartureDate"></label>*@
-                <input type="date" placeholder="yyyy-mm-dd" id="dtpDepartureDate" name="lblDepartureDate" />
+                <label id="lblDepartureDate"></label>
+                <input type="date"  id="dtpDepartureDate" name="lblDepartureDate" />
             </td>
         </tr>
     </tbody>
@@ -124,9 +124,8 @@
     <script type="text/javascript">
 
         $(document).ready(function () {
-
+            getDate();
            
-
                $(".kokomuTable td").click(function () {
             var text = $(this).find("label").attr("id")
 
@@ -164,6 +163,27 @@
         });
 
 
+        function getDate() {
+           
+            var today = new Date();
+            var dd = today.getDate();
+            var mm = today.getMonth() + 1; //January is 0!
+            var yyyy = today.getFullYear();
+
+            if (dd < 10) {
+                dd = '0' + dd
+            }
+
+            if (mm < 10) {
+                mm = '0' + mm
+            }
+
+            today = yyyy + '/' + mm + '/' + dd;
+            alert(today);
+            $('#lblDepartureDate').html(today)
+            //console.log(today);
+            document.getElementById("lblDepartureDate").value = today;
+        }
 
 
     </script>

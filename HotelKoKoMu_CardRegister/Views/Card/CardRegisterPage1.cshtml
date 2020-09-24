@@ -82,14 +82,15 @@
             </td>
             <td class="td2" style="border-right:hidden;">
                 @*<label id="lblArrivalDate"></label>*@
-                <input type="date" placeholder="yyyy-mm-dd" id="lblArrivalDate" name="lblArrivalDate" />
+                @*<input type="date" id="aDate" name="aDate" class="form-control" value="{{ Date.now() | date("Y-m-d") }}" />*@
+               
             </td>
             <td class="td1" style="border-right:hidden;">
                 <label>@HotelKoKoMu_CardRegister.Resources.Resources.DepartureDate</label>
             </td>
             <td class="td2">
                 @*<label id="lblDepartureDate"></label>*@
-                <input type="date" placeholder="yyyy-mm-dd" id="lblDepartureDate" name="lblDepartureDate" />
+                <input type="date" placeholder="yyyy-mm-dd" value="2020-09-23" id="lblDepartureDate" name="lblDepartureDate" />
             </td>
         </tr>
     </tbody>
@@ -115,7 +116,7 @@
 
 @section Scripts{
     <script type="text/javascript">
-
+       
         $(".kokomuTable td").click(function () {
             var text = $(this).find("label").attr("id")
 

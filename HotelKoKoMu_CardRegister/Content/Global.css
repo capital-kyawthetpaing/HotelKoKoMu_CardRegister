@@ -68,7 +68,11 @@ textarea {
     margin-top: 30px;
 }
 
-.clsRedo, .clsConfirm, .clsInputKeyboard, .clsfinish {    
+.clsClear,
+.clsCancel,
+.clsConfirm,
+.clsInputKeyboard,
+.clsfinish {
     height: 50px;
     text-align: center;
     border-radius: 8px;
@@ -76,25 +80,22 @@ textarea {
     color: white;
 }
 
-.clsRedo {
-    
+.clsClear {
     width: 80%;
     margin-left: 25px;
     background-color: #d74715;
     border-bottom-color: #888690;
 }
 
-.clsConfirm {
-   
-     width: 80%;
+.clsConfirm {   
+    width: 80%;
     margin-left: 25px;
     background-color: #417b27;
     border-bottom-color: #293756;
 }
 
-.clsInputKeyboard {
-   
-     width: 80%;
+.clsInputKeyboard {   
+    width: 80%;
     margin-left: 25px;
     background-color: #203045;
     border-bottom-color: #505f83;
@@ -104,6 +105,13 @@ textarea {
     width: 100%;
     margin-top: 20px;
     background-color: #d74715;
+    border-bottom-color: #888690;
+}
+
+.clsCancel {
+    width: 80%;
+    margin-left: 25px;
+    background-color: #505f83;
     border-bottom-color: #888690;
 }
 canvas {    

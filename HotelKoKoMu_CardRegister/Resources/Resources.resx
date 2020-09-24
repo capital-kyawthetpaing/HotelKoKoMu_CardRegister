@@ -132,6 +132,12 @@
   <data name="Back" xml:space="preserve">
     <value>Back</value>
   </data>
+  <data name="Cancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="Clear" xml:space="preserve">
+    <value>Clear</value>
+  </data>
   <data name="Complete" xml:space="preserve">
     <value>Complete</value>
   </data>
@@ -173,9 +179,6 @@
   </data>
   <data name="PostalCode" xml:space="preserve">
     <value>Postal Code</value>
-  </data>
-  <data name="Redo" xml:space="preserve">
-    <value>Redo</value>
   </data>
   <data name="Sign" xml:space="preserve">
     <value>Sign</value>

@@ -35,11 +35,8 @@ namespace HotelKoKoMu_CardRegister
                 Thread.CurrentThread.CurrentUICulture = cultureInfo;
                 Thread.CurrentThread.CurrentCulture = CultureInfo.CreateSpecificCulture(cultureInfo.Name);
                 HttpCookie langCookie = new HttpCookie("culture", lang);
-                //HttpCookie langCookieName = new HttpCookie("cultureName", "");
-                //langCookieName.Expires = DateTime.Now.AddYears(1);
                 langCookie.Expires = DateTime.Now.AddYears(1);
                 HttpContext.Current.Response.Cookies.Add(langCookie);
-                //HttpContext.Current.Response.Cookies.Add(langCookieName);
             }
             catch (Exception) { }
         }

@@ -1,4 +1,6 @@
-﻿@{
+﻿
+
+@{
     var lang = HttpContext.Current.Request.Cookies["culture"].Value;
 }
 
@@ -7,7 +9,7 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>@ViewBag.Title</title>
-   
+
     <script src="@Url.Content("~/Scripts/jquery-3.5.1.js")"></script>
     <script src="~/Scripts/bootstrap.min.js"></script>
     <link rel="stylesheet" href="@Url.Content("~/Content/bootstrap.min.css")" />
@@ -15,6 +17,7 @@
     <link rel="stylesheet" href="@Url.Content("~/Content/dd.css")" />
     <link rel="stylesheet" href="@Url.Content("~/Content/Global.css")" />
     <script src="@Url.Content("~/Scripts/Common.js")"></script>
+    @*<script src="~/Scripts/Canvas.js"></script>*@
 </head>
 <body>
 
@@ -52,9 +55,9 @@
 </html>
 
 @RenderSection("scripts", required: false)
+@RenderSection("styles", required: false)
 <script>
     $(document).ready(function () {
-
         $("#MultiLanguage").msDropdown();
         $("#MultiLanguage").val('@lang').trigger('change');
         $("#MultiLanguage").change(function () {

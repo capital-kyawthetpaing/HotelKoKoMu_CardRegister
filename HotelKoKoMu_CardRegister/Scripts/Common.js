@@ -111,7 +111,6 @@ function ErrChk(ctrl) {
     return "0";
 }
 
-
 function moveNext(ctrl) {
     do {
         ctrl = $('[tabIndex=' + (+$(ctrl).attr("tabIndex") + 1) + ']');

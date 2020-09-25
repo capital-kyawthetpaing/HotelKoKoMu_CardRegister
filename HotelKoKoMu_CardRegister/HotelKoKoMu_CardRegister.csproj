@@ -168,6 +168,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\BaseModel.cs" />
     <Compile Include="Models\CardRegisterModel.cs" />
     <Compile Include="Models\MultiLanguages.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -191,6 +192,8 @@
     <Content Include="Content\bootstrap-reboot.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\datepicker.css" />
+    <Content Include="Content\datepicker.min.css" />
     <Content Include="Content\dd.css" />
     <Content Include="Content\Global.css" />
     <Content Include="Content\style.css" />
@@ -209,6 +212,10 @@
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="Scripts\Canvas.js" />
     <Content Include="Scripts\Common.js" />
+    <Content Include="Scripts\datepicker-ja.js" />
+    <Content Include="Scripts\datepicker.en.js" />
+    <Content Include="Scripts\datepicker.js" />
+    <Content Include="Scripts\datepicker.min.js" />
     <Content Include="Scripts\esm\popper-utils.js" />
     <Content Include="Scripts\esm\popper-utils.min.js" />
     <Content Include="Scripts\esm\popper.js" />

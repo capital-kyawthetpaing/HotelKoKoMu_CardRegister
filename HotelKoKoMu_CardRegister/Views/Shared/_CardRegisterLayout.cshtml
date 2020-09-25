@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="@Url.Content("~/Content/dd.css")" />
     <link rel="stylesheet" href="@Url.Content("~/Content/Global.css")" />
     <script src="@Url.Content("~/Scripts/Common.js")"></script>
+    @*<script src="~/Scripts/Canvas.js"></script>*@
 </head>
 <body>
 
@@ -54,7 +55,6 @@
 @RenderSection("scripts", required: false)
 <script>
     $(document).ready(function () {
-
         $("#MultiLanguage").msDropdown();
         $("#MultiLanguage").val('@lang').trigger('change');
         $("#MultiLanguage").change(function () {

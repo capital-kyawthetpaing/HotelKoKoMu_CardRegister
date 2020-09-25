@@ -45,9 +45,13 @@ namespace HotelKoKoMu_CardRegister.ContextDB
                 var newCon = new NpgsqlConnection(conStr);
                 NpgsqlCommand cmd = new NpgsqlCommand(sSQL, newCon)
                 {
-                    CommandType = CommandType.StoredProcedure
+                    CommandType = CommandType.Text
                 };
-                cmd.Parameters.AddRange(para);
+                if (para != null)
+                {
+                    para = ChangeToDBNull(para);
+                    cmd.Parameters.AddRange(para);
+                }               
                 cmd.Connection.Open();
                 cmd.ExecuteNonQuery();
                 cmd.Connection.Close();
@@ -60,5 +64,25 @@ namespace HotelKoKoMu_CardRegister.ContextDB
             }
         }
 
+        private NpgsqlParameter[] ChangeToDBNull(NpgsqlParameter[] para)
+        {
+            foreach (var p in para)
+            {
+                if (p.Value == null || string.IsNullOrWhiteSpace(p.Value.ToString()))
+                {
+                    p.Value = DBNull.Value;
+                    p.NpgsqlValue = DBNull.Value;
+                }
+                else
+                {
+                    p.Value = p.Value;
+                    p.NpgsqlValue = p.Value;
+                    //p.Value = p.Value.ToString().Trim();
+                    //p.NpgsqlValue = p.Value.ToString().Trim();
+                }
+            }
+
+            return para;
+        }
     }
 }

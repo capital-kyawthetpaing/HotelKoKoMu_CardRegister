@@ -38,18 +38,16 @@ namespace HotelKoKoMu_CardRegister.Controllers
 
         public ActionResult RegisterPage(CardRegisterModel cardModel)
         {
-           // TempData["CardRegisterModel"] = cardModel;
-            //TempData.Keep("CardRegisterModel");
             return View(cardModel);
         }
         public ActionResult CardRegisterPage()
         {
             return View();
         }
+
         //for MultiLanguageChange
         public ActionResult ChangeLanguage(string key, string value)
         {
-            // TempData.Keep("CardRegisterModel");
             new MultiLanguages().SetLanguage(value);
             return this.Json(new { success = true });
         }

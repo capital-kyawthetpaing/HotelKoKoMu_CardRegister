@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using HotelKoKoMu_CardRegister.Models;
 
 namespace HotelKoKoMu_CardRegister.Controllers
 {
@@ -19,16 +20,21 @@ namespace HotelKoKoMu_CardRegister.Controllers
             }
             else
             {
-                var userLanguage = Request.UserLanguages;
-                var userLang = userLanguage != null ? userLanguage[0] : "";
-                if (userLang != "")
-                {
-                    lang = userLang;
-                }
-                else
-                {
-                    lang = MultiLanguages.GetDefaultLanguage();
-                }
+                var userLanguage = MultiLanguages.AvailableLanguages[1].LanguageCultureName;
+                lang = userLanguage;
+
+                #region comment
+                //var userLanguage = Request.UserLanguages;
+                //var userLang = userLanguage != null ? userLanguage[1] : "";
+                //if (userLang != "")
+                //{
+                //    lang = userLang;
+                //}
+                //else
+                //{
+                //    lang = MultiLanguages.GetDefaultLanguage();
+                //}
+                #endregion
             }
             new MultiLanguages().SetLanguage(lang);
             return base.BeginExecuteCore(callback, state);

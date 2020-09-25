@@ -125,9 +125,10 @@
     <script type="text/javascript">
 
         $(document).ready(function () {
-            getDate();
-           
-               $(".kokomuTable td").click(function () {
+            
+            //getDate();
+
+               @*$(".kokomuTable td").click(function () {
             var text = $(this).find("label").attr("id")
 
             if (text == "lblGuestName")
@@ -159,13 +160,31 @@
 
             if (text == "lblSign")
                 location.href = '@Url.Action("CardRegisterPage20", "Card")';
-        });
+        });*@
 
         });
-
+       
+        function KeyDown(e, ctrl, functionname) {
+            
+            if (e.which == 13) {
+                alert("go");
+                e.preventDefault();
+                var result = ErrChk(ctrl);
+                if (result == "0") {
+                    moveNext(ctrl);
+                    if (functionname) {
+                        var fn = window[functionname];
+                        fn('OK');
+                    }
+                }
+                else {
+                    ShowErrorMessage(result, functionname);
+                }
+            }
+        }
 
         function getDate() {
-           
+
             var today = new Date();
             var dd = today.getDate();
             var mm = today.getMonth() + 1; //January is 0!

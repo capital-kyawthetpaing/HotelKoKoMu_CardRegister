@@ -3,7 +3,9 @@
     ViewBag.Title = "CardRegisterPage1";
     Layout = "~/Views/Shared/_CardRegisterLayout.cshtml";
 }
-
+@section Styles{
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/datepicker.css")" />
+}
 <table class="table-bordered kokomuTable" id="table1">
     <tbody>
         <tr>
@@ -78,24 +80,15 @@
     <tbody>
         <tr>
             <td class="td1" style="border-right:hidden;">
-                <label>@HotelKoKoMu_CardRegister.Resources.Resources.ArrivalDate</label>
+                <label >@HotelKoKoMu_CardRegister.Resources.Resources.ArrivalDate</label>
             </td>
             <td class="td2" style="border-right:hidden;">
-                <div class='col-md-12'>
-                    <div class="form-group pmd-textfield pmd-textfield-floating-label">
-                        <label class="control-label" for="regular1">Select Date and Time</label>
-                        <input type="text" class="form-control" data-header-left="true" id="datepicker-left-header">
-                    </div>
-                </div>
-
-                @*<label id="lblArrivalDate"></label>*@
-                @*<input type="date" data-date-format="YYYY/MM/DD" placeholder="yyyy-mm-dd" id="dtpArrivalDate" name="lblArrivalDate" />*@
+                <input  id="dtpArrivalDate" name="lblDepartureDate" class="datepicker-here" />
             </td>
             <td class="td1" style="border-right:hidden;">
                 <label>@HotelKoKoMu_CardRegister.Resources.Resources.DepartureDate</label>
             </td>
             <td class="td2">
-                @*<label id="lblDepartureDate"></label>*@
                 <input type="date" placeholder="yyyy-mm-dd" id="dtpDepartureDate" name="lblDepartureDate" />
             </td>
         </tr>
@@ -125,7 +118,7 @@
 
         $(document).ready(function () {
 
-           
+
 
                $(".kokomuTable td").click(function () {
             var text = $(this).find("label").attr("id")
@@ -162,12 +155,9 @@
         });
 
         });
-
-
-
-
     </script>
-
+    <script src="@Url.Content("~/Scripts/datepicker.js")"></script>
+    <script src="@Url.Content("~/Scripts/datepicker.en.js")"></script>
 }
 
 

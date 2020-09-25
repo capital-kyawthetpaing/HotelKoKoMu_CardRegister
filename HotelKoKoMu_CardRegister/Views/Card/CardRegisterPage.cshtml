@@ -5,6 +5,9 @@
     Layout = "~/Views/Shared/_CardRegisterLayout.cshtml";
     var lang = HttpContext.Current.Request.Cookies["culture"].Value;
 }
+@section Styles{
+    <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/datepicker.css")" />
+}
 <style>
     .modal-footer {
         display: inline-block !important;
@@ -30,13 +33,11 @@
                 <label>@HotelKoKoMu_CardRegister.Resources.Resources.PostalCode</label>
             </td>
             <td class="td2" id="tdPostalCode">
-              
             </td>
             <td class="td1">
                 <label>@HotelKoKoMu_CardRegister.Resources.Resources.PhoneNo</label>
             </td>
             <td class="td2" id="tdPhoneNo">
-              
             </td>
         </tr>
         <tr>
@@ -44,12 +45,10 @@
                 <label>@HotelKoKoMu_CardRegister.Resources.Resources.Address</label>
             </td>
             <td colspan="3" id="tdAddress1">
-                
             </td>
         </tr>
         <tr>
             <td colspan="3" id="tdAddress2">
-               
             </td>
         </tr>
         <tr>
@@ -80,12 +79,14 @@
             <td class="td1" style="border-right:hidden;">
                 <label>@HotelKoKoMu_CardRegister.Resources.Resources.ArrivalDate</label>
             </td>
-            <td class="td2" style="border-right:hidden;"  id="ArrivalDate">
+            <td class="td2" style="border-right:hidden;" id="ArrivalDate">
+                <input id="dtpArrivalDate" name="lblDepartureDate" class="datepicker-here" placeholder="yyyy-mm-dd" />
             </td>
             <td class="td1" style="border-right:hidden;">
                 <label>@HotelKoKoMu_CardRegister.Resources.Resources.DepartureDate</label>
             </td>
             <td class="td2" id="DepartureDate">
+                <input id="dtpDepartureDate" name="lblDepartureDate" class="datepicker-here" placeholder="yyyy-mm-dd" />
             </td>
         </tr>
     </tbody>
@@ -94,7 +95,7 @@
 <table class="kokomuTable">
     <tbody>
         <tr>
-            <td class="td1">                
+            <td class="td1">
                 <label>@HotelKoKoMu_CardRegister.Resources.Resources.Sign</label>
             </td>
 
@@ -131,11 +132,11 @@
                 </div>
             </div>
             <div class="modal-footer">
-                <div class="row" style="display:flex;">                   
+                <div class="row" style="display:flex;">
                     <div class="col-md-8" style="display:flex;">
                         <button class="clsClear" id="btnClear">@HotelKoKoMu_CardRegister.Resources.Resources.Clear</button>
                         <button class="clsConfirm" id="btnConfirm">@HotelKoKoMu_CardRegister.Resources.Resources.Confirm</button>
-                        <button class="clsInputKeyboard" id="btnInputKeyboard">@HotelKoKoMu_CardRegister.Resources.Resources.Insertkeyboard</button>                       
+                        <button class="clsInputKeyboard" id="btnInputKeyboard">@HotelKoKoMu_CardRegister.Resources.Resources.Insertkeyboard</button>
                     </div>
                     <div class="col-md-2 offset-md-2">
                         <button class="clsCancel" id="btnCancel">@HotelKoKoMu_CardRegister.Resources.Resources.Cancel</button>
@@ -169,7 +170,7 @@
             });
 
             $(".kokomuTable td").click(function () {
-                $("#btnInputKeyboard").removeClass('d-none');               
+                $("#btnInputKeyboard").removeClass('d-none');
                 commonName = $(this).attr("id");
                 if (commonName == "tdGuestName") {
                     $("#lblcanvas").text('@HotelKoKoMu_CardRegister.Resources.Resources.GuestName_Kanji');
@@ -225,7 +226,7 @@
                 }
             });
 
-            $("#btnfinish").click(function () {               
+            $("#btnfinish").click(function () {
                 if (Mode == "1")
                     CardRegistration = { GuestName: $("#lblGuestName").text(), KanaName: $("#lblKanaName").text(), PostalCode: $("#lblPostalCode").text(), PhoneNo: $("#lblPhoneNo").text(), Address1: $("#lblAddress1").text(), Address2: $("#lblAddress2").text(), WorkPlace: $("#lblWorkPlace").text(), Nationality: $("#lblNationality").text(), Passport: $("#lblPassport").text(), Sign: $("#imgSign").attr('src'), Mode: Mode };
                 else
@@ -308,7 +309,7 @@
            $('#CardRegisterModal').modal('show');
         }
 
-        function ConfirmData() {            
+        function ConfirmData() {
             if (commonName == "tdGuestName") {
                 if ($("#txtRegister").val() != "") {
                     Mode = "1";
@@ -428,6 +429,8 @@
             ctx.fillStyle = 'rgb(255,255,255)';
         }
     </script>
+    <script src="@Url.Content("~/Scripts/datepicker.js")"></script>
+    <script src="@Url.Content("~/Scripts/datepicker.en.js")"></script>
 }
 
 

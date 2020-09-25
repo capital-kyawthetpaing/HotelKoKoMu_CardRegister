@@ -180,6 +180,7 @@
   width: 250px;
   position: absolute;
   left: -100000px;
+  top:228px;
   opacity: 0;
   transition: opacity 0.3s ease, left 0s 0.3s, -webkit-transform 0.3s ease;
   transition: opacity 0.3s ease, transform 0.3s ease, left 0s 0.3s;

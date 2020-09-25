@@ -29,7 +29,7 @@ namespace HotelKoKoMu_CardRegister.Controllers
             if (model.Mode == "1")
             {
                 #region for keyboard input
-                model.Sqlprms[0] = new NpgsqlParameter("@guestno", "0000015");
+                model.Sqlprms[0] = new NpgsqlParameter("@guestno", "0000016");
                 model.Sqlprms[1] = new NpgsqlParameter("@guestName", model.GuestName);
                 if(culture=="Ja")
                     model.Sqlprms[2] = new NpgsqlParameter("@kanaName", model.KanaName);
@@ -54,7 +54,7 @@ namespace HotelKoKoMu_CardRegister.Controllers
             {
                 #region for hand writing
 
-                model.Sqlprms[0] = new NpgsqlParameter("@guestno", "0000013");
+                model.Sqlprms[0] = new NpgsqlParameter("@guestno", "0000017");
                 model.Sqlprms[1] = new NpgsqlParameter("@guestNameimg", ConvertBase64StringToByte(model.GuestName));
                 if(culture=="Ja")
                     model.Sqlprms[2] = new NpgsqlParameter("@kanaNameimg", ConvertBase64StringToByte(model.KanaName));
@@ -75,13 +75,13 @@ namespace HotelKoKoMu_CardRegister.Controllers
                          @"values(@guestno,@guestNameimg,@kanaNameimg,@postalCodeimg,@phoneNoimg,@addressimg1,@addressimg2,@workplaceimg,@nationalityimg,@passportimg,@arrDate,@deptDate,@signimg,@creator,@updator,@createddate,@updateddate)";
                 #endregion
             }
-
-            model.Sqlprms[11] = new NpgsqlParameter("@arrDate", DateTime.Now);
-            model.Sqlprms[12] = new NpgsqlParameter("@deptDate", DateTime.Now);
+            DateTime currentDate = DateTime.Now;
+            model.Sqlprms[11] = new NpgsqlParameter("@arrDate", model.ArrivalDate);
+            model.Sqlprms[12] = new NpgsqlParameter("@deptDate", model.DepartureDate);
             model.Sqlprms[13] = new NpgsqlParameter("@creator", model.CreatedBy);
             model.Sqlprms[14] = new NpgsqlParameter("@updator", model.UpdatedBy);
-            model.Sqlprms[15] = new NpgsqlParameter("@createddate", DateTime.Now);
-            model.Sqlprms[16] = new NpgsqlParameter("@updateddate", DateTime.Now);
+            model.Sqlprms[15] = new NpgsqlParameter("@createddate", currentDate);
+            model.Sqlprms[16] = new NpgsqlParameter("@updateddate", currentDate);
             return Ok(bdl.InsertUpdateDeleteData(cmdText, model.Sqlprms));
         }
 
@@ -98,15 +98,16 @@ namespace HotelKoKoMu_CardRegister.Controllers
         }
 
 
-        [HttpGet]
+        [HttpPost]
         [ActionName("GetHotelInformation")]
-        public IHttpActionResult GetHotelInformation()
+        public IHttpActionResult GetHotelInformation(HotelModel hotelModel)
         {
             BaseDL bdl = new BaseDL();
-            NpgsqlParameter[] para = new NpgsqlParameter[0];
-            string cmdText = "Select * from mst_hotel";
-            DataTable dt = bdl.SelectDataTable(cmdText, para);
-            return Ok(bdl.SelectDataTable(cmdText, para));
+            hotelModel.Sqlprms = new NpgsqlParameter[1];
+            hotelModel.Sqlprms[0] = new NpgsqlParameter("@hotelno", hotelModel.HotelNo);
+            string cmdText = "Select * from mst_hotel where hotel_no=@hotelno";
+            DataTable dt = bdl.SelectDataTable(cmdText, hotelModel.Sqlprms);
+            return Ok(dt);
         }
     }
 }

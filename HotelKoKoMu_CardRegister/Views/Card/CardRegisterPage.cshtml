@@ -5,10 +5,7 @@
     Layout = "~/Views/Shared/_CardRegisterLayout.cshtml";
     var lang = HttpContext.Current.Request.Cookies["culture"].Value;
 }
-@section Styles{
-    <link rel="stylesheet" type="text/css" href="@Url.Content("~/Content/datepicker.css")" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-}
+
 <style>
     .modal-footer {
         display: inline-block !important;
@@ -81,8 +78,7 @@
                 <label>@HotelKoKoMu_CardRegister.Resources.Resources.ArrivalDate</label>
             </td>
             <td class="td2" style="border-right:hidden;" id="ArrivalDate">
-                <div><input id="dtpArrivalDate" name="lblDepartureDate" value="" class="datepicker-here" placeholder="yyyy-mm-dd" /></div>
-                <div><span class="fa fa-calendar"></span></div>
+                <input id="dtpArrivalDate" name="lblDepartureDate" class="datepicker-here" placeholder="yyyy-mm-dd" />
             </td>
             <td class="td1" style="border-right:hidden;">
                 <label>@HotelKoKoMu_CardRegister.Resources.Resources.DepartureDate</label>
@@ -117,7 +113,7 @@
         <!-- Modal content-->
         <div class="modal-content">
             <div class="modal-header" style="background-color:#1b5696;color:white;">
-                <h4 class="modal-title">Card Registration</h4>
+                <h4 class="modal-title">Guest Information</h4>
             </div>
             <div class="modal-body">
                 <div class="row">
@@ -153,14 +149,22 @@
 @section Scripts
 {
     <script type="text/javascript">
-
         var commonName = '';
         var Mode,CardRegistration;
         $(document).ready(function () {
 
+            var currentDate = new Date();
+            //set current date into arrival date
+            $("#dtpArrivalDate").val(moment(currentDate).format('YYYY-MM-DD'));
+
+            //set departure date (current date + 1)
+           var dtDepartureDate = currentDate.setDate(currentDate.getDate() + 1);
+            $("#dtpDepartureDate").val(moment(dtDepartureDate).format('YYYY-MM-DD'));
+
             $("#btnInputKeyboard").click(function () {
                 $("#divCanvas").addClass('d-none');
                 $("#divName").removeClass('d-none');
+                $("#txtRegister").focus();
             });
 
             $("#btnClear").click(function () {
@@ -181,7 +185,7 @@
                 }
                 else if (commonName == "tdKanaName") {
                     if ('@lang' == "Ja") {
-                         $("#lblcanvas").text('@HotelKoKoMu_CardRegister.Resources.Resources.GuestName_Kana');
+                        $("#lblcanvas").text('@HotelKoKoMu_CardRegister.Resources.Resources.GuestName_Kana');
                         $("#lbltext").text('@HotelKoKoMu_CardRegister.Resources.Resources.GuestName_Kana');
                         ModalShow();
                     }
@@ -222,23 +226,39 @@
                     ModalShow();
                 }
                 else if (commonName == "tdSign") {
-                    $("#lblcanvas").text('@HotelKoKoMu_CardRegister.Resources.Resources.Sign');
                     $("#btnInputKeyboard").addClass('d-none');
+                   $("#lblcanvas").text('@HotelKoKoMu_CardRegister.Resources.Resources.Sign');
                     ModalShow();
                 }
-            });
-
-            $("#btnfinish").click(function () {
-                if (Mode == "1")
-                    CardRegistration = { GuestName: $("#lblGuestName").text(), KanaName: $("#lblKanaName").text(), PostalCode: $("#lblPostalCode").text(), PhoneNo: $("#lblPhoneNo").text(), Address1: $("#lblAddress1").text(), Address2: $("#lblAddress2").text(), WorkPlace: $("#lblWorkPlace").text(), Nationality: $("#lblNationality").text(), Passport: $("#lblPassport").text(), Sign: $("#imgSign").attr('src'), Mode: Mode };
-                else
-                    CardRegistration = { GuestName: $("#imgGuestName").attr('src'), KanaName: $("#imgKanaName").attr('src'), PostalCode: $("#imgPostalCode").attr('src'), PhoneNo: $("#imgPhoneNo").attr('src'), Address1: $("#imgAddress1").attr('src'), Address2: $("#imgAddress2").attr('src'), WorkPlace: $("#imgWorkPlace").attr('src'), Nationality: $("#imgNationality").attr('src'), Passport: $("#imgPassport").attr('src'), Sign: $("#imgSign").attr('src'), Mode: Mode };
-                var response = CalltoApiController('@Url.Action("SaveCardInformation", "api/CardAPI/")', CardRegistration);
             });
 
             $("#btnCancel").click(function () {
                 $('#CardRegisterModal').modal('hide');
             })
+
+
+             $("#btnfinish").click(function () {
+                if (Mode == "1")
+                    CardRegistration = { GuestName: $("#lblGuestName").text(), KanaName: $("#lblKanaName").text(), PostalCode: $("#lblPostalCode").text(), PhoneNo: $("#lblPhoneNo").text(), Address1: $("#lblAddress1").text(), Address2: $("#lblAddress2").text(), WorkPlace: $("#lblWorkPlace").text(), Nationality: $("#lblNationality").text(), Passport: $("#lblPassport").text(), Sign: $("#imgSign").attr('src'), ArrivalDate: $("#dtpArrivalDate").val(), DepartureDate: $("#dtpDepartureDate").val(), Mode: Mode };
+                else
+                    CardRegistration = { GuestName: $("#imgGuestName").attr('src'), KanaName: $("#imgKanaName").attr('src'), PostalCode: $("#imgPostalCode").attr('src'), PhoneNo: $("#imgPhoneNo").attr('src'), Address1: $("#imgAddress1").attr('src'), Address2: $("#imgAddress2").attr('src'), WorkPlace: $("#imgWorkPlace").attr('src'), Nationality: $("#imgNationality").attr('src'), Passport: $("#imgPassport").attr('src'), Sign: $("#imgSign").attr('src'), ArrivalDate: $("#dtpArrivalDate").val(), DepartureDate: $("#dtpDepartureDate").val(), Mode: Mode };
+                 var response = CalltoApiController('@Url.Action("SaveCardInformation", "api/CardAPI/")', CardRegistration);
+                 if (response == "true") {
+                     swal.fire({
+                         icon: 'success',
+                         title: 'Guest Information',
+                         text: 'Successfully Saved...'
+                     })
+                 }
+                 else {
+                     swal.fire({
+                         icon: 'error',
+                         title: 'Guest Information',
+                         text: 'Something went wrong!'
+                     })
+                 }
+             });
+
         });
         var canvas = document.getElementById('csvRegister'),
             ctx = canvas.getContext('2d'),
@@ -410,8 +430,7 @@
             else if (commonName == "tdSign")
                 $('#tdSign').append(CreateImageControl(canvas.toDataURL(), "imgSign"));
 
-            ClearData();
-            //$("#txtRegister").val('');
+             ClearData();
             $('#CardRegisterModal').modal('hide');
         }
 
@@ -431,8 +450,7 @@
             ctx.fillStyle = 'rgb(255,255,255)';
         }
     </script>
-    <script src="@Url.Content("~/Scripts/datepicker.js")"></script>
-    <script src="@Url.Content("~/Scripts/datepicker.en.js")"></script>
+   
 }
 
 

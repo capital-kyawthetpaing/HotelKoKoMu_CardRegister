@@ -98,11 +98,15 @@ namespace HotelKoKoMu_CardRegister.Controllers
         }
 
 
-        //[HttpGet]
-        //[ActionName("GetHotelInformation")]
-        //public IHttpActionResult GetHotelInformation()
-        //{
-
-        //}
+        [HttpGet]
+        [ActionName("GetHotelInformation")]
+        public IHttpActionResult GetHotelInformation()
+        {
+            BaseDL bdl = new BaseDL();
+            NpgsqlParameter[] para = new NpgsqlParameter[0];
+            string cmdText = "Select * from mst_hotel";
+            DataTable dt = bdl.SelectDataTable(cmdText, para);
+            return Ok(bdl.SelectDataTable(cmdText, para));
+        }
     }
 }

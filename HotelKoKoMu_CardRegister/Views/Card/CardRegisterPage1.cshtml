@@ -95,8 +95,9 @@
                 <label>@HotelKoKoMu_CardRegister.Resources.Resources.DepartureDate</label>
             </td>
             <td class="td2">
-                <label id="lblDepartureDate"></label>
-                <input type="date"  id="dtpDepartureDate" name="lblDepartureDate" />
+                @*<label id="lblDepartureDate"></label>
+        <input type="date"  id="dtpDepartureDate" value="" name="lblDepartureDate" />*@
+                <input type="text" tabindex="4" onkeydown="KeyDown(event,this)" class="text-line col-11 datepicker-here" id="UseLimit" name="Limit" style="width:91%" required placeholder="yyyy-mm-dd">
             </td>
         </tr>
     </tbody>
@@ -179,10 +180,9 @@
             }
 
             today = yyyy + '/' + mm + '/' + dd;
-            alert(today);
+            //alert(today);
             $('#lblDepartureDate').html(today)
-            //console.log(today);
-            document.getElementById("lblDepartureDate").value = today;
+            //$('#lblDepartureDate').val(today);
         }
 
 

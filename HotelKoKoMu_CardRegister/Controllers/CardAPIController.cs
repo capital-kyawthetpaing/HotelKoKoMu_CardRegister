@@ -44,7 +44,7 @@ namespace HotelKoKoMu_CardRegister.Controllers
                 model.Sqlprms[8] = new NpgsqlParameter("@passport", model.Passport);
                 model.Sqlprms[9] = new NpgsqlParameter("@sign", ConvertBase64StringToByte(model.Sign));
 
-                cmdText = "insert into mst_cardinformation(guestname_text,kananame_text,postalcode_text," +
+                cmdText = "insert into trn_guestinformation(guestname_text,kananame_text,postalcode_text," +
                           @"phoneno_text,address1_text,address2_text,workplace_text,nationality_text," +
                           @"passportno_text,arrival_date,departure_date,sign,creator,updator,created_date,updated_date)" +
                           @"values(@guestName,@kanaName,@postalCode,@phoneNo,@address1,@address2,@workplace,@nationality,@passport,@arrDate,@deptDate,@sign,@creator,@updator,@createddate,@updateddate)";
@@ -68,7 +68,7 @@ namespace HotelKoKoMu_CardRegister.Controllers
                 model.Sqlprms[8] = new NpgsqlParameter("@passportimg", ConvertBase64StringToByte(model.Passport));
                 model.Sqlprms[9] = new NpgsqlParameter("@signimg", ConvertBase64StringToByte(model.Sign));
 
-                cmdText = "insert into mst_cardinformation(guestname_handwriting,kananame_handwriting,postalcode_handwriting," +
+                cmdText = "insert into trn_guestinformation(guestname_handwriting,kananame_handwriting,postalcode_handwriting," +
                          @"phoneno_handwriting,address1_handwriting,address2_handwriting,workplace_handwriting,nationality_handwriting," +
                          @"passportno_handwriting,arrival_date,departure_date,sign,creator,updator,created_date,updated_date)" +
                          @"values(@guestNameimg,@kanaNameimg,@postalCodeimg,@phoneNoimg,@addressimg1,@addressimg2,@workplaceimg,@nationalityimg,@passportimg,@arrDate,@deptDate,@signimg,@creator,@updator,@createddate,@updateddate)";

@@ -13,6 +13,7 @@ using NpgsqlTypes;
 using System.Web;
 using System.Net.Http.Formatting;
 using System.Web.Http.ModelBinding;
+using System.Threading.Tasks;
 
 namespace HotelKoKoMu_CardRegister.Controllers
 {
@@ -152,11 +153,11 @@ namespace HotelKoKoMu_CardRegister.Controllers
         /// <returns></returns>
         [HttpPost]
         [ActionName("SaveGuestInformation")]
-        public IHttpActionResult SaveGuestInformation(CardRegisterModel model)
+        public async Task<IHttpActionResult> SaveGuestInformation(CardRegisterModel model)
         {
             string sql, sql1, result2 = "";
             BaseDL bdl = new BaseDL();           
-            model.Sqlprms = new NpgsqlParameter[25];
+            model.Sqlprms = new NpgsqlParameter[26];
 
             #region update guest information
             NpgsqlParameter[] para = new NpgsqlParameter[16];
@@ -206,26 +207,26 @@ namespace HotelKoKoMu_CardRegister.Controllers
             model.Sqlprms[8] = new NpgsqlParameter("@passport", model.Passport);
             model.Sqlprms[9] = new NpgsqlParameter("@sign", ConvertBase64StringToByte(model.Sign));
 
-            model.Sqlprms[9] = new NpgsqlParameter("@guestNameimg", ConvertBase64StringToByte(model.GuestNameHW));
+            model.Sqlprms[10] = new NpgsqlParameter("@guestNameimg", ConvertBase64StringToByte(model.GuestNameHW));
             if (culture == "Ja")
-                model.Sqlprms[10] = new NpgsqlParameter("@kanaNameimg", ConvertBase64StringToByte(model.KanaNameHW));
+                model.Sqlprms[11] = new NpgsqlParameter("@kanaNameimg", ConvertBase64StringToByte(model.KanaNameHW));
             else
-                model.Sqlprms[10] = new NpgsqlParameter("@kanaNameimg", ConvertBase64StringToByte(model.GuestNameHW));
-            model.Sqlprms[11] = new NpgsqlParameter("@postalCodeimg", ConvertBase64StringToByte(model.PostalCodeHW));
-            model.Sqlprms[12] = new NpgsqlParameter("@phoneNoimg", ConvertBase64StringToByte(model.PhoneNoHW));
-            model.Sqlprms[13] = new NpgsqlParameter("@addressimg1", ConvertBase64StringToByte(model.AddressHW1));
-            model.Sqlprms[14] = new NpgsqlParameter("@addressimg2", ConvertBase64StringToByte(model.AddressHW2));
-            model.Sqlprms[15] = new NpgsqlParameter("@workPlaceimg", ConvertBase64StringToByte(model.WorkPlaceHW));
-            model.Sqlprms[16] = new NpgsqlParameter("@nationalityimg", ConvertBase64StringToByte(model.NationalityHW));
-            model.Sqlprms[17] = new NpgsqlParameter("@passportimg", ConvertBase64StringToByte(model.PassportHW));
-            model.Sqlprms[18] = new NpgsqlParameter("@sign", ConvertBase64StringToByte(model.Sign));
+                model.Sqlprms[11] = new NpgsqlParameter("@kanaNameimg", ConvertBase64StringToByte(model.GuestNameHW));
+            model.Sqlprms[12] = new NpgsqlParameter("@postalCodeimg", ConvertBase64StringToByte(model.PostalCodeHW));
+            model.Sqlprms[13] = new NpgsqlParameter("@phoneNoimg", ConvertBase64StringToByte(model.PhoneNoHW));
+            model.Sqlprms[14] = new NpgsqlParameter("@addressimg1", ConvertBase64StringToByte(model.AddressHW1));
+            model.Sqlprms[15] = new NpgsqlParameter("@addressimg2", ConvertBase64StringToByte(model.AddressHW2));
+            model.Sqlprms[16] = new NpgsqlParameter("@workPlaceimg", ConvertBase64StringToByte(model.WorkPlaceHW));
+            model.Sqlprms[17] = new NpgsqlParameter("@nationalityimg", ConvertBase64StringToByte(model.NationalityHW));
+            model.Sqlprms[18] = new NpgsqlParameter("@passportimg", ConvertBase64StringToByte(model.PassportHW));
+            model.Sqlprms[19] = new NpgsqlParameter("@sign", ConvertBase64StringToByte(model.Sign));
 
-            model.Sqlprms[19] = new NpgsqlParameter("@arrDate", model.ArrivalDate);
-            model.Sqlprms[20] = new NpgsqlParameter("@deptDate", model.DepartureDate);
-            model.Sqlprms[21] = new NpgsqlParameter("@creator", model.CreatedBy);
-            model.Sqlprms[22] = new NpgsqlParameter("@updator", model.UpdatedBy);
-            model.Sqlprms[23] = new NpgsqlParameter("@createddate", currentDate);
-            model.Sqlprms[24] = new NpgsqlParameter("@updateddate", currentDate);
+            model.Sqlprms[20] = new NpgsqlParameter("@arrDate", model.ArrivalDate);
+            model.Sqlprms[21] = new NpgsqlParameter("@deptDate", model.DepartureDate);
+            model.Sqlprms[22] = new NpgsqlParameter("@creator", model.CreatedBy);
+            model.Sqlprms[23] = new NpgsqlParameter("@updator", model.UpdatedBy);
+            model.Sqlprms[24] = new NpgsqlParameter("@createddate", currentDate);
+            model.Sqlprms[25] = new NpgsqlParameter("@updateddate", currentDate);
 
             if (result1 == "true")
             {

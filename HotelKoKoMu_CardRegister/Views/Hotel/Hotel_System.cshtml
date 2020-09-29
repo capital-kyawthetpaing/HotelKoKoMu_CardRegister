@@ -60,7 +60,7 @@
            
             var result = CalltoApiController('@Url.Action("GuestInformation", "api/HotelAPI/")');
             if (result != "") {
-                alert("go");
+                
                 var info = "<tr><td>" + result[0].reservationno + "</td><td>" + result[0].roomno + "</td><td>" + result[0].arrivedate + "</td><td>" + result[0].departuredate + "</td><td>"
                     + result[0].guestname + "</td><td>" + result[0].kananame + "</td><td>" + result[0].postalcode + "</td><td>" + result[0].phoneno + "</td><td>" + result[0].address1 + "</td><td>"
                     + result[0].address2 + "</td><td>" + result[0].workplace + "</td><td>" + result[0].nationality + "</td><td>" + result[0].passportno + "</td><td>" + "</tr > ";

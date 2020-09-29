@@ -194,28 +194,28 @@
             var HotelSystemModel = {RoomNo:""};
             var result = CalltoApiController('@Url.Action("GetGuestInformationFromHotel", "api/HotelAPI/")', HotelSystemModel);
             if (result != "") {
-                
+
                 $("#lblHotelCode").text(result[0].hotelcode );
                 $("#lblSystemDate").text(result[0].systemdate);
                 $("#lblReservationNo").text(result[0].reservationno);
                 $("#lblRoomNo").text(result[0].roomno);
-                if (result[0].guestname != "")
+                if (result[0].guestname != null)
                     $('#tdGuestName').append(CreateLabelControl(result[0].guestname, "lblGuestName"));
-                if (result[0].kananame != "")
+                if (result[0].kananame != null)
                     $('#tdKanaName').append(CreateLabelControl(result[0].kananame, "lblKanaName"));
-                if (result[0].postalcode != "")
+                if (result[0].postalcode != null)
                     $('#tdPostalCode').append(CreateLabelControl(result[0].postalcode, "lblPostalCode"));
-                if (result[0].phoneno != "")
+                if (result[0].phoneno != null)
                     $('#tdPhoneNo').append(CreateLabelControl(result[0].phoneno, "lblPhoneNo"));
-                if (result[0].address1 != "")
+                if (result[0].address1 != null)
                     $('#tdAddress1').append(CreateLabelControl(result[0].address1, "lblAddress1"));
-                if (result[0].address2 != "")
+                if (result[0].address2 != null)
                     $('#tdAddress2').append(CreateLabelControl(result[0].address2, "lblAddress2"));
-                if (result[0].workplace != "")
+                if (result[0].workplace != null)
                     $('#tdWorkPlace').append(CreateLabelControl(result[0].workplace, "lblWorkPlace"));
-                if (result[0].nationality != "")
+                if (result[0].nationality != null)
                     $('#tdNationality').append(CreateLabelControl(result[0].nationality, "lblNationality"));
-                if (result[0].passportno != "")
+                if (result[0].passportno != null)
                     $('#tdPassport').append(CreateLabelControl(result[0].passportno, "lblPassport"));
                 }
 
@@ -228,7 +228,7 @@
            var dtDepartureDate = currentDate.setDate(currentDate.getDate() + 1);
             $("#dtpDepartureDate").val(moment(dtDepartureDate).format('YYYY-MM-DD'));
 
-            $("#btnInputKeyboard").click(function () {
+            $("#btnInputKeyboard").click(function () {                
                 $("#divCanvas").addClass('d-none');
                 $("#divName").removeClass('d-none');
                 $("#txtRegister").focus();
@@ -246,13 +246,13 @@
                 $("#btnInputKeyboard").removeClass('d-none');
                 commonName = $(this).attr("id");
                 if (commonName == "tdGuestName") {
-                    $("#txtRegister").val($("#lblGuestName").text());
+                    //$("#txtRegister").val($("#lblGuestName").text());
                     $("#lblcanvas").text('@HotelKoKoMu_CardRegister.Resources.Resources.GuestName_Kanji');
                     $("#lbltext").text('@HotelKoKoMu_CardRegister.Resources.Resources.GuestName_Kanji');
                     ModalShow();
                 }
                 else if (commonName == "tdKanaName") {
-                    $("#txtRegister").val($("#lblKanaName").text());
+                    //$("#txtRegister").val($("#lblKanaName").text());
                     if ('@lang' == "Ja") {
                         $("#lblcanvas").text('@HotelKoKoMu_CardRegister.Resources.Resources.GuestName_Kana');
                         $("#lbltext").text('@HotelKoKoMu_CardRegister.Resources.Resources.GuestName_Kana');
@@ -260,43 +260,43 @@
                     }
                 }
                 else if (commonName == "tdPostalCode") {
-                    $("#txtRegister").val($("#lblPostalCode").text());
+                    //$("#txtRegister").val($("#lblPostalCode").text());
                     $("#lblcanvas").text('@HotelKoKoMu_CardRegister.Resources.Resources.PostalCode');
                     $("#lbltext").text('@HotelKoKoMu_CardRegister.Resources.Resources.PostalCode');
                     ModalShow();
                 }
                 else if (commonName == "tdPhoneNo") {
-                    $("#txtRegister").val($("#lblPhoneNo").text());
+                    //$("#txtRegister").val($("#lblPhoneNo").text());
                     $("#lblcanvas").text('@HotelKoKoMu_CardRegister.Resources.Resources.PhoneNo');
                     $("#lbltext").text('@HotelKoKoMu_CardRegister.Resources.Resources.PhoneNo');
                     ModalShow();
                 }
                 else if (commonName == "tdAddress1") {
-                    $("#txtRegister").val($("#lblAddress1").text());
+                   // $("#txtRegister").val($("#lblAddress1").text());
                     $("#lblcanvas").text('@HotelKoKoMu_CardRegister.Resources.Resources.Address1');
                     $("#lbltext").text('@HotelKoKoMu_CardRegister.Resources.Resources.Address1');
                     ModalShow();
                 }
                 else if (commonName == "tdAddress2") {
-                    $("#txtRegister").val($("#lblAddress2").text());
+                   // $("#txtRegister").val($("#lblAddress2").text());
                     $("#lblcanvas").text('@HotelKoKoMu_CardRegister.Resources.Resources.Address2');
                     $("#lbltext").text('@HotelKoKoMu_CardRegister.Resources.Resources.Address2');
                     ModalShow();
                 }
                 else if (commonName == "tdWorkPlace") {
-                    $("#txtRegister").val($("#lblWorkPlace").text());
+                    //$("#txtRegister").val($("#lblWorkPlace").text());
                     $("#lblcanvas").text('@HotelKoKoMu_CardRegister.Resources.Resources.WorkPlace');
                     $("#lbltext").text('@HotelKoKoMu_CardRegister.Resources.Resources.WorkPlace');
                     ModalShow();
                 }
                 else if (commonName == "tdNationality") {
-                    $("#txtRegister").val($("#lblNationality").text());
+                    //$("#txtRegister").val($("#lblNationality").text());
                     $("#lblcanvas").text('@HotelKoKoMu_CardRegister.Resources.Resources.Nationality');
                     $("#lbltext").text('@HotelKoKoMu_CardRegister.Resources.Resources.Nationality');
                     ModalShow();
                 }
                 else if (commonName == "tdPassport") {
-                    $("#txtRegister").val($("#lblPassport").text());
+                   // $("#txtRegister").val($("#lblPassport").text());
                     $("#lblcanvas").text('@HotelKoKoMu_CardRegister.Resources.Resources.PassportNo');
                     $("#lbltext").text('@HotelKoKoMu_CardRegister.Resources.Resources.PassportNo');
                     ModalShow();
@@ -316,11 +316,11 @@
             $("#btnfinish").click(function () {
 
                 $('.kokomuTable tr td').each(function () {
-
+                   
                     if ($(this).find("label").attr("id") == "lblGuestName") {
                         GuestName = $("#lblGuestName").text();
                     }
-                    else if ($(this).find().attr("id") == "imgGuestName") {
+                    else{
                         GuestNameHW = $("#imgGuestName").attr('src');
                     }
 
@@ -468,6 +468,7 @@
         }
 
         function ModalShow() {
+
            $("#divCanvas").removeClass('d-none');
            $("#divName").addClass('d-none');
            $('#CardRegisterModal').modal('show');

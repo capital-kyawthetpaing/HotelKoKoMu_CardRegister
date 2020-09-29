@@ -1,7 +1,93 @@
 ﻿
 @{
     ViewBag.Title = "Hotel_System";
+    Layout = "~/Views/Shared/_CardRegisterLayout.cshtml";
+    //var lang = HttpContext.Current.Request.Cookies["culture"].Value;
 }
 
-<h2>Hotel_System</h2>
+<section class="content">
+    <div class="container-fluid" id="content_zip">
 
+        <div class="row">
+            <div class="col-xl-12 col-md-12 mb-2">
+                <div class="card border-left-info shadow h-100 py-2">
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table id="tbhotel" class="hrtable col-sm-12 col-md-12">
+                                <thead>
+                                    <tr>
+                                        <th>ReservationNo:</th>
+                                        <th>RoomNo:</th>
+                                        <th>ArriveDate:</th>
+                                        <th>DepartureDate:</th>
+                                        <th>NameKanji:</th>
+                                        <th>NameKana:</th>
+                                        <th>ZipCode:</th>
+                                        <th>Tel:</th>
+                                        <th>Address1:</th>
+                                        <th>Address2:</th>
+                                        <th>Company:</th>
+                                        <th>Nationality:</th>
+                                        <th>PassportNo:</th>
+                                    </tr>
+                                </thead>
+                                <tfoot>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-xl-12 text-center">
+            <div class="card border-bottom-success shadow h-100">
+                <div class="card-body">
+                    <div class="text-s font-weight-bold text-custom1 text-uppercase mb-1">
+                        <button type="submit" id="btnSave" class="btn btn-success col-xl-2" tabindex="38"><i class="fa fa-save"></i>&nbsp; Register</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@section Scripts{
+    <script type="text/javascript">
+        $(document).ready(function () {
+
+            var table = $('#tbhotel').DataTable(
+                {
+                    "language": {
+                        "info": "Display _START_ to _END_ of _TOTAL_ records",
+                    },
+                    "oLanguage": {
+                        "sLengthMenu": "Display _MENU_ records",
+                    },
+                    "ajax": {
+                        "url": "../Register/GetMemberList",
+                        "type": "GET",
+                        "datatype": "json",
+                        "dataSrc": ""
+                    },
+                    "columns": [
+                        { "data": "ReservationNo", orderable: false, "width": "13%" },
+                        { "data": "RoomNo", orderable: false, "width": "13%" },
+                        { "data": "ArriveDate", orderable: false, "width": "13%" },
+                        { "data": "DepartureDate", orderable: false, "width": "13%" },
+                        { "data": "NameKanji", orderable: false, "width": "13%" },
+                        { "data": "NameKana", orderable: false, "width": "13%" },
+                        { "data": "ZipCode", orderable: false, "width": "13%" },
+                        { "data": "Tel", orderable: false, "width": "13%" },
+                        { "data": "Address1", orderable: false, "width": "13%" },
+                        { "data": "Address2", orderable: false, "width": "13%" },
+                        { "data": "Company", orderable: false, "width": "13%" },
+                        { "data": "Nationality", orderable: false, "width": "13%" },
+                        { "data": "PassportNo", orderable: false, "width": "13%" }
+                    ],
+                }
+            );
+        });
+
+    </script>
+
+}

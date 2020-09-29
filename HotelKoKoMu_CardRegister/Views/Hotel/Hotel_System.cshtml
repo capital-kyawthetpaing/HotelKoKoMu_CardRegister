@@ -58,12 +58,12 @@
     <script type="text/javascript">
         $(document).ready(function () {
            
-            var result = CalltoApiController('@Url.Action("GetGuestInformationFromHotel", "api/HotelAPI/")');
-            alert("go");
+            var result = CalltoApiController('@Url.Action("GuestInformation", "api/HotelAPI/")');
             if (result != "") {
-                var info = "<tr><td>" + result[0].ReservationNo + "</td><td>" + result[0].RoomNo + "</td><td>" + result[0].ArriveDate + "</td><td>" + result[0].DepartureDate + "</td><td>"
-                    + result[0].NameKanji + "</td><td>" + result[0].NameKana + "</td><td>" + result[0].ZipCode + "</td><td>" + result[0].Tel + "</td><td>" + result[0].Address1 + "</td><td>"
-                    + result[0].Address2 + "</td><td>" + result[0].Company + "</td><td>" + result[0].Nationality + "</td><td>" + result[0].PassportNo + "</td><td>" + "</tr > ";
+                alert("go");
+                var info = "<tr><td>" + result[0].reservationno + "</td><td>" + result[0].roomno + "</td><td>" + result[0].arrivedate + "</td><td>" + result[0].departuredate + "</td><td>"
+                    + result[0].guestname + "</td><td>" + result[0].kananame + "</td><td>" + result[0].postalcode + "</td><td>" + result[0].phoneno + "</td><td>" + result[0].address1 + "</td><td>"
+                    + result[0].address2 + "</td><td>" + result[0].workplace + "</td><td>" + result[0].nationality + "</td><td>" + result[0].passportno + "</td><td>" + "</tr > ";
                 $('#tbhotel tbody').append(info);
             }
         });

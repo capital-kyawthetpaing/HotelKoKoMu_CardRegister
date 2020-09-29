@@ -16,7 +16,7 @@ namespace HotelKoKoMu_CardRegister.Controllers
 
         [HttpPost]
         [ActionName("GetGuestInformationFromHotel")]
-        public IHttpActionResult GetGuestInformationFromHotel(CardRegisterModel hotelModel)
+        public IHttpActionResult GetGuestInformationFromHotel(HotelSystemModel hotelModel)
         {
             BaseDL bdl = new BaseDL();
             hotelModel.Sqlprms = new NpgsqlParameter[5];

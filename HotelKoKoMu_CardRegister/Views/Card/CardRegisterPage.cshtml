@@ -78,13 +78,13 @@
                 <label>@HotelKoKoMu_CardRegister.Resources.Resources.ArrivalDate</label>
             </td>
             <td class="td2" style="border-right:hidden;" id="ArrivalDate">
-                <input id="dtpArrivalDate" name="lblDepartureDate" class="datepicker-here" placeholder="yyyy-mm-dd" />
+                <input id="dtpArrivalDate" name="lblDepartureDate" class="datepicker-here" placeholder="yyyy-mm-dd" disabled/>
             </td>
             <td class="td1" style="border-right:hidden;">
                 <label>@HotelKoKoMu_CardRegister.Resources.Resources.DepartureDate</label>
             </td>
             <td class="td2" id="DepartureDate">
-                <input id="dtpDepartureDate" name="lblDepartureDate" class="datepicker-here" placeholder="yyyy-mm-dd" />
+                <input id="dtpDepartureDate" name="lblDepartureDate" class="datepicker-here" placeholder="yyyy-mm-dd" disabled/>
             </td>
         </tr>
     </tbody>
@@ -150,7 +150,8 @@
 {
     <script type="text/javascript">
         var commonName = '';
-        var Mode,CardRegistration;
+        var Mode, CardRegistration;
+        var GuestName, GuestNameHW, KanaName, KanaNameHW, PostalCode, PostalCodeHW, PhoneNo, PhoneNoHW, Address1, AddressHW1, Address2, AddressHW2, WorkPlace, WorkPlaceHW, Nationality, NationalityHW, Passport, PassportHW, Sign;
         $(document).ready(function () {
 
             var currentDate = new Date();
@@ -161,7 +162,7 @@
            var dtDepartureDate = currentDate.setDate(currentDate.getDate() + 1);
             $("#dtpDepartureDate").val(moment(dtDepartureDate).format('YYYY-MM-DD'));
 
-            $("#btnInputKeyboard").click(function () {                
+            $("#btnInputKeyboard").click(function () {
                 $("#divCanvas").addClass('d-none');
                 $("#divName").removeClass('d-none');
                 $("#txtRegister").focus();
@@ -237,8 +238,93 @@
             })
 
 
-             $("#btnfinish").click(function () {
-                if (Mode == "1")
+            $("#btnfinish").click(function () {
+
+                $('.kokomuTable tr td').each(function () {
+
+                    if ($(this).find("label").attr("id") == "lblGuestName") {
+                        GuestName = $("#lblGuestName").text();
+                    }
+                    else {
+                        GuestNameHW = $("#imgGuestName").attr('src');
+                    }
+
+                    if ($(this).find("label").attr("id") == "lblKanaName") {
+                        KanaName = $("#lblKanaName").text();
+                    }
+                    else {
+                        KanaNameHW = $("#imgKanaName").attr('src');
+                    }
+
+                    if ($(this).find("label").attr("id") == "lblPostalCode") {
+                        PostalCode = $("#lblPostalCode").text();
+                    }
+                    else {
+                        PostalCodeHW = $("#imgPostalCode").attr('src');
+                    }
+
+                    if ($(this).find("label").attr("id") == "lblPhoneNo") {
+                        PhoneNo = $("#lblPhoneNo").text();
+                    }
+                    else {
+                        PhoneNoHW = $("#imgPhoneNo").attr('src');
+                    }
+
+                    if ($(this).find("label").attr("id") == "lblAddress1") {
+                        Address1 = $("#lblAddress1").text();
+                    }
+                    else {
+                        AddressHW1 = $("#imgAddress1").attr('src');
+                    }
+
+                    if ($(this).find("label").attr("id") == "lblAddress2") {
+                        Address2 = $("#lblAddress2").text();
+                    }
+                    else {
+                        AddressHW2 = $("#imgAddress2").attr('src');
+                    }
+
+                    if ($(this).find("label").attr("id") == "lblWorkPlace") {
+                        WorkPlace = $("#lblWorkPlace").text();
+                    }
+                    else {
+                        WorkPlaceHW = $("#imgWorkPlace").attr('src');
+                    }
+
+                    if ($(this).find("label").attr("id") == "lblNationality") {
+                        Nationality = $("#lblNationality").text();
+                    }
+                    else {
+                        NationalityHW = $("#imgNationality").attr('src');
+                    }
+                    if ($(this).find("label").attr("id") == "lblPassport") {
+                        Passport = $("#lblPassport").text();
+                    }
+                    else {
+                        PassportHW = $("#imgPassport").attr('src');
+                    }
+                });
+
+                var CardRegistration = { GuestName: GuestName, GuestNameHW: GuestNameHW, KanaName: KanaName, KanaNameHW: KanaNameHW, PostalCode: PostalCode, PostalCodeHW: PostalCodeHW, PhoneNo: PhoneNo, PhoneNoHW: PhoneNoHW, Address1: Address1, AddressHW1: AddressHW1, Address2: Address2, AddressHW2, AddressHW2, WorkPlace: WorkPlace, WorkPlaceHW: WorkPlaceHW, Nationality: Nationality, NationalityHW: NationalityHW, Passport: Passport, PassportHW: PassportHW, Sign: $("#imgSign").attr('src'), ArrivalDate: $("#dtpArrivalDate").val(), DepartureDate: $("#dtpDepartureDate").val()};
+                //CardRegistration = { GuestName: $("#lblGuestName").text(), KanaName: $("#lblKanaName").text(), PostalCode: $("#lblPostalCode").text(), PhoneNo: $("#lblPhoneNo").text(), Address1: $("#lblAddress1").text(), Address2: $("#lblAddress2").text(), WorkPlace: $("#lblWorkPlace").text(), Nationality: $("#lblNationality").text(), Passport: $("#lblPassport").text(), Sign: $("#imgSign").attr('src'), ArrivalDate: $("#dtpArrivalDate").val(), DepartureDate: $("#dtpDepartureDate").val(), Mode: Mode };
+                var response = CalltoApiController('@Url.Action("SaveCardInformation", "api/CardAPI/")', CardRegistration);
+                 if (response == "true") {
+                     swal.fire({
+                         icon: 'success',
+                         title: 'Guest Information',
+                         text: 'Successfully Saved...'
+                     })
+                 }
+                 else {
+                     swal.fire({
+                         icon: 'error',
+                         title: 'Guest Information',
+                         text: 'Something went wrong!'
+                     })
+                 }
+
+
+                @*if (Mode == "1")
                     CardRegistration = { GuestName: $("#lblGuestName").text(), KanaName: $("#lblKanaName").text(), PostalCode: $("#lblPostalCode").text(), PhoneNo: $("#lblPhoneNo").text(), Address1: $("#lblAddress1").text(), Address2: $("#lblAddress2").text(), WorkPlace: $("#lblWorkPlace").text(), Nationality: $("#lblNationality").text(), Passport: $("#lblPassport").text(), Sign: $("#imgSign").attr('src'), ArrivalDate: $("#dtpArrivalDate").val(), DepartureDate: $("#dtpDepartureDate").val(), Mode: Mode };
                 else
                     CardRegistration = { GuestName: $("#imgGuestName").attr('src'), KanaName: $("#imgKanaName").attr('src'), PostalCode: $("#imgPostalCode").attr('src'), PhoneNo: $("#imgPhoneNo").attr('src'), Address1: $("#imgAddress1").attr('src'), Address2: $("#imgAddress2").attr('src'), WorkPlace: $("#imgWorkPlace").attr('src'), Nationality: $("#imgNationality").attr('src'), Passport: $("#imgPassport").attr('src'), Sign: $("#imgSign").attr('src'), ArrivalDate: $("#dtpArrivalDate").val(), DepartureDate: $("#dtpDepartureDate").val(), Mode: Mode };
@@ -256,9 +342,9 @@
                          title: 'Guest Information',
                          text: 'Something went wrong!'
                      })
-                 }
+                 }*@
 
-                 window.location.reload();
+                // window.location.reload();
              });
 
         });
@@ -335,106 +421,180 @@
 
         function ConfirmData() {
             if (commonName == "tdGuestName") {
-                if ($("#txtRegister").val() != "") {
-                    Mode = "1";
-                    $('#tdGuestName').append(CreateLabelControl($("#txtRegister").val(), "lblGuestName"));
-                }
-                else {
-                    Mode = "2";
-                    $('#tdGuestName').append(CreateImageControl(canvas.toDataURL(), "imgGuestName"));
-                }
+                $("#tdGuestName").html('');
+                if ($("#txtRegister").val() != "")
+                    $('#tdGuestName').append(CreateLabelControl($("#txtRegister").val(), "lblGuestName"));                
+                else
+                    $('#tdGuestName').append(CreateImageControl(canvas.toDataURL(), "imgGuestName"));                
             }
             else if (commonName == "tdKanaName") {
-                if ($("#txtRegister").val() != "") {
-                    Mode = "1";
-                    $('#tdKanaName').append(CreateLabelControl($("#txtRegister").val(), "lblKanaName"));
-                }
-                else {
-                    Mode = "2";
+                $("#tdKanaName").html('');
+                if ($("#txtRegister").val() != "")
+                    $('#tdKanaName').append(CreateLabelControl($("#txtRegister").val(), "lblKanaName"));                
+                else
                     $('#tdKanaName').append(CreateImageControl(canvas.toDataURL(), "imgKanaName"));
-                }
             }
             else if (commonName == "tdPostalCode") {
-                if ($("#txtRegister").val() != "") {
-                    Mode = "1";
-                    $('#tdPostalCode').append(CreateLabelControl($("#txtRegister").val(), "lblPostalCode"));
-                }
-                else {
-                    Mode = "2";
+                $("#tdPostalCode").html('');
+                if ($("#txtRegister").val() != "") 
+                    $('#tdPostalCode').append(CreateLabelControl($("#txtRegister").val(), "lblPostalCode"));                
+                else
                     $('#tdPostalCode').append(CreateImageControl(canvas.toDataURL(), "imgPostalCode"));
-                }
             }
             else if (commonName == "tdPhoneNo") {
-                if ($("#txtRegister").val() != "") {
-                    Mode = "1";
-                    $('#tdPhoneNo').append(CreateLabelControl($("#txtRegister").val(), "lblPhoneNo"));
-                }
-                else {
-                    Mode = "2";
-                    $('#tdPhoneNo').append(CreateImageControl(canvas.toDataURL(), "imgPhoneNo"));
-                }
+                $("#tdPhoneNo").html('');
+                if ($("#txtRegister").val() != "") 
+                    $('#tdPhoneNo').append(CreateLabelControl($("#txtRegister").val(), "lblPhoneNo"));                
+                else 
+                    $('#tdPhoneNo').append(CreateImageControl(canvas.toDataURL(), "imgPhoneNo"));                
             }
             else if (commonName == "tdAddress1") {
-                if ($("#txtRegister").val() != "") {
-                    Mode = "1";
-                    $('#tdAddress1').append(CreateLabelControl($("#txtRegister").val(), "lblAddress1"));
-                }
-                else {
-                    Mode = "2";
-                    $('#tdAddress1').append(CreateImageControl(canvas.toDataURL(), "imgAddress1"));
-                }
+                $("#tdAddress1").html('');
+                if ($("#txtRegister").val() != "") 
+                    $('#tdAddress1').append(CreateLabelControl($("#txtRegister").val(), "lblAddress1"));                
+                else
+                    $('#tdAddress1').append(CreateImageControl(canvas.toDataURL(), "imgAddress1"));                
             }
             else if (commonName == "tdAddress2") {
-
-                if ($("#txtRegister").val() != "") {
-                    Mode = "1";
-                    $('#tdAddress2').append(CreateLabelControl($("#txtRegister").val(), "lblAddress2"));
-                }
-                else {
-                    Mode = "2";
+                $("#tdAddress2").html('');
+                if ($("#txtRegister").val() != "")
+                    $('#tdAddress2').append(CreateLabelControl($("#txtRegister").val(), "lblAddress2"));                
+                else 
                     $('#tdAddress2').append(CreateImageControl(canvas.toDataURL(), "imgAddress2"));
-                }
-
             }
             else if (commonName == "tdWorkPlace") {
-                if ($("#txtRegister").val() != "") {
-                    Mode = "1";
-                    $('#tdWorkPlace').append(CreateLabelControl($("#txtRegister").val(), "lblWorkPlace"));
-                }
-                else
-                {
-                    Mode = "2";
-                    $('#tdWorkPlace').append(CreateImageControl(canvas.toDataURL(), "imgWorkPlace"));
-                }
+                $("#tdWorkPlace").html('');
+                if ($("#txtRegister").val() != "") 
+                    $('#tdWorkPlace').append(CreateLabelControl($("#txtRegister").val(), "lblWorkPlace"));              
+                else 
+                    $('#tdWorkPlace').append(CreateImageControl(canvas.toDataURL(), "imgWorkPlace"));              
             }
             else if (commonName == "tdNationality") {
-                if ($("#txtRegister").val() != "") {
-                    Mode = "1";
-                    $('#tdNationality').append(CreateLabelControl($("#txtRegister").val(), "lblNationality"));
-                }
-                else
-                {
-                    Mode = "2";
-                    $('#tdNationality').append(CreateImageControl(canvas.toDataURL(), "imgNationality"));
-                }
-
+                $("#tdNationality").html('');
+                if ($("#txtRegister").val() != "")
+                    $('#tdNationality').append(CreateLabelControl($("#txtRegister").val(), "lblNationality"));                
+                else                 
+                    $('#tdNationality').append(CreateImageControl(canvas.toDataURL(), "imgNationality"));  
             }
             else if (commonName == "tdPassport") {
-                if ($("#txtRegister").val() != "") {
-                    Mode = "1";
-                    $('#tdPassport').append(CreateLabelControl($("#txtRegister").val(), "lblPassport"));
-                }
-                else {
-                    Mode = "2";
-                    $('#tdPassport').append(CreateImageControl(canvas.toDataURL(), "imgPassport"));
-                }
+                $("#tdPassport").html('');
+                if ($("#txtRegister").val() != "")                
+                    $('#tdPassport').append(CreateLabelControl($("#txtRegister").val(), "lblPassport"));               
+                else                
+                    $('#tdPassport').append(CreateImageControl(canvas.toDataURL(), "imgPassport"));                
             }
-            else if (commonName == "tdSign")
+            else if (commonName == "tdSign") {
+                $("#tdSign").html('');
                 $('#tdSign').append(CreateImageControl(canvas.toDataURL(), "imgSign"));
+            }
+                
 
-             ClearData();
+            ClearData();
             $('#CardRegisterModal').modal('hide');
         }
+
+        //function ConfirmData() {
+        //    if (commonName == "tdGuestName") {
+        //        if ($("#txtRegister").val() != "") {
+        //            Mode = "1";
+        //            $('#tdGuestName').append(CreateLabelControl($("#txtRegister").val(), "lblGuestName"));
+        //        }
+        //        else {
+        //            Mode = "2";
+        //            $('#tdGuestName').append(CreateImageControl(canvas.toDataURL(), "imgGuestName"));
+        //        }
+        //    }
+        //    else if (commonName == "tdKanaName") {
+        //        if ($("#txtRegister").val() != "") {
+        //            Mode = "1";
+        //            $('#tdKanaName').append(CreateLabelControl($("#txtRegister").val(), "lblKanaName"));
+        //        }
+        //        else {
+        //            Mode = "2";
+        //            $('#tdKanaName').append(CreateImageControl(canvas.toDataURL(), "imgKanaName"));
+        //        }
+        //    }
+        //    else if (commonName == "tdPostalCode") {
+        //        if ($("#txtRegister").val() != "") {
+        //            Mode = "1";
+        //            $('#tdPostalCode').append(CreateLabelControl($("#txtRegister").val(), "lblPostalCode"));
+        //        }
+        //        else {
+        //            Mode = "2";
+        //            $('#tdPostalCode').append(CreateImageControl(canvas.toDataURL(), "imgPostalCode"));
+        //        }
+        //    }
+        //    else if (commonName == "tdPhoneNo") {
+        //        if ($("#txtRegister").val() != "") {
+        //            Mode = "1";
+        //            $('#tdPhoneNo').append(CreateLabelControl($("#txtRegister").val(), "lblPhoneNo"));
+        //        }
+        //        else {
+        //            Mode = "2";
+        //            $('#tdPhoneNo').append(CreateImageControl(canvas.toDataURL(), "imgPhoneNo"));
+        //        }
+        //    }
+        //    else if (commonName == "tdAddress1") {
+        //        if ($("#txtRegister").val() != "") {
+        //            Mode = "1";
+        //            $('#tdAddress1').append(CreateLabelControl($("#txtRegister").val(), "lblAddress1"));
+        //        }
+        //        else {
+        //            Mode = "2";
+        //            $('#tdAddress1').append(CreateImageControl(canvas.toDataURL(), "imgAddress1"));
+        //        }
+        //    }
+        //    else if (commonName == "tdAddress2") {
+
+        //        if ($("#txtRegister").val() != "") {
+        //            Mode = "1";
+        //            $('#tdAddress2').append(CreateLabelControl($("#txtRegister").val(), "lblAddress2"));
+        //        }
+        //        else {
+        //            Mode = "2";
+        //            $('#tdAddress2').append(CreateImageControl(canvas.toDataURL(), "imgAddress2"));
+        //        }
+
+        //    }
+        //    else if (commonName == "tdWorkPlace") {
+        //        if ($("#txtRegister").val() != "") {
+        //            Mode = "1";
+        //            $('#tdWorkPlace').append(CreateLabelControl($("#txtRegister").val(), "lblWorkPlace"));
+        //        }
+        //        else
+        //        {
+        //            Mode = "2";
+        //            $('#tdWorkPlace').append(CreateImageControl(canvas.toDataURL(), "imgWorkPlace"));
+        //        }
+        //    }
+        //    else if (commonName == "tdNationality") {
+        //        if ($("#txtRegister").val() != "") {
+        //            Mode = "1";
+        //            $('#tdNationality').append(CreateLabelControl($("#txtRegister").val(), "lblNationality"));
+        //        }
+        //        else
+        //        {
+        //            Mode = "2";
+        //            $('#tdNationality').append(CreateImageControl(canvas.toDataURL(), "imgNationality"));
+        //        }
+
+        //    }
+        //    else if (commonName == "tdPassport") {
+        //        if ($("#txtRegister").val() != "") {
+        //            Mode = "1";
+        //            $('#tdPassport').append(CreateLabelControl($("#txtRegister").val(), "lblPassport"));
+        //        }
+        //        else {
+        //            Mode = "2";
+        //            $('#tdPassport').append(CreateImageControl(canvas.toDataURL(), "imgPassport"));
+        //        }
+        //    }
+        //    else if (commonName == "tdSign")
+        //        $('#tdSign').append(CreateImageControl(canvas.toDataURL(), "imgSign"));
+
+        //     ClearData();
+        //    $('#CardRegisterModal').modal('hide');
+        //}
 
         // for creating label control
         function CreateLabelControl(commonVal, commonID) {

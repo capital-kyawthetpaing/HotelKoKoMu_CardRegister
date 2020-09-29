@@ -5,7 +5,7 @@ using System.Web;
 
 namespace HotelKoKoMu_CardRegister.Models
 {
-    public class HotelSystem:BaseModel
+    public class HotelSystemModel:BaseModel
     {
 
         public string System_ID { get; set; }

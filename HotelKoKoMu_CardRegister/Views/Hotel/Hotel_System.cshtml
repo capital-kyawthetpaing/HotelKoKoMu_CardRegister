@@ -46,7 +46,7 @@
             <div class="card border-bottom-success shadow h-100">
                 <div class="card-body">
                     <div class="text-s font-weight-bold text-custom1 text-uppercase mb-1">
-                        <button type="submit" id="btnSave" class="btn btn-success col-xl-2" tabindex="38"><i class="fa fa-save"></i>&nbsp; Register</button>
+                        <button type="submit" onclick="btnRegisterClick()" id="btnSave" class="btn btn-success col-xl-2" tabindex="38"><i class="fa fa-save"></i>&nbsp; Register</button>
                     </div>
                 </div>
             </div>
@@ -57,17 +57,20 @@
 @section Scripts{
     <script type="text/javascript">
         $(document).ready(function () {
-           
+
             var result = CalltoApiController('@Url.Action("GuestInformation", "api/HotelAPI/")');
             if (result != "") {
-                
-                var info = "<tr><td>" + result[0].reservationno + "</td><td>" + result[0].roomno + "</td><td>" + result[0].arrivedate + "</td><td>" + result[0].departuredate + "</td><td>"
+
+                var info = "<tr><td>" + result[0].reservationno + "</td><td>" + result[0].roomno + "</td><td>" + result[0].arrivaldate + "</td><td>" + result[0].departuredate + "</td><td>"
                     + result[0].guestname + "</td><td>" + result[0].kananame + "</td><td>" + result[0].postalcode + "</td><td>" + result[0].phoneno + "</td><td>" + result[0].address1 + "</td><td>"
                     + result[0].address2 + "</td><td>" + result[0].workplace + "</td><td>" + result[0].nationality + "</td><td>" + result[0].passportno + "</td><td>" + "</tr > ";
                 $('#tbhotel tbody').append(info);
             }
         });
 
+        function btnRegisterClick() {
+        location.href = '@Url.Action("CardRegisterPage", "Card")';
+    }
     </script>
 
 }

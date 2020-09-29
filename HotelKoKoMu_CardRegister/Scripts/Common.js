@@ -144,10 +144,10 @@ function isNumberKey(evt) {
     return true;
 }
 
-function SetThousandSeparator(ctrl_id) { //function to add commas to textboxes
-var obj=$("#"+ctrl_id);
-var cleave = new Cleave(obj, {
-    numeral: true,
-    numeralThousandsGroupStyle: 'thousand'
-    });
-}
+//function SetThousandSeparator(ctrl_id) { //function to add commas to textboxes
+//var obj=$("#"+ctrl_id);
+//var cleave = new Cleave(obj, {
+//    numeral: true,
+//    numeralThousandsGroupStyle: 'thousand'
+//    });
+//}

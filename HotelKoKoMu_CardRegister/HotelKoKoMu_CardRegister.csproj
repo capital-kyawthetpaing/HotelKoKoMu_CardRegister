@@ -164,6 +164,8 @@
     <Compile Include="Controllers\CardAPIController.cs" />
     <Compile Include="Controllers\CardController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\HotelAPIController.cs" />
+    <Compile Include="Controllers\HotelController.cs" />
     <Compile Include="Controllers\MultiLanguageController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -355,6 +357,7 @@
     <Content Include="Views\Card\CardRegisterPage22.cshtml" />
     <Content Include="Views\Card\RegisterPage.cshtml" />
     <Content Include="Views\Card\CardRegisterPage.cshtml" />
+    <Content Include="Views\Hotel\Hotel_System.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

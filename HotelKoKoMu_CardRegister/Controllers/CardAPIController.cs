@@ -146,7 +146,7 @@ namespace HotelKoKoMu_CardRegister.Controllers
 
         #region 
         /// <summary>
-        /// Save guest information 
+        /// Save and update guest information 
         /// </summary>
         /// <param name="model"></param>
         /// <returns></returns>
@@ -154,11 +154,43 @@ namespace HotelKoKoMu_CardRegister.Controllers
         [ActionName("SaveGuestInformation")]
         public IHttpActionResult SaveGuestInformation(CardRegisterModel model)
         {
-            string cmdText = "";
-            BaseDL bdl = new BaseDL();
+            string sql, sql1, result2 = "";
+            BaseDL bdl = new BaseDL();           
             model.Sqlprms = new NpgsqlParameter[25];
 
-            #region for keyboard input
+            #region update guest information
+            NpgsqlParameter[] para = new NpgsqlParameter[16];
+
+            para[0] = new NpgsqlParameter("@guestName", model.GuestName);
+            if (culture == "Ja")
+                para[1] = new NpgsqlParameter("@kanaName", model.KanaName);
+            else
+                para[1] = new NpgsqlParameter("@kanaName", model.GuestName);
+            para[2] = new NpgsqlParameter("@postalCode", model.PostalCode);
+            para[3] = new NpgsqlParameter("@phoneNo", model.PhoneNo);
+            para[4] = new NpgsqlParameter("@address1", model.Address1);
+            para[5] = new NpgsqlParameter("@address2", model.Address2);
+            para[6] = new NpgsqlParameter("@workplace", model.WorkPlace);
+            para[7] = new NpgsqlParameter("@nationality", model.Nationality);
+            para[8] = new NpgsqlParameter("@passport", model.Passport);
+
+            DateTime currentDate = DateTime.Now;
+            para[9] = new NpgsqlParameter("@arrDate", model.ArrivalDate);
+            para[10] = new NpgsqlParameter("@deptDate", model.DepartureDate);
+            para[11] = new NpgsqlParameter("@creator", model.CreatedBy);
+            para[12] = new NpgsqlParameter("@updator", model.UpdatedBy);
+            para[13] = new NpgsqlParameter("@createddate", currentDate);
+            para[14] = new NpgsqlParameter("@updateddate", currentDate);
+            para[15] = new NpgsqlParameter("@sign", ConvertBase64StringToByte(model.Sign));
+
+            sql = "update hotel_guestinformation set guestname=@guestName,kananame=@kanaName,postalcode=@postalCode,phoneno=@phoneNo,";
+            sql += "address1=@address1,address2=@address2,workplace=@workplace,nationality=@nationality,passportno=@passport,";
+            sql += "arrivaldate=@arrDate,departuredate=@deptDate,sign=@sign,updator=@updator,updated_date=@updateddate";
+
+            string result1 = bdl.InsertUpdateDeleteData(sql, para);
+            #endregion
+
+            #region  save guest information into trn_guestinformation   
 
             model.Sqlprms[0] = new NpgsqlParameter("@guestName", model.GuestName);
             if (culture == "Ja")
@@ -171,10 +203,8 @@ namespace HotelKoKoMu_CardRegister.Controllers
             model.Sqlprms[5] = new NpgsqlParameter("@address2", model.Address2);
             model.Sqlprms[6] = new NpgsqlParameter("@workplace", model.WorkPlace);
             model.Sqlprms[7] = new NpgsqlParameter("@nationality", model.Nationality);
-            model.Sqlprms[8] = new NpgsqlParameter("@passport", model.Passport);   
-            #endregion
-
-            #region for hand writing
+            model.Sqlprms[8] = new NpgsqlParameter("@passport", model.Passport);
+            model.Sqlprms[9] = new NpgsqlParameter("@sign", ConvertBase64StringToByte(model.Sign));
 
             model.Sqlprms[9] = new NpgsqlParameter("@guestNameimg", ConvertBase64StringToByte(model.GuestNameHW));
             if (culture == "Ja")
@@ -189,9 +219,7 @@ namespace HotelKoKoMu_CardRegister.Controllers
             model.Sqlprms[16] = new NpgsqlParameter("@nationalityimg", ConvertBase64StringToByte(model.NationalityHW));
             model.Sqlprms[17] = new NpgsqlParameter("@passportimg", ConvertBase64StringToByte(model.PassportHW));
             model.Sqlprms[18] = new NpgsqlParameter("@sign", ConvertBase64StringToByte(model.Sign));
-            #endregion
 
-            DateTime currentDate = DateTime.Now;
             model.Sqlprms[19] = new NpgsqlParameter("@arrDate", model.ArrivalDate);
             model.Sqlprms[20] = new NpgsqlParameter("@deptDate", model.DepartureDate);
             model.Sqlprms[21] = new NpgsqlParameter("@creator", model.CreatedBy);
@@ -199,11 +227,18 @@ namespace HotelKoKoMu_CardRegister.Controllers
             model.Sqlprms[23] = new NpgsqlParameter("@createddate", currentDate);
             model.Sqlprms[24] = new NpgsqlParameter("@updateddate", currentDate);
 
-            cmdText = "insert into trn_guestinformation(guestname_text,guestname_handwriting,kananame_text,kananame_handwriting,postalcode_text,postalcode_handwriting," +
-                     @"phoneno_text,phoneno_handwriting,address1_text,address1_handwriting,address2_text,address2_handwriting,workplace_text,workplace_handwriting,nationality_text,nationality_handwriting," +
-                     @"passportno_text,passportno_handwriting,arrival_date,departure_date,sign,creator,updator,created_date,updated_date)" +
-                     @"values(@guestName,@guestNameimg,@kanaName,@kanaNameimg,@postalCode,@postalCodeimg,@phoneNo,@phoneNoimg,@address1,@addressimg1,@address2,@addressimg2,@workplace,@workplaceimg,@nationality,@nationalityimg,@passport,@passportimg,@arrDate,@deptDate,@sign,@creator,@updator,@createddate,@updateddate)";
-            return Ok(bdl.InsertUpdateDeleteData(cmdText, model.Sqlprms));
+            if (result1 == "true")
+            {
+                sql1 = "insert into trn_guestinformation(guestname_text,guestname_handwriting,kananame_text,kananame_handwriting,postalcode_text,postalcode_handwriting," +
+                    @"phoneno_text,phoneno_handwriting,address1_text,address1_handwriting,address2_text,address2_handwriting,workplace_text,workplace_handwriting,nationality_text,nationality_handwriting," +
+                    @"passportno_text,passportno_handwriting,arrival_date,departure_date,sign,creator,updator,created_date,updated_date)" +
+                    @"values(@guestName,@guestNameimg,@kanaName,@kanaNameimg,@postalCode,@postalCodeimg,@phoneNo,@phoneNoimg,@address1,@addressimg1,@address2,@addressimg2,@workplace,@workplaceimg,@nationality,@nationalityimg,@passport,@passportimg,@arrDate,@deptDate,@sign,@creator,@updator,@createddate,@updateddate)";
+                 result2 = bdl.InsertUpdateDeleteData(sql1, model.Sqlprms);
+
+            }
+            #endregion
+
+            return Ok(result2);
         }
         #endregion
 

@@ -104,6 +104,10 @@
 </table>
 
 <div class="col-md-4 offset-md-4">
+    <label class="d-none" id="lblHotelCode"></label>
+    <label class="d-none" id="lblSystemDate"></label>
+    <label class="d-none" id="lblReservationNo"></label>
+    <label class="d-none" id="lblRoomNo"></label>   
     <button class="clsfinish" id="btnfinish">@HotelKoKoMu_CardRegister.Resources.Resources.Complete</button>
 </div>
 
@@ -145,6 +149,8 @@
 
     </div>
 </div>
+
+
 
 @section Scripts
 {
@@ -188,6 +194,11 @@
             var HotelSystemModel = {RoomNo:""};
             var result = CalltoApiController('@Url.Action("GetGuestInformationFromHotel", "api/HotelAPI/")', HotelSystemModel);
             if (result != "") {
+                
+                $("#lblHotelCode").text(result[0].hotelcode );
+                $("#lblSystemDate").text(result[0].systemdate);
+                $("#lblReservationNo").text(result[0].reservationno);
+                $("#lblRoomNo").text(result[0].roomno);
                 if (result[0].guestname != "")
                     $('#tdGuestName').append(CreateLabelControl(result[0].guestname, "lblGuestName"));
                 if (result[0].kananame != "")
@@ -370,7 +381,7 @@
                     }
                 });
 
-                var GuestInformation = { GuestName: GuestName, GuestNameHW: GuestNameHW, KanaName: KanaName, KanaNameHW: KanaNameHW, PostalCode: PostalCode, PostalCodeHW: PostalCodeHW, PhoneNo: PhoneNo, PhoneNoHW: PhoneNoHW, Address1: Address1, AddressHW1: AddressHW1, Address2: Address2, AddressHW2, AddressHW2, WorkPlace: WorkPlace, WorkPlaceHW: WorkPlaceHW, Nationality: Nationality, NationalityHW: NationalityHW, Passport: Passport, PassportHW: PassportHW, Sign: $("#imgSign").attr('src'), ArrivalDate: $("#dtpArrivalDate").val(), DepartureDate: $("#dtpDepartureDate").val()};
+                var GuestInformation = { HotelCode: $("#lblHotelCode").text(), ReservationNo: $("#lblReservationNo").text(), RoomNo: $("#lblRoomNo").text(), SystemDate: $("#lblSystemDate").text(), GuestName: GuestName, GuestNameHW: GuestNameHW, KanaName: KanaName, KanaNameHW: KanaNameHW, PostalCode: PostalCode, PostalCodeHW: PostalCodeHW, PhoneNo: PhoneNo, PhoneNoHW: PhoneNoHW, Address1: Address1, AddressHW1: AddressHW1, Address2: Address2, AddressHW2, AddressHW2, WorkPlace: WorkPlace, WorkPlaceHW: WorkPlaceHW, Nationality: Nationality, NationalityHW: NationalityHW, Passport: Passport, PassportHW: PassportHW, Sign: $("#imgSign").attr('src'), ArrivalDate: $("#dtpArrivalDate").val(), DepartureDate: $("#dtpDepartureDate").val() };
                 var response = CalltoApiController('@Url.Action("SaveGuestInformation", "api/CardAPI/")', GuestInformation);
                  if (response == "true") {
                      swal.fire({

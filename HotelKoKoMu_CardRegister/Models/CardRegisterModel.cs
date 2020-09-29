@@ -6,7 +6,12 @@ using System.Web;
 namespace HotelKoKoMu_CardRegister.Models
 {
     public class CardRegisterModel:BaseModel
-    {       
+    {
+        public string HotelCode { get; set; }
+        public string ReservationNo { get; set; }
+        public string RoomNo { get; set; }
+        public DateTime SystemDate { get; set; }
+        public DateTime CreatedDate { get; set; }
         public string GuestName { get; set; }
         public string GuestNameHW { get; set; }
         public string KanaName { get; set; }

@@ -5,6 +5,7 @@ using System.Web;
 using System.Configuration;
 using Npgsql;
 using System.Data;
+using System.Threading.Tasks;
 
 namespace HotelKoKoMu_CardRegister.ContextDB
 {

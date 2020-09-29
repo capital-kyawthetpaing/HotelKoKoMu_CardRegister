@@ -150,9 +150,12 @@
 {
     <script type="text/javascript">
         var commonName = '';
-        var Mode, CardRegistration;
+        var CardRegistration;
         var GuestName, GuestNameHW, KanaName, KanaNameHW, PostalCode, PostalCodeHW, PhoneNo, PhoneNoHW, Address1, AddressHW1, Address2, AddressHW2, WorkPlace, WorkPlaceHW, Nationality, NationalityHW, Passport, PassportHW, Sign;
         $(document).ready(function () {
+
+            var response = CalltoApiController('@Url.Action("SaveGuestInformation", "api/CardAPI/")', GuestInformation);
+
 
             var currentDate = new Date();
             //set current date into arrival date
@@ -242,14 +245,13 @@
 
                 $('.kokomuTable tr td').each(function () {
 
-                   
                     if ($(this).find("label").attr("id") == "lblGuestName") {
                         GuestName = $("#lblGuestName").text();
                     }
                     else if ($(this).find().attr("id") == "imgGuestName") {
                         GuestNameHW = $("#imgGuestName").attr('src');
                     }
-                    
+
 
                     if ($(this).find("label").attr("id") == "lblKanaName") {
                         KanaName = $("#lblKanaName").text();
@@ -307,7 +309,7 @@
                     }
                 });
 
-                var GuestInformation = { GuestName: GuestName, GuestNameHW: GuestNameHW, KanaName: KanaName, KanaNameHW: KanaNameHW, PostalCode: PostalCode, PostalCodeHW: PostalCodeHW, PhoneNo: PhoneNo, PhoneNoHW: PhoneNoHW, Address1: Address1, AddressHW1: AddressHW1, Address2: Address2, AddressHW2, AddressHW2, WorkPlace: WorkPlace, WorkPlaceHW: WorkPlaceHW, Nationality: Nationality, NationalityHW: NationalityHW, Passport: Passport, PassportHW: PassportHW, Sign: $("#imgSign").attr('src'), ArrivalDate: $("#dtpArrivalDate").val(), DepartureDate: $("#dtpDepartureDate").val()};                
+                var GuestInformation = { GuestName: GuestName, GuestNameHW: GuestNameHW, KanaName: KanaName, KanaNameHW: KanaNameHW, PostalCode: PostalCode, PostalCodeHW: PostalCodeHW, PhoneNo: PhoneNo, PhoneNoHW: PhoneNoHW, Address1: Address1, AddressHW1: AddressHW1, Address2: Address2, AddressHW2, AddressHW2, WorkPlace: WorkPlace, WorkPlaceHW: WorkPlaceHW, Nationality: Nationality, NationalityHW: NationalityHW, Passport: Passport, PassportHW: PassportHW, Sign: $("#imgSign").attr('src'), ArrivalDate: $("#dtpArrivalDate").val(), DepartureDate: $("#dtpDepartureDate").val()};
                 var response = CalltoApiController('@Url.Action("SaveGuestInformation", "api/CardAPI/")', GuestInformation);
                  if (response == "true") {
                      swal.fire({
@@ -403,65 +405,65 @@
             if (commonName == "tdGuestName") {
                 $("#tdGuestName").html('');
                 if ($("#txtRegister").val() != "")
-                    $('#tdGuestName').append(CreateLabelControl($("#txtRegister").val(), "lblGuestName"));                
+                    $('#tdGuestName').append(CreateLabelControl($("#txtRegister").val(), "lblGuestName"));
                 else
-                    $('#tdGuestName').append(CreateImageControl(canvas.toDataURL(), "imgGuestName"));                
+                    $('#tdGuestName').append(CreateImageControl(canvas.toDataURL(), "imgGuestName"));
             }
             else if (commonName == "tdKanaName") {
                 $("#tdKanaName").html('');
                 if ($("#txtRegister").val() != "")
-                    $('#tdKanaName').append(CreateLabelControl($("#txtRegister").val(), "lblKanaName"));                
+                    $('#tdKanaName').append(CreateLabelControl($("#txtRegister").val(), "lblKanaName"));
                 else
                     $('#tdKanaName').append(CreateImageControl(canvas.toDataURL(), "imgKanaName"));
             }
             else if (commonName == "tdPostalCode") {
                 $("#tdPostalCode").html('');
-                if ($("#txtRegister").val() != "") 
-                    $('#tdPostalCode').append(CreateLabelControl($("#txtRegister").val(), "lblPostalCode"));                
+                if ($("#txtRegister").val() != "")
+                    $('#tdPostalCode').append(CreateLabelControl($("#txtRegister").val(), "lblPostalCode"));
                 else
                     $('#tdPostalCode').append(CreateImageControl(canvas.toDataURL(), "imgPostalCode"));
             }
             else if (commonName == "tdPhoneNo") {
                 $("#tdPhoneNo").html('');
-                if ($("#txtRegister").val() != "") 
-                    $('#tdPhoneNo').append(CreateLabelControl($("#txtRegister").val(), "lblPhoneNo"));                
-                else 
-                    $('#tdPhoneNo').append(CreateImageControl(canvas.toDataURL(), "imgPhoneNo"));                
+                if ($("#txtRegister").val() != "")
+                    $('#tdPhoneNo').append(CreateLabelControl($("#txtRegister").val(), "lblPhoneNo"));
+                else
+                    $('#tdPhoneNo').append(CreateImageControl(canvas.toDataURL(), "imgPhoneNo"));
             }
             else if (commonName == "tdAddress1") {
                 $("#tdAddress1").html('');
-                if ($("#txtRegister").val() != "") 
-                    $('#tdAddress1').append(CreateLabelControl($("#txtRegister").val(), "lblAddress1"));                
+                if ($("#txtRegister").val() != "")
+                    $('#tdAddress1').append(CreateLabelControl($("#txtRegister").val(), "lblAddress1"));
                 else
-                    $('#tdAddress1').append(CreateImageControl(canvas.toDataURL(), "imgAddress1"));                
+                    $('#tdAddress1').append(CreateImageControl(canvas.toDataURL(), "imgAddress1"));
             }
             else if (commonName == "tdAddress2") {
                 $("#tdAddress2").html('');
                 if ($("#txtRegister").val() != "")
-                    $('#tdAddress2').append(CreateLabelControl($("#txtRegister").val(), "lblAddress2"));                
-                else 
+                    $('#tdAddress2').append(CreateLabelControl($("#txtRegister").val(), "lblAddress2"));
+                else
                     $('#tdAddress2').append(CreateImageControl(canvas.toDataURL(), "imgAddress2"));
             }
             else if (commonName == "tdWorkPlace") {
                 $("#tdWorkPlace").html('');
-                if ($("#txtRegister").val() != "") 
-                    $('#tdWorkPlace').append(CreateLabelControl($("#txtRegister").val(), "lblWorkPlace"));              
-                else 
-                    $('#tdWorkPlace').append(CreateImageControl(canvas.toDataURL(), "imgWorkPlace"));              
+                if ($("#txtRegister").val() != "")
+                    $('#tdWorkPlace').append(CreateLabelControl($("#txtRegister").val(), "lblWorkPlace"));
+                else
+                    $('#tdWorkPlace').append(CreateImageControl(canvas.toDataURL(), "imgWorkPlace"));
             }
             else if (commonName == "tdNationality") {
                 $("#tdNationality").html('');
                 if ($("#txtRegister").val() != "")
-                    $('#tdNationality').append(CreateLabelControl($("#txtRegister").val(), "lblNationality"));                
-                else                 
-                    $('#tdNationality').append(CreateImageControl(canvas.toDataURL(), "imgNationality"));  
+                    $('#tdNationality').append(CreateLabelControl($("#txtRegister").val(), "lblNationality"));
+                else
+                    $('#tdNationality').append(CreateImageControl(canvas.toDataURL(), "imgNationality"));
             }
             else if (commonName == "tdPassport") {
                 $("#tdPassport").html('');
-                if ($("#txtRegister").val() != "")                
-                    $('#tdPassport').append(CreateLabelControl($("#txtRegister").val(), "lblPassport"));               
-                else                
-                    $('#tdPassport').append(CreateImageControl(canvas.toDataURL(), "imgPassport"));                
+                if ($("#txtRegister").val() != "")
+                    $('#tdPassport').append(CreateLabelControl($("#txtRegister").val(), "lblPassport"));
+                else
+                    $('#tdPassport').append(CreateImageControl(canvas.toDataURL(), "imgPassport"));
             }
             else if (commonName == "tdSign") {
                 $("#tdSign").html('');

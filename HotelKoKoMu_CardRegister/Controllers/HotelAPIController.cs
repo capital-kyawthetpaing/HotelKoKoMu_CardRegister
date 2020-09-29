@@ -4,6 +4,7 @@ using Npgsql;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Configuration;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
@@ -27,6 +28,17 @@ namespace HotelKoKoMu_CardRegister.Controllers
             hotelModel.Sqlprms[4] = new NpgsqlParameter("@machineno", "01");
             string cmdText = "Select * from hotel_guestinformation where systemid=@systemid and pmsid=@pmsid and pmspassword=@pmspassword and machineno=@machineno";
             DataTable dt = bdl.SelectDataTable(cmdText, hotelModel.Sqlprms);
+            return Ok(dt);
+        }
+
+        [HttpPost]
+        [ActionName("GuestInformation")]
+        public IHttpActionResult GuestInformation(HotelSystemModel hotelModel)
+        {
+            BaseDL bdl = new BaseDL();
+            //hotelModel.Sqlprms = new NpgsqlParameter[0];
+            string cmdText = "Select * from hotel_guestinformation";
+            DataTable dt = bdl.SelectDataTable(cmdText, null);
             return Ok(dt);
         }
 

@@ -5,6 +5,7 @@ using System.Web;
 using System.Configuration;
 using Npgsql;
 using System.Data;
+using Newtonsoft.Json;
 
 namespace HotelKoKoMu_CardRegister.ContextDB
 {
@@ -37,6 +38,7 @@ namespace HotelKoKoMu_CardRegister.ContextDB
             }
             return dt;
         }
+
 
         public string InsertUpdateDeleteData(string sSQL, params NpgsqlParameter[] para)
         {

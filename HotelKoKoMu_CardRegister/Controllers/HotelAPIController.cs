@@ -30,5 +30,16 @@ namespace HotelKoKoMu_CardRegister.Controllers
             return Ok(dt);
         }
 
+        [HttpPost]
+        [ActionName("GuestInformation")]
+        public IHttpActionResult GuestInformation(HotelSystemModel hotelModel)
+        {
+            BaseDL bdl = new BaseDL();
+            hotelModel.Sqlprms = new NpgsqlParameter[0];
+            string cmdText = "Select * from hotel_guestinformation";
+            DataTable dt = bdl.SelectDataTable(cmdText, hotelModel.Sqlprms);
+            return Ok(dt);
+        }
+
     }
 }

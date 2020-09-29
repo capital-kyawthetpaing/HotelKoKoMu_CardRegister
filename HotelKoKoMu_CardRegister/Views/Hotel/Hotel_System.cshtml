@@ -31,6 +31,9 @@
                                         <th>PassportNo:</th>
                                     </tr>
                                 </thead>
+                                <tbody>
+
+                                </tbody>
                                 <tfoot>
                                 </tfoot>
                             </table>
@@ -54,38 +57,15 @@
 @section Scripts{
     <script type="text/javascript">
         $(document).ready(function () {
-
-            var table = $('#tbhotel').DataTable(
-                {
-                    "language": {
-                        "info": "Display _START_ to _END_ of _TOTAL_ records",
-                    },
-                    "oLanguage": {
-                        "sLengthMenu": "Display _MENU_ records",
-                    },
-                    "ajax": {
-                        "url": "../Register/GetMemberList",
-                        "type": "GET",
-                        "datatype": "json",
-                        "dataSrc": ""
-                    },
-                    "columns": [
-                        { "data": "ReservationNo", orderable: false, "width": "13%" },
-                        { "data": "RoomNo", orderable: false, "width": "13%" },
-                        { "data": "ArriveDate", orderable: false, "width": "13%" },
-                        { "data": "DepartureDate", orderable: false, "width": "13%" },
-                        { "data": "NameKanji", orderable: false, "width": "13%" },
-                        { "data": "NameKana", orderable: false, "width": "13%" },
-                        { "data": "ZipCode", orderable: false, "width": "13%" },
-                        { "data": "Tel", orderable: false, "width": "13%" },
-                        { "data": "Address1", orderable: false, "width": "13%" },
-                        { "data": "Address2", orderable: false, "width": "13%" },
-                        { "data": "Company", orderable: false, "width": "13%" },
-                        { "data": "Nationality", orderable: false, "width": "13%" },
-                        { "data": "PassportNo", orderable: false, "width": "13%" }
-                    ],
-                }
-            );
+           
+            var result = CalltoApiController('@Url.Action("GetGuestInformationFromHotel", "api/HotelAPI/")');
+            alert("go");
+            if (result != "") {
+                var info = "<tr><td>" + result[0].ReservationNo + "</td><td>" + result[0].RoomNo + "</td><td>" + result[0].ArriveDate + "</td><td>" + result[0].DepartureDate + "</td><td>"
+                    + result[0].NameKanji + "</td><td>" + result[0].NameKana + "</td><td>" + result[0].ZipCode + "</td><td>" + result[0].Tel + "</td><td>" + result[0].Address1 + "</td><td>"
+                    + result[0].Address2 + "</td><td>" + result[0].Company + "</td><td>" + result[0].Nationality + "</td><td>" + result[0].PassportNo + "</td><td>" + "</tr > ";
+                $('#tbhotel tbody').append(info);
+            }
         });
 
     </script>

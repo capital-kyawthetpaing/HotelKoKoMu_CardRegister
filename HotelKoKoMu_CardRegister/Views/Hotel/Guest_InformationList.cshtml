@@ -4,38 +4,37 @@
     Layout = "~/Views/Shared/_CardRegisterLayout.cshtml";
 }
 
-<div class="col-xs-12 col-md-6">
-    <div>
-        <table id="tblGuestList" class=" col-sm-12" >
-            <thead>
-                <tr>
-                    <th>HotelCode:</th>
-                    <th>ReservationNo:</th>
-                    <th>RoomNo:</th>
-                    <th>SystemDate:</th>
-                    <th>GuestName:</th>
-                    <th>KanaName:</th>
-                    <th>PostalCode:</th>
-                    <th>PhNO:</th>
-                    <th>Address1:</th>
-                    <th>Address2:</th>
-                    <th>Workplace:</th>
-                    <th>Nationality:</th>
-                    <th>PassportNo:</th>
-                </tr>
-            </thead>
-        </table>
-    </div>
-
+<div class="col-md-12">
+    <table id="tblGuestList" border="1">
+        <thead>
+            <tr>
+                <th>HotelCode:</th>
+                <th>ReservationNo:</th>
+                <th>RoomNo:</th>
+                <th>SystemDate:</th>
+                <th>GuestName:</th>
+                <th>KanaName:</th>
+                <th>PostalCode:</th>
+                <th>PhNO:</th>
+                <th>Address1:</th>
+                <th>Address2:</th>
+                <th>Workplace:</th>
+                <th>Nationality:</th>
+                <th>PassportNo:</th>
+            </tr>
+        </thead>
+    </table>
 </div>
 
 @section Scripts{
     <script>
         $(document).ready(function () {
-            GuestInformation();
+            var HotelSystemModel = { HotelCode: "000001"};
+           var result= JSON.parse(CalltoApiController('@Url.Action("GetGuestInformation", "api/CardAPI/")', HotelSystemModel))
+            BindGuestInformationTable(result);
         });
 
-            function GuestInformation() {
+            @*function GuestInformation() {
                 $.ajax({
                     type: "Post",
                     url: "@Url.Action("GetGuestInformation", "api/CardAPI/")",
@@ -47,19 +46,19 @@
                     }
                 });
 
-            }
+            }*@
 
             function BindGuestInformationTable(response) {
 
                 table = $('#tblGuestList').DataTable({
-
-                    data: JSON.parse(response),
+                    data: response,
                     "bFilter": false,
                     "bLengthChange": false,
                     "bInfo": false,
                     "ordering": false,
-                    "pagingType": "simple_numbers",
-                    destroy: true,
+                    destroy: true,                    
+                    scrollX: true,
+                    paging: false,
                     "columns": [
                         { "data": "hotel_code", orderable: false, "width": "13%" },
                         { "data": "reservationno", orderable: false, "width": "13%" },

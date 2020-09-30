@@ -711,9 +711,6 @@
     <Content Include="Views\Card\RegisterPage.cshtml" />
     <Content Include="Views\Card\CardRegisterPage.cshtml" />
     <Content Include="Views\Hotel\Hotel_System.cshtml" />
-    <Content Include="Vendor\DataTables\Buttons-1.6.2\css\common.scss" />
-    <Content Include="Vendor\DataTables\Buttons-1.6.2\css\mixins.scss" />
-    <Content Include="Views\Hotel\Guest_InformationList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -9,11 +9,12 @@
         <table id="tblGuestList" class=" col-sm-12" style="margin-left:10px;">
             <thead>
                 <tr>
+                    <th>Room No:</th>
+                    <th>Nationality:</th>
+                    <th>Arrival Date:</th>
+                    @*<th></th>
                     <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
+                    <th></th>*@
                 </tr>
             </thead>
         </table>
@@ -35,7 +36,6 @@
                     dataType: "json",
 
                     success: function (response) {
-                        alert("go");
                         BindGuestInformationTable(response);
                     }
                 });
@@ -54,16 +54,16 @@
                     "pagingType": "simple_numbers",
                     destroy: true,
                     "columns": [
-                        { "data": "guestname_text", orderable: false, "width": "13%" },
-                        { "data": "postalcode_text", orderable: false, "width": "13%" },
-                        { "data": "phoneno_text", orderable: false, "width": "13%" },
-                        { "data": "", orderable: false, "width": "13%" },
-                        { "data": "", orderable: false, "width": "13%" },
-                        { "data": "", orderable: false, "width": "13%" },
-                        { "data": "", orderable: false, "width": "13%" },
-                        { "data": "", orderable: false, "width": "13%" },
-                        { "data": "", orderable: false, "width": "13%" },
-                        { "data": "", orderable: false, "width": "13%" },
+                        { "data": "roomno", orderable: false, "width": "13%" },
+                        { "data": "nationality_text", orderable: false, "width": "13%" },
+                        { "data": "pmsid", orderable: false, "width": "13%" },
+                        //{ "data": "", orderable: false, "width": "13%" },
+                        //{ "data": "", orderable: false, "width": "13%" },
+                        //{ "data": "", orderable: false, "width": "13%" },
+                        //{ "data": "", orderable: false, "width": "13%" },
+                        //{ "data": "", orderable: false, "width": "13%" },
+                        //{ "data": "", orderable: false, "width": "13%" },
+                        //{ "data": "", orderable: false, "width": "13%" },
                     ]
 
                 });

@@ -107,7 +107,7 @@
     <label class="d-none" id="lblHotelCode"></label>
     <label class="d-none" id="lblSystemDate"></label>
     <label class="d-none" id="lblReservationNo"></label>
-    <label class="d-none" id="lblRoomNo"></label> lblCreateddate
+    <label class="d-none" id="lblRoomNo"></label> 
     <label class="d-none" id="lblCreatedDate"></label> 
     <button class="clsfinish" id="btnfinish">@HotelKoKoMu_CardRegister.Resources.Resources.Complete</button>
 </div>
@@ -315,7 +315,6 @@
 
             //save guest information
             $("#btnfinish").click(function () {
-
                 $('.kokomuTable tr td').each(function () {
                    
                     if ($(this).find("label").attr("id") == "lblGuestName") {
@@ -384,7 +383,8 @@
 
                 var GuestInformation = { HotelCode: $("#lblHotelCode").text(), ReservationNo: $("#lblReservationNo").text(), RoomNo: $("#lblRoomNo").text(), SystemDate: $("#lblSystemDate").text(), GuestName: GuestName, GuestNameHW: GuestNameHW, KanaName: KanaName, KanaNameHW: KanaNameHW, PostalCode: PostalCode, PostalCodeHW: PostalCodeHW, PhoneNo: PhoneNo, PhoneNoHW: PhoneNoHW, Address1: Address1, AddressHW1: AddressHW1, Address2: Address2, AddressHW2, AddressHW2, WorkPlace: WorkPlace, WorkPlaceHW: WorkPlaceHW, Nationality: Nationality, NationalityHW: NationalityHW, Passport: Passport, PassportHW: PassportHW, Sign: $("#imgSign").attr('src'), ArrivalDate: $("#dtpArrivalDate").val(), DepartureDate: $("#dtpDepartureDate").val(), CreatedDate: $("#lblCreatedDate").text() };
                 var response = CalltoApiController('@Url.Action("SaveGuestInformation", "api/CardAPI/")', GuestInformation);
-                 if (response == "success") {
+                if (response == "success") {
+                   location.href = '@Url.Action("Guest_InformationList","Hotel")';
                      swal.fire({
                          icon: 'success',
                          title: 'Guest Information',

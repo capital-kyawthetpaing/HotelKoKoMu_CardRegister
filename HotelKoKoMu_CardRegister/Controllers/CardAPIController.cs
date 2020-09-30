@@ -256,5 +256,14 @@ namespace HotelKoKoMu_CardRegister.Controllers
             DataTable dt = bdl.SelectDataTable(cmdText, hotelModel.Sqlprms);
             return Ok(dt);
         }
+
+        [HttpPost]
+        [ActionName("GetGuestInformation")]
+        public string GetGuestInformation(CardRegisterModel cardmodel)
+        {
+            BaseDL bdl = new BaseDL();
+            string cmdText = "Select * from trn_guestinformation";
+            return bdl.SelectJson(cmdText, null);
+        }
     }
 }

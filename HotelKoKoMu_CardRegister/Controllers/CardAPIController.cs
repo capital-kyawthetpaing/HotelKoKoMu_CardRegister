@@ -162,5 +162,14 @@ namespace HotelKoKoMu_CardRegister.Controllers
                  sql+= " where flag='0' and (@pmsid isnull or pmsid=@pmsid) and (@systemid isnull or systemid=@systemid) and (@pmspassword isnull or pmspassword=@pmspassword) and (@machineno isnull or machineno=@machineno) and (@hotelcode isnull or hotel_code=@hotelcode)";
             return bdl.SelectJson(sql, cardmodel.Sqlprms);
         }
+
+        [HttpPost]
+        [ActionName("Get_HotelGuestInformation")]
+        public string Get_HotelGuestInformation()
+        {
+            BaseDL bdl = new BaseDL();
+            string sql = "Select hotel_code, reservationno, roomno, systemdate, guestname_hotel, kananame_hotel, postalcode_hotel, phoneno_hotel, address1_hotel, address2_hotel, workplace_hotel, nationality_hotel, passportno_hotel from trn_guestinformation";
+            return bdl.SelectJson(sql, null);
+        }
     }
 }

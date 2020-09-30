@@ -214,7 +214,6 @@
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
-    <Content Include="Scripts\Canvas.js" />
     <Content Include="Scripts\Common.js" />
     <Content Include="Scripts\datepicker-ja.js" />
     <Content Include="Scripts\datepicker.en.js" />
@@ -705,6 +704,7 @@
     <Content Include="Scripts\popper-utils.js.map" />
     <Content Include="Views\Card\CardRegisterPage.cshtml" />
     <Content Include="Views\Hotel\Hotel_System.cshtml" />
+    <Content Include="Views\Hotel\Guest_InformationList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

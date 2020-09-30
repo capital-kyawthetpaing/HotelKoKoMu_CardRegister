@@ -151,8 +151,6 @@
     </div>
 </div>
 
-
-
 @section Scripts
 {
     <script type="text/javascript">
@@ -160,44 +158,10 @@
         var CardRegistration;
         var GuestName, GuestNameHW, KanaName, KanaNameHW, PostalCode, PostalCodeHW, PhoneNo, PhoneNoHW, Address1, AddressHW1, Address2, AddressHW2, WorkPlace, WorkPlaceHW, Nationality, NationalityHW, Passport, PassportHW, Sign;
         $(document).ready(function () {
-            @*window.setInterval(function () {
-                $('.kokomuTable tr td').each(function () {
-                    if ($(this).attr('id') != undefined)
-                        $(this).html('');
-                });
-
             //get data form hotel system if exists
-            var HotelSystemModel = {RoomNo:""};
-            var result = CalltoApiController('@Url.Action("GetGuestInformationFromHotel", "api/HotelAPI/")', HotelSystemModel);
-            if (result != "") {
-                if (result[0].guestname != "")
-                    $('#tdGuestName').append(CreateLabelControl(result[0].guestname, "lblGuestName"));
-                if (result[0].kananame != "")
-                    $('#tdKanaName').append(CreateLabelControl(result[0].kananame, "lblKanaName"));
-                if (result[0].postalcode != "")
-                    $('#tdPostalCode').append(CreateLabelControl(result[0].postalcode, "lblPostalCode"));
-                if (result[0].phoneno != "")
-                    $('#tdPhoneNo').append(CreateLabelControl(result[0].phoneno, "lblPhoneNo"));
-                if (result[0].address1 != "")
-                    $('#tdAddress1').append(CreateLabelControl(result[0].address1, "lblAddress1"));
-                if (result[0].address2 != "")
-                    $('#tdAddress2').append(CreateLabelControl(result[0].address2, "lblAddress2"));
-                if (result[0].workplace != "")
-                    $('#tdWorkPlace').append(CreateLabelControl(result[0].workplace, "lblWorkPlace"));
-                if (result[0].nationality != "")
-                    $('#tdNationality').append(CreateLabelControl(result[0].nationality, "lblNationality"));
-                if (result[0].passportno != "")
-                    $('#tdPassport').append(CreateLabelControl(result[0].passportno, "lblPassport"));
-                }
-            }, 30000);//3000*@
-
-             //get data form hotel system if exists
             var HotelSystemModel = { SystemID: "e-card", PMSID: "FMFS", PMSPassword: "Abc123#", HotelCode: "000001", MachineNo: "01" };
-            var result = JSON.parse(CalltoApiController('@Url.Action("GetGuestInformation", "api/CardAPI/")', HotelSystemModel));
-            //var guestdata = JSON.parse(result);
-            //alert(guestdata);
+            var result = JSON.parse(CalltoApiController('@Url.Action("GetGuestInformation", "api/CardAPI/")', HotelSystemModel));           
             if (result.length > 0) {
-                alert(result[0].guestname_hotel);
                 $("#lblHotelCode").text(result[0].hotel_code );
                 $("#lblSystemDate").text(result[0].systemdate);
                 $("#lblReservationNo").text(result[0].reservationno);
@@ -222,7 +186,6 @@
                 if (result[0].passportno_hotel != null)
                     $('#tdPassport').append(CreateLabelControl(result[0].passportno_hotel, "lblPassport"));
                 }
-
 
             var currentDate = new Date();
             //set current date into arrival date
@@ -255,7 +218,6 @@
                     ModalShow();
                 }
                 else if (commonName == "tdKanaName") {
-                    //$("#txtRegister").val($("#lblKanaName").text());
                     if ('@lang' == "Ja") {
                         $("#lblcanvas").text('@HotelKoKoMu_CardRegister.Resources.Resources.GuestName_Kana');
                         $("#lbltext").text('@HotelKoKoMu_CardRegister.Resources.Resources.GuestName_Kana');
@@ -263,43 +225,36 @@
                     }
                 }
                 else if (commonName == "tdPostalCode") {
-                    //$("#txtRegister").val($("#lblPostalCode").text());
                     $("#lblcanvas").text('@HotelKoKoMu_CardRegister.Resources.Resources.PostalCode');
                     $("#lbltext").text('@HotelKoKoMu_CardRegister.Resources.Resources.PostalCode');
                     ModalShow();
                 }
                 else if (commonName == "tdPhoneNo") {
-                    //$("#txtRegister").val($("#lblPhoneNo").text());
                     $("#lblcanvas").text('@HotelKoKoMu_CardRegister.Resources.Resources.PhoneNo');
                     $("#lbltext").text('@HotelKoKoMu_CardRegister.Resources.Resources.PhoneNo');
                     ModalShow();
                 }
                 else if (commonName == "tdAddress1") {
-                   // $("#txtRegister").val($("#lblAddress1").text());
                     $("#lblcanvas").text('@HotelKoKoMu_CardRegister.Resources.Resources.Address1');
                     $("#lbltext").text('@HotelKoKoMu_CardRegister.Resources.Resources.Address1');
                     ModalShow();
                 }
                 else if (commonName == "tdAddress2") {
-                   // $("#txtRegister").val($("#lblAddress2").text());
                     $("#lblcanvas").text('@HotelKoKoMu_CardRegister.Resources.Resources.Address2');
                     $("#lbltext").text('@HotelKoKoMu_CardRegister.Resources.Resources.Address2');
                     ModalShow();
                 }
                 else if (commonName == "tdWorkPlace") {
-                    //$("#txtRegister").val($("#lblWorkPlace").text());
                     $("#lblcanvas").text('@HotelKoKoMu_CardRegister.Resources.Resources.WorkPlace');
                     $("#lbltext").text('@HotelKoKoMu_CardRegister.Resources.Resources.WorkPlace');
                     ModalShow();
                 }
                 else if (commonName == "tdNationality") {
-                    //$("#txtRegister").val($("#lblNationality").text());
                     $("#lblcanvas").text('@HotelKoKoMu_CardRegister.Resources.Resources.Nationality');
                     $("#lbltext").text('@HotelKoKoMu_CardRegister.Resources.Resources.Nationality');
                     ModalShow();
                 }
                 else if (commonName == "tdPassport") {
-                   // $("#txtRegister").val($("#lblPassport").text());
                     $("#lblcanvas").text('@HotelKoKoMu_CardRegister.Resources.Resources.PassportNo');
                     $("#lbltext").text('@HotelKoKoMu_CardRegister.Resources.Resources.PassportNo');
                     ModalShow();
@@ -386,12 +341,13 @@
                 var GuestInformation = { HotelCode: $("#lblHotelCode").text(), ReservationNo: $("#lblReservationNo").text(), RoomNo: $("#lblRoomNo").text(), SystemDate: $("#lblSystemDate").text(), GuestName: GuestName, GuestNameHW: GuestNameHW, KanaName: KanaName, KanaNameHW: KanaNameHW, PostalCode: PostalCode, PostalCodeHW: PostalCodeHW, PhoneNo: PhoneNo, PhoneNoHW: PhoneNoHW, Address1: Address1, AddressHW1: AddressHW1, Address2: Address2, AddressHW2, AddressHW2, WorkPlace: WorkPlace, WorkPlaceHW: WorkPlaceHW, Nationality: Nationality, NationalityHW: NationalityHW, Passport: Passport, PassportHW: PassportHW, Sign: $("#imgSign").attr('src'), ArrivalDate: $("#dtpArrivalDate").val(), DepartureDate: $("#dtpDepartureDate").val(), CreatedDate: $("#lblCreatedDate").text() };
                 var response = CalltoApiController('@Url.Action("SaveGuestInformation", "api/CardAPI/")', GuestInformation);
                 if (response == "success") {
-                   location.href = '@Url.Action("Guest_InformationList","Hotel")';
-                     swal.fire({
-                         icon: 'success',
-                         title: 'Guest Information',
-                         text: 'Successfully Saved...'
-                     })
+                   
+                    swal.fire({
+                        icon: 'success',
+                        title: 'Guest Information',
+                        text: 'Successfully Saved...'
+                    });
+                    location.href = '@Url.Action("Guest_InformationList","Hotel")';
                  }
                  else {
                      swal.fire({
@@ -400,7 +356,7 @@
                          text: response
                      })
                  }
-                window.location.reload();
+                //window.location.reload();
              });
 
         });

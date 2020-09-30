@@ -136,9 +136,9 @@ namespace HotelKoKoMu_CardRegister.Controllers
         }
 
         /// <summary>
-        /// get guest information
+        ///  get guest information
         /// </summary>
-        /// <param name="hotelModel"></param>
+        /// <param name="cardmodel"></param>
         /// <returns></returns>
         [HttpPost]
         [ActionName("GetGuestInformation")]
@@ -146,11 +146,18 @@ namespace HotelKoKoMu_CardRegister.Controllers
         {
             BaseDL bdl = new BaseDL();
             cardmodel.Sqlprms = new NpgsqlParameter[5];
-            cardmodel.Sqlprms[0] = new NpgsqlParameter("@systemid",cardmodel.SystemID);
-            cardmodel.Sqlprms[1] = new NpgsqlParameter("@pmsid",cardmodel.PMSID);
-            cardmodel.Sqlprms[2] = new NpgsqlParameter("@pmspassword", cardmodel.PMSPassword);
-            cardmodel.Sqlprms[3] = new NpgsqlParameter("@hotelcode",cardmodel.HotelCode);
-            cardmodel.Sqlprms[4] = new NpgsqlParameter("@machineno",cardmodel.MachineNo);
+
+            cardmodel.Sqlprms[0] = new NpgsqlParameter("@systemid", SqlDbType.VarChar) {Value=cardmodel.SystemID };
+            cardmodel.Sqlprms[1] = new NpgsqlParameter("@pmsid", SqlDbType.VarChar) { Value = cardmodel.PMSID }; 
+            cardmodel.Sqlprms[2] = new NpgsqlParameter("@pmspassword", SqlDbType.VarChar) { Value= cardmodel.PMSPassword };
+            cardmodel.Sqlprms[3] = new NpgsqlParameter("@hotelcode", SqlDbType.VarChar) { Value = cardmodel.HotelCode }; 
+            cardmodel.Sqlprms[4] = new NpgsqlParameter("@machineno", SqlDbType.VarChar) { Value = cardmodel.MachineNo };
+        
+            //cardmodel.Sqlprms[0] = new NpgsqlParameter("@systemid",cardmodel.SystemID);
+            //cardmodel.Sqlprms[1] = new NpgsqlParameter("@pmsid",cardmodel.PMSID);
+            //cardmodel.Sqlprms[2] = new NpgsqlParameter("@pmspassword", cardmodel.PMSPassword);
+            //cardmodel.Sqlprms[3] = new NpgsqlParameter("@hotelcode",cardmodel.HotelCode);
+            //cardmodel.Sqlprms[4] = new NpgsqlParameter("@machineno",cardmodel.MachineNo);
             string sql = "Select hotel_code, reservationno, roomno, systemdate, guestname_hotel, kananame_hotel, postalcode_hotel, phoneno_hotel, address1_hotel, address2_hotel, workplace_hotel, nationality_hotel, passportno_hotel from trn_guestinformation";
                  sql+= " where flag='0' and (@pmsid isnull or pmsid=@pmsid) and (@systemid isnull or systemid=@systemid) and (@pmspassword isnull or pmspassword=@pmspassword) and (@machineno isnull or machineno=@machineno) and (@hotelcode isnull or hotel_code=@hotelcode)";
             return bdl.SelectJson(sql, cardmodel.Sqlprms);

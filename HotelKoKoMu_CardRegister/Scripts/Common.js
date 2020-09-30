@@ -2,7 +2,7 @@
    
     var result;
     $.ajax({
-        url: url.replace("%2F", "/"),
+        url: url.replace("%2F", "/"),        
         method: 'POST',
         dataType: 'json',
         contentType: 'application/json; charset=utf-8',

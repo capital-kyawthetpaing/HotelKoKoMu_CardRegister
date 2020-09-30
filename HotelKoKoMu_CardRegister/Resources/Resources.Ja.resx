@@ -138,6 +138,9 @@
   <data name="Clear" xml:space="preserve">
     <value>クリア</value>
   </data>
+  <data name="Company" xml:space="preserve">
+    <value>勤務先</value>
+  </data>
   <data name="Complete" xml:space="preserve">
     <value>完    了</value>
   </data>
@@ -174,19 +177,16 @@
   <data name="PassportNo" xml:space="preserve">
     <value>パスポート番号</value>
   </data>
-  <data name="PhoneNo" xml:space="preserve">
-    <value>電話番号</value>
-  </data>
-  <data name="PostalCode" xml:space="preserve">
-    <value>郵便番号</value>
-  </data>
   <data name="Sign" xml:space="preserve">
     <value>署名</value>
+  </data>
+  <data name="Tel" xml:space="preserve">
+    <value>電話番号</value>
   </data>
   <data name="Title" xml:space="preserve">
     <value>ホテル　ユーコム</value>
   </data>
-  <data name="WorkPlace" xml:space="preserve">
-    <value>勤務先</value>
+  <data name="ZipCode" xml:space="preserve">
+    <value>郵便番号</value>
   </data>
 </root>

@@ -35,47 +35,47 @@ namespace HotelKoKoMu_CardRegister.Controllers
         /// <returns></returns>
         [HttpPost]
         [ActionName("SaveGuestInformation")]
-        public IHttpActionResult SaveGuestInformation(CardRegisterModel model)
+        public IHttpActionResult SaveGuestInformation(CardRegisterInfo cardRegisterInfo)
         {
             BaseDL bdl = new BaseDL();
             DateTime currentDate = DateTime.Now;
-            model.Sqlprms = new NpgsqlParameter[19];
+            cardRegisterInfo.Sqlprms = new NpgsqlParameter[19];
             #region update guest information
-            model.Sqlprms[0] = new NpgsqlParameter("@guestName", model.GuestName);
+            cardRegisterInfo.Sqlprms[0] = new NpgsqlParameter("@guestName", cardRegisterInfo.GuestName);
             if (culture == "Ja")
-                model.Sqlprms[1] = new NpgsqlParameter("@kanaName", model.KanaName);
+                cardRegisterInfo.Sqlprms[1] = new NpgsqlParameter("@kanaName", cardRegisterInfo.KanaName);
             else
-                model.Sqlprms[1] = new NpgsqlParameter("@kanaName", model.GuestName);
-            model.Sqlprms[2] = new NpgsqlParameter("@postalCode", model.PostalCode);
-            model.Sqlprms[3] = new NpgsqlParameter("@phoneNo", model.PhoneNo);
-            model.Sqlprms[4] = new NpgsqlParameter("@address1", model.Address1);
-            model.Sqlprms[5] = new NpgsqlParameter("@address2", model.Address2);
-            model.Sqlprms[6] = new NpgsqlParameter("@workplace", model.WorkPlace);
-            model.Sqlprms[7] = new NpgsqlParameter("@nationality", model.Nationality);
-            model.Sqlprms[8] = new NpgsqlParameter("@passport", model.Passport);
-            model.Sqlprms[9] = new NpgsqlParameter("@arrDate", model.ArrivalDate);
-            model.Sqlprms[10] = new NpgsqlParameter("@deptDate", model.DepartureDate);
-            model.Sqlprms[11] = new NpgsqlParameter("@updator", model.UpdatedBy);
-            model.Sqlprms[12] = new NpgsqlParameter("@createddate", model.CreatedDate);
-            model.Sqlprms[13] = new NpgsqlParameter("@updateddate", currentDate);
+                cardRegisterInfo.Sqlprms[1] = new NpgsqlParameter("@kanaName", cardRegisterInfo.GuestName);
+            cardRegisterInfo.Sqlprms[2] = new NpgsqlParameter("@zipcode", cardRegisterInfo.ZipCode);
+            cardRegisterInfo.Sqlprms[3] = new NpgsqlParameter("@tel", cardRegisterInfo.Tel);
+            cardRegisterInfo.Sqlprms[4] = new NpgsqlParameter("@address1", cardRegisterInfo.Address1);
+            cardRegisterInfo.Sqlprms[5] = new NpgsqlParameter("@address2", cardRegisterInfo.Address2);
+            cardRegisterInfo.Sqlprms[6] = new NpgsqlParameter("@company", cardRegisterInfo.Company);
+            cardRegisterInfo.Sqlprms[7] = new NpgsqlParameter("@nationality", cardRegisterInfo.Nationality);
+            cardRegisterInfo.Sqlprms[8] = new NpgsqlParameter("@passport", cardRegisterInfo.Passport);
+            cardRegisterInfo.Sqlprms[9] = new NpgsqlParameter("@arrDate", cardRegisterInfo.ArrivalDate);
+            cardRegisterInfo.Sqlprms[10] = new NpgsqlParameter("@deptDate", cardRegisterInfo.DepartureDate);
+            cardRegisterInfo.Sqlprms[11] = new NpgsqlParameter("@updator", cardRegisterInfo.Updator);
+            cardRegisterInfo.Sqlprms[12] = new NpgsqlParameter("@createddate", cardRegisterInfo.CreatedDate);
+            cardRegisterInfo.Sqlprms[13] = new NpgsqlParameter("@updateddate", currentDate);
 
-            string fileName = model.SystemDate.ToString("yyyyMMdd") + model.ReservationNo + model.RoomNo + DateTime.Now.ToString("yyyyMMdd") + model.HotelCode + ".jpg";
-            SaveImage(model.Sign, model.HotelCode, fileName);
-            model.Sqlprms[14] = new NpgsqlParameter("@filename", fileName);
-           
-            model.Sqlprms[15] = new NpgsqlParameter("@hotelcode", model.HotelCode);
-            model.Sqlprms[16] = new NpgsqlParameter("@reservationno", model.ReservationNo);
-            model.Sqlprms[17] = new NpgsqlParameter("@roomno", model.RoomNo);
-            model.Sqlprms[18] = new NpgsqlParameter("@systemdate", model.SystemDate);
+            string fileName = cardRegisterInfo.SystemDate.ToString("yyyyMMdd") + cardRegisterInfo.ReservationNo + cardRegisterInfo.RoomNo + DateTime.Now.ToString("yyyyMMdd") + cardRegisterInfo.HotelCode + ".jpg";
+            SaveImage(cardRegisterInfo.Sign, cardRegisterInfo.HotelCode, fileName);
+            cardRegisterInfo.Sqlprms[14] = new NpgsqlParameter("@filename", fileName);
 
-            string sql = "update trn_guestinformation set guestname_text=@guestName,kananame_text=@kanaName,postalcode_text=@postalCode,phoneno_text=@phoneNo,";
-            sql += "address1_text=@address1,address2_text=@address2,workplace_text=@workplace,nationality_text=@nationality,passportno_text=@passport,";
+            cardRegisterInfo.Sqlprms[15] = new NpgsqlParameter("@hotelcode", cardRegisterInfo.HotelCode);
+            cardRegisterInfo.Sqlprms[16] = new NpgsqlParameter("@reservationno", cardRegisterInfo.ReservationNo);
+            cardRegisterInfo.Sqlprms[17] = new NpgsqlParameter("@roomno", cardRegisterInfo.RoomNo);
+            cardRegisterInfo.Sqlprms[18] = new NpgsqlParameter("@systemdate", cardRegisterInfo.SystemDate);
+
+            string sql = "update trn_guestinformation set guestname_text=@guestName,kananame_text=@kanaName,zipcode_text=@zipcode,tel_text=@tel,";
+            sql += "address1_text=@address1,address2_text=@address2,company_text=@company,nationality_text=@nationality,passportno_text=@passport,";
             sql += "arrival_date=@arrDate,departure_date=@deptDate,updator=@updator,updated_date=@updateddate,sign_filename=@filename,flag='1' where hotel_code=@hotelcode and";
             sql += " reservationno=@reservationno and roomno=@roomno and CAST(systemdate as DATE)=CAST(@systemdate AS DATE)  and CAST(created_date as DATE)=CAST(@systemdate AS DATE) and flag='0'";
 
             #endregion
 
-            return Ok(bdl.InsertUpdateDeleteData(sql, model.Sqlprms));
+            return Ok(bdl.InsertUpdateDeleteData(sql, cardRegisterInfo.Sqlprms));
         }
         #endregion
 
@@ -115,7 +115,6 @@ namespace HotelKoKoMu_CardRegister.Controllers
                 }
                 dirPath = dirPath + "//" + fileName;
                 image.Save(dirPath);
-
             }
         }
 
@@ -126,42 +125,37 @@ namespace HotelKoKoMu_CardRegister.Controllers
         /// <returns></returns>
         [HttpPost]
         [ActionName("GetHotelInformation")]
-        public IHttpActionResult GetHotelInformation(HotelModel hotelModel)
+        public IHttpActionResult GetHotelInformation(HotelInfo hotelInfo)
         {
             BaseDL bdl = new BaseDL();
-            hotelModel.Sqlprms = new NpgsqlParameter[1];
-            hotelModel.Sqlprms[0] = new NpgsqlParameter("@hotelno", hotelModel.HotelNo);
+            hotelInfo.Sqlprms = new NpgsqlParameter[1];
+            hotelInfo.Sqlprms[0] = new NpgsqlParameter("@hotelno", hotelInfo.HotelNo);
             string cmdText = "Select hotel_name,logo_data from mst_hotel where hotel_no=@hotelno";
-            DataTable dt = bdl.SelectDataTable(cmdText, hotelModel.Sqlprms);
+            DataTable dt = bdl.SelectDataTable(cmdText, hotelInfo.Sqlprms);
             return Ok(dt);
         }
 
         /// <summary>
         ///  get guest information
         /// </summary>
-        /// <param name="cardmodel"></param>
+        /// <param name="cardRegisterInfo"></param>
         /// <returns></returns>
         [HttpPost]
         [ActionName("GetGuestInformation")]
-        public string GetGuestInformation(CardRegisterModel cardmodel)
+        public IHttpActionResult GetGuestInformation(CardRegisterInfo cardRegisterInfo)
         {
             BaseDL bdl = new BaseDL();
-            cardmodel.Sqlprms = new NpgsqlParameter[5];
+            cardRegisterInfo.Sqlprms = new NpgsqlParameter[5];
 
-            cardmodel.Sqlprms[0] = new NpgsqlParameter("@systemid", SqlDbType.VarChar) {Value=cardmodel.SystemID };
-            cardmodel.Sqlprms[1] = new NpgsqlParameter("@pmsid", SqlDbType.VarChar) { Value = cardmodel.PMSID }; 
-            cardmodel.Sqlprms[2] = new NpgsqlParameter("@pmspassword", SqlDbType.VarChar) { Value= cardmodel.PMSPassword };
-            cardmodel.Sqlprms[3] = new NpgsqlParameter("@hotelcode", SqlDbType.VarChar) { Value = cardmodel.HotelCode }; 
-            cardmodel.Sqlprms[4] = new NpgsqlParameter("@machineno", SqlDbType.VarChar) { Value = cardmodel.MachineNo };
+            cardRegisterInfo.Sqlprms[0] = new NpgsqlParameter("@systemid", SqlDbType.VarChar) {Value= cardRegisterInfo.SystemID };
+            cardRegisterInfo.Sqlprms[1] = new NpgsqlParameter("@pmsid", SqlDbType.VarChar) { Value = cardRegisterInfo.PmsID };
+            cardRegisterInfo.Sqlprms[2] = new NpgsqlParameter("@pmspassword", SqlDbType.VarChar) { Value= cardRegisterInfo.PmsPassword };
+            cardRegisterInfo.Sqlprms[3] = new NpgsqlParameter("@hotelcode", SqlDbType.VarChar) { Value = cardRegisterInfo.HotelCode };
+            cardRegisterInfo.Sqlprms[4] = new NpgsqlParameter("@machineno", SqlDbType.VarChar) { Value = cardRegisterInfo.MachineNo };
         
-            //cardmodel.Sqlprms[0] = new NpgsqlParameter("@systemid",cardmodel.SystemID);
-            //cardmodel.Sqlprms[1] = new NpgsqlParameter("@pmsid",cardmodel.PMSID);
-            //cardmodel.Sqlprms[2] = new NpgsqlParameter("@pmspassword", cardmodel.PMSPassword);
-            //cardmodel.Sqlprms[3] = new NpgsqlParameter("@hotelcode",cardmodel.HotelCode);
-            //cardmodel.Sqlprms[4] = new NpgsqlParameter("@machineno",cardmodel.MachineNo);
-            string sql = "Select hotel_code, reservationno, roomno, systemdate, guestname_hotel, kananame_hotel, postalcode_hotel, phoneno_hotel, address1_hotel, address2_hotel, workplace_hotel, nationality_hotel, passportno_hotel from trn_guestinformation";
+            string sql = "Select hotel_code, reservationno, roomno, systemdate, guestname_hotel, kananame_hotel, zipcode_hotel, tel_hotel, address1_hotel, address2_hotel, company_hotel, nationality_hotel, passportno_hotel from trn_guestinformation";
                  sql+= " where flag='0' and (@pmsid isnull or pmsid=@pmsid) and (@systemid isnull or systemid=@systemid) and (@pmspassword isnull or pmspassword=@pmspassword) and (@machineno isnull or machineno=@machineno) and (@hotelcode isnull or hotel_code=@hotelcode)";
-            return bdl.SelectJson(sql, cardmodel.Sqlprms);
+            return Ok(bdl.SelectJson(sql, cardRegisterInfo.Sqlprms));
         }
 
         [HttpPost]
@@ -169,17 +163,32 @@ namespace HotelKoKoMu_CardRegister.Controllers
         public string Get_HotelGuestInformation()
         {
             BaseDL bdl = new BaseDL();
-            string sql = "Select hotel_code, reservationno, roomno, systemdate, guestname_hotel, kananame_hotel, postalcode_hotel, phoneno_hotel, address1_hotel, address2_hotel, workplace_hotel, nationality_hotel, passportno_hotel from trn_guestinformation";
+            string sql = "Select hotel_code, reservationno, roomno, systemdate, guestname_hotel, kananame_hotel, zipcode_hotel, tel_hotel, address1_hotel, address2_hotel, company_hotel, nationality_hotel, passportno_hotel from trn_guestinformation";
             return bdl.SelectJson(sql, null);
         }
 
-        [HttpPost]
-        [ActionName("GetDemoList")]
-        public IHttpActionResult GetDemoList()
+        [HttpGet]
+        [ActionName("requestForRegistrationCard")]
+        public IHttpActionResult requestForRegistrationCard()
         {
-            CardRegisterModel model = new CardRegisterModel();
-            model.GuestName = "Mg Mg";
-            return Ok(JsonConvert.SerializeObject(model));         
+            var cardRegistrationObj = new
+            {
+                status= "success",
+                hotelcode = "000001",
+                reservationno= "00002",
+                roomno= "01",
+                systemdate= "2020-09-30",
+                guestname="Mg Mg",
+                kananame="",
+                zipcode="",
+                tel="",
+                address1="",
+                address2="",
+                workplace="",
+                nationality="",
+                passportno=""
+            };           
+            return Ok(JsonConvert.SerializeObject(cardRegistrationObj));         
         }
 
         [HttpGet]

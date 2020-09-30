@@ -124,6 +124,15 @@ namespace HotelKoKoMu_CardRegister.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Company.
+        /// </summary>
+        public static string Company {
+            get {
+                return ResourceManager.GetString("Company", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Complete.
         /// </summary>
         public static string Complete {
@@ -232,29 +241,20 @@ namespace HotelKoKoMu_CardRegister.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Phone No.
-        /// </summary>
-        public static string PhoneNo {
-            get {
-                return ResourceManager.GetString("PhoneNo", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to Postal Code.
-        /// </summary>
-        public static string PostalCode {
-            get {
-                return ResourceManager.GetString("PostalCode", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to Sign.
         /// </summary>
         public static string Sign {
             get {
                 return ResourceManager.GetString("Sign", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Tel.
+        /// </summary>
+        public static string Tel {
+            get {
+                return ResourceManager.GetString("Tel", resourceCulture);
             }
         }
         
@@ -268,11 +268,11 @@ namespace HotelKoKoMu_CardRegister.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Workplace.
+        ///   Looks up a localized string similar to ZipCode.
         /// </summary>
-        public static string WorkPlace {
+        public static string ZipCode {
             get {
-                return ResourceManager.GetString("WorkPlace", resourceCulture);
+                return ResourceManager.GetString("ZipCode", resourceCulture);
             }
         }
     }

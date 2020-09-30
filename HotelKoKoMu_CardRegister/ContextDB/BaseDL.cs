@@ -100,11 +100,11 @@ namespace HotelKoKoMu_CardRegister.ContextDB
                     newCon.Open();
                     NpgsqlCommand cmd = new NpgsqlCommand(sSQL, newCon);
                     cmd.CommandType = CommandType.Text;
-                    //if (param != null)
-                    //{
+                    if (param != null)
+                    {
                         param = ChangeToDBNull(param);
                         adapt.SelectCommand.Parameters.AddRange(param);
-                    //}
+                    }
                     //cmd.CommandText = "fetch all in \"ref\"";
                     adapt.Fill(dt);
                     newCon.Close();

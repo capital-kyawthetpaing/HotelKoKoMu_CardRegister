@@ -32,52 +32,43 @@
 @section Scripts{
     <script>
         $(document).ready(function () {
-            GuestInformation();
-        });
-
-            function GuestInformation() {
-                $.ajax({
-                    type: "Post",
-                    url: "@Url.Action("GetGuestInformation","api/CardAPI/")",
-                    contentType: "application/json; charset=utf-8",
-                    dataType: "json",
-
-                    success: function (response) {
-                        BindGuestInformationTable(response);
-                    }
-                });
-
+            var result = CalltoApiController('@Url.Action("GetGuestInformation", "api/CardAPI/")');
+            if (result != "") {
+                BindGuestInformationTable(result);
             }
+            
+        }); 
 
-            function BindGuestInformationTable(response) {
 
-                table = $('#tblGuestList').DataTable({
+        function BindGuestInformationTable(response) {
 
-                    data: JSON.parse(response),
-                    "bFilter": false,
-                    "bLengthChange": false,
-                    "bInfo": false,
-                    "ordering": false,
-                    "pagingType": "simple_numbers",
-                    destroy: true,
-                    "columns": [
-                        { "data": "hotel_code", orderable: false, "width": "13%" },
-                        { "data": "reservationno", orderable: false, "width": "13%" },
-                        { "data": "roomno", orderable: false, "width": "13%" },
-                        { "data": "systemdate", orderable: false, "width": "13%" },
-                        { "data": "guestname_hotel", orderable: false, "width": "13%" },
-                        { "data": "kananame_hotel", orderable: false, "width": "13%" },
-                        { "data": "postalcode_hotel", orderable: false, "width": "13%" },
-                        { "data": "phoneno_hotel", orderable: false, "width": "13%" },
-                        { "data": "address1_hotel", orderable: false, "width": "13%" },
-                        { "data": "address2_hotel", orderable: false, "width": "13%" },
-                        { "data": "workplace_hotel", orderable: false, "width": "13%" },
-                        { "data": "nationality_hotel", orderable: false, "width": "13%" },
-                        { "data": "passportno_hotel", orderable: false, "width": "13%" },
-                    ]
+            table = $('#tblGuestList').DataTable({
 
-                });
-            }
+                data: JSON.parse(response),
+                "bFilter": false,
+                "bLengthChange": false,
+                "bInfo": false,
+                "ordering": false,
+                "pagingType": "simple_numbers",
+                destroy: true,
+                "columns": [
+                    { "data": "hotel_code", orderable: false, "width": "13%" },
+                    { "data": "reservationno", orderable: false, "width": "13%" },
+                    { "data": "roomno", orderable: false, "width": "13%" },
+                    { "data": "systemdate", orderable: false, "width": "13%" },
+                    { "data": "guestname_hotel", orderable: false, "width": "13%" },
+                    { "data": "kananame_hotel", orderable: false, "width": "13%" },
+                    { "data": "postalcode_hotel", orderable: false, "width": "13%" },
+                    { "data": "phoneno_hotel", orderable: false, "width": "13%" },
+                    { "data": "address1_hotel", orderable: false, "width": "13%" },
+                    { "data": "address2_hotel", orderable: false, "width": "13%" },
+                    { "data": "workplace_hotel", orderable: false, "width": "13%" },
+                    { "data": "nationality_hotel", orderable: false, "width": "13%" },
+                    { "data": "passportno_hotel", orderable: false, "width": "13%" },
+                ]
+
+            });
+        }
         
     </script>
 }

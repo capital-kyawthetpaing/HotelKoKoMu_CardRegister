@@ -151,6 +151,8 @@
     </div>
 </div>
 
+<button onclick="ClickDemo()">Click Me</button>
+
 @section Scripts
 {
     <script type="text/javascript">
@@ -215,24 +217,24 @@
                 if (commonName == "tdGuestName") {
                     $("#lblcanvas").text('@HotelKoKoMu_CardRegister.Resources.Resources.GuestName_Kanji');
                     $("#lbltext").text('@HotelKoKoMu_CardRegister.Resources.Resources.GuestName_Kanji');
-                    ModalShow();
+                   // ModalShow();
                 }
                 else if (commonName == "tdKanaName") {
                     if ('@lang' == "Ja") {
                         $("#lblcanvas").text('@HotelKoKoMu_CardRegister.Resources.Resources.GuestName_Kana');
                         $("#lbltext").text('@HotelKoKoMu_CardRegister.Resources.Resources.GuestName_Kana');
-                        ModalShow();
+                       // ModalShow();
                     }
                 }
                 else if (commonName == "tdPostalCode") {
                     $("#lblcanvas").text('@HotelKoKoMu_CardRegister.Resources.Resources.PostalCode');
                     $("#lbltext").text('@HotelKoKoMu_CardRegister.Resources.Resources.PostalCode');
-                    ModalShow();
+                    //ModalShow();
                 }
                 else if (commonName == "tdPhoneNo") {
                     $("#lblcanvas").text('@HotelKoKoMu_CardRegister.Resources.Resources.PhoneNo');
                     $("#lbltext").text('@HotelKoKoMu_CardRegister.Resources.Resources.PhoneNo');
-                    ModalShow();
+                   // ModalShow();
                 }
                 else if (commonName == "tdAddress1") {
                     $("#lblcanvas").text('@HotelKoKoMu_CardRegister.Resources.Resources.Address1');
@@ -242,7 +244,7 @@
                 else if (commonName == "tdAddress2") {
                     $("#lblcanvas").text('@HotelKoKoMu_CardRegister.Resources.Resources.Address2');
                     $("#lbltext").text('@HotelKoKoMu_CardRegister.Resources.Resources.Address2');
-                    ModalShow();
+                   // ModalShow();
                 }
                 else if (commonName == "tdWorkPlace") {
                     $("#lblcanvas").text('@HotelKoKoMu_CardRegister.Resources.Resources.WorkPlace');
@@ -252,12 +254,12 @@
                 else if (commonName == "tdNationality") {
                     $("#lblcanvas").text('@HotelKoKoMu_CardRegister.Resources.Resources.Nationality');
                     $("#lbltext").text('@HotelKoKoMu_CardRegister.Resources.Resources.Nationality');
-                    ModalShow();
+                    //ModalShow();
                 }
                 else if (commonName == "tdPassport") {
                     $("#lblcanvas").text('@HotelKoKoMu_CardRegister.Resources.Resources.PassportNo');
                     $("#lbltext").text('@HotelKoKoMu_CardRegister.Resources.Resources.PassportNo');
-                    ModalShow();
+                   // ModalShow();
                 }
                 else if (commonName == "tdSign") {
                     $("#btnInputKeyboard").addClass('d-none');
@@ -522,6 +524,12 @@
             $("#txtRegister").val('');
             ctx.clearRect(0, 0, ctx.canvas.clientWidth, ctx.canvas.clientHeight);
             ctx.fillStyle = 'rgb(255,255,255)';
+        }
+
+        function ClickDemo() {
+            
+           // var result = JSON.parse(CalltoApiController('@Url.Action("GetDemoList", "api/CardAPI/")'));
+            alert(CalltoApiController('@Url.Action("GetDemoList", "api/CardAPI/")'));
         }
     </script>
    

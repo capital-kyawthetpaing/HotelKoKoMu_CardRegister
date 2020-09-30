@@ -31,7 +31,7 @@ namespace HotelKoKoMu_CardRegister.Controllers
         /// <summary>
         /// update guest information 
         /// </summary>
-        /// <param name="model"></param>
+        /// <param name="cardRegisterInfo"></param>
         /// <returns></returns>
         [HttpPost]
         [ActionName("SaveGuestInformation")]
@@ -121,7 +121,7 @@ namespace HotelKoKoMu_CardRegister.Controllers
         /// <summary>
         /// get hotel information based on hotel no
         /// </summary>
-        /// <param name="hotelModel"></param>
+        /// <param name="hotelInfo"></param>
         /// <returns></returns>
         [HttpPost]
         [ActionName("GetHotelInformation")]

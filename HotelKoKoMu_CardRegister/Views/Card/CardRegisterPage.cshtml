@@ -192,33 +192,32 @@
             }, 30000);//3000*@
 
              //get data form hotel system if exists
-            var HotelSystemModel = {RoomNo:""};
-            var result = CalltoApiController('@Url.Action("GetGuestInformationFromHotel", "api/HotelAPI/")', HotelSystemModel);
+            var HotelSystemModel = { SystemID: "e-card", PMSID: "FMFS", PMSPassword: "Abc123#", HotelCode: "000001", MachineNo: "01" };
+            var result = JSON.parse(CalltoApiController('@Url.Action("GetGuestInformation", "api/CardAPI/")', HotelSystemModel));
             if (result != "") {
-
-                $("#lblHotelCode").text(result[0].hotelcode );
+                $("#lblHotelCode").text(result[0].hotel_code );
                 $("#lblSystemDate").text(result[0].systemdate);
                 $("#lblReservationNo").text(result[0].reservationno);
                 $("#lblRoomNo").text(result[0].roomno);
                 $("#lblCreateddate").text(result[0].created_date);
-                if (result[0].guestname != null)
-                    $('#tdGuestName').append(CreateLabelControl(result[0].guestname, "lblGuestName"));
-                if (result[0].kananame != null)
-                    $('#tdKanaName').append(CreateLabelControl(result[0].kananame, "lblKanaName"));
-                if (result[0].postalcode != null)
-                    $('#tdPostalCode').append(CreateLabelControl(result[0].postalcode, "lblPostalCode"));
-                if (result[0].phoneno != null)
-                    $('#tdPhoneNo').append(CreateLabelControl(result[0].phoneno, "lblPhoneNo"));
-                if (result[0].address1 != null)
-                    $('#tdAddress1').append(CreateLabelControl(result[0].address1, "lblAddress1"));
-                if (result[0].address2 != null)
-                    $('#tdAddress2').append(CreateLabelControl(result[0].address2, "lblAddress2"));
-                if (result[0].workplace != null)
-                    $('#tdWorkPlace').append(CreateLabelControl(result[0].workplace, "lblWorkPlace"));
+                if (result[0].guestname_hotel != null)
+                    $('#tdGuestName').append(CreateLabelControl(result[0].guestname_hotel, "lblGuestName"));
+                if (result[0].kananame_hotel != null)
+                    $('#tdKanaName').append(CreateLabelControl(result[0].kananame_hotel, "lblKanaName"));
+                if (result[0].postalcode_hotel != null)
+                    $('#tdPostalCode').append(CreateLabelControl(result[0].postalcode_hotel, "lblPostalCode"));
+                if (result[0].phoneno_hotel != null)
+                    $('#tdPhoneNo').append(CreateLabelControl(result[0].phoneno_hotel, "lblPhoneNo"));
+                if (result[0].address1_hotel != null)
+                    $('#tdAddress1').append(CreateLabelControl(result[0].address1_hotel, "lblAddress1"));
+                if (result[0].address2_hotel != null)
+                    $('#tdAddress2').append(CreateLabelControl(result[0].address2_hotel, "lblAddress2"));
+                if (result[0].workplace_hotel != null)
+                    $('#tdWorkPlace').append(CreateLabelControl(result[0].workplace_hotel, "lblWorkPlace"));
                 if (result[0].nationality != null)
-                    $('#tdNationality').append(CreateLabelControl(result[0].nationality, "lblNationality"));
-                if (result[0].passportno != null)
-                    $('#tdPassport').append(CreateLabelControl(result[0].passportno, "lblPassport"));
+                    $('#tdNationality').append(CreateLabelControl(result[0].nationality_hotel, "lblNationality"));
+                if (result[0].passportno_hotel != null)
+                    $('#tdPassport').append(CreateLabelControl(result[0].passportno_hotel, "lblPassport"));
                 }
 
 

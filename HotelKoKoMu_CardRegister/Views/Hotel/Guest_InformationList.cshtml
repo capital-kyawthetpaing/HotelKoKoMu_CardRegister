@@ -32,11 +32,13 @@
 @section Scripts{
     <script>
         $(document).ready(function () {
-            var result = CalltoApiController('@Url.Action("GetGuestInformation", "api/CardAPI/")');
+
+
+            var CardModel = { HotelCode: "000001"};
+            var result = CalltoApiController('@Url.Action("GetGuestInformation", "api/CardAPI/")', CardModel);
             if (result != "") {
                 BindGuestInformationTable(result);
             }
-            
         }); 
 
 

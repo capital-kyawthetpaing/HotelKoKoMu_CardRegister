@@ -4,7 +4,7 @@
     Layout = "~/Views/Shared/_CardRegisterLayout.cshtml";
 }
 
-<div class="col-xs-12 col-md-6">
+@*<div class="col-xs-12 col-md-6">
     <div>
         <table id="tblGuestList" class=" col-sm-12" >
             <thead>
@@ -27,7 +27,41 @@
         </table>
     </div>
 
-</div>
+</div>*@
+  <section class="content">
+      <div class="container-fluid" id="content_zip">
+
+          <div class="row">
+              <div class="col-xl-12 col-md-12 mb-2">
+                  <div class="card border-left-info shadow h-100 py-2">
+                      <div class="card-body">
+                          <div class="table-responsive">
+                              <table id="tblGuestList" class=" col-sm-12">
+                                  <thead>
+                                      <tr>
+                                          <th>HotelCode:</th>
+                                          <th>ReservationNo:</th>
+                                          <th>RoomNo:</th>
+                                          <th>SystemDate:</th>
+                                          <th>GuestName:</th>
+                                          <th>KanaName:</th>
+                                          <th>PostalCode:</th>
+                                          <th>PhNO:</th>
+                                          <th>Address1:</th>
+                                          <th>Address2:</th>
+                                          <th>Workplace:</th>
+                                          <th>Nationality:</th>
+                                          <th>PassportNo:</th>
+                                      </tr>
+                                  </thead>
+                              </table>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </section>
 
 @section Scripts{
     <script>

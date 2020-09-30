@@ -181,5 +181,22 @@ namespace HotelKoKoMu_CardRegister.Controllers
             model.GuestName = "Mg Mg";
             return Ok(JsonConvert.SerializeObject(model));         
         }
+
+        [HttpGet]
+        [ActionName("GetResultList")]
+        public IHttpActionResult GetResultList()
+        {
+            var my_jsondata = new
+            {
+                Status = "success",
+                FailureReason = "",
+                ErrorDescriptoin = "",
+            };
+
+            //Tranform it to Json object
+            string json_data = JsonConvert.SerializeObject(my_jsondata);
+            return Ok(json_data);
+        }
+
     }
 }

@@ -86,7 +86,7 @@ namespace HotelKoKoMu_CardRegister.ContextDB
             return para;
         }
 
-        public string SelectJson(string sSQL, params NpgsqlParameter[] para)
+        public string SelectJson(string sSQL, params NpgsqlParameter[] param)
         {
             DataTable dt = new DataTable
             {
@@ -96,13 +96,14 @@ namespace HotelKoKoMu_CardRegister.ContextDB
             using (var adapt = new NpgsqlDataAdapter(sSQL, newCon))
             {
                 newCon.Open();
-                adapt.SelectCommand.CommandType = CommandType.StoredProcedure;
-                if (para != null)
+                NpgsqlCommand cmd = new NpgsqlCommand(sSQL, newCon);
+                cmd.CommandType = CommandType.StoredProcedure;
+                if (param != null)
                 {
-                    para = ChangeToDBNull(para);
-                    adapt.SelectCommand.Parameters.AddRange(para);
+                    param = ChangeToDBNull(param);
+                    adapt.SelectCommand.Parameters.AddRange(param);
                 }
-
+                //cmd.CommandText = "fetch all in \"ref\"";
                 adapt.Fill(dt);
                 newCon.Close();
             }

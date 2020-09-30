@@ -172,14 +172,6 @@ namespace HotelKoKoMu_CardRegister.Controllers
             string sql = "Select hotel_code, reservationno, roomno, systemdate, guestname_hotel, kananame_hotel, postalcode_hotel, phoneno_hotel, address1_hotel, address2_hotel, workplace_hotel, nationality_hotel, passportno_hotel from trn_guestinformation";
             return bdl.SelectJson(sql, null);
         }
-
-        [HttpGet]
-        [ActionName("GetDemoList")]
-        public IHttpActionResult GetDemoList()
-        {
-            CardRegisterModel model = new CardRegisterModel();
-            model.GuestName = "Mg Mg";
-            return Ok(JsonConvert.SerializeObject(model));         
-        }
+       
     }
 }

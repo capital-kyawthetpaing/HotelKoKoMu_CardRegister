@@ -173,7 +173,7 @@ namespace HotelKoKoMu_CardRegister.Controllers
             return bdl.SelectJson(sql, null);
         }
 
-        [HttpPost]
+        [HttpGet]
         [ActionName("GetDemoList")]
         public IHttpActionResult GetDemoList()
         {

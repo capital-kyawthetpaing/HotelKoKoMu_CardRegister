@@ -24,6 +24,8 @@
 @section Scripts{
     <script>
         $(document).ready(function () {
+            GuestInformation();
+        });
 
             function GuestInformation() {
                 $.ajax({
@@ -33,6 +35,7 @@
                     dataType: "json",
 
                     success: function (response) {
+                        alert("go");
                         BindGuestInformationTable(response);
                     }
                 });
@@ -51,9 +54,9 @@
                     "pagingType": "simple_numbers",
                     destroy: true,
                     "columns": [
-                        { "data": "", orderable: false, "width": "13%" },
-                        { "data": "", orderable: false, "width": "13%" },
-                        { "data": "", orderable: false, "width": "13%" },
+                        { "data": "guestname_text", orderable: false, "width": "13%" },
+                        { "data": "postalcode_text", orderable: false, "width": "13%" },
+                        { "data": "phoneno_text", orderable: false, "width": "13%" },
                         { "data": "", orderable: false, "width": "13%" },
                         { "data": "", orderable: false, "width": "13%" },
                         { "data": "", orderable: false, "width": "13%" },
@@ -65,7 +68,7 @@
 
                 });
             }
-        });
+        
     </script>
 }
 

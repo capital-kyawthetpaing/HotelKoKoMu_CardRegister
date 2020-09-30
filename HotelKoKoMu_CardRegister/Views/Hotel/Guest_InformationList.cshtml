@@ -6,14 +6,22 @@
 
 <div class="col-xs-12 col-md-6">
     <div>
-        <table id="tblGuestList" class=" col-sm-12" style="margin-left:10px;">
+        <table id="tblGuestList" class=" col-sm-12" >
             <thead>
                 <tr>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
+                    <th>HotelCode:</th>
+                    <th>ReservationNo:</th>
+                    <th>RoomNo:</th>
+                    <th>SystemDate:</th>
+                    <th>GuestName:</th>
+                    <th>KanaName:</th>
+                    <th>PostalCode:</th>
+                    <th>PhNO:</th>
+                    <th>Address1:</th>
+                    <th>Address2:</th>
+                    <th>Workplace:</th>
+                    <th>Nationality:</th>
+                    <th>PassportNo:</th>
                 </tr>
             </thead>
         </table>
@@ -35,7 +43,6 @@
                     dataType: "json",
 
                     success: function (response) {
-                        alert("go");
                         BindGuestInformationTable(response);
                     }
                 });
@@ -54,16 +61,19 @@
                     "pagingType": "simple_numbers",
                     destroy: true,
                     "columns": [
-                        { "data": "guestname_text", orderable: false, "width": "13%" },
-                        { "data": "postalcode_text", orderable: false, "width": "13%" },
-                        { "data": "phoneno_text", orderable: false, "width": "13%" },
-                        { "data": "", orderable: false, "width": "13%" },
-                        { "data": "", orderable: false, "width": "13%" },
-                        { "data": "", orderable: false, "width": "13%" },
-                        { "data": "", orderable: false, "width": "13%" },
-                        { "data": "", orderable: false, "width": "13%" },
-                        { "data": "", orderable: false, "width": "13%" },
-                        { "data": "", orderable: false, "width": "13%" },
+                        { "data": "hotel_code", orderable: false, "width": "13%" },
+                        { "data": "reservationno", orderable: false, "width": "13%" },
+                        { "data": "roomno", orderable: false, "width": "13%" },
+                        { "data": "systemdate", orderable: false, "width": "13%" },
+                        { "data": "guestname_hotel", orderable: false, "width": "13%" },
+                        { "data": "kananame_hotel", orderable: false, "width": "13%" },
+                        { "data": "postalcode_hotel", orderable: false, "width": "13%" },
+                        { "data": "phoneno_hotel", orderable: false, "width": "13%" },
+                        { "data": "address1_hotel", orderable: false, "width": "13%" },
+                        { "data": "address2_hotel", orderable: false, "width": "13%" },
+                        { "data": "workplace_hotel", orderable: false, "width": "13%" },
+                        { "data": "nationality_hotel", orderable: false, "width": "13%" },
+                        { "data": "passportno_hotel", orderable: false, "width": "13%" },
                     ]
 
                 });

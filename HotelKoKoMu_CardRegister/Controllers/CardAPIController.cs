@@ -135,13 +135,25 @@ namespace HotelKoKoMu_CardRegister.Controllers
             return Ok(dt);
         }
 
+        /// <summary>
+        /// get guest information
+        /// </summary>
+        /// <param name="hotelModel"></param>
+        /// <returns></returns>
         [HttpPost]
         [ActionName("GetGuestInformation")]
         public string GetGuestInformation(CardRegisterModel cardmodel)
         {
             BaseDL bdl = new BaseDL();
-            string cmdText = "Select hotel_code,reservationno, from trn_guestinformation";
-            return bdl.SelectJson(cmdText, null);
+            cardmodel.Sqlprms = new NpgsqlParameter[5];
+            cardmodel.Sqlprms[0] = new NpgsqlParameter("@systemid",cardmodel.HotelCode);
+            cardmodel.Sqlprms[1] = new NpgsqlParameter("@pmsid",cardmodel.PMSID);
+            cardmodel.Sqlprms[2] = new NpgsqlParameter("@pmspassword", cardmodel.PMSPassword);
+            cardmodel.Sqlprms[3] = new NpgsqlParameter("@hotelcode",cardmodel.HotelCode);
+            cardmodel.Sqlprms[4] = new NpgsqlParameter("@machineno",cardmodel.MachineNo);
+            string sql = "Select hotel_code, reservationno, roomno, systemdate, guestname_hotel, kananame_hotel, postalcode_hotel, phoneno_hotel, address1_hotel, address2_hotel, workplace_hotel, nationality_hotel, passportno_hotel from trn_guestinformation";
+                 sql+="where flag = '0' and(@pmsid isnull or pmsid = @pmsid) and(@systemid isnull or systemid = @systemid) and(@pmspassword isnull or pmspassword = @pmspassword) and(@machineno isnull or machineno = @machineno) and(@createddate isnull or created_date = @createddate)";
+            return bdl.SelectJson(sql, cardmodel.Sqlprms);
         }
     }
 }

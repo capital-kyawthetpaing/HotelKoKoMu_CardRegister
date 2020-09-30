@@ -16,6 +16,7 @@
                             <table id="tbhotel" class="hrtable col-sm-12 col-md-12" border="1">
                                 <thead>
                                     <tr>
+                                        
                                         <th>ReservationNo:</th>
                                         <th>RoomNo:</th>
                                         <th>ArriveDate:</th>
@@ -51,11 +52,10 @@
 @section Scripts{
     <script type="text/javascript">
         $(document).ready(function () {
-
-           
             var result = CalltoApiController('@Url.Action("GuestInformation", "api/HotelAPI/")');
             if (result != "") {
-               
+               // <td><button id='" + result[0].reservationno+"_"+ result[0].roomno+"'></button></td>
+               //<td><button id='" + result[0].reservationno+"_"+ result[0].roomno+"'></button></td>
                 var info = "<tr><td>" + result[0].reservationno + "</td><td>" + result[0].roomno + "</td><td>" + moment(result[0].arrivaldate).format('YYYY-MM-DD') + "</td><td>" + moment(result[0].departuredate).format('YYYY-MM-DD')+ "</td><td>"
                     + result[0].guestname + "</td><td>" + result[0].kananame + "</td><td>" + result[0].postalcode + "</td><td>" + result[0].phoneno + "</td><td>" + result[0].address1 + "</td><td>"
                     + result[0].address2 + "</td><td>" + result[0].workplace + "</td><td>" + result[0].nationality + "</td><td>" + result[0].passportno + "</td><td>" + "</tr > ";

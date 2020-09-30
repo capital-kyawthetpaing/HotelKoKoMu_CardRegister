@@ -58,12 +58,12 @@ namespace HotelKoKoMu_CardRegister.ContextDB
                 cmd.Connection.Open();
                 cmd.ExecuteNonQuery();
                 cmd.Connection.Close();
-                return "true";
+                return "success";
             }
             catch (Exception ex)
             {
                 string msg = ex.Message;
-                return "false";
+                return ex.Message;
             }
         }
 
@@ -80,8 +80,6 @@ namespace HotelKoKoMu_CardRegister.ContextDB
                 {
                     p.Value = p.Value;
                     p.NpgsqlValue = p.Value;
-                    //p.Value = p.Value.ToString().Trim();
-                    //p.NpgsqlValue = p.Value.ToString().Trim();
                 }
             }
 

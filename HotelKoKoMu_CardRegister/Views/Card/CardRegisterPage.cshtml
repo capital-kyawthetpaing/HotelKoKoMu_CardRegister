@@ -193,10 +193,11 @@
 
              //get data form hotel system if exists
             var HotelSystemModel = { SystemID: "e-card", PMSID: "FMFS", PMSPassword: "Abc123#", HotelCode: "000001", MachineNo: "01" };
-            var result = CalltoApiController('@Url.Action("GetGuestInformation", "api/CardAPI/")', HotelSystemModel);
-            var guestdata = JSON.parse(result);
-            alert(guestdata);
-            if (guestdata.length>0) {
+            var result = JSON.parse(CalltoApiController('@Url.Action("GetGuestInformation", "api/CardAPI/")', HotelSystemModel));
+            //var guestdata = JSON.parse(result);
+            //alert(guestdata);
+            if (result.length > 0) {
+                alert(result[0].guestname_hotel);
                 $("#lblHotelCode").text(result[0].hotel_code );
                 $("#lblSystemDate").text(result[0].systemdate);
                 $("#lblReservationNo").text(result[0].reservationno);

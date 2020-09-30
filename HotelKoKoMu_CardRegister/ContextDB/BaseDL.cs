@@ -92,20 +92,27 @@ namespace HotelKoKoMu_CardRegister.ContextDB
             {
                 TableName = "data"
             };
-            var newCon = new NpgsqlConnection(conStr);
-            using (var adapt = new NpgsqlDataAdapter(sSQL, newCon))
+            try
             {
-                newCon.Open();
-                NpgsqlCommand cmd = new NpgsqlCommand(sSQL, newCon);
-                cmd.CommandType = CommandType.StoredProcedure;
-                if (param != null)
+                var newCon = new NpgsqlConnection(conStr);
+                using (var adapt = new NpgsqlDataAdapter(sSQL, newCon))
                 {
-                    param = ChangeToDBNull(param);
-                    adapt.SelectCommand.Parameters.AddRange(param);
+                    newCon.Open();
+                    NpgsqlCommand cmd = new NpgsqlCommand(sSQL, newCon);
+                    cmd.CommandType = CommandType.Text;
+                    if (param != null)
+                    {
+                        param = ChangeToDBNull(param);
+                        adapt.SelectCommand.Parameters.AddRange(param);
+                    }
+                    //cmd.CommandText = "fetch all in \"ref\"";
+                    adapt.Fill(dt);
+                    newCon.Close();
                 }
-                //cmd.CommandText = "fetch all in \"ref\"";
-                adapt.Fill(dt);
-                newCon.Close();
+            }
+            catch(Exception ex)
+            {
+                string msg = ex.Message;
             }
             return DataTableToJSONWithJSONNet(dt);
         }

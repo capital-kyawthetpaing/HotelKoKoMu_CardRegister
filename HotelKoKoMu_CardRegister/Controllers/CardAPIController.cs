@@ -192,8 +192,6 @@ namespace HotelKoKoMu_CardRegister.Controllers
                 SystemDate = "2020-09-30",
                 ReservationNo = "00002",
                 RoomNo = "01",
-                ArriveDate = "2020-09-26",
-                DepartureDate = "2020-09-30",
                 NameKanji = "Mg Mg",
                 NameKana = "Mg Mg",
                 ZipCode = "11111",

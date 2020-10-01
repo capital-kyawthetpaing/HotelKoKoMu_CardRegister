@@ -170,11 +170,23 @@
                 success: function (response) {
                     var result = JSON.parse(response);
                     if (result[0].status == "Success") {
-
                         //get data from hotel system if exists
-                        var result = JSON.parse(CalltoApiController('@Url.Action("getRegistrationCardData", "api/CardAPI/")', CardRegisterInfo));
+                        GetHotelData();
+                    }
+                }
+            });
 
-                        //var result = JSON.parse(CalltoApiController('@Url.Action("GetGuestInformation", "api/CardAPI/")', CardRegisterModel));
+            function GetHotelData() {
+                $.ajax({
+                    type: "Post",
+                    url: "@Url.Action("getRequestForRegistrationCard", "api/CardAPI")",
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                    data: JSON.stringify(CardRegisterInfo),
+
+                    success: function (response) {
+                       
+                        var result = JSON.parse(response); 
                         if (result.length > 0) {
 
                             $("#lblHotelCode").text(result[0].hotel_code);
@@ -202,8 +214,8 @@
                                 $('#tdPassport').append(CreateLabelControl(result[0].passportno_hotel, "lblPassport"));
                         }
                     }
-                }
-            });
+                })
+            }
 
             var currentDate = new Date();
             //set current date into arrival date

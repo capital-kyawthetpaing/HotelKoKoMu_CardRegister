@@ -160,39 +160,56 @@
         $(document).ready(function () {
             var CardRegisterInfo = { SystemID: "e-card", PmsID: "FMFS", PmsPassword: "Abc123#", HotelCode: "000001", MachineNo: "01" };
 
-            var result = JSON.parse(CalltoApiController('@Url.Action("requestForRegistrationCard", "api/CardAPI/")','GET', CardRegisterInfo));
-            if (result.status == "Success") {
-                //get data from hotel system if exists            
-                var result = JSON.parse(CalltoApiController('@Url.Action("getRegistrationCardData", "api/CardAPI/")', CardRegisterInfo));
-
-                //var result = JSON.parse(CalltoApiController('@Url.Action("GetGuestInformation", "api/CardAPI/")', CardRegisterModel));
-                if (result.length > 0) {
-
-                    $("#lblHotelCode").text(result[0].hotel_code);
-                    $("#lblSystemDate").text(result[0].systemdate);
-                    $("#lblReservationNo").text(result[0].reservationno);
-                    $("#lblRoomNo").text(result[0].roomno);
-                    $("#lblCreateddate").text(result[0].created_date);
-                    if (result[0].guestname_hotel != null)
-                        $('#tdGuestName').append(CreateLabelControl(result[0].guestname_hotel, "lblGuestName"));
-                    if (result[0].kananame_hotel != null)
-                        $('#tdKanaName').append(CreateLabelControl(result[0].kananame_hotel, "lblKanaName"));
-                    if (result[0].zipcode_hotel != null)
-                        $('#tdZipCode').append(CreateLabelControl(result[0].zipcode_hotel, "lblZipCode"));
-                    if (result[0].tel_hotel != null)
-                        $('#tdTel').append(CreateLabelControl(result[0].tel_hotel, "lblTel"));
-                    if (result[0].address1_hotel != null)
-                        $('#tdAddress1').append(CreateLabelControl(result[0].address1_hotel, "lblAddress1"));
-                    if (result[0].address2_hotel != null)
-                        $('#tdAddress2').append(CreateLabelControl(result[0].address2_hotel, "lblAddress2"));
-                    if (result[0].company_hotel != null)
-                        $('#tdCompany').append(CreateLabelControl(result[0].company_hotel, "lblCompany"));
-                    if (result[0].nationality != null)
-                        $('#tdNationality').append(CreateLabelControl(result[0].nationality_hotel, "lblNationality"));
-                    if (result[0].passportno_hotel != null)
+            //request for hotel sytem 
+            var result = CalltoApiController('@Url.Action("requestForRegistrationCard", "api/CardAPI/")', CardRegisterInfo);
+            
+            //get data from hotel system if exists            
+            var result = CalltoApiController('@Url.Action("getRequestForRegistrationCard", "api/CardAPI/")', CardRegisterInfo);
+            var Status = result.Status;
+            
+            if (Status["Success"] != undefined) {
+                var cardObj = JSON.parse(Status.Success);
+                if (cardObj.length > 0) {
+                    $("#lblHotelCode").text("000001");
+                    $("#lblSystemDate").text(cardObj[0].systemdate);
+                    $("#lblReservationNo").text(cardObj[0].reservationno);
+                    $("#lblRoomNo").text(cardObj[0].roomno);
+                    $("#lblCreateddate").text(cardObj[0].created_date);
+                    if (cardObj[0].guestname_hotel != null)
+                        $('#tdGuestName').append(CreateLabelControl(cardObj[0].guestname_hotel, "lblGuestName"));
+                    if (cardObj[0].kananame_hotel != null)
+                        $('#tdKanaName').append(CreateLabelControl(cardObj[0].kananame_hotel, "lblKanaName"));
+                    if (cardObj[0].zipcode_hotel != null)
+                        $('#tdZipCode').append(CreateLabelControl(cardObj[0].zipcode_hotel, "lblZipCode"));
+                    if (cardObj[0].tel_hotel != null)
+                        $('#tdTel').append(CreateLabelControl(cardObj[0].tel_hotel, "lblTel"));
+                    if (cardObj[0].address1_hotel != null)
+                        $('#tdAddress1').append(CreateLabelControl(cardObj[0].address1_hotel, "lblAddress1"));
+                    if (cardObj[0].address2_hotel != null)
+                        $('#tdAddress2').append(CreateLabelControl(cardObj[0].address2_hotel, "lblAddress2"));
+                    if (cardObj[0].company_hotel != null)
+                        $('#tdCompany').append(CreateLabelControl(cardObj[0].company_hotel, "lblCompany"));
+                    if (cardObj[0].nationality != null)
+                        $('#tdNationality').append(CreateLabelControl(cardObj[0].nationality_hotel, "lblNationality"));
+                    if (cardObj[0].passportno_hotel != null)
                         $('#tdPassport').append(CreateLabelControl(result[0].passportno_hotel, "lblPassport"));
                 }
             }
+            else if (Status["NotData"] != undefined) {               
+                swal.fire({
+                    icon: 'success',
+                    title: 'Guest Information',
+                    text: Status["NotData"]
+                });
+            }
+            else {
+                swal.fire({
+                    icon: 'error',
+                    title: 'Guest Information',
+                    text: '異常発生'
+                });
+            }      
+            
             var currentDate = new Date();
             //set current date into arrival date
             $("#dtpArrivalDate").val(moment(currentDate).format('YYYY-MM-DD'));

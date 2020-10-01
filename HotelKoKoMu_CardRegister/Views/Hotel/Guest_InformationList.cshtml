@@ -29,11 +29,19 @@
     <script>
         $(document).ready(function () {
 
-            var result = CalltoApiController('@Url.Action("Get_HotelGuestInformation", "api/CardAPI/")');
-            if (result != "") {
-                BindGuestInformationTable(result);
-            }
-        }); 
+            var CardRegisterInfo = { SystemID: "e-card", PmsID: "FMFS", PmsPassword: "Abc123#", HotelCode: "000001", MachineNo: "01" };
+            $.ajax({
+                type: "Post",
+                url: "@Url.Action("getRegistrationCardData", "api/CardAPI")",
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                data: JSON.stringify(CardRegisterInfo),
+
+                success: function (response) {
+                    BindGuestInformationTable(response);
+                }
+            });
+        });
 
 
         function BindGuestInformationTable(response) {
@@ -49,24 +57,25 @@
                 scrollX: true,
                 paging: false,
                 "columns": [
-                    { "data": "hotel_code", orderable: false, "width": "13%" },
+                   
                     { "data": "reservationno", orderable: false, "width": "13%" },
                     { "data": "roomno", orderable: false, "width": "13%" },
                     { "data": "systemdate", orderable: false, "width": "13%" },
-                    { "data": "guestname_hotel", orderable: false, "width": "13%" },
-                    { "data": "kananame_hotel", orderable: false, "width": "13%" },
-                    { "data": "zipcode_hotel", orderable: false, "width": "13%" },
-                    { "data": "tel_hotel", orderable: false, "width": "13%" },
-                    { "data": "address1_hotel", orderable: false, "width": "13%" },
-                    { "data": "address2_hotel", orderable: false, "width": "13%" },
-                    { "data": "company_hotel", orderable: false, "width": "13%" },
-                    { "data": "nationality_hotel", orderable: false, "width": "13%" },
-                    { "data": "passportno_hotel", orderable: false, "width": "13%" },
+                    { "data": "guestname", orderable: false, "width": "13%" },
+                    { "data": "kananame", orderable: false, "width": "13%" },
+                    { "data": "zipcode", orderable: false, "width": "13%" },
+                    { "data": "tel", orderable: false, "width": "13%" },
+                    { "data": "address1", orderable: false, "width": "13%" },
+                    { "data": "address2", orderable: false, "width": "13%" },
+                    { "data": "company", orderable: false, "width": "13%" },
+                    { "data": "nationality", orderable: false, "width": "13%" },
+                    { "data": "passportno", orderable: false, "width": "13%" },
+                    { "data": "sign_filename", orderable: false, "width": "13%" },
                 ]
 
             });
         }
-        
+
     </script>
 }
 

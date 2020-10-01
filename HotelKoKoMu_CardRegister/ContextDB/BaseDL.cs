@@ -57,7 +57,7 @@ namespace HotelKoKoMu_CardRegister.ContextDB
                 cmd.Connection.Open();
                 cmd.ExecuteNonQuery();
                 cmd.Connection.Close();
-                return "success";
+                return "true";
             }
             catch (Exception ex)
             {
@@ -107,8 +107,9 @@ namespace HotelKoKoMu_CardRegister.ContextDB
                         adapt.SelectCommand.Parameters.AddRange(param);
                     }
                     adapt.Fill(dt);
-                    newCon.Close();
                     msg = "Success";
+                    newCon.Close();
+                   
                 }
             }
             catch (Exception ex)

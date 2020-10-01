@@ -1,7 +1,191 @@
 ﻿
 @{
     ViewBag.Title = "Guest_InformationNew";
+    Layout = "~/Views/Shared/_CardRegisterLayout.cshtml";
 }
 
-<h2>Guest_InformationNew</h2>
+<div class="row">
+    <div class="col-md-6"><table>
+    <tr>
+        <td>
+            <label>SystemID</label>
+        </td>
+        <td>
+            <input id="SystemID" type="text" />
+        </td>
+        <td>
+            <label>PmsID</label>
+        </td>
+        <td>
+            <input id="PmsID" type="text" />
+        </td>
+    </tr>
+    
+    <tr>
+        <td>
+            <label>PmsPassword</label>
+        </td>
+        <td>
+            <input id="PmsPassword" type="text" />
+        </td>
+        <td>
+            <label>HotelCode</label>
+        </td>
+        <td>
+            <input id="HotelCode" type="text" />
+        </td>
+    </tr>
+    
+    <tr>
+        <td>
+            <label>MachineNo</label>
+        </td>
+        <td>
+            <input id="MachineNo" type="text" />
+        </td>
+        <td>
+            <label>SystemDate</label>
+        </td>
+        <td>
+            <input id="SystemDate" type="date"  />
+        </td>
+    </tr>
+    
+    <tr>
+        <td>
+            <label>ReservationNo</label>
+        </td>
+        <td>
+            <input id="ReservationNo" type="text" />
+        </td>
+        <td>
+            <label>RoomNo</label>
+        </td>
+        <td>
+            <input id="RoomNo" type="text" />
+        </td>
+    </tr>
+    
+    <tr>
+        <td>
+            <label>ArriveDate</label>
+        </td>
+        <td>
+            <input id="ArriveDate" type="date" />
+        </td>
+        <td>
+            <label>DepartureDate</label>
+        </td>
+        <td>
+            <input id="DepartureDate" type="date" />
+        </td>
+    </tr>
+   
+    <tr>
+        <td>
+            <label>NameKanji</label>
+        </td>
+        <td>
+            <input id="NameKanji" type="text" />
+        </td>
+        <td>
+            <label>NameKana</label>
+        </td>
+        <td>
+            <input id="NameKana" type="text" />
+        </td>
+    </tr>
+   
+    <tr>
+        <td>
+            <label>ZipCode</label>
+        </td>
+        <td>
+            <input id="ZipCode" type="text" />
+        </td>
+        <td>
+            <label>Tel</label>
+        </td>
+        <td>
+            <input id="Tel" type="text" />
+        </td>
+    </tr>
+   
+    <tr>
+        <td>
+            <label>Address1</label>
+        </td>
+        <td>
+            <input id="Address1" type="text" />
+        </td>
+        <td>
+            <label>Address2</label>
+        </td>
+        <td>
+            <input id="Address2" type="text" />
+        </td>
+    </tr>
+    
+    <tr>
+        <td>
+            <label>Company</label>
+        </td>
+        <td>
+            <input id="Company" type="text" />
+        </td>
+        <td>
+            <label>Nationality</label>
+        </td>
+        <td>
+            <input id="Nationality" type="text" />
+        </td>
+    </tr>
+    
+    <tr>
+        <td>
+            <label>PassportNo</label>
+        </td>
+        <td>
+            <input id="PassportNo" type="text" />
+        </td>
+    </tr>
+</table></div>
+</div>
+<br />
+<div class="row">
+    <div class="col-xl-12 text-center">
+        <div class="text-s font-weight-bold text-custom1 text-uppercase mb-1">
+            <button type="submit" id="btnSave" class="btn btn-success col-xl-2" tabindex="38"><i class="fa fa-save"></i>&nbsp; Save</button>
+        </div>
+    </div>
+</div>
 
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $("#btnSave").click(function () {
+
+                var GuestInformation = { SystemID: $("#SystemID").val(), PmsID: $("#PmsID").val(), PmsPassword: $("#PmsPassword").val(), MachineNo: $("#MachineNo").val(), HotelCode: $("#HotelCode").val(), ReservationNo: $("#ReservationNo").val(), RoomNo: $("#RoomNo").val(), SystemDate: $("#SystemDate").val(), GuestName: $("#NameKanji").val(), KanaName: $("#NameKana").val(), ZipCode: $("#ZipCode").val(), Tel: $("#Tel").val(), Address1: $("#Address1").val(), Address2: $("#Address2").val(), Company: $("#Company").val(), Nationality: $("#Nationality").val(), Passport: $("#PassportNo").val(), ArrivalDate: $("#ArriveDate").val(), DepartureDate: $("#DepartureDate").val() };
+                var response = CalltoApiController('@Url.Action("GuestInfo_Save", "api/CardAPI/")', GuestInformation);
+                if (response == "success") {
+
+                    swal.fire({
+                        icon: 'success',
+                        title: 'Guest Information',
+                        text: 'Successfully Saved...'
+                    });
+                    @*location.href = '@Url.Action("Guest_InformationList","Hotel")';*@
+                 }
+                 else {
+                     swal.fire({
+                         icon: 'error',
+                         title: 'Guest Information',
+                         text: response
+                     })
+                 }
+                //window.location.reload();
+             });
+        });
+
+    </script>
+    }

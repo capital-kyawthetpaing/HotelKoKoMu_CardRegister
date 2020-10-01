@@ -25,5 +25,10 @@ namespace HotelKoKoMu_CardRegister.Controllers
             new MultiLanguages().SetLanguage(value);
             return this.Json(new { success = true });
         }
+
+        public ActionResult Login()
+        {
+            return View();
+        }
     }
 }

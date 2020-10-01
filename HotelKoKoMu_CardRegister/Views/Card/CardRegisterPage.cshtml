@@ -158,9 +158,12 @@
         var CardRegistration;
         var GuestName, GuestNameHW, KanaName, KanaNameHW, ZipCode, ZipCodeHW, Tel, TelHW, Address1, AddressHW1, Address2, AddressHW2, Company, CompanyHW, Nationality, NationalityHW, Passport, PassportHW, Sign;
         $(document).ready(function () {
+
             //get data from hotel system if exists
-            var HotelSystemModel = { SystemID: "e-card", PmsID: "FMFS", PmsPassword: "Abc123#", HotelCode: "000001", MachineNo: "01" };
-            var result = JSON.parse(CalltoApiController('@Url.Action("GetGuestInformation", "api/CardAPI/")', HotelSystemModel));           
+            var CardRegisterModel = { SystemID: "e-card", PmsID: "FMFS", PmsPassword: "Abc123#", HotelCode: "000001", MachineNo: "01" };
+            var result = JSON.parse(CalltoApiController('@Url.Action("getRegistrationCardData", "api/CardAPI/")', CardRegisterModel)); 
+
+            //var result = JSON.parse(CalltoApiController('@Url.Action("GetGuestInformation", "api/CardAPI/")', CardRegisterModel));
             if (result.length > 0) {
                
                 $("#lblHotelCode").text(result[0].hotel_code );

@@ -704,6 +704,7 @@
     <Content Include="Views\Hotel\Guest_InformationList.cshtml" />
     <Content Include="Views\Shared\_LoginLayout.cshtml" />
     <Content Include="Views\Card\Login.cshtml" />
+    <Content Include="Views\Hotel\Guest_InformationNew.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

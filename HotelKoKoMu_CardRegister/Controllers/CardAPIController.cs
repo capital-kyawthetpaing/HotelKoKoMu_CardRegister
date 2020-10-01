@@ -195,7 +195,7 @@ namespace HotelKoKoMu_CardRegister.Controllers
                 NameKanji = "Mg Mg",
                 NameKana = "Mg Mg",
                 ZipCode = "11111",
-                Tel = "09-12345",
+                Tel = "012345",
                 Address1 = "No35",
                 Address2 = "Yangon",
                 Company = "Company",

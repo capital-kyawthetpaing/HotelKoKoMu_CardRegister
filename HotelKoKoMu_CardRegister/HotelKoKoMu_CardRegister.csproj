@@ -702,6 +702,8 @@
     <Content Include="Scripts\popper-utils.js.map" />
     <Content Include="Views\Card\CardRegisterPage.cshtml" />
     <Content Include="Views\Hotel\Guest_InformationList.cshtml" />
+    <Content Include="Views\Shared\_LoginLayout.cshtml" />
+    <Content Include="Views\Card\Login.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

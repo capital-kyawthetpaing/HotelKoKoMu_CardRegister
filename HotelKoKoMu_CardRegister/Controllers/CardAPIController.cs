@@ -167,18 +167,18 @@ namespace HotelKoKoMu_CardRegister.Controllers
             return bdl.SelectJson(sql, null);
         }
 
-        [HttpGet]
-        [ActionName("requestForRegistrationCard")]
-        public IHttpActionResult requestForRegistrationCard()
-        {
-            var cardRegistrationObj = new
-            {
-                Status = "Success",
-                FailureReason= "",
-                ErrorDescription= ""
-            };           
-            return Ok(JsonConvert.SerializeObject(cardRegistrationObj));         
-        }
+        //[HttpGet]
+        //[ActionName("requestForRegistrationCard")]
+        //public IHttpActionResult requestForRegistrationCard()
+        //{
+        //    var cardRegistrationObj = new
+        //    {
+        //        Status = "Success",
+        //        FailureReason= "",
+        //        ErrorDescription= ""
+        //    };           
+        //    return Ok(JsonConvert.SerializeObject(cardRegistrationObj));         
+        //}
 
         [HttpGet]
         [ActionName("getRegistrationCardData")]
@@ -208,6 +208,26 @@ namespace HotelKoKoMu_CardRegister.Controllers
             //Tranform it to Json object
             string json_data = JsonConvert.SerializeObject(cardRegistrationObj);
             return Ok(json_data);
+        }
+
+
+
+        [HttpPost]
+        [ActionName("requestForRegistrationCard")]
+        public string requestForRegistrationCard(CardRegisterInfo cardRegisterInfo)
+        {
+            BaseDL bdl = new BaseDL();
+            cardRegisterInfo.Sqlprms = new NpgsqlParameter[5];
+            cardRegisterInfo.Sqlprms[0] = new NpgsqlParameter("@systemid", SqlDbType.VarChar) { Value = cardRegisterInfo.SystemID };
+            cardRegisterInfo.Sqlprms[1] = new NpgsqlParameter("@pmsid", SqlDbType.VarChar) { Value = cardRegisterInfo.PmsID };
+            cardRegisterInfo.Sqlprms[2] = new NpgsqlParameter("@pmspassword", SqlDbType.VarChar) { Value = cardRegisterInfo.PmsPassword };
+            cardRegisterInfo.Sqlprms[3] = new NpgsqlParameter("@hotelcode", SqlDbType.VarChar) { Value = cardRegisterInfo.HotelCode };
+            cardRegisterInfo.Sqlprms[4] = new NpgsqlParameter("@machineno", SqlDbType.VarChar) { Value = cardRegisterInfo.MachineNo };
+            string sql = "select ";
+            sql += "(case when exists ";
+            sql += "(select 1 from trn_guestinformation where flag='0' and pmsid=@pmsid and systemid=@systemid and  pmspassword=@pmspassword and machineno=@machineno and hotel_code=@hotelcode) ";
+            sql += "then 'Success' else 'Error'end) as Status ";
+            return bdl.SelectJson(sql, cardRegisterInfo.Sqlprms);
         }
 
     }

@@ -142,8 +142,8 @@ namespace HotelKoKoMu_CardRegister.Controllers
         /// <param name="cardRegisterInfo"></param>
         /// <returns></returns>
         [HttpPost]
-        [ActionName("GetGuestInformation")]
-        public IHttpActionResult GetGuestInformation(CardRegisterInfo cardRegisterInfo)
+        [ActionName("getRequestForRegistrationCard")]
+        public IHttpActionResult getRequestForRegistrationCard(CardRegisterInfo cardRegisterInfo)
         {
             BaseDL bdl = new BaseDL();
             cardRegisterInfo.Sqlprms = new NpgsqlParameter[5];
@@ -154,7 +154,7 @@ namespace HotelKoKoMu_CardRegister.Controllers
             cardRegisterInfo.Sqlprms[4] = new NpgsqlParameter("@machineno", SqlDbType.VarChar) { Value = cardRegisterInfo.MachineNo };
 
             string sql = "Select hotel_code, reservationno, roomno, systemdate, guestname_hotel, kananame_hotel, zipcode_hotel, tel_hotel, address1_hotel, address2_hotel, company_hotel, nationality_hotel, passportno_hotel from trn_guestinformation";
-            sql += " where flag='0' and (@pmsid isnull or pmsid=@pmsid) and (@systemid isnull or systemid=@systemid) and (@pmspassword isnull or pmspassword=@pmspassword) and (@machineno isnull or machineno=@machineno) and (@hotelcode isnull or hotel_code=@hotelcode)";
+            sql += " where flag='0' and pmsid=@pmsid and systemid=@systemid and  pmspassword=@pmspassword and machineno=@machineno and hotel_code=@hotelcode";
             return Ok(bdl.SelectJson(sql, cardRegisterInfo.Sqlprms));
         }
         #endregion

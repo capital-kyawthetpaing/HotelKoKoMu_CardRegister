@@ -23,5 +23,10 @@ namespace HotelKoKoMu_CardRegister.Controllers
         {
             return View();
         }
+
+        public ActionResult Guest_InformationNew()
+        {
+            return View();
+        }
     }
 }

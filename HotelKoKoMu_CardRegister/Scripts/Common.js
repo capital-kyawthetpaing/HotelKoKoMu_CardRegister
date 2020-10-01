@@ -1,50 +1,16 @@
-﻿function CalltoApiController(url,method, model) {
-   
+﻿function CalltoApiController(url,model) {   
     var result;
     $.ajax({
-        url: url,
-        crossDomain: true,
-        type: requestType,
-        contentType: contentType,
-        dataType: dataType,
-        data: data,
-        beforeSend: function (jqXHR, settings) {
-            if (typeof beforeSendCallbackFunction === "function") {
-                beforeSendCallbackFunction();
-            }
+        url: url.replace("%2F", "/"),        
+        method: 'POST',
+        dataType: 'json',
+        contentType: 'application/json; charset=utf-8',
+        data: JSON.stringify(model),       
+        async: false,
+        success: function (data) {           
+            result = data;
         },
-        success: function (data, textStatus, jqXHR) {
-            if (typeof successCallbackFunction === "function") {
-                successCallbackFunction(data);
-            }
-        },
-        error: function (jqXHR, textStatus, errorThrown) {
-            if (typeof errorCallBackFunction === "function") {
-                errorCallBackFunction(errorThrown);
-            }
-
-        },
-        complete: function (jqXHR, textStatus) {
-            if (typeof completeCallbackFunction === "function") {
-                completeCallbackFunction();
-            }
-        }
     });
-}
-
-    //$.ajax({
-    //    url: url.replace("%2F", "/"),
-    //    method: method,
-    //    //method: 'POST',
-    //    dataType: 'json',
-    //    contentType: 'application/json; charset=utf-8',
-    //    //data: JSON.stringify(model),
-    //    data: model,
-    //    async: false,
-    //    success: function (data) {           
-    //        result = data;
-    //    },
-    //});
     return result;
 }
 

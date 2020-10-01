@@ -485,7 +485,12 @@
         //call card register data every 3 seconds and stop when data found
         function BindCardRegisterData() {                         
             var result = CalltoApiController('@Url.Action("getRequestForRegistrationCard", "api/CardAPI/")', CardRegisterInfo);
+                      
+        }
 
+        //call card register data every 3 seconds and stop when data found
+        function BindCardRegisterData() {                         
+            var result = CalltoApiController('@Url.Action("getRequestForRegistrationCard", "api/CardAPI/")', CardRegisterInfo);
             if (result["Success"] != undefined) {              
                     clearInterval(intervalId);
                     var cardObj = JSON.parse(result.Success);

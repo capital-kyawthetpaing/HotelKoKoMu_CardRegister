@@ -250,8 +250,7 @@ namespace HotelKoKoMu_CardRegister.Controllers
             };
             return Ok(cardRegistrationObj);
         }
-
-
+        
         [HttpPost]
         [ActionName("getRegistrationCardData")]
         public IHttpActionResult getRegistrationCardData(CardRegisterInfo cardRegisterInfo)

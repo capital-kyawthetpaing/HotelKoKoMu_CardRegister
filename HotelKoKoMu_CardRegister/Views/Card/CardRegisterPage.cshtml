@@ -160,7 +160,8 @@
         $(document).ready(function () {
             var CardRegisterInfo = { SystemID: "e-card", PmsID: "FMFS", PmsPassword: "Abc123#", HotelCode: "000001", MachineNo: "01" };
 
-            //var result = JSON.parse(CalltoApiController('@Url.Action("requestForRegistrationCard", "api/CardAPI/")', CardRegisterInfo));
+            //request for hotel sytem 
+            var result = CalltoApiController('@Url.Action("requestForRegistrationCard", "api/CardAPI/")', CardRegisterInfo);
             
             //get data from hotel system if exists            
             var result = CalltoApiController('@Url.Action("getRequestForRegistrationCard", "api/CardAPI/")', CardRegisterInfo);

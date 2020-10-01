@@ -189,17 +189,42 @@ namespace HotelKoKoMu_CardRegister.Controllers
             return "";
         }
 
-        [HttpGet]
+        /// <summary>
+        ///  request hotel information 
+        /// </summary>
+        /// <param name="cardRegisterInfo"></param>
+        /// <returns></returns>
+        [HttpPost]
         [ActionName("requestForRegistrationCard")]
         public IHttpActionResult requestForRegistrationCard(CardRegisterInfo cardRegisterInfo)
         {
+            var returnStatus = new object();
+            BaseDL bdl = new BaseDL();
+            cardRegisterInfo.Sqlprms = new NpgsqlParameter[5];
+            cardRegisterInfo.Sqlprms[0] = new NpgsqlParameter("@systemid", SqlDbType.VarChar) { Value = cardRegisterInfo.SystemID };
+            cardRegisterInfo.Sqlprms[1] = new NpgsqlParameter("@pmsid", SqlDbType.VarChar) { Value = cardRegisterInfo.PmsID };
+            cardRegisterInfo.Sqlprms[2] = new NpgsqlParameter("@pmspassword", SqlDbType.VarChar) { Value = cardRegisterInfo.PmsPassword };
+            cardRegisterInfo.Sqlprms[3] = new NpgsqlParameter("@hotelcode", SqlDbType.VarChar) { Value = cardRegisterInfo.HotelCode };
+            cardRegisterInfo.Sqlprms[4] = new NpgsqlParameter("@machineno", SqlDbType.VarChar) { Value = cardRegisterInfo.MachineNo };
+            string sql = "select ";
+            sql += "(case when exists ";
+            sql += "(select 1 from trn_guestinformation where flag='0' and pmsid=@pmsid and systemid=@systemid and  pmspassword=@pmspassword and machineno=@machineno and hotel_code=@hotelcode) ";
+            sql += "then 'Success' else 'Error'end) as Status ";
+            Tuple<string, string> result = bdl.SelectJson(sql, cardRegisterInfo.Sqlprms);
+            //hotelsystem data exist
+            if (result.Item1 != "" && result.Item2 == "Success")
+                returnStatus = new { Success = result.Item1 };
+           //error
+            else
+                returnStatus = new { Error = result.Item2 };
+
             var cardRegistrationObj = new
             {
-                Status = "Success",
-                FailureReason= "",
-                ErrorDescription= ""
-            };           
-            return Ok(cardRegistrationObj);         
+                Status = returnStatus,
+                FailureReason = result.Item2,
+                ErrorDescription = ""
+            };
+            return Ok(cardRegistrationObj);
         }
 
         [HttpGet]

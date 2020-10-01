@@ -5,11 +5,11 @@ using System.Web;
 
 namespace HotelKoKoMu_CardRegister.Models
 {
-    public class CardRegisterModel:BaseModel
+    public class CardRegisterInfo:BaseInfo
     {
-        public string PMSID { get; set; }
+        public string PmsID { get; set; }
         public string SystemID { get; set; }
-        public string PMSPassword { get; set; }
+        public string PmsPassword { get; set; }
         public string MachineNo { get; set; }
         public string HotelCode { get; set; }
         public string ReservationNo { get; set; }
@@ -20,16 +20,16 @@ namespace HotelKoKoMu_CardRegister.Models
         public string GuestNameHW { get; set; }
         public string KanaName { get; set; }
         public string KanaNameHW { get; set; }
-        public string PostalCode { get; set; }
-        public string PostalCodeHW { get; set; }
-        public string PhoneNo { get; set; }
-        public string PhoneNoHW { get; set; }
+        public string ZipCode { get; set; }
+        public string ZipCodeHW { get; set; }
+        public string Tel { get; set; }
+        public string TelHW { get; set; }
         public string Address1 { get; set; }
         public string AddressHW1 { get; set; }
         public string Address2 { get; set; }
         public string AddressHW2 { get; set; }
-        public string WorkPlace { get; set; }
-        public string WorkPlaceHW { get; set; }
+        public string Company { get; set; }
+        public string CompanyHW { get; set; }
         public string Nationality { get; set; }
         public string NationalityHW { get; set; }
         public string Passport { get; set; }

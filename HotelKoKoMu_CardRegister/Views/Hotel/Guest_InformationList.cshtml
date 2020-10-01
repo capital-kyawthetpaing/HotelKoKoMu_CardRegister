@@ -3,32 +3,7 @@
     ViewBag.Title = "Guest_InformationList";
     Layout = "~/Views/Shared/_CardRegisterLayout.cshtml";
 }
-
-
-<div class="card-body">
-    <div class="table-responsive">
-        <table id="tblGuestList" class=" col-sm-12">
-            <thead>
-                <tr>
-                    <th>HotelCode:</th>
-                    <th>ReservationNo:</th>
-                    <th>RoomNo:</th>
-                    <th>SystemDate:</th>
-                    <th>GuestName:</th>
-                    <th>KanaName:</th>
-                    <th>PostalCode:</th>
-                    <th>PhNO:</th>
-                    <th>Address1:</th>
-                    <th>Address2:</th>
-                    <th>Workplace:</th>
-                    <th>Nationality:</th>
-                    <th>PassportNo:</th>
-                </tr>
-            </thead>
-        </table>
-    </div>
-</div>
-@*<div class="col-md-12">
+<div class="col-md-12">
     <table id="tblGuestList" border="1">
         <thead>
             <tr>
@@ -38,25 +13,22 @@
                 <th>SystemDate</th>
                 <th>GuestName</th>
                 <th>KanaName</th>
-                <th>PostalCode</th>
-                <th>PhNO</th>
+                <th>ZipCode</th>
+                <th>Tel</th>
                 <th>Address1</th>
                 <th>Address2</th>
-                <th>Workplace</th>
+                <th>Company</th>
                 <th>Nationality</th>
                 <th>PassportNo</th>
             </tr>
         </thead>
     </table>
-</div>*@
+</div>
 
 @section Scripts{
     <script>
         $(document).ready(function () {
 
-
-            //var CardModel = { HotelCode: "000001"};
-           //var result = CalltoApiController('@Url.Action("Get_HotelGuestInformation", "api/CardAPI/")', CardModel);
             var result = CalltoApiController('@Url.Action("Get_HotelGuestInformation", "api/CardAPI/")');
             if (result != "") {
                 BindGuestInformationTable(result);
@@ -83,11 +55,11 @@
                     { "data": "systemdate", orderable: false, "width": "13%" },
                     { "data": "guestname_hotel", orderable: false, "width": "13%" },
                     { "data": "kananame_hotel", orderable: false, "width": "13%" },
-                    { "data": "postalcode_hotel", orderable: false, "width": "13%" },
-                    { "data": "phoneno_hotel", orderable: false, "width": "13%" },
+                    { "data": "zipcode_hotel", orderable: false, "width": "13%" },
+                    { "data": "tel_hotel", orderable: false, "width": "13%" },
                     { "data": "address1_hotel", orderable: false, "width": "13%" },
                     { "data": "address2_hotel", orderable: false, "width": "13%" },
-                    { "data": "workplace_hotel", orderable: false, "width": "13%" },
+                    { "data": "company_hotel", orderable: false, "width": "13%" },
                     { "data": "nationality_hotel", orderable: false, "width": "13%" },
                     { "data": "passportno_hotel", orderable: false, "width": "13%" },
                 ]

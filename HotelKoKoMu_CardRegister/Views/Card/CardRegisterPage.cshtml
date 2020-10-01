@@ -1,5 +1,5 @@
 ﻿@using HotelKoKoMu_CardRegister.Models;
-@model HotelKoKoMu_CardRegister.Models.CardRegisterModel
+@model HotelKoKoMu_CardRegister.Models.CardRegisterInfo
 @{
     ViewBag.Title = "CardRegisterPage";
     Layout = "~/Views/Shared/_CardRegisterLayout.cshtml";
@@ -28,14 +28,14 @@
         </tr>
         <tr>
             <td class="td1">
-                <label>@HotelKoKoMu_CardRegister.Resources.Resources.PostalCode</label>
+                <label>@HotelKoKoMu_CardRegister.Resources.Resources.ZipCode</label>
             </td>
-            <td class="td2" id="tdPostalCode">
+            <td class="td2" id="tdZipCode">
             </td>
             <td class="td1">
-                <label>@HotelKoKoMu_CardRegister.Resources.Resources.PhoneNo</label>
+                <label>@HotelKoKoMu_CardRegister.Resources.Resources.Tel</label>
             </td>
-            <td class="td2" id="tdPhoneNo">
+            <td class="td2" id="tdTel">
             </td>
         </tr>
         <tr>
@@ -51,9 +51,9 @@
         </tr>
         <tr>
             <td class="td1">
-                <label>@HotelKoKoMu_CardRegister.Resources.Resources.WorkPlace</label>
+                <label>@HotelKoKoMu_CardRegister.Resources.Resources.Company</label>
             </td>
-            <td colspan="3" id="tdWorkPlace">
+            <td colspan="3" id="tdCompany">
             </td>
         </tr>
         <tr>
@@ -156,12 +156,13 @@
     <script type="text/javascript">
         var commonName = '';
         var CardRegistration;
-        var GuestName, GuestNameHW, KanaName, KanaNameHW, PostalCode, PostalCodeHW, PhoneNo, PhoneNoHW, Address1, AddressHW1, Address2, AddressHW2, WorkPlace, WorkPlaceHW, Nationality, NationalityHW, Passport, PassportHW, Sign;
+        var GuestName, GuestNameHW, KanaName, KanaNameHW, ZipCode, ZipCodeHW, Tel, TelHW, Address1, AddressHW1, Address2, AddressHW2, Company, CompanyHW, Nationality, NationalityHW, Passport, PassportHW, Sign;
         $(document).ready(function () {
-            //get data form hotel system if exists
-            var HotelSystemModel = { SystemID: "e-card", PMSID: "FMFS", PMSPassword: "Abc123#", HotelCode: "000001", MachineNo: "01" };
+            //get data from hotel system if exists
+            var HotelSystemModel = { SystemID: "e-card", PmsID: "FMFS", PmsPassword: "Abc123#", HotelCode: "000001", MachineNo: "01" };
             var result = JSON.parse(CalltoApiController('@Url.Action("GetGuestInformation", "api/CardAPI/")', HotelSystemModel));           
             if (result.length > 0) {
+               
                 $("#lblHotelCode").text(result[0].hotel_code );
                 $("#lblSystemDate").text(result[0].systemdate);
                 $("#lblReservationNo").text(result[0].reservationno);
@@ -171,16 +172,16 @@
                     $('#tdGuestName').append(CreateLabelControl(result[0].guestname_hotel, "lblGuestName"));
                 if (result[0].kananame_hotel != null)
                     $('#tdKanaName').append(CreateLabelControl(result[0].kananame_hotel, "lblKanaName"));
-                if (result[0].postalcode_hotel != null)
-                    $('#tdPostalCode').append(CreateLabelControl(result[0].postalcode_hotel, "lblPostalCode"));
-                if (result[0].phoneno_hotel != null)
-                    $('#tdPhoneNo').append(CreateLabelControl(result[0].phoneno_hotel, "lblPhoneNo"));
+                if (result[0].zipcode_hotel != null)
+                    $('#tdZipCode').append(CreateLabelControl(result[0].zipcode_hotel, "lblZipCode"));
+                if (result[0].tel_hotel != null)
+                    $('#tdTel').append(CreateLabelControl(result[0].tel_hotel, "lblTel"));
                 if (result[0].address1_hotel != null)
                     $('#tdAddress1').append(CreateLabelControl(result[0].address1_hotel, "lblAddress1"));
                 if (result[0].address2_hotel != null)
                     $('#tdAddress2').append(CreateLabelControl(result[0].address2_hotel, "lblAddress2"));
-                if (result[0].workplace_hotel != null)
-                    $('#tdWorkPlace').append(CreateLabelControl(result[0].workplace_hotel, "lblWorkPlace"));
+                if (result[0].company_hotel != null)
+                    $('#tdCompany').append(CreateLabelControl(result[0].company_hotel, "lblCompany"));
                 if (result[0].nationality != null)
                     $('#tdNationality').append(CreateLabelControl(result[0].nationality_hotel, "lblNationality"));
                 if (result[0].passportno_hotel != null)
@@ -215,49 +216,49 @@
                 if (commonName == "tdGuestName") {
                     $("#lblcanvas").text('@HotelKoKoMu_CardRegister.Resources.Resources.GuestName_Kanji');
                     $("#lbltext").text('@HotelKoKoMu_CardRegister.Resources.Resources.GuestName_Kanji');
-                    ModalShow();
+                    //ModalShow();
                 }
                 else if (commonName == "tdKanaName") {
                     if ('@lang' == "Ja") {
                         $("#lblcanvas").text('@HotelKoKoMu_CardRegister.Resources.Resources.GuestName_Kana');
                         $("#lbltext").text('@HotelKoKoMu_CardRegister.Resources.Resources.GuestName_Kana');
-                        ModalShow();
+                    // ModalShow();
                     }
                 }
-                else if (commonName == "tdPostalCode") {
-                    $("#lblcanvas").text('@HotelKoKoMu_CardRegister.Resources.Resources.PostalCode');
-                    $("#lbltext").text('@HotelKoKoMu_CardRegister.Resources.Resources.PostalCode');
-                    ModalShow();
+                else if (commonName == "tdZipCode") {
+                    $("#lblcanvas").text('@HotelKoKoMu_CardRegister.Resources.Resources.ZipCode');
+                    $("#lbltext").text('@HotelKoKoMu_CardRegister.Resources.Resources.ZipCode');
+                   // ModalShow();
                 }
-                else if (commonName == "tdPhoneNo") {
-                    $("#lblcanvas").text('@HotelKoKoMu_CardRegister.Resources.Resources.PhoneNo');
-                    $("#lbltext").text('@HotelKoKoMu_CardRegister.Resources.Resources.PhoneNo');
-                    ModalShow();
+                else if (commonName == "tdTel") {
+                    $("#lblcanvas").text('@HotelKoKoMu_CardRegister.Resources.Resources.Tel');
+                    $("#lbltext").text('@HotelKoKoMu_CardRegister.Resources.Resources.Tel');
+                    //ModalShow();
                 }
                 else if (commonName == "tdAddress1") {
                     $("#lblcanvas").text('@HotelKoKoMu_CardRegister.Resources.Resources.Address1');
                     $("#lbltext").text('@HotelKoKoMu_CardRegister.Resources.Resources.Address1');
-                    ModalShow();
+                   // ModalShow();
                 }
                 else if (commonName == "tdAddress2") {
                     $("#lblcanvas").text('@HotelKoKoMu_CardRegister.Resources.Resources.Address2');
                     $("#lbltext").text('@HotelKoKoMu_CardRegister.Resources.Resources.Address2');
-                    ModalShow();
+                   // ModalShow();
                 }
-                else if (commonName == "tdWorkPlace") {
-                    $("#lblcanvas").text('@HotelKoKoMu_CardRegister.Resources.Resources.WorkPlace');
-                    $("#lbltext").text('@HotelKoKoMu_CardRegister.Resources.Resources.WorkPlace');
-                    ModalShow();
+                else if (commonName == "tdCompany") {
+                    $("#lblcanvas").text('@HotelKoKoMu_CardRegister.Resources.Resources.Company');
+                    $("#lbltext").text('@HotelKoKoMu_CardRegister.Resources.Resources.Company');
+                   // ModalShow();
                 }
                 else if (commonName == "tdNationality") {
                     $("#lblcanvas").text('@HotelKoKoMu_CardRegister.Resources.Resources.Nationality');
                     $("#lbltext").text('@HotelKoKoMu_CardRegister.Resources.Resources.Nationality');
-                    ModalShow();
+                    //ModalShow();
                 }
                 else if (commonName == "tdPassport") {
                     $("#lblcanvas").text('@HotelKoKoMu_CardRegister.Resources.Resources.PassportNo');
                     $("#lbltext").text('@HotelKoKoMu_CardRegister.Resources.Resources.PassportNo');
-                    ModalShow();
+                    //ModalShow();
                 }
                 else if (commonName == "tdSign") {
                     $("#btnInputKeyboard").addClass('d-none');
@@ -289,18 +290,18 @@
                         KanaNameHW = $("#imgKanaName").attr('src');
                     }
 
-                    if ($(this).find("label").attr("id") == "lblPostalCode") {
-                        PostalCode = $("#lblPostalCode").text();
+                    if ($(this).find("label").attr("id") == "lblZipCode") {
+                        ZipCode = $("#lblZipCode").text();
                     }
                     else {
-                        PostalCodeHW = $("#imgPostalCode").attr('src');
+                        ZipCodeHW = $("#imgZipCode").attr('src');
                     }
 
-                    if ($(this).find("label").attr("id") == "lblPhoneNo") {
-                        PhoneNo = $("#lblPhoneNo").text();
+                    if ($(this).find("label").attr("id") == "lblTel") {
+                        Tel = $("#lblTel").text();
                     }
                     else {
-                        PhoneNoHW = $("#imgPhoneNo").attr('src');
+                        TelHW = $("#imgTel").attr('src');
                     }
 
                     if ($(this).find("label").attr("id") == "lblAddress1") {
@@ -317,11 +318,11 @@
                         AddressHW2 = $("#imgAddress2").attr('src');
                     }
 
-                    if ($(this).find("label").attr("id") == "lblWorkPlace") {
-                        WorkPlace = $("#lblWorkPlace").text();
+                    if ($(this).find("label").attr("id") == "lblCompany") {
+                        Company = $("#lblCompany").text();
                     }
                     else {
-                        WorkPlaceHW = $("#imgWorkPlace").attr('src');
+                       CompanyHW = $("#imgCompany").attr('src');
                     }
 
                     if ($(this).find("label").attr("id") == "lblNationality") {
@@ -338,7 +339,7 @@
                     }
                 });
 
-                var GuestInformation = { HotelCode: $("#lblHotelCode").text(), ReservationNo: $("#lblReservationNo").text(), RoomNo: $("#lblRoomNo").text(), SystemDate: $("#lblSystemDate").text(), GuestName: GuestName, GuestNameHW: GuestNameHW, KanaName: KanaName, KanaNameHW: KanaNameHW, PostalCode: PostalCode, PostalCodeHW: PostalCodeHW, PhoneNo: PhoneNo, PhoneNoHW: PhoneNoHW, Address1: Address1, AddressHW1: AddressHW1, Address2: Address2, AddressHW2, AddressHW2, WorkPlace: WorkPlace, WorkPlaceHW: WorkPlaceHW, Nationality: Nationality, NationalityHW: NationalityHW, Passport: Passport, PassportHW: PassportHW, Sign: $("#imgSign").attr('src'), ArrivalDate: $("#dtpArrivalDate").val(), DepartureDate: $("#dtpDepartureDate").val(), CreatedDate: $("#lblCreatedDate").text() };
+                var GuestInformation = { HotelCode: $("#lblHotelCode").text(), ReservationNo: $("#lblReservationNo").text(), RoomNo: $("#lblRoomNo").text(), SystemDate: $("#lblSystemDate").text(), GuestName: GuestName, GuestNameHW: GuestNameHW, KanaName: KanaName, KanaNameHW: KanaNameHW, ZipCode: ZipCode, ZipCodeHW: ZipCodeHW, Tel: Tel, TelHW: TelHW, Address1: Address1, AddressHW1: AddressHW1, Address2: Address2, AddressHW2, AddressHW2, Company: Company, CompanyHW: CompanyHW, Nationality: Nationality, NationalityHW: NationalityHW, Passport: Passport, PassportHW: PassportHW, Sign: $("#imgSign").attr('src'), ArrivalDate: $("#dtpArrivalDate").val(), DepartureDate: $("#dtpDepartureDate").val(), CreatedDate: $("#lblCreatedDate").text() };
                 var response = CalltoApiController('@Url.Action("SaveGuestInformation", "api/CardAPI/")', GuestInformation);
                 if (response == "success") {
                    
@@ -427,7 +428,6 @@
         }
 
         function ModalShow() {
-
            $("#divCanvas").removeClass('d-none');
            $("#divName").addClass('d-none');
            $('#CardRegisterModal').modal('show');
@@ -448,19 +448,19 @@
                 else
                     $('#tdKanaName').append(CreateImageControl(canvas.toDataURL(), "imgKanaName"));
             }
-            else if (commonName == "tdPostalCode") {
-                $("#tdPostalCode").html('');
+            else if (commonName == "tdZipCode") {
+                $("#tdZipCode").html('');
                 if ($("#txtRegister").val() != "")
-                    $('#tdPostalCode').append(CreateLabelControl($("#txtRegister").val(), "lblPostalCode"));
+                    $('#tdZipCode').append(CreateLabelControl($("#txtRegister").val(), "lblZipCode"));
                 else
-                    $('#tdPostalCode').append(CreateImageControl(canvas.toDataURL(), "imgPostalCode"));
+                    $('#tdZipCode').append(CreateImageControl(canvas.toDataURL(), "imgZipCode"));
             }
-            else if (commonName == "tdPhoneNo") {
-                $("#tdPhoneNo").html('');
+            else if (commonName == "tdTel") {
+                $("#tdTel").html('');
                 if ($("#txtRegister").val() != "")
-                    $('#tdPhoneNo').append(CreateLabelControl($("#txtRegister").val(), "lblPhoneNo"));
+                    $('#tdTel').append(CreateLabelControl($("#txtRegister").val(), "lblTel"));
                 else
-                    $('#tdPhoneNo').append(CreateImageControl(canvas.toDataURL(), "imgPhoneNo"));
+                    $('#tdTel').append(CreateImageControl(canvas.toDataURL(), "imgTel"));
             }
             else if (commonName == "tdAddress1") {
                 $("#tdAddress1").html('');
@@ -476,12 +476,12 @@
                 else
                     $('#tdAddress2').append(CreateImageControl(canvas.toDataURL(), "imgAddress2"));
             }
-            else if (commonName == "tdWorkPlace") {
-                $("#tdWorkPlace").html('');
+            else if (commonName == "tdCompany") {
+                $("#tdCompany").html('');
                 if ($("#txtRegister").val() != "")
-                    $('#tdWorkPlace').append(CreateLabelControl($("#txtRegister").val(), "lblWorkPlace"));
+                    $('#tdCompany').append(CreateLabelControl($("#txtRegister").val(), "lblCompany"));
                 else
-                    $('#tdWorkPlace').append(CreateImageControl(canvas.toDataURL(), "imgWorkPlace"));
+                    $('#tdCompany').append(CreateImageControl(canvas.toDataURL(), "imgCompany"));
             }
             else if (commonName == "tdNationality") {
                 $("#tdNationality").html('');

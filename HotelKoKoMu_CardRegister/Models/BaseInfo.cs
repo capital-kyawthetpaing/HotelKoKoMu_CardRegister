@@ -6,10 +6,10 @@ using Npgsql;
 
 namespace HotelKoKoMu_CardRegister.Models
 {
-    public class BaseModel
+    public class BaseInfo
     {
-        public string CreatedBy { get; set; }
-        public string UpdatedBy { get; set; }
+        public string Creator { get; set; }
+        public string Updator { get; set; }
         public string SPName { get; set; }
         public NpgsqlParameter[] Sqlprms { get; set; }       
     }

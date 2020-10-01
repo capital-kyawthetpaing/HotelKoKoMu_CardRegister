@@ -31,7 +31,6 @@ namespace HotelKoKoMu_CardRegister.ContextDB
                         param = ChangeToDBNull(param);
                         adapt.SelectCommand.Parameters.AddRange(param);
                     }
-                    //cmd.CommandText = "fetch all in \"ref\"";
                     adapt.Fill(dt);
                     newCon.Close();
                 }
@@ -86,8 +85,10 @@ namespace HotelKoKoMu_CardRegister.ContextDB
             return para;
         }
 
-        public string SelectJson(string sSQL, params NpgsqlParameter[] param)
+
+        public Tuple<string, string> SelectJson(string sSQL, params NpgsqlParameter[] param)
         {
+            string msg = string.Empty;
             DataTable dt = new DataTable
             {
                 TableName = "data"
@@ -105,17 +106,49 @@ namespace HotelKoKoMu_CardRegister.ContextDB
                         param = ChangeToDBNull(param);
                         adapt.SelectCommand.Parameters.AddRange(param);
                     }
-                    //cmd.CommandText = "fetch all in \"ref\"";
                     adapt.Fill(dt);
                     newCon.Close();
+                    msg = "Success";
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                string msg = ex.Message;
+                msg = ex.Message;
             }
-            return DataTableToJSONWithJSONNet(dt);
+            return new Tuple<string, string>(DataTableToJSONWithJSONNet(dt), msg);
         }
+
+        //public string SelectJson(string sSQL, params NpgsqlParameter[] param)
+        //{
+        //    string msg = string.Empty;
+        //    DataTable dt = new DataTable
+        //    {
+        //        TableName = "data"
+        //    };
+        //    try
+        //    {
+        //        var newCon = new NpgsqlConnection(conStr);
+        //        using (var adapt = new NpgsqlDataAdapter(sSQL, newCon))
+        //        {
+        //            newCon.Open();
+        //            NpgsqlCommand cmd = new NpgsqlCommand(sSQL, newCon);
+        //            cmd.CommandType = CommandType.Text;
+        //            if (param != null)
+        //            {
+        //                param = ChangeToDBNull(param);
+        //                adapt.SelectCommand.Parameters.AddRange(param);
+        //            }
+        //            adapt.Fill(dt);
+        //            newCon.Close();
+        //            msg = "success";
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        msg = ex.Message;
+        //    }
+        //    return DataTableToJSONWithJSONNet(dt) + "_" + msg;
+        //}
 
         public string DataTableToJSONWithJSONNet(DataTable table)
         {

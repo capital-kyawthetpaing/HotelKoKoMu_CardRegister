@@ -136,8 +136,9 @@ namespace HotelKoKoMu_CardRegister.Controllers
         }
 
         #region 
+
         /// <summary>
-        ///  get guest information
+        /// get registration card data from hotel system
         /// </summary>
         /// <param name="cardRegisterInfo"></param>
         /// <returns></returns>
@@ -145,6 +146,7 @@ namespace HotelKoKoMu_CardRegister.Controllers
         [ActionName("getRequestForRegistrationCard")]
         public IHttpActionResult getRequestForRegistrationCard(CardRegisterInfo cardRegisterInfo)
         {
+            var returnStatus=new object();
             BaseDL bdl = new BaseDL();
             cardRegisterInfo.Sqlprms = new NpgsqlParameter[5];
             cardRegisterInfo.Sqlprms[0] = new NpgsqlParameter("@systemid", SqlDbType.VarChar) { Value = cardRegisterInfo.SystemID };
@@ -153,23 +155,43 @@ namespace HotelKoKoMu_CardRegister.Controllers
             cardRegisterInfo.Sqlprms[3] = new NpgsqlParameter("@hotelcode", SqlDbType.VarChar) { Value = cardRegisterInfo.HotelCode };
             cardRegisterInfo.Sqlprms[4] = new NpgsqlParameter("@machineno", SqlDbType.VarChar) { Value = cardRegisterInfo.MachineNo };
 
-            string sql = "Select hotel_code, reservationno, roomno, systemdate, guestname_hotel, kananame_hotel, zipcode_hotel, tel_hotel, address1_hotel, address2_hotel, company_hotel, nationality_hotel, passportno_hotel from trn_guestinformation";
-            sql += " where flag='0' and pmsid=@pmsid and systemid=@systemid and  pmspassword=@pmspassword and machineno=@machineno and hotel_code=@hotelcode";
-            return Ok(bdl.SelectJson(sql, cardRegisterInfo.Sqlprms));
+            string sql = "Select systemdate,reservationno, roomno, guestname_hotel, kananame_hotel, zipcode_hotel, tel_hotel, address1_hotel, address2_hotel, company_hotel, nationality_hotel, passportno_hotel from trn_guestinformation";
+            sql += " where flag='0' and pmsid=@pmsid and systemid=@systemid and  pmspassword=@pmspassword and  machineno=@machineno and hotel_code=@hotelcode limit 1";
+            Tuple<string, string> result = bdl.SelectJson(sql, cardRegisterInfo.Sqlprms);
+            
+            //card registeration data exist
+            if(result.Item1!="" && result.Item2=="Success")
+                 returnStatus =new{Success = result.Item1};
+            //card registeration data does not exist
+            else if (result.Item1 == "" && result.Item2 == "Success")
+                returnStatus = new{NotData = ""};            
+            //error
+            else
+                returnStatus = new{Error = result.Item2};
+
+            var cardRegistrationObj = new
+            {
+                Status = returnStatus,
+                FailureReason = result.Item2,
+                ErrorDescription = ""
+            };            
+            return Ok(cardRegistrationObj);
         }
         #endregion
+        
         [HttpPost]
         [ActionName("Get_HotelGuestInformation")]
         public string Get_HotelGuestInformation()
         {
             BaseDL bdl = new BaseDL();
-            string sql = "Select hotel_code, reservationno, roomno, systemdate, guestname_hotel, kananame_hotel, zipcode_hotel, tel_hotel, address1_hotel, address2_hotel, company_hotel, nationality_hotel, passportno_hotel from trn_guestinformation";
-            return bdl.SelectJson(sql, null);
+            //string sql = "Select hotel_code, reservationno, roomno, systemdate, guestname_hotel, kananame_hotel, zipcode_hotel, tel_hotel, address1_hotel, address2_hotel, company_hotel, nationality_hotel, passportno_hotel from trn_guestinformation";
+            // return bdl.SelectJson(sql, null);
+            return "";
         }
 
         [HttpGet]
         [ActionName("requestForRegistrationCard")]
-        public IHttpActionResult requestForRegistrationCard()
+        public IHttpActionResult requestForRegistrationCard(CardRegisterInfo cardRegisterInfo)
         {
             var cardRegistrationObj = new
             {
@@ -177,7 +199,7 @@ namespace HotelKoKoMu_CardRegister.Controllers
                 FailureReason= "",
                 ErrorDescription= ""
             };           
-            return Ok(JsonConvert.SerializeObject(cardRegistrationObj));         
+            return Ok(cardRegistrationObj);         
         }
 
         [HttpGet]

@@ -135,6 +135,7 @@ namespace HotelKoKoMu_CardRegister.Controllers
             return Ok(dt);
         }
 
+        #region 
         /// <summary>
         ///  get guest information
         /// </summary>
@@ -146,18 +147,17 @@ namespace HotelKoKoMu_CardRegister.Controllers
         {
             BaseDL bdl = new BaseDL();
             cardRegisterInfo.Sqlprms = new NpgsqlParameter[5];
-
-            cardRegisterInfo.Sqlprms[0] = new NpgsqlParameter("@systemid", SqlDbType.VarChar) {Value= cardRegisterInfo.SystemID };
+            cardRegisterInfo.Sqlprms[0] = new NpgsqlParameter("@systemid", SqlDbType.VarChar) { Value = cardRegisterInfo.SystemID };
             cardRegisterInfo.Sqlprms[1] = new NpgsqlParameter("@pmsid", SqlDbType.VarChar) { Value = cardRegisterInfo.PmsID };
-            cardRegisterInfo.Sqlprms[2] = new NpgsqlParameter("@pmspassword", SqlDbType.VarChar) { Value= cardRegisterInfo.PmsPassword };
+            cardRegisterInfo.Sqlprms[2] = new NpgsqlParameter("@pmspassword", SqlDbType.VarChar) { Value = cardRegisterInfo.PmsPassword };
             cardRegisterInfo.Sqlprms[3] = new NpgsqlParameter("@hotelcode", SqlDbType.VarChar) { Value = cardRegisterInfo.HotelCode };
             cardRegisterInfo.Sqlprms[4] = new NpgsqlParameter("@machineno", SqlDbType.VarChar) { Value = cardRegisterInfo.MachineNo };
-        
+
             string sql = "Select hotel_code, reservationno, roomno, systemdate, guestname_hotel, kananame_hotel, zipcode_hotel, tel_hotel, address1_hotel, address2_hotel, company_hotel, nationality_hotel, passportno_hotel from trn_guestinformation";
-                 sql+= " where flag='0' and (@pmsid isnull or pmsid=@pmsid) and (@systemid isnull or systemid=@systemid) and (@pmspassword isnull or pmspassword=@pmspassword) and (@machineno isnull or machineno=@machineno) and (@hotelcode isnull or hotel_code=@hotelcode)";
+            sql += " where flag='0' and (@pmsid isnull or pmsid=@pmsid) and (@systemid isnull or systemid=@systemid) and (@pmspassword isnull or pmspassword=@pmspassword) and (@machineno isnull or machineno=@machineno) and (@hotelcode isnull or hotel_code=@hotelcode)";
             return Ok(bdl.SelectJson(sql, cardRegisterInfo.Sqlprms));
         }
-
+        #endregion
         [HttpPost]
         [ActionName("Get_HotelGuestInformation")]
         public string Get_HotelGuestInformation()
@@ -173,38 +173,11 @@ namespace HotelKoKoMu_CardRegister.Controllers
         {
             var cardRegistrationObj = new
             {
-                status= "success",
-                hotelcode = "000001",
-                reservationno= "00002",
-                roomno= "01",
-                systemdate= "2020-09-30",
-                guestname="Mg Mg",
-                kananame="",
-                zipcode="",
-                tel="",
-                address1="",
-                address2="",
-                workplace="",
-                nationality="",
-                passportno=""
+                Status = "Sccess",
+                FailureReason= "",
+                ErrorDescription= ""
             };           
             return Ok(JsonConvert.SerializeObject(cardRegistrationObj));         
-        }
-
-        [HttpGet]
-        [ActionName("GetResultList")]
-        public IHttpActionResult GetResultList()
-        {
-            var my_jsondata = new
-            {
-                Status = "success",
-                FailureReason = "",
-                ErrorDescriptoin = "",
-            };
-
-            //Tranform it to Json object
-            string json_data = JsonConvert.SerializeObject(my_jsondata);
-            return Ok(json_data);
         }
 
     }

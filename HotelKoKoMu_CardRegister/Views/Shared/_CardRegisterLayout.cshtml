@@ -1,6 +1,19 @@
 ﻿@{
-    var lang = HttpContext.Current.Request.Cookies["culture"].Value;   
-
+    var lang = HttpContext.Current.Request.Cookies["culture"].Value;
+    string obj = Session["CardInfo"].ToString();
+    string pmsid = string.Empty;
+    string pmspassword = string.Empty;
+    string systemid = string.Empty;
+    string hotelcode = string.Empty;
+    string machineno = string.Empty;
+    if (obj != null)
+    {
+        systemid = obj.Split('_')[0];
+        pmsid = obj.Split('_')[1];
+        pmspassword = obj.Split('_')[1];
+        machineno = obj.Split('_')[1];
+        hotelcode = obj.Split('_')[1];
+    }
 }
 
 <!DOCTYPE html>
@@ -54,6 +67,11 @@
                 
             </h5>
             <div class="card-body">
+                <label id="lblPmsId">@pmsid</label>
+                <label id="lblPmsPassword">@pmspassword</label>
+                <label id="lblmachineno">@machineno</label>                
+                <label id="lblsystemid">@systemid</label>
+                <label id="lblhotelCode">@hotelcode</label>
                 @RenderBody()
             </div>
         </div>

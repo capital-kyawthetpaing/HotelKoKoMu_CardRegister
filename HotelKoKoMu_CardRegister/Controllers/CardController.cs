@@ -30,5 +30,12 @@ namespace HotelKoKoMu_CardRegister.Controllers
         {
             return View();
         }
+
+        [HttpPost]
+        public ActionResult CreateSession(string key, string value)
+        {
+            Session[key] = value;
+            return this.Json(new { success = true });
+        }
     }
 }

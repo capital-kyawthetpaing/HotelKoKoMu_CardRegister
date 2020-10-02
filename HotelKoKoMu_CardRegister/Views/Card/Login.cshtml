@@ -4,58 +4,53 @@
     Layout = "~/Views/Shared/_LoginLayout.cshtml";
 }
 
-<div class="divLogin col-md-4 offset-md-4">
-    <div class="divtitle">
-        <h2>e-Registration Card System</h2>       
+    <div class="divLogin col-md-4 offset-md-4">
+        <div class="divtitle">
+            <h2>e-Registration Card System</h2>
+        </div>
+        <div class="container">
+            <label for="SystemID"><b>SystemID</b></label>
+            <input type="text" id="SystemID" placeholder="Enter SystemID" name="SystemID" required>
+
+            <label for="PmsID"><b>PmsID</b></label>
+            <input type="text" id="PmsID" placeholder="Enter PmsID" name="PmsID" required>
+
+            <label for="PmsPassword"><b>PmsPassword</b></label>
+            <input type="password" id="PmsPassword" placeholder="Enter PmsPassword" name="PmsPassword" required>
+
+            <label for="HotelCode"><b>HotelCode</b></label>
+            <input type="text" id="HotelCode" placeholder="Enter HotelCode" name="HotelCode" required>
+
+            <label for="MachineNo"><b>MachineNo</b></label>
+            <input type="text" id="MachineNo" placeholder="Enter MachineNo" name="MachineNo" required>
+
+            <button type="submit" id="btnlogin">Login</button>
+        </div>
     </div>
-    <div class="container">
-        <label for="SystemID"><b>SystemID</b></label>
-        <input type="text" id="SystemID" placeholder="Enter SystemID" name="SystemID" required>
 
-        <label for="PmsID"><b>PmsID</b></label>
-        <input type="text" id="PmsID" placeholder="Enter PmsID" name="PmsID" required>
-
-        <label for="PmsPassword"><b>PmsPassword</b></label>
-        <input type="password" id="PmsPassword" placeholder="Enter PmsPassword" name="PmsPassword" required>
-
-        <label for="HotelCode"><b>HotelCode</b></label>
-        <input type="text" id="HotelCode" placeholder="Enter HotelCode" name="HotelCode" required>
-
-        <label for="MachineNo"><b>MachineNo</b></label>
-        <input type="text" id="MachineNo" placeholder="Enter MachineNo" name="MachineNo" required>
-
-        <button  id="btnlogin">Login</button>
-
-    </div>
-</div>
-
-@section Scripts{
-    <script>
+    @section Scripts{
+    <script src="~/Scripts/Common.js"></script>
+    <script src="~/Scripts/jquery-3.5.1.js"></script>
+        <script>
         $(document).ready(function () {
             $("#btnlogin").click(function () {
-                alert("go");
-                var cardRegisterInfo = { SystemID: $("#SystemID").val(), PmsID: $("#PmsID").val(), PmsPassword: $("#PmsPassword").val(), MachineNo: $("#MachineNo").val(), HotelCode: $("#HotelCode").val() };
-                
-                var result = CalltoApiController('@Url.Action("Check_Login", "api/CardAPI/")', cardRegisterInfo);
-
-                alert(result);
-                @*if (response == "success") {
-                    swal.fire({
-                        icon: 'success',
-                        title: 'Login',
-                        text: 'Login Success...'
-                    });
-                    location.href = '@Url.Action("Guest_InformationNew","CardAPI")';
-                 }
-                 else {
-                     swal.fire({
-                         icon: 'error',
-                         title: 'Guest Information',
-                         text: response
-                     })
-                 }*@                
+                Login();
              });
         });
-
-    </script>
-}
+        function Login() {
+            var result = CalltoApiController("/api/CardAPI/ValidateLogin", { SystemID: $("#SystemID").val(), PmsID: $("#PmsID").val(), PmsPassword: $("#PmsPassword").val(), MachineNo: $("#MachineNo").val(), HotelCode: $("#HotelCode").val() });
+            
+            if (result.length > 0) {                    
+                var cardInfo = result[0].systemid + '_' + result[0].pmsid + '_' + result[0].pmspassword + '_' + result[0].machineno + '_' + result[0].hotel_code;               
+                        $.post('@Url.Action("CreateSession", "Card")',
+                            { key: "CardInfo", value: cardInfo }, function (data) {
+                                location.href = '@Url.Action("Index", "Home")';
+                            });
+                }
+                else {
+                    $("#SystemID").focus();
+                    ShowMessage("E001");
+                }
+        }
+        </script>
+    }

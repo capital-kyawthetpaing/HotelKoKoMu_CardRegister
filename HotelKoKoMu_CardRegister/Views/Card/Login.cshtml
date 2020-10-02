@@ -36,7 +36,9 @@
                 alert("go");
                 var GuestInformation = { SystemID: $("#SystemID").val(), PmsID: $("#PmsID").val(), PmsPassword: $("#PmsPassword").val(), MachineNo: $("#MachineNo").val(), HotelCode: $("#HotelCode").val() };
                 var response = CalltoApiController('@Url.Action("Check_Login", "api/CardAPI/")', GuestInformation);
-                if (response == "success") {
+
+                alert(response);
+                @*if (response == "success") {
                     swal.fire({
                         icon: 'success',
                         title: 'Login',
@@ -50,7 +52,7 @@
                          title: 'Guest Information',
                          text: response
                      })
-                 }                
+                 }*@                
              });
         });
 

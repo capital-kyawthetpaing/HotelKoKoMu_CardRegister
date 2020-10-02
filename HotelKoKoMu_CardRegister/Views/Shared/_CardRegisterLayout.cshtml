@@ -82,8 +82,8 @@
 @RenderSection("scripts", required: false)
 @RenderSection("styles", required: false)
 <script>
-    $(document).ready(function () {
-        var HotelObj = { HotelNo: "1" };
+    $(document).ready(function () {       
+        var HotelObj = { HotelNo: '@hotelcode' };
         var result = CalltoApiController('@Url.Action("GetHotelInformation", "api/CardAPI/")', HotelObj);       
         if (result != "") {
             var hotelInfo = '<img src="data:image/png;base64,' + result[0].logo_data + '" class="imgcss" style="width:60px; height:40px;"> ' + result[0].hotel_name;               

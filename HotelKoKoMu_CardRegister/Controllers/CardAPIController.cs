@@ -406,7 +406,7 @@ namespace HotelKoKoMu_CardRegister.Controllers
             cardRegisterInfo.Sqlprms[3] = new NpgsqlParameter("@hotelcode", SqlDbType.VarChar) { Value = cardRegisterInfo.HotelCode };
             cardRegisterInfo.Sqlprms[4] = new NpgsqlParameter("@machineno", SqlDbType.VarChar) { Value = cardRegisterInfo.MachineNo };
 
-            string sql = "Select hotel_code,reservationno, roomno, systemdate, guestname_text, kananame_text, zipcode_text, tel_text, address1_text, address2_text, company_text, nationality_text, passportno_text,sign_filename,flag,complete_flag from trn_guestinformation";
+            string sql = "Select hotel_code,reservationno, roomno, systemdate, guestname_text, kananame_text, zipcode_text, tel_text, address1_text, address2_text, company_text, nationality_text, passportno_text,flag,complete_flag from trn_guestinformation";
             sql += " where pmsid=@pmsid and systemid=@systemid and  pmspassword=@pmspassword and machineno=@machineno and hotel_code=@hotelcode and flag=1";
             //sql += " Update trn_guesetinformation set flag = 2 where pmsid=@pmsid and systemid=@systemid and  pmspassword=@pmspassword and machineno=@machineno and hotel_code=@hotelcode and flag=1 and complete_flag=1";
             Tuple<string, string> result = bdl.SelectJson(sql, cardRegisterInfo.Sqlprms);
@@ -414,28 +414,30 @@ namespace HotelKoKoMu_CardRegister.Controllers
             DataTable dt = JsonConvert.DeserializeObject<DataTable>(result.Item1);
             if (dt.Rows.Count > 0)
             {
-                string filename = dt.Rows[0]["sign_filename"].ToString();
+                //string filename = dt.Rows[0]["imagedata"].ToString();
                 string flag = dt.Rows[0]["flag"].ToString();
                 string completeflag = dt.Rows[0]["complete_flag"].ToString();
-                if (!String.IsNullOrWhiteSpace(filename) && filename != "")
-                {
-                    var dirPath = HttpContext.Current.Server.MapPath("~/" + cardRegisterInfo.HotelCode);
-                    dirPath = dirPath + "//" + filename;
 
-                    using (System.Drawing.Image image = System.Drawing.Image.FromFile(dirPath))
-                    {
-                        using (MemoryStream ms = new MemoryStream())
-                        {
-                            string base64String;
-                            image.Save(ms, image.RawFormat);
-                            byte[] imageBytes = ms.ToArray();
-                            base64String = Convert.ToBase64String(imageBytes);
-                            dt.Rows[0]["imagedata"] = base64String;
-                            string jsonstring = JsonConvert.SerializeObject(dt);
-                            result = new Tuple<string, string>(jsonstring, result.Item2);
-                        }
-                    }
-                }
+                //if (!String.IsNullOrWhiteSpace(filename) && filename != "")
+                //{
+                //    var dirPath = HttpContext.Current.Server.MapPath("~/" + cardRegisterInfo.HotelCode);
+                //    dirPath = dirPath + "//" + filename;
+
+                //    using (System.Drawing.Image image = System.Drawing.Image.FromFile(dirPath))
+                //    {
+                //        using (MemoryStream ms = new MemoryStream())
+                //        {
+                //            string base64String;
+                //            image.Save(ms, image.RawFormat);
+                //            byte[] imageBytes = ms.ToArray();
+                //            base64String = Convert.ToBase64String(imageBytes);
+                //            dt.Rows[0]["imagedata"] = base64String;
+                string jsonstring = JsonConvert.SerializeObject(dt);
+                result = new Tuple<string, string>(jsonstring, result.Item2);
+                //        }
+                //    }
+                //}
+
                 //save success , update success and return getregisterdata
                 if (flag == "1" && completeflag == "1" && result.Item2 == "Success")
                     returnStatus = new { Success = result.Item1 };

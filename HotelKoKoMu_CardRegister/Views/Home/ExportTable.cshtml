@@ -1,0 +1,81 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+   
+</head>
+<body>
+    <div id="html-content-holder" style="background-color: #F0F0F1; color: #00cc65; width: 500px;
+        padding-left: 25px; padding-top: 10px;">
+        <strong>Codepedia.info</strong><hr />
+        <h3 style="color: #3e4b51;">
+            Html to canvas, and canvas to proper image
+        </h3>
+        <p style="color: #3e4b51;">
+            <b>Codepedia.info</b> is a programming blog. Tutorials focused on Programming ASP.Net,
+            C#, jQuery, AngularJs, Gridview, MVC, Ajax, Javascript, XML, MS SQL-Server, NodeJs,
+            Web Design, Software
+        </p>
+        <p style="color: #3e4b51;">
+            <b>html2canvas</b> script allows you to take "screenshots" of webpages or parts
+            of it, directly on the users browser. The screenshot is based on the DOM and as
+            such may not be 100% accurate to the real representation.
+        </p>
+    </div>
+    <a id="btn-Convert-Html2Image" href="#">Download</a>
+    <br />
+    <div id="previewImage" style="display: none;">
+    </div>
+
+    @*<script>
+            $(document).ready(function () {
+                var canvas = document.getElementById('html-content-holder'),
+                    ctx = canvas.getContext('2d'),
+                    moveflg = 0,
+                    Xpoint,
+                    Ypoint;
+
+
+                alert(canvas);
+
+                //html2canvas(element, {
+                //    onrendered: function (canvas) {
+                //        $("#previewImage").append(canvas);
+                //        getCanvas = canvas;
+                //    }
+                //});
+
+                $("#btn-Convert-Html2Image").on('click', function () {
+                    var imgageData = getCanvas.toDataURL("image/png");
+                    var newData = imgageData.replace(/^data:image\/png/, "data:application/octet-stream");
+                    $("#btn-Convert-Html2Image").attr("download", "your_pic_name.png").attr("href", newData);
+                });
+            });
+
+        </script>*@
+    <script src="~/Scripts/jquery-3.5.1.js"></script>
+    <script src="https://files.codepedia.info/files/uploads/iScripts/html2canvas.js"></script>
+    <script>
+
+        $(document).ready(function () {
+            var element = $("#html-content-holder"); // global variable
+            var getCanvas; // global variable
+
+            html2canvas(element, {
+                onrendered: function (canvas) {
+                    $("#previewImage").append(canvas);
+                    getCanvas = canvas;
+                }
+            });
+
+            $("#btn-Convert-Html2Image").on('click', function () {
+                var imgageData = getCanvas.toDataURL("image/png");
+                var newData = imgageData.replace(/^data:image\/png/, "data:application/octet-stream");
+                $("#btn-Convert-Html2Image").attr("download", "your_pic_name.png").attr("href", newData);
+            });
+        });
+
+    </script>
+</body>
+</html>

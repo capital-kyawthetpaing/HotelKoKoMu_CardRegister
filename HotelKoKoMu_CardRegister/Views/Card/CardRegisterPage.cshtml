@@ -11,104 +11,106 @@
         display: inline-block !important;
     }
 </style>
+<div class="divkokomuTable">
+    <table class="table-bordered kokomuTable">
+        <tbody>
+            <tr>
+                <td class="td1">
+                    <label>@HotelKoKoMu_CardRegister.Resources.Resources.GuestName</label>
+                </td>
+                <td class="td2" id="tdGuestName">
+                </td>
+                <td class="td1">
+                    <label>@HotelKoKoMu_CardRegister.Resources.Resources.KanaName</label>
+                </td>
+                <td class="td2" id="tdKanaName">
+                </td>
+            </tr>
+            <tr>
+                <td class="td1">
+                    <label>@HotelKoKoMu_CardRegister.Resources.Resources.ZipCode</label>
+                </td>
+                <td class="td2" id="tdZipCode">
+                </td>
+                <td class="td1">
+                    <label>@HotelKoKoMu_CardRegister.Resources.Resources.Tel</label>
+                </td>
+                <td class="td2" id="tdTel">
+                </td>
+            </tr>
+            <tr>
+                <td rowspan="2">
+                    <label>@HotelKoKoMu_CardRegister.Resources.Resources.Address</label>
+                </td>
+                <td colspan="3" id="tdAddress1">
+                </td>
+            </tr>
+            <tr>
+                <td colspan="3" id="tdAddress2">
+                </td>
+            </tr>
+            <tr>
+                <td class="td1">
+                    <label>@HotelKoKoMu_CardRegister.Resources.Resources.Company</label>
+                </td>
+                <td colspan="3" id="tdCompany">
+                </td>
+            </tr>
+            <tr>
+                <td class="td1">
+                    <label>@HotelKoKoMu_CardRegister.Resources.Resources.Nationality</label>
+                </td>
+                <td class="td2" id="tdNationality">
+                </td>
+                <td class="td1">
+                    <label>@HotelKoKoMu_CardRegister.Resources.Resources.Passport</label>
+                </td>
+                <td class="td2" id="tdPassport">
+                </td>
+            </tr>
+        </tbody>
+    </table>
 
-<table class="table-bordered kokomuTable">
-    <tbody>
-        <tr>
-            <td class="td1">
-                <label>@HotelKoKoMu_CardRegister.Resources.Resources.GuestName</label>
-            </td>
-            <td class="td2" id="tdGuestName">
-            </td>
-            <td class="td1">
-                <label>@HotelKoKoMu_CardRegister.Resources.Resources.KanaName</label>
-            </td>
-            <td class="td2" id="tdKanaName">
-            </td>
-        </tr>
-        <tr>
-            <td class="td1">
-                <label>@HotelKoKoMu_CardRegister.Resources.Resources.ZipCode</label>
-            </td>
-            <td class="td2" id="tdZipCode">
-            </td>
-            <td class="td1">
-                <label>@HotelKoKoMu_CardRegister.Resources.Resources.Tel</label>
-            </td>
-            <td class="td2" id="tdTel">
-            </td>
-        </tr>
-        <tr>
-            <td rowspan="2">
-                <label>@HotelKoKoMu_CardRegister.Resources.Resources.Address</label>
-            </td>
-            <td colspan="3" id="tdAddress1">
-            </td>
-        </tr>
-        <tr>
-            <td colspan="3" id="tdAddress2">
-            </td>
-        </tr>
-        <tr>
-            <td class="td1">
-                <label>@HotelKoKoMu_CardRegister.Resources.Resources.Company</label>
-            </td>
-            <td colspan="3" id="tdCompany">
-            </td>
-        </tr>
-        <tr>
-            <td class="td1">
-                <label>@HotelKoKoMu_CardRegister.Resources.Resources.Nationality</label>
-            </td>
-            <td class="td2" id="tdNationality">
-            </td>
-            <td class="td1">
-                <label>@HotelKoKoMu_CardRegister.Resources.Resources.Passport</label>
-            </td>
-            <td class="td2" id="tdPassport">
-            </td>
-        </tr>
-    </tbody>
-</table>
+    <table class="kokomuTable rowspace">
+        <tbody>
+            <tr>
+                <td class="td1" style="border-right:hidden;">
+                    <label>@HotelKoKoMu_CardRegister.Resources.Resources.ArrivalDate</label>
+                </td>
+                <td class="td2" style="border-right:hidden;" id="ArrivalDate">
+                    <input id="dtpArrivalDate" name="lblDepartureDate" class="datepicker-here" placeholder="yyyy-mm-dd" disabled />
+                </td>
+                <td class="td1" style="border-right:hidden;">
+                    <label>@HotelKoKoMu_CardRegister.Resources.Resources.DepartureDate</label>
+                </td>
+                <td class="td2" id="DepartureDate">
+                    <input id="dtpDepartureDate" name="lblDepartureDate" class="datepicker-here" placeholder="yyyy-mm-dd" disabled />
+                </td>
+            </tr>
+        </tbody>
+    </table>
 
-<table class="kokomuTable rowspace">
-    <tbody>
-        <tr>
-            <td class="td1" style="border-right:hidden;">
-                <label>@HotelKoKoMu_CardRegister.Resources.Resources.ArrivalDate</label>
-            </td>
-            <td class="td2" style="border-right:hidden;" id="ArrivalDate">
-                <input id="dtpArrivalDate" name="lblDepartureDate" class="datepicker-here" placeholder="yyyy-mm-dd" disabled/>
-            </td>
-            <td class="td1" style="border-right:hidden;">
-                <label>@HotelKoKoMu_CardRegister.Resources.Resources.DepartureDate</label>
-            </td>
-            <td class="td2" id="DepartureDate">
-                <input id="dtpDepartureDate" name="lblDepartureDate" class="datepicker-here" placeholder="yyyy-mm-dd" disabled/>
-            </td>
-        </tr>
-    </tbody>
-</table>
+    <table class="kokomuTable">
+        <tbody>
+            <tr>
+                <td class="td1">
+                    <label>@HotelKoKoMu_CardRegister.Resources.Resources.Sign</label>
+                </td>
 
-<table class="kokomuTable">
-    <tbody>
-        <tr>
-            <td class="td1">
-                <label>@HotelKoKoMu_CardRegister.Resources.Resources.Sign</label>
-            </td>
+                <td colspan="3" id="tdSign">
+                </td>
+            </tr>
+        </tbody>
+    </table>
 
-            <td colspan="3" id="tdSign">
-            </td>
-        </tr>
-    </tbody>
-</table>
+</div>
 
 <div class="col-md-4 offset-md-4">
     <label class="d-none" id="lblHotelCode"></label>
     <label class="d-none" id="lblSystemDate"></label>
     <label class="d-none" id="lblReservationNo"></label>
-    <label class="d-none" id="lblRoomNo"></label> 
-    <label class="d-none" id="lblCreatedDate"></label> 
+    <label class="d-none" id="lblRoomNo"></label>
+    <label class="d-none" id="lblCreatedDate"></label>
     <button class="clsfinish" id="btnfinish">@HotelKoKoMu_CardRegister.Resources.Resources.Complete</button>
 </div>
 
@@ -153,6 +155,8 @@
 
 @section Scripts
 {
+    <script src="~/Scripts/jquery-3.5.1.js"></script>
+    <script src="https://files.codepedia.info/files/uploads/iScripts/html2canvas.js"></script>
     <script type="text/javascript">
         var commonName = '';
         var intervalId;
@@ -248,7 +252,18 @@
 
             //save guest information
             $("#btnfinish").click(function () {
-                $('.kokomuTable tr td').each(function () {
+
+                var element = $("#divkokomuTable");
+                var getCanvas;
+
+                html2canvas(element, {
+                    onrendered: function (canvas) {
+                        getCanvas = canvas;
+                    }
+                });
+                alert(getCanvas);
+
+                @*$('.kokomuTable tr td').each(function () {
                     if ($(this).find("label").attr("id") == "lblGuestName")
                         GuestName = $("#lblGuestName").text();
                     else
@@ -316,8 +331,9 @@
                         title: 'Guest Information',
                         text: response["Error"]
                     });
-                }
-             });
+                }*@
+            });
+
         });
         var canvas = document.getElementById('csvRegister'),
             ctx = canvas.getContext('2d'),
@@ -482,15 +498,9 @@
             ctx.fillStyle = 'rgb(255,255,255)';
         }
 
-        //call card register data every 3 seconds and stop when data found
-        function BindCardRegisterData() {
-            var result = CalltoApiController('@Url.Action("getRequestForRegistrationCard", "api/CardAPI/")', CardRegisterInfo);
-
-        }
-
         //search card register data every 3 seconds and stop when data found
         function SearchCardRegisterData() {
-            var result = CalltoApiController('@Url.Action("requestForRegistrationCard", "api/CardAPI/")', CardRegisterInfo);           
+            var result = CalltoApiController('@Url.Action("requestForRegistrationCard", "api/CardAPI/")', CardRegisterInfo);
             if (result["Success"] != undefined) {
                 clearInterval(intervalId);
                 var result = CalltoApiController('@Url.Action("getRequestForRegistrationCard", "api/CardAPI/")', CardRegisterInfo);
@@ -523,10 +533,10 @@
                             $('#tdPassport').append(CreateLabelControl(result[0].passportno_hotel, "lblPassport"));
                     }
                 }
-            }           
+            }
         }
     </script>
-   
+
 }
 
 

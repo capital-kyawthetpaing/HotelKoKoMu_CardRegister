@@ -27,7 +27,7 @@ namespace HotelKoKoMu_CardRegister.Controllers
             return View();
         }
 
-        public ActionResult Test()
+        public ActionResult ExportTable()
         {
             return View();
         }

@@ -43,13 +43,30 @@
     </table>
 </div>
 
-<button>Ok</button>
+<button id="btnOK">Ok</button>
 
 @section Scripts
 {
     <script type="text/javascript">
         $(document).ready(function () {
-            
+            $(document).ready(function () {
+                var element = $("#dvTable"); // global variable
+                var getCanvas; // global variable
+
+                html2canvas(element, {
+                    onrendered: function (canvas) {
+                        $("#previewImage").append(canvas);
+                        getCanvas = canvas;
+                    }
+                });
+
+                $("#btnOK").on('click', function () {
+                    var imgageData = getCanvas.toDataURL("image/png");
+                    var newData = imgageData.replace(/^data:image\/png/, "data:application/octet-stream");
+                    $("#btn-Convert-Html2Image").attr("download", "your_pic_name.png").attr("href", newData);
+                });
+            });
+
         })
     </script>
 }

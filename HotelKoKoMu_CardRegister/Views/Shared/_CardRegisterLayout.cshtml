@@ -10,9 +10,9 @@
     {
         systemid = obj.Split('_')[0];
         pmsid = obj.Split('_')[1];
-        pmspassword = obj.Split('_')[1];
-        machineno = obj.Split('_')[1];
-        hotelcode = obj.Split('_')[1];
+        pmspassword = obj.Split('_')[2];
+        machineno = obj.Split('_')[3];
+        hotelcode = obj.Split('_')[4];
     }
 }
 
@@ -67,11 +67,11 @@
                 
             </h5>
             <div class="card-body">
-                <label id="lblPmsId">@pmsid</label>
-                <label id="lblPmsPassword">@pmspassword</label>
-                <label id="lblmachineno">@machineno</label>                
-                <label id="lblsystemid">@systemid</label>
-                <label id="lblhotelCode">@hotelcode</label>
+                <label id="lblPmsId" class="d-none">@pmsid</label>
+                <label id="lblPmsPassword" class="d-none">@pmspassword</label>
+                <label id="lblmachineno" class="d-none">@machineno</label>                
+                <label id="lblsystemid" class="d-none">@systemid</label>
+                <label id="lblhotelCode" class="d-none">@hotelcode</label>
                 @RenderBody()
             </div>
         </div>

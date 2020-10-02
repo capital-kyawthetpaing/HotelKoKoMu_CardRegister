@@ -37,6 +37,7 @@
                 Login();
              });
         });
+
         function Login() {
             var result = CalltoApiController("/api/CardAPI/ValidateLogin", { SystemID: $("#SystemID").val(), PmsID: $("#PmsID").val(), PmsPassword: $("#PmsPassword").val(), MachineNo: $("#MachineNo").val(), HotelCode: $("#HotelCode").val() });
             
@@ -44,12 +45,11 @@
                 var cardInfo = result[0].systemid + '_' + result[0].pmsid + '_' + result[0].pmspassword + '_' + result[0].machineno + '_' + result[0].hotel_code;               
                         $.post('@Url.Action("CreateSession", "Card")',
                             { key: "CardInfo", value: cardInfo }, function (data) {
-                                location.href = '@Url.Action("Index", "Home")';
+                                location.href = '@Url.Action("CardRegisterPage", "Card")';
                             });
                 }
                 else {
-                    $("#SystemID").focus();
-                    ShowMessage("E001");
+                    $("#SystemID").focus();                   
                 }
         }
         </script>

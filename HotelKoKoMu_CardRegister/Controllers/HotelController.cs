@@ -40,9 +40,5 @@ namespace HotelKoKoMu_CardRegister.Controllers
             return View();
         }
 
-       
-
-
-
     }
 }

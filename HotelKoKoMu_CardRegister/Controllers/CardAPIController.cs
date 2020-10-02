@@ -157,17 +157,17 @@ namespace HotelKoKoMu_CardRegister.Controllers
         /// </summary>
         /// <param name="hotelInfo"></param>
         /// <returns></returns>
-        [HttpPost]
-        [ActionName("GetHotelInformation")]
-        public IHttpActionResult GetHotelInformation(HotelInfo hotelInfo)
-        {
-            BaseDL bdl = new BaseDL();
-            hotelInfo.Sqlprms = new NpgsqlParameter[1];
-            hotelInfo.Sqlprms[0] = new NpgsqlParameter("@hotelno", hotelInfo.HotelNo);
-            string cmdText = "Select hotel_name,logo_data from mst_hotel where hotel_no=@hotelno";
-            DataTable dt = bdl.SelectDataTable(cmdText, hotelInfo.Sqlprms);
-            return Ok(dt);
-        }
+        //[HttpPost]
+        //[ActionName("GetHotelInformation")]
+        //public IHttpActionResult GetHotelInformation(HotelInfo hotelInfo)
+        //{
+        //    BaseDL bdl = new BaseDL();
+        //    hotelInfo.Sqlprms = new NpgsqlParameter[1];
+        //    hotelInfo.Sqlprms[0] = new NpgsqlParameter("@hotelno", hotelInfo.HotelNo);
+        //    string cmdText = "Select hotel_name,logo_data from mst_hotel where hotel_no=@hotelno";
+        //    DataTable dt = bdl.SelectDataTable(cmdText, hotelInfo.Sqlprms);
+        //    return Ok(dt);
+        //}
 
         //[HttpGet]
         //[ActionName("requestForRegistrationCard")]

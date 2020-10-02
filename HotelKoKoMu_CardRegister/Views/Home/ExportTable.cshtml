@@ -59,15 +59,15 @@
     <script>
 
         $(document).ready(function () {
-            var element = $("#html-content-holder"); // global variable
-            var getCanvas; // global variable
+            //var element = $("#html-content-holder"); // global variable
+            //var getCanvas; // global variable
 
-            html2canvas(element, {
-                onrendered: function (canvas) {
-                    $("#previewImage").append(canvas);
-                    getCanvas = canvas;
-                }
-            });
+            //html2canvas(element, {
+            //    onrendered: function (canvas) {
+            //        $("#previewImage").append(canvas);
+            //        getCanvas = canvas;
+            //    }
+            //});
 
             $("#btn-Convert-Html2Image").on('click', function () {
                 var imgageData = getCanvas.toDataURL("image/png");

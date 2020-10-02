@@ -37,5 +37,7 @@ namespace HotelKoKoMu_CardRegister.Models
         public DateTime ArrivalDate { get; set; }
         public DateTime DepartureDate { get; set; }
         public string Sign { get; set; }
+
+        public string ImageData { get; set; }
     }
 }

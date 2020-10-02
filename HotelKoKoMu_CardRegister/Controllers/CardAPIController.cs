@@ -53,12 +53,12 @@ namespace HotelKoKoMu_CardRegister.Controllers
             if(dt.Rows.Count>0)
             {
                 NpgsqlParameter[] para = new NpgsqlParameter[5];
-                para[0] = new NpgsqlParameter("@systemid", SqlDbType.VarChar) { Value = cardRegisterInfo.SystemID };
-                para[1] = new NpgsqlParameter("@pmsid", SqlDbType.VarChar) { Value = cardRegisterInfo.PmsID };
-                para[2] = new NpgsqlParameter("@pmspassword", SqlDbType.VarChar) { Value = cardRegisterInfo.PmsPassword };
-                para[3] = new NpgsqlParameter("@hotelcode", SqlDbType.VarChar) { Value = cardRegisterInfo.HotelCode };
-                para[4] = new NpgsqlParameter("@machineno", SqlDbType.VarChar) { Value = cardRegisterInfo.MachineNo };
-                string cmdText = "update trn_guestinformation set flag = 1 where flag = 0 and complete_flag=0 and pmsid = @pmsid and systemid = @systemid and pmspassword = @pmspassword and machineno = @machineno and hotel_code = @hotelcode";
+                para[0] = new NpgsqlParameter("@hotelcode", SqlDbType.VarChar) { Value = cardRegisterInfo.HotelCode };
+                para[1] = new NpgsqlParameter("@reservationno", SqlDbType.VarChar) { Value = dt.Rows[0]["reservationno"].ToString() };
+                para[2] = new NpgsqlParameter("@roomno", SqlDbType.VarChar) { Value = dt.Rows[0]["roomno"].ToString() };
+                para[3] = new NpgsqlParameter("@createddate", SqlDbType.VarChar) { Value = dt.Rows[0]["created_date"].ToString() };               
+                para[4] = new NpgsqlParameter("@systemdate", SqlDbType.VarChar) { Value = dt.Rows[0]["systemdate"].ToString() };
+                string cmdText = "update trn_guestinformation set flag = 1 where flag = 0 and complete_flag=0 and hotel_code = @hotelcode and reservationno = @reservationno and roomno =@roomno and CAST(created_date as Date) =CAST(@createddate as Date) and CAST(systemdate as Date) = CAST(@systemdate as Date)";
                 string result2 = bdl.InsertUpdateDeleteData(cmdText, para);
                 if(result2=="true")
                 {
@@ -140,7 +140,8 @@ namespace HotelKoKoMu_CardRegister.Controllers
             cardRegisterInfo.Sqlprms[10] = new NpgsqlParameter("@createddate", cardRegisterInfo.CreatedDate);
             cardRegisterInfo.Sqlprms[11] = new NpgsqlParameter("@updateddate", DateTime.Now);
             string fileName = cardRegisterInfo.SystemDate.ToString("yyyyMMdd") + cardRegisterInfo.ReservationNo + cardRegisterInfo.RoomNo + DateTime.Now.ToString("yyyyMMdd") + cardRegisterInfo.HotelCode + ".jpg";
-            SaveImage(cardRegisterInfo.Sign, cardRegisterInfo.HotelCode, fileName);
+            SaveImage(cardRegisterInfo.ImageData, cardRegisterInfo.HotelCode, fileName);
+
             cardRegisterInfo.Sqlprms[12] = new NpgsqlParameter("@filename", fileName);
             cardRegisterInfo.Sqlprms[13] = new NpgsqlParameter("@hotelcode", cardRegisterInfo.HotelCode);
             cardRegisterInfo.Sqlprms[14] = new NpgsqlParameter("@reservationno", cardRegisterInfo.ReservationNo);
@@ -151,7 +152,7 @@ namespace HotelKoKoMu_CardRegister.Controllers
 
             string sql = "update trn_guestinformation set guestname_text=@guestName,kananame_text=@kanaName,zipcode_text=@zipcode,tel_text=@tel,";
             sql += " address1_text=@address1,address2_text=@address2,company_text=@company,nationality_text=@nationality,passportno_text=@passport,complete_flag=1,";
-            sql += " arrival_date=@arrivaldate,departure_date=@departuredate,updator=@updator,updated_date=@updateddate,sign_filename=@filename where hotel_code=@hotelcode and";
+            sql += " arrival_date=@arrivaldate,departure_date=@departuredate,updator=@updator,updated_date=@updateddate,imagedata=@filename where hotel_code=@hotelcode and";
             sql += " reservationno=@reservationno and roomno=@roomno and CAST(systemdate as DATE)=CAST(@systemdate AS DATE)  and CAST(created_date as DATE)=CAST(@createddate AS DATE) and flag=1 and complete_flag=0";
             string result = bdl.InsertUpdateDeleteData(sql, cardRegisterInfo.Sqlprms);
             if (result== "true")
@@ -206,17 +207,17 @@ namespace HotelKoKoMu_CardRegister.Controllers
         /// </summary>
         /// <param name="hotelInfo"></param>
         /// <returns></returns>
-        //[HttpPost]
-        //[ActionName("GetHotelInformation")]
-        //public IHttpActionResult GetHotelInformation(HotelInfo hotelInfo)
-        //{
-        //    BaseDL bdl = new BaseDL();
-        //    hotelInfo.Sqlprms = new NpgsqlParameter[1];
-        //    hotelInfo.Sqlprms[0] = new NpgsqlParameter("@hotelno", hotelInfo.HotelNo);
-        //    string cmdText = "Select hotel_name,logo_data from mst_hotel where hotel_no=@hotelno";
-        //    DataTable dt = bdl.SelectDataTable(cmdText, hotelInfo.Sqlprms);
-        //    return Ok(dt);
-        //}
+        [HttpPost]
+        [ActionName("GetHotelInformation")]
+        public IHttpActionResult GetHotelInformation(HotelInfo hotelInfo)
+        {
+            BaseDL bdl = new BaseDL();
+            hotelInfo.Sqlprms = new NpgsqlParameter[1];
+            hotelInfo.Sqlprms[0] = new NpgsqlParameter("@hotelno", hotelInfo.HotelNo);
+            string cmdText = "Select hotel_name,logo_data from mst_hotel where hotel_no=@hotelno";
+            DataTable dt = bdl.SelectDataTable(cmdText, hotelInfo.Sqlprms);
+            return Ok(dt);
+        }
 
         [HttpPost]
         [ActionName("Check_Login")]
@@ -270,14 +271,101 @@ namespace HotelKoKoMu_CardRegister.Controllers
         //}
 
 
-        /// <summary>
-        ///  request hotel information 
-        /// </summary>
-        /// <param name="cardRegisterInfo"></param>
-        /// <returns></returns>
+        ///// <summary>
+        /////  request hotel information 
+        ///// </summary>
+        ///// <param name="cardRegisterInfo"></param>
+        ///// <returns></returns>
+        //[HttpPost]
+        //[ActionName("requestForRegistrationCard")]
+        //public IHttpActionResult requestForRegistrationCard(CardRegisterInfo cardRegisterInfo)
+        //{
+        //    var returnStatus = new object();
+        //    BaseDL bdl = new BaseDL();
+        //    cardRegisterInfo.Sqlprms = new NpgsqlParameter[5];
+        //    cardRegisterInfo.Sqlprms[0] = new NpgsqlParameter("@systemid", SqlDbType.VarChar) { Value = cardRegisterInfo.SystemID };
+        //    cardRegisterInfo.Sqlprms[1] = new NpgsqlParameter("@pmsid", SqlDbType.VarChar) { Value = cardRegisterInfo.PmsID };
+        //    cardRegisterInfo.Sqlprms[2] = new NpgsqlParameter("@pmspassword", SqlDbType.VarChar) { Value = cardRegisterInfo.PmsPassword };
+        //    cardRegisterInfo.Sqlprms[3] = new NpgsqlParameter("@hotelcode", SqlDbType.VarChar) { Value = cardRegisterInfo.HotelCode };
+        //    cardRegisterInfo.Sqlprms[4] = new NpgsqlParameter("@machineno", SqlDbType.VarChar) { Value = cardRegisterInfo.MachineNo };
+        //    string sql = "select ";
+        //    sql += "(case when exists ";
+        //    sql += "(select 1 from trn_guestinformation where flag=0 and complete_flag=0 and pmsid=@pmsid and systemid=@systemid and  pmspassword=@pmspassword and machineno=@machineno and hotel_code=@hotelcode) ";
+        //    sql += "then 'Success' else 'Error'end) as Status ";
+        //    Tuple<string, string> result = bdl.SelectJson(sql, cardRegisterInfo.Sqlprms);
+        //    DataTable dtExistData = JsonConvert.DeserializeObject<DataTable>(result.Item1);
+        //    //card registration data exist
+        //    if (dtExistData.Rows[0][0].ToString() == "Success")
+        //        returnStatus = new { Success = dtExistData.Rows[0][0].ToString() };
+        //    //error
+        //    else
+        //        returnStatus = new { Error = dtExistData.Rows[0][0].ToString() };
+        //    return Ok(returnStatus);
+        //}
+
+        //[HttpPost]
+        //[ActionName("getRegistrationCardData")]
+        //public IHttpActionResult getRegistrationCardData(CardRegisterInfo cardRegisterInfo)
+        //{
+        //    var returnStatus = new object();
+        //    BaseDL bdl = new BaseDL();
+        //    cardRegisterInfo.Sqlprms = new NpgsqlParameter[5];
+        //    cardRegisterInfo.Sqlprms[0] = new NpgsqlParameter("@systemid", SqlDbType.VarChar) { Value = cardRegisterInfo.SystemID };
+        //    cardRegisterInfo.Sqlprms[1] = new NpgsqlParameter("@pmsid", SqlDbType.VarChar) { Value = cardRegisterInfo.PmsID };
+        //    cardRegisterInfo.Sqlprms[2] = new NpgsqlParameter("@pmspassword", SqlDbType.VarChar) { Value = cardRegisterInfo.PmsPassword };
+        //    cardRegisterInfo.Sqlprms[3] = new NpgsqlParameter("@hotelcode", SqlDbType.VarChar) { Value = cardRegisterInfo.HotelCode };
+        //    cardRegisterInfo.Sqlprms[4] = new NpgsqlParameter("@machineno", SqlDbType.VarChar) { Value = cardRegisterInfo.MachineNo };
+
+        //    string sql = "Select reservationno, roomno, systemdate, guestname_text, kananame_text, zipcode_text, tel_text, address1_text, address2_text, company_text, nationality_text, passportno_text,sign_filename,flag,complete_flag from trn_guestinformation";
+        //    sql += " where pmsid=@pmsid and systemid=@systemid and  pmspassword=@pmspassword and machineno=@machineno and hotel_code=@hotelcode and flag=1 and complete_flag=1";
+        //    Tuple<string, string> result = bdl.SelectJson(sql, cardRegisterInfo.Sqlprms);
+
+        //    DataTable dt = JsonConvert.DeserializeObject<DataTable>(result.Item1);
+        //    if (dt.Rows.Count > 0)
+        //    {
+        //        string filename = dt.Rows[0]["sign_filename"].ToString();
+        //        string flag = dt.Rows[0]["flag"].ToString();
+        //        string completeflag = dt.Rows[0]["complete_flag"].ToString();
+        //        if (!String.IsNullOrWhiteSpace(filename) && filename != "")
+        //        {
+        //            var dirPath = HttpContext.Current.Server.MapPath("~/" + cardRegisterInfo.HotelCode);
+        //            dirPath = dirPath + "//" + filename;
+
+        //            using (System.Drawing.Image image = System.Drawing.Image.FromFile(dirPath))
+        //            {
+        //                using (MemoryStream ms = new MemoryStream())
+        //                {
+        //                    string base64String;
+        //                    image.Save(ms, image.RawFormat);
+        //                    byte[] imageBytes = ms.ToArray();
+        //                    base64String = Convert.ToBase64String(imageBytes);
+        //                    dt.Rows[0]["sign_filename"] = base64String;
+        //                }
+        //            }
+        //        }
+
+
+        //        //save success , update success and return getregisterdata
+        //        if (dt.Rows.Count > 0 && flag == "True" && result.Item2 == "Success")
+        //            returnStatus = new { Success = result.Item1 };
+        //        //not yet save or update in table
+        //        else if (dt.Rows.Count < 0 && flag == "0" && result.Item2 == "Success")
+        //            returnStatus = new { NotStart = "" };
+        //        //still writing
+        //        else if (dt.Rows.Count < 0 && flag == "1" && result.Item2 == "Success")
+        //            returnStatus = new { Writeing = "" };
+        //        //error
+        //        else
+        //            returnStatus = new { Error = result.Item2 };
+        //    }
+
+        //    return Ok(returnStatus);
+        //}
+
+
         [HttpPost]
         [ActionName("requestForRegistrationCard")]
-        public IHttpActionResult requestForRegistrationCard(CardRegisterInfo cardRegisterInfo)
+        public IHttpActionResult requestForRegistrationCard(CardRegisterInfo cardRegisterInfo)        
         {
             var returnStatus = new object();
             BaseDL bdl = new BaseDL();
@@ -289,18 +377,19 @@ namespace HotelKoKoMu_CardRegister.Controllers
             cardRegisterInfo.Sqlprms[4] = new NpgsqlParameter("@machineno", SqlDbType.VarChar) { Value = cardRegisterInfo.MachineNo };
             string sql = "select ";
             sql += "(case when exists ";
-            sql += "(select 1 from trn_guestinformation where flag=0 and complete_flag=0 and pmsid=@pmsid and systemid=@systemid and  pmspassword=@pmspassword and machineno=@machineno and hotel_code=@hotelcode) ";
+            sql += "(select 1 from trn_guestinformation where flag='0' and pmsid=@pmsid and systemid=@systemid and  pmspassword=@pmspassword and machineno=@machineno and hotel_code=@hotelcode) ";
             sql += "then 'Success' else 'Error'end) as Status ";
             Tuple<string, string> result = bdl.SelectJson(sql, cardRegisterInfo.Sqlprms);
-
             DataTable dtExistData = JsonConvert.DeserializeObject<DataTable>(result.Item1);
-
-            //card registration data exist
-            if (dtExistData.Rows[0][0].ToString() == "Success")
-                returnStatus = new { Success = dtExistData.Rows[0][0].ToString() };
-            //error
-            else
-                returnStatus = new { Error = dtExistData.Rows[0][0].ToString() };
+            if(dtExistData.Rows.Count>0)
+            {
+                //card registration data exist
+                if (dtExistData.Rows[0][0].ToString() == "Success")
+                    returnStatus = new { Success = dtExistData.Rows[0][0].ToString() };
+                //error
+                else
+                    returnStatus = new { Error = dtExistData.Rows[0][0].ToString() };
+            }
             return Ok(returnStatus);
         }
 
@@ -317,8 +406,9 @@ namespace HotelKoKoMu_CardRegister.Controllers
             cardRegisterInfo.Sqlprms[3] = new NpgsqlParameter("@hotelcode", SqlDbType.VarChar) { Value = cardRegisterInfo.HotelCode };
             cardRegisterInfo.Sqlprms[4] = new NpgsqlParameter("@machineno", SqlDbType.VarChar) { Value = cardRegisterInfo.MachineNo };
 
-            string sql = "Select reservationno, roomno, systemdate, guestname_text, kananame_text, zipcode_text, tel_text, address1_text, address2_text, company_text, nationality_text, passportno_text,sign_filename,flag,complete_flag from trn_guestinformation";
-            sql += " where pmsid=@pmsid and systemid=@systemid and  pmspassword=@pmspassword and machineno=@machineno and hotel_code=@hotelcode and flag=1 and complete_flag=1";
+            string sql = "Select hotel_code,reservationno, roomno, systemdate, guestname_text, kananame_text, zipcode_text, tel_text, address1_text, address2_text, company_text, nationality_text, passportno_text,sign_filename,flag,complete_flag from trn_guestinformation";
+            sql += " where pmsid=@pmsid and systemid=@systemid and  pmspassword=@pmspassword and machineno=@machineno and hotel_code=@hotelcode and flag=1";
+            sql += " Update trn_guesetinformation set flag = 2 where pmsid=@pmsid and systemid=@systemid and  pmspassword=@pmspassword and machineno=@machineno and hotel_code=@hotelcode and flag=1 and complete_flag=1";
             Tuple<string, string> result = bdl.SelectJson(sql, cardRegisterInfo.Sqlprms);
 
             DataTable dt = JsonConvert.DeserializeObject<DataTable>(result.Item1);
@@ -340,27 +430,58 @@ namespace HotelKoKoMu_CardRegister.Controllers
                             image.Save(ms, image.RawFormat);
                             byte[] imageBytes = ms.ToArray();
                             base64String = Convert.ToBase64String(imageBytes);
-                            dt.Rows[0]["sign_filename"] = base64String;
+                            dt.Rows[0]["imagedata"] = base64String;
+                            string jsonstring = JsonConvert.SerializeObject(dt);
+                            result = new Tuple<string, string>(jsonstring, result.Item2);
                         }
                     }
                 }
-
-
                 //save success , update success and return getregisterdata
-                if (dt.Rows.Count > 0 && flag == "True" && result.Item2 == "Success")
+                if (flag == "1" && completeflag == "1" && result.Item2 == "Success")
                     returnStatus = new { Success = result.Item1 };
-                //not yet save or update in table
-                else if (dt.Rows.Count < 0 && flag == "0" && result.Item2 == "Success")
-                    returnStatus = new { NotStart = "" };
+
                 //still writing
-                else if (dt.Rows.Count < 0 && flag == "1" && result.Item2 == "Success")
-                    returnStatus = new { Writeing = "" };
+                else if (flag == "1" && completeflag == "0" && result.Item2 == "Success")
+                    returnStatus = new { Writing = "" };
                 //error
                 else
                     returnStatus = new { Error = result.Item2 };
             }
+            else
+            {
+                //not yet save or update in table
+                returnStatus = new { NotStart = "" };
+            }
 
             return Ok(returnStatus);
+        }
+
+
+        [HttpPost]
+        [ActionName("Check_Login")]
+        public IHttpActionResult Check_Login(CardRegisterInfo cardRegisterInfo)
+        {
+            var msg = string.Empty;
+            BaseDL bdl = new BaseDL();
+            cardRegisterInfo.Sqlprms = new NpgsqlParameter[5];
+            cardRegisterInfo.Sqlprms[0] = new NpgsqlParameter("@SystemID", cardRegisterInfo.SystemID);
+            cardRegisterInfo.Sqlprms[1] = new NpgsqlParameter("@PmsID", cardRegisterInfo.PmsID);
+            cardRegisterInfo.Sqlprms[2] = new NpgsqlParameter("@PmsPassword", cardRegisterInfo.PmsPassword);
+            cardRegisterInfo.Sqlprms[3] = new NpgsqlParameter("@MachineNo", cardRegisterInfo.MachineNo);
+            cardRegisterInfo.Sqlprms[4] = new NpgsqlParameter("@HotelCode", cardRegisterInfo.HotelCode);
+            string cmdText = "Select  systemid,pmsid, pmspassword ,hotel_code,machineno  from trn_guestinformation where systemid=@SystemID and pmsid=@PmsID and pmspassword=@PmsPassword and hotel_code=@HotelCode and machineno=@MachineNo limit 1";
+            DataTable dt = bdl.SelectDataTable(cmdText, cardRegisterInfo.Sqlprms);
+
+            if (dt.Rows.Count > 0)
+            {
+
+            }
+            else
+            {
+
+            }
+
+            return Ok(JsonConvert.SerializeObject(dt));
         }
     }
 }

@@ -706,6 +706,8 @@
     <Content Include="Views\Card\Login.cshtml" />
     <Content Include="Views\Hotel\Guest_InformationNew.cshtml" />
     <Content Include="Views\Home\Test.cshtml" />
+    <Content Include="Views\Home\ExportTable.cshtml" />
+    <Content Include="Views\Home\test1.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

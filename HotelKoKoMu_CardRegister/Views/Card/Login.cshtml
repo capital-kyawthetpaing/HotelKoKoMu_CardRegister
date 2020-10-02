@@ -6,16 +6,10 @@
 
 <div class="divLogin col-md-4 offset-md-4">
     <div class="divtitle">
-        <h4>e-RegistrationCard System</h4>
-        @*<span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
-        <img src="img_avatar2.png" alt="Avatar" class="avatar">*@
+        <h2>e-Registration Card System</h2>       
     </div>
-
-    
     <div class="container">
-
-        <label for="SystemID">SystemID</label>
-        @*<label for="SystemID"><b>SystemID</b></label>*@
+        <label for="SystemID"><b>SystemID</b></label>
         <input type="text" placeholder="Enter SystemID" name="SystemID" required>
 
         <label for="PmsID"><b>PmsID</b></label>
@@ -35,7 +29,7 @@
     </div>
 </div>
 
-@*@section Scripts{
+@section Scripts{
     <script>
         $(document).ready(function () {
             $("#btnlogin").click(function () {
@@ -57,10 +51,9 @@
                          title: 'Guest Information',
                          text: response
                      })
-                 }
-                //window.location.reload();
+                 }                
              });
         });
 
     </script>
-}*@
+}

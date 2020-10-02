@@ -157,17 +157,17 @@ namespace HotelKoKoMu_CardRegister.Controllers
         /// </summary>
         /// <param name="hotelInfo"></param>
         /// <returns></returns>
-        //[HttpPost]
-        //[ActionName("GetHotelInformation")]
-        //public IHttpActionResult GetHotelInformation(HotelInfo hotelInfo)
-        //{
-        //    BaseDL bdl = new BaseDL();
-        //    hotelInfo.Sqlprms = new NpgsqlParameter[1];
-        //    hotelInfo.Sqlprms[0] = new NpgsqlParameter("@hotelno", hotelInfo.HotelNo);
-        //    string cmdText = "Select hotel_name,logo_data from mst_hotel where hotel_no=@hotelno";
-        //    DataTable dt = bdl.SelectDataTable(cmdText, hotelInfo.Sqlprms);
-        //    return Ok(dt);
-        //}
+        [HttpPost]
+        [ActionName("GetHotelInformation")]
+        public IHttpActionResult GetHotelInformation(HotelInfo hotelInfo)
+        {
+            BaseDL bdl = new BaseDL();
+            hotelInfo.Sqlprms = new NpgsqlParameter[1];
+            hotelInfo.Sqlprms[0] = new NpgsqlParameter("@hotelno", hotelInfo.HotelNo);
+            string cmdText = "Select hotel_name,logo_data from mst_hotel where hotel_no=@hotelno";
+            DataTable dt = bdl.SelectDataTable(cmdText, hotelInfo.Sqlprms);
+            return Ok(dt);
+        }
 
         //[HttpGet]
         //[ActionName("requestForRegistrationCard")]
@@ -235,20 +235,15 @@ namespace HotelKoKoMu_CardRegister.Controllers
             sql += "(select 1 from trn_guestinformation where flag='0' and pmsid=@pmsid and systemid=@systemid and  pmspassword=@pmspassword and machineno=@machineno and hotel_code=@hotelcode) ";
             sql += "then 'Success' else 'Error'end) as Status ";
             Tuple<string, string> result = bdl.SelectJson(sql, cardRegisterInfo.Sqlprms);
-            //hotelsystem data exist
-            if (result.Item1 != "" && result.Item2 == "Success")
-                returnStatus = new { Success = result.Item1 };
+            DataTable dtExistData = JsonConvert.DeserializeObject<DataTable>(result.Item1);
+            
+            //card registration data exist
+            if (dtExistData.Rows[0][0].ToString() == "Success")
+                returnStatus = new { Success = dtExistData.Rows[0][0].ToString() };
             //error
             else
-                returnStatus = new { Error = result.Item2 };
-
-            var cardRegistrationObj = new
-            {
-                Status = returnStatus,
-                FailureReason = result.Item2,
-                ErrorDescription = ""
-            };
-            return Ok(cardRegistrationObj);
+                returnStatus = new { Error = dtExistData.Rows[0][0].ToString() };
+            return Ok(returnStatus);
         }
         
         [HttpPost]
@@ -266,9 +261,9 @@ namespace HotelKoKoMu_CardRegister.Controllers
 
             string sql = "Select flag,reservationno, roomno, systemdate, guestname_text, kananame_text, zipcode_text, tel_text, address1_text, address2_text, company_text, nationality_text, passportno_text,sign_filename from trn_guestinformation";
             sql += " where pmsid=@pmsid and systemid=@systemid and  pmspassword=@pmspassword and machineno=@machineno and hotel_code=@hotelcode";
-            Tuple<DataTable, string> result = bdl.SelectDataTable(sql, cardRegisterInfo.Sqlprms);
+            Tuple<string, string> result = bdl.SelectJson(sql, cardRegisterInfo.Sqlprms);
 
-            DataTable dt = result.Item1;
+            DataTable dt =JsonConvert.DeserializeObject<DataTable>(result.Item1);
             string filename = "20201001000002.JPG";
             string flag = dt.Rows[0]["flag"].ToString();
             if (!String.IsNullOrWhiteSpace(filename) && filename != "")

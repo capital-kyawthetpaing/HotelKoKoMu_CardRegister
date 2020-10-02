@@ -154,15 +154,15 @@
 @section Scripts
 {
     <script type="text/javascript">
-        var commonName = '';       
+        var commonName = '';
         var intervalId;
         var GuestName, GuestNameHW, KanaName, KanaNameHW, ZipCode, ZipCodeHW, Tel, TelHW, Address1, AddressHW1, Address2, AddressHW2, Company, CompanyHW, Nationality, NationalityHW, Passport, PassportHW, Sign;
         var CardRegisterInfo = { SystemID: "e-card", PmsID: "FMFS", PmsPassword: "Abc123#", HotelCode: "000001", MachineNo: "01" };
 
-        $(document).ready(function () {            
+        $(document).ready(function () {
             //bind card registeration information every 3 secods
-             intervalId = setInterval(function () { BindCardRegisterData(); }, 300);
-            
+            intervalId = setInterval(function () { SearchCardRegisterData(); }, 300);
+
             var currentDate = new Date();
             //set current date into arrival date
             $("#dtpArrivalDate").val(moment(currentDate).format('YYYY-MM-DD'));
@@ -171,7 +171,7 @@
            var dtDepartureDate = currentDate.setDate(currentDate.getDate() + 1);
             $("#dtpDepartureDate").val(moment(dtDepartureDate).format('YYYY-MM-DD'));
 
-            $("#btnInputKeyboard").click(function () {                
+            $("#btnInputKeyboard").click(function () {
                 $("#divCanvas").addClass('d-none');
                 $("#divName").removeClass('d-none');
                 $("#txtRegister").focus();
@@ -248,55 +248,55 @@
 
             //save guest information
             $("#btnfinish").click(function () {
-                $('.kokomuTable tr td').each(function () {                   
+                $('.kokomuTable tr td').each(function () {
                     if ($(this).find("label").attr("id") == "lblGuestName")
-                        GuestName = $("#lblGuestName").text();                    
+                        GuestName = $("#lblGuestName").text();
                     else
                         GuestNameHW = $("#imgGuestName").attr('src');
 
-                    if ($(this).find("label").attr("id") == "lblKanaName") 
-                        KanaName = $("#lblKanaName").text();                    
+                    if ($(this).find("label").attr("id") == "lblKanaName")
+                        KanaName = $("#lblKanaName").text();
                     else
                         KanaNameHW = $("#imgKanaName").attr('src');
 
-                    if ($(this).find("label").attr("id") == "lblZipCode") 
-                        ZipCode = $("#lblZipCode").text();                    
-                    else 
-                        ZipCodeHW = $("#imgZipCode").attr('src');                    
+                    if ($(this).find("label").attr("id") == "lblZipCode")
+                        ZipCode = $("#lblZipCode").text();
+                    else
+                        ZipCodeHW = $("#imgZipCode").attr('src');
 
-                    if ($(this).find("label").attr("id") == "lblTel") 
-                        Tel = $("#lblTel").text();                   
+                    if ($(this).find("label").attr("id") == "lblTel")
+                        Tel = $("#lblTel").text();
                     else
                         TelHW = $("#imgTel").attr('src');
-                    
-                    if ($(this).find("label").attr("id") == "lblAddress1") 
-                        Address1 = $("#lblAddress1").text();                   
-                    else 
+
+                    if ($(this).find("label").attr("id") == "lblAddress1")
+                        Address1 = $("#lblAddress1").text();
+                    else
                         AddressHW1 = $("#imgAddress1").attr('src');
 
-                    if ($(this).find("label").attr("id") == "lblAddress2") 
-                        Address2 = $("#lblAddress2").text();                    
-                    else 
+                    if ($(this).find("label").attr("id") == "lblAddress2")
+                        Address2 = $("#lblAddress2").text();
+                    else
                         AddressHW2 = $("#imgAddress2").attr('src');
 
-                    if ($(this).find("label").attr("id") == "lblCompany") 
-                        Company = $("#lblCompany").text();                    
-                    else 
+                    if ($(this).find("label").attr("id") == "lblCompany")
+                        Company = $("#lblCompany").text();
+                    else
                         CompanyHW = $("#imgCompany").attr('src');
 
-                    if ($(this).find("label").attr("id") == "lblNationality") 
-                        Nationality = $("#lblNationality").text();                    
-                    else 
+                    if ($(this).find("label").attr("id") == "lblNationality")
+                        Nationality = $("#lblNationality").text();
+                    else
                         NationalityHW = $("#imgNationality").attr('src');
-                    
+
                     if ($(this).find("label").attr("id") == "lblPassport")
-                        Passport = $("#lblPassport").text();                    
+                        Passport = $("#lblPassport").text();
                     else
                         PassportHW = $("#imgPassport").attr('src');
                 });
                 var guestInfo = { HotelCode: $("#lblHotelCode").text(), ReservationNo: $("#lblReservationNo").text(), RoomNo: $("#lblRoomNo").text(), SystemDate: $("#lblSystemDate").text(), GuestName: GuestName, GuestNameHW: GuestNameHW, KanaName: KanaName, KanaNameHW: KanaNameHW, ZipCode: ZipCode, ZipCodeHW: ZipCodeHW, Tel: Tel, TelHW: TelHW, Address1: Address1, AddressHW1: AddressHW1, Address2: Address2, AddressHW2, AddressHW2, Company: Company, CompanyHW: CompanyHW, Nationality: Nationality, NationalityHW: NationalityHW, Passport: Passport, PassportHW: PassportHW, Sign: $("#imgSign").attr('src'), ArrivalDate: $("#dtpArrivalDate").val(), DepartureDate: $("#dtpDepartureDate").val(), CreatedDate: $("#lblCreatedDate").text() };
                 var response = CalltoApiController('@Url.Action("setRegistrationCard", "api/CardAPI/")', guestInfo);
-               
+
                 if (response["Success"] != undefined) {
                     Swal.fire({
                         title: 'Guest Information',
@@ -483,18 +483,21 @@
         }
 
         //call card register data every 3 seconds and stop when data found
-        function BindCardRegisterData() {                         
+        function BindCardRegisterData() {
             var result = CalltoApiController('@Url.Action("getRequestForRegistrationCard", "api/CardAPI/")', CardRegisterInfo);
-                      
+
         }
 
-        //call card register data every 3 seconds and stop when data found
-        function BindCardRegisterData() {                         
-            var result = CalltoApiController('@Url.Action("getRequestForRegistrationCard", "api/CardAPI/")', CardRegisterInfo);
-            if (result["Success"] != undefined) {              
-                    clearInterval(intervalId);
+        //search card register data every 3 seconds and stop when data found
+        function SearchCardRegisterData() {
+            var result = CalltoApiController('@Url.Action("requestForRegistrationCard", "api/CardAPI/")', CardRegisterInfo);           
+            if (result["Success"] != undefined) {
+                clearInterval(intervalId);
+                var result = CalltoApiController('@Url.Action("getRequestForRegistrationCard", "api/CardAPI/")', CardRegisterInfo);
+                if (result["Success"] != undefined) {
+
                     var cardObj = JSON.parse(result.Success);
-                    if (cardObj.length > 0) {                        
+                    if (cardObj.length > 0) {
                         $("#lblHotelCode").text(cardObj[0].hotel_code);
                         $("#lblSystemDate").text(cardObj[0].systemdate);
                         $("#lblReservationNo").text(cardObj[0].reservationno);
@@ -519,7 +522,8 @@
                         if (cardObj[0].passportno_hotel != null)
                             $('#tdPassport').append(CreateLabelControl(result[0].passportno_hotel, "lblPassport"));
                     }
-            }                
+                }
+            }           
         }
     </script>
    

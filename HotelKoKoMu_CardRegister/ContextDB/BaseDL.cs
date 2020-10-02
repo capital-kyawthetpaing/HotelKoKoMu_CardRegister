@@ -12,35 +12,35 @@ namespace HotelKoKoMu_CardRegister.ContextDB
     public class BaseDL
     {
         string conStr = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
-        //public DataTable SelectDataTable(string sSQL, NpgsqlParameter[] param)
-        //{
-        //    DataTable dt = new DataTable
-        //    {
-        //        TableName = "data"
-        //    };
-        //    try
-        //    {
-        //        var newCon = new NpgsqlConnection(conStr);
-        //        using (var adapt = new NpgsqlDataAdapter(sSQL, newCon))
-        //        {
-        //            newCon.Open();
-        //            NpgsqlCommand cmd = new NpgsqlCommand(sSQL, newCon);
-        //            cmd.CommandType = CommandType.StoredProcedure;
-        //            if (param != null)
-        //            {
-        //                param = ChangeToDBNull(param);
-        //                adapt.SelectCommand.Parameters.AddRange(param);
-        //            }
-        //            adapt.Fill(dt);
-        //            newCon.Close();
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        string msg = ex.Message;
-        //    }
-        //    return dt;
-        //}
+        public DataTable SelectDataTable(string sSQL, NpgsqlParameter[] param)
+        {
+            DataTable dt = new DataTable
+            {
+                TableName = "data"
+            };
+            try
+            {
+                var newCon = new NpgsqlConnection(conStr);
+                using (var adapt = new NpgsqlDataAdapter(sSQL, newCon))
+                {
+                    newCon.Open();
+                    NpgsqlCommand cmd = new NpgsqlCommand(sSQL, newCon);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    if (param != null)
+                    {
+                        param = ChangeToDBNull(param);
+                        adapt.SelectCommand.Parameters.AddRange(param);
+                    }
+                    adapt.Fill(dt);
+                    newCon.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                string msg = ex.Message;
+            }
+            return dt;
+        }
 
 
         public string InsertUpdateDeleteData(string sSQL, params NpgsqlParameter[] para)
@@ -119,37 +119,37 @@ namespace HotelKoKoMu_CardRegister.ContextDB
             return new Tuple<string, string>(DataTableToJSONWithJSONNet(dt), msg);
         }
 
-        public Tuple<DataTable,string> SelectDataTable(string sSQL, NpgsqlParameter[] param)
-        {
-            string msg = string.Empty;
-            DataTable dt = new DataTable
-            {
-                TableName = "data"
-            };
-            try
-            {
-                var newCon = new NpgsqlConnection(conStr);
-                using (var adapt = new NpgsqlDataAdapter(sSQL, newCon))
-                {
-                    newCon.Open();
-                    NpgsqlCommand cmd = new NpgsqlCommand(sSQL, newCon);
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    if (param != null)
-                    {
-                        param = ChangeToDBNull(param);
-                        adapt.SelectCommand.Parameters.AddRange(param);
-                    }
-                    adapt.Fill(dt);
-                    newCon.Close();
-                    msg = "Success";
-                }
-            }
-            catch (Exception ex)
-            {
-                 msg = ex.Message;
-            }
-            return new Tuple<DataTable,string>(dt, msg);
-        }
+        //public Tuple<DataTable,string> SelectDataTable(string sSQL, NpgsqlParameter[] param)
+        //{
+        //    string msg = string.Empty;
+        //    DataTable dt = new DataTable
+        //    {
+        //        TableName = "data"
+        //    };
+        //    try
+        //    {
+        //        var newCon = new NpgsqlConnection(conStr);
+        //        using (var adapt = new NpgsqlDataAdapter(sSQL, newCon))
+        //        {
+        //            newCon.Open();
+        //            NpgsqlCommand cmd = new NpgsqlCommand(sSQL, newCon);
+        //            cmd.CommandType = CommandType.StoredProcedure;
+        //            if (param != null)
+        //            {
+        //                param = ChangeToDBNull(param);
+        //                adapt.SelectCommand.Parameters.AddRange(param);
+        //            }
+        //            adapt.Fill(dt);
+        //            newCon.Close();
+        //            msg = "Success";
+        //        }
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //         msg = ex.Message;
+        //    }
+        //    return new Tuple<DataTable,string>(dt, msg);
+        //}
 
         //public string SelectJson(string sSQL, params NpgsqlParameter[] param)
         //{

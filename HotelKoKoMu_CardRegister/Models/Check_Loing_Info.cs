@@ -1,0 +1,16 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Web;
+
+namespace HotelKoKoMu_CardRegister.Models
+{
+    public class Check_Loing_Info: BaseInfo
+    {
+        public string SystemID { get; set; }
+        public string PmsID { get; set; }
+        public string PmsPassword { get; set; }
+        public string MachineNo { get; set; }
+        public string HotelCode { get; set; }
+    }
+}

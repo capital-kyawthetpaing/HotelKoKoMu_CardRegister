@@ -171,6 +171,7 @@
     </Compile>
     <Compile Include="Models\BaseInfo.cs" />
     <Compile Include="Models\CardRegisterInfo.cs" />
+    <Compile Include="Models\Check_Loing_Info.cs" />
     <Compile Include="Models\HotelInfo.cs" />
     <Compile Include="Models\MultiLanguages.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -705,9 +706,6 @@
     <Content Include="Views\Shared\_LoginLayout.cshtml" />
     <Content Include="Views\Card\Login.cshtml" />
     <Content Include="Views\Hotel\Guest_InformationNew.cshtml" />
-    <Content Include="Views\Home\Test.cshtml" />
-    <Content Include="Views\Home\ExportTable.cshtml" />
-    <Content Include="Views\Home\test1.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

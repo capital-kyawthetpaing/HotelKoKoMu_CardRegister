@@ -27,20 +27,5 @@ namespace HotelKoKoMu_CardRegister.Controllers
             return View();
         }
 
-        public ActionResult ExportTable()
-        {
-            return View();
-        }
-
-
-        public ActionResult Test()
-        {
-            return View();
-        }
-
-        public ActionResult test1()
-        {
-            return View();
-        }
     }
 }

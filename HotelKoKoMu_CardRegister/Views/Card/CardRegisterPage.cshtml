@@ -159,14 +159,15 @@
     <script type="text/javascript">
         var commonName = '';
         var intervalId;
-        var GuestName, GuestNameHW, KanaName, KanaNameHW, ZipCode, ZipCodeHW, Tel, TelHW, Address1, AddressHW1, Address2, AddressHW2, Company, CompanyHW, Nationality, NationalityHW, Passport, PassportHW, Sign;
-        var CardRegisterInfo = { SystemID: "e-card", PmsID: "FMFS", PmsPassword: "Abc123#", HotelCode: "000001", MachineNo: "01" };
-        var getCanvas;
+        var GuestName, GuestNameHW, KanaName, KanaNameHW, ZipCode, ZipCodeHW, Tel, TelHW, Address1, AddressHW1, Address2, AddressHW2, Company, CompanyHW, Nationality, NationalityHW, Passport, PassportHW, Sign;       
+        var getCanvas, CardRegisterInfo;
 
         $(document).ready(function () {
+           
+            CardRegisterInfo = { SystemID: $("#lblsystemid").text(), PmsID: $("#lblPmsId").text(), PmsPassword: $("#lblPmsPassword").text(), HotelCode: $("#lblhotelCode").text(), MachineNo: $("#lblmachineno").text() };
 
             //bind card registeration information every 3 secods
-            intervalId = setInterval(function () { SearchCardRegisterData(); }, 300);
+            intervalId = setInterval(function () { SearchCardRegisterData(); }, 3000);
 
             var currentDate = new Date();
             //set current date into arrival date
@@ -259,7 +260,7 @@
                 html2canvas(element, {
                     onrendered: function (canvas) {
 
-                          $('.kokomuTable tr td').each(function () {
+                    $('.kokomuTable tr td').each(function () {
                     if ($(this).find("label").attr("id") == "lblGuestName")
                         GuestName = $("#lblGuestName").text();
                     else
@@ -308,7 +309,7 @@
                         var guestInfo = { HotelCode: $("#lblHotelCode").text(), ReservationNo: $("#lblReservationNo").text(), RoomNo: $("#lblRoomNo").text(), SystemDate: $("#lblSystemDate").text(), GuestName: GuestName, GuestNameHW: GuestNameHW, KanaName: KanaName, KanaNameHW: KanaNameHW, ZipCode: ZipCode, ZipCodeHW: ZipCodeHW, Tel: Tel, TelHW: TelHW, Address1: Address1, AddressHW1: AddressHW1, Address2: Address2, AddressHW2, AddressHW2, Company: Company, CompanyHW: CompanyHW, Nationality: Nationality, NationalityHW: NationalityHW, Passport: Passport, PassportHW: PassportHW, Sign: $("#imgSign").attr('src'), ArrivalDate: $("#dtpArrivalDate").val(), DepartureDate: $("#dtpDepartureDate").val(), CreatedDate: $("#lblCreatedDate").text(), ImageData: canvas.toDataURL("image/jpg") };
                           var response = CalltoApiController('@Url.Action("setRegistrationCard", "api/CardAPI/")', guestInfo);
 
-                           if (response["Success"] != undefined) {
+                        if (response["Success"] != undefined) {
                                 Swal.fire({
                                     title: 'Guest Information',
                                     text: response["Success"],
@@ -318,7 +319,14 @@
                                     cancelButtonColor: '#d33',
                                     confirmButtonText: 'OK'
                                 }).then((result) => {
-                                    setInterval(function () { window.location.reload(); }, 300);
+
+                                    $('.kokomuTable tr td').each(function () {
+                                        if ($(this).attr("id") != undefined) {
+                                            $(this).html('');
+                                        }
+                                    });
+
+                                    setInterval(function () { SearchCardRegisterData(); }, 3000);
                                 })
                             }
                            else {
@@ -501,11 +509,11 @@
         function SearchCardRegisterData() {
          
             var result = CalltoApiController('@Url.Action("requestForRegistrationCard", "api/CardAPI/")', CardRegisterInfo); 
-            if (result["Success"] != undefined) {  
-                clearInterval(intervalId);
+            if (result["Success"] != undefined) {
+                clearInterval(intervalId);            
                 var data = CalltoApiController('@Url.Action("getRequestForRegistrationCard", "api/CardAPI/")', CardRegisterInfo);
                 if (data["Success"] != undefined) {
-                   
+                    clearInterval(intervalId);     
                     var cardObj = JSON.parse(data.Success);
                     if (cardObj.length > 0) {
                         $("#lblHotelCode").text(cardObj[0].hotel_code);

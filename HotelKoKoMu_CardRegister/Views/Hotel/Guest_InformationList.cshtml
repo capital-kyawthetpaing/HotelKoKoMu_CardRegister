@@ -20,6 +20,7 @@
                 <th>Company</th>
                 <th>Nationality</th>
                 <th>PassportNo</th>
+                <th>ImageData</th>
             </tr>
         </thead>
     </table>
@@ -32,7 +33,8 @@
             var CardRegisterInfo = { SystemID: "e-card", PmsID: "FMFS", PmsPassword: "Abc123#", HotelCode: "000001", MachineNo: "01" };
             var result = CalltoApiController('@Url.Action("getRegistrationCardData", "api/CardAPI/")', CardRegisterInfo);
 
-            alert(resutl.Success[0].guestname_text);
+            var response = result.Success;
+            BindGuestInformationTable(response);
         });
 
 
@@ -50,19 +52,20 @@
                 paging: false,
                 "columns": [
 
-                    { "data": "reservationno", orderable: false, "width": "13%" },
-                    { "data": "roomno", orderable: false, "width": "13%" },
-                    { "data": "systemdate", orderable: false, "width": "13%" },
-                    { "data": "guestname", orderable: false, "width": "13%" },
-                    { "data": "kananame", orderable: false, "width": "13%" },
-                    { "data": "zipcode", orderable: false, "width": "13%" },
-                    { "data": "tel", orderable: false, "width": "13%" },
-                    { "data": "address1", orderable: false, "width": "13%" },
-                    { "data": "address2", orderable: false, "width": "13%" },
-                    { "data": "company", orderable: false, "width": "13%" },
-                    { "data": "nationality", orderable: false, "width": "13%" },
-                    { "data": "passportno", orderable: false, "width": "13%" },
-                    { "data": "sign_filename", orderable: false, "width": "13%" },
+                    { "data": "hotel_code", orderable: false },
+                    { "data": "reservationno", orderable: false },
+                    { "data": "roomno", orderable: false },
+                    { "data": "systemdate", orderable: false },
+                    { "data": "guestname_text", orderable: false},
+                    { "data": "kananame_text", orderable: false },
+                    { "data": "zipcode_text", orderable: false },
+                    { "data": "tel_text", orderable: false },
+                    { "data": "address1_text", orderable: false },
+                    { "data": "address2_text", orderable: false},
+                    { "data": "company_text", orderable: false },
+                    { "data": "nationality_text", orderable: false},
+                    { "data": "passportno_text", orderable: false },
+                    { "data": "sign_filename", orderable: false },
                 ]
 
             });

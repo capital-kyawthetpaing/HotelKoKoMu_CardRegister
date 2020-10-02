@@ -3,28 +3,31 @@
     ViewBag.Title = "Guest_InformationList";
     Layout = "~/Views/Shared/_CardRegisterLayout.cshtml";
 }
-<div class="col-md-12">
-    <table id="tblGuestList" border="1">
-        <thead>
-            <tr>
-                <th>HotelCode</th>
-                <th>ReservationNo</th>
-                <th>RoomNo</th>
-                <th>SystemDate</th>
-                <th>GuestName</th>
-                <th>KanaName</th>
-                <th>ZipCode</th>
-                <th>Tel</th>
-                <th>Address1</th>
-                <th>Address2</th>
-                <th>Company</th>
-                <th>Nationality</th>
-                <th>PassportNo</th>
-                <th>ImageData</th>
-            </tr>
-        </thead>
-    </table>
+
+<div class="row">
+    <div class="table-responsive">
+        <table id="tblGuestList" border="1">
+            <thead>
+                <tr>
+                    <th>HotelCode</th>
+                    <th>ReservationNo</th>
+                    <th>RoomNo</th>
+                    <th>SystemDate</th>
+                    <th>GuestName</th>
+                    <th>KanaName</th>
+                    <th>ZipCode</th>
+                    <th>Tel</th>
+                    <th>Address1</th>
+                    <th>Address2</th>
+                    <th>Company</th>
+                    <th>Nationality</th>
+                    <th>PassportNo</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
 </div>
+
 
 @section Scripts{
     <script>
@@ -39,7 +42,7 @@
 
 
         function BindGuestInformationTable(response) {
-
+           
             table = $('#tblGuestList').DataTable({
 
                 data: JSON.parse(response),
@@ -65,12 +68,14 @@
                     { "data": "company_text", orderable: false },
                     { "data": "nationality_text", orderable: false},
                     { "data": "passportno_text", orderable: false },
-                    { "data": "sign_filename", orderable: false },
                 ]
 
+                 //"drawCallback": function (settings) {
+                 //   $("#tblGuestList thead").remove();
+                //}
             });
         }
-
+       
     </script>
 }
 

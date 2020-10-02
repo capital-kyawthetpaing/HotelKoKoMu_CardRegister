@@ -231,23 +231,26 @@ namespace HotelKoKoMu_CardRegister.Controllers
             cardRegisterInfo.Sqlprms[3] = new NpgsqlParameter("@hotelcode", SqlDbType.VarChar) { Value = cardRegisterInfo.HotelCode };
             cardRegisterInfo.Sqlprms[4] = new NpgsqlParameter("@machineno", SqlDbType.VarChar) { Value = cardRegisterInfo.MachineNo };
 
+            string sql = "select* from trn_guestinformation where flag = '0' and pmsid = @pmsid and systemid = @systemid and pmspassword = @pmspassword and machineno = @machineno and hotel_code = @hotelcode";
 
-            string sql = "select ";
-            sql += "(case when exists ";
-            sql += "(select 1 from trn_guestinformation where flag='0' and pmsid=@pmsid and systemid=@systemid and  pmspassword=@pmspassword and machineno=@machineno and hotel_code=@hotelcode) ";
-            sql += "then 'Success' else 'Error'end) as Status ";
-            Tuple<string, string> result = bdl.SelectJson(sql, cardRegisterInfo.Sqlprms);
-            DataTable dtExistData = JsonConvert.DeserializeObject<DataTable>(result.Item1);
-            if(dtExistData.Rows.Count>0)
-            {
-                //card registration data exist
-                if (dtExistData.Rows[0][0].ToString() == "Success")
-                    returnStatus = new { Success = dtExistData.Rows[0][0].ToString() };
-                //error
-                else
-                    returnStatus = new { Error = dtExistData.Rows[0][0].ToString() };
-            }
-            return Ok(returnStatus);
+            DataTable dt = bdl.SelectDataTable(sql, cardRegisterInfo.Sqlprms);
+            return Ok();
+            //string sql = "select ";
+            //sql += "(case when exists ";
+            //sql += "(select 1 from trn_guestinformation where flag='0' and pmsid=@pmsid and systemid=@systemid and  pmspassword=@pmspassword and machineno=@machineno and hotel_code=@hotelcode) ";
+            //sql += "then 'Success' else 'Error'end) as Status ";
+            //Tuple<string, string> result = bdl.SelectJson(sql, cardRegisterInfo.Sqlprms);
+            //DataTable dtExistData = JsonConvert.DeserializeObject<DataTable>(result.Item1);
+            //if(dtExistData.Rows.Count>0)
+            //{
+            //    //card registration data exist
+            //    if (dtExistData.Rows[0][0].ToString() == "Success")
+            //        returnStatus = new { Success = dtExistData.Rows[0][0].ToString() };
+            //    //error
+            //    else
+            //        returnStatus = new { Error = dtExistData.Rows[0][0].ToString() };
+            //}
+            //return Ok(returnStatus);
         }
 
 
@@ -264,19 +267,19 @@ namespace HotelKoKoMu_CardRegister.Controllers
             cardRegisterInfo.Sqlprms[3] = new NpgsqlParameter("@hotelcode", SqlDbType.VarChar) { Value = cardRegisterInfo.HotelCode };
             cardRegisterInfo.Sqlprms[4] = new NpgsqlParameter("@machineno", SqlDbType.VarChar) { Value = cardRegisterInfo.MachineNo };
 
-            string sql = "Select hotel_code,systemid,pmsid,pmspassword,machineno,reservationno, roomno, systemdate, guestname_text, kananame_text, zipcode_text, tel_text, address1_text, address2_text, company_text, nationality_text, passportno_text,imagedata,flag,complete_flag from trn_guestinformation";
+            string sql = "Select hotel_code,created_date,systemid,pmsid,pmspassword,machineno,reservationno, roomno, systemdate, guestname_text, kananame_text, zipcode_text, tel_text, address1_text, address2_text, company_text, nationality_text, passportno_text,imagedata,flag,complete_flag from trn_guestinformation";
             sql += " where pmsid=@pmsid and systemid=@systemid and  pmspassword=@pmspassword and machineno=@machineno and hotel_code=@hotelcode and flag=1";
             Tuple<string, string> result = bdl.SelectJson(sql, cardRegisterInfo.Sqlprms);
             DataTable dt = JsonConvert.DeserializeObject<DataTable>(result.Item1);
             if (dt.Rows.Count > 0)
             {
                 NpgsqlParameter[] param = new NpgsqlParameter[5];
-                param[0] = new NpgsqlParameter("@systemid", SqlDbType.VarChar) { Value = cardRegisterInfo.SystemID };
-                param[1] = new NpgsqlParameter("@pmsid", SqlDbType.VarChar) { Value = cardRegisterInfo.PmsID };
-                param[2] = new NpgsqlParameter("@pmspassword", SqlDbType.VarChar) { Value = cardRegisterInfo.PmsPassword };
+                param[0] = new NpgsqlParameter("@reservationno", SqlDbType.VarChar) { Value = dt.Rows[0]["reservationno"].ToString() };
+                param[1] = new NpgsqlParameter("@roomno", SqlDbType.VarChar) { Value = dt.Rows[0]["roomno"].ToString() };
+                param[2] = new NpgsqlParameter("@systemdate", SqlDbType.VarChar) { Value = dt.Rows[0]["systemdate"].ToString() };
                 param[3] = new NpgsqlParameter("@hotelcode", SqlDbType.VarChar) { Value = cardRegisterInfo.HotelCode };
-                param[4] = new NpgsqlParameter("@machineno", SqlDbType.VarChar) { Value = cardRegisterInfo.MachineNo };
-                string sql1 = "Update trn_guestinformation set flag = 2 where pmsid=@pmsid and systemid=@systemid and  pmspassword=@pmspassword and machineno=@machineno and hotel_code=@hotelcode and flag=1 and complete_flag=1";
+                param[4] = new NpgsqlParameter("@createddate", SqlDbType.VarChar) { Value = dt.Rows[0]["created_date"].ToString() };                
+                string sql1 = "Update trn_guestinformation set flag = 2 where reservationno = @reservationno and roomno = @roomno and  CAST(systemdate as DATE)= CAST(@systemdate AS DATE) and CAST(created_date as DATE)= CAST(@createddate AS DATE) and hotel_code=@hotelcode and flag=1 and complete_flag=1";
                 string result2 = bdl.InsertUpdateDeleteData(sql1, param);
                 if (result2 == "true")
                 {

@@ -207,10 +207,18 @@ namespace HotelKoKoMu_CardRegister.Controllers
 
         [HttpPost]
         [ActionName("Check_Login")]
-        public IHttpActionResult Check_Login(HotelInfo hotelInfo)
+        public IHttpActionResult Check_Login(CardRegisterInfo cardRegisterInfo)
         {
-           
-            return Ok();
+            BaseDL bdl = new BaseDL();
+            cardRegisterInfo.Sqlprms = new NpgsqlParameter[5];
+            cardRegisterInfo.Sqlprms[0] = new NpgsqlParameter("@SystemID", cardRegisterInfo.SystemID);
+            cardRegisterInfo.Sqlprms[1] = new NpgsqlParameter("@PmsID", cardRegisterInfo.PmsID);
+            cardRegisterInfo.Sqlprms[2] = new NpgsqlParameter("@PmsPassword", cardRegisterInfo.PmsPassword);
+            cardRegisterInfo.Sqlprms[3] = new NpgsqlParameter("@MachineNo", cardRegisterInfo.MachineNo);
+            cardRegisterInfo.Sqlprms[4] = new NpgsqlParameter("@HotelCode", cardRegisterInfo.HotelCode);
+            string cmdText = "Select systemid,pmsid, pmspassword ,hotel_code,machineno  from trn_guestinformation where systemid=@SystemID and pmsid=@PmsID and pmspassword=@PmsPassword and hotel_code=@HotelCode and machineno=@MachineNo";
+            DataTable dt = bdl.SelectDataTable(cmdText, cardRegisterInfo.Sqlprms);
+            return Ok(dt);
         }
 
         //[HttpGet]

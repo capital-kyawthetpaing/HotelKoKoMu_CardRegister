@@ -33,8 +33,8 @@
     <script>
         $(document).ready(function () {
             $("#btnlogin").click(function () {
-
-                var GuestInformation = { SystemID: $("#SystemID").val(), PmsID: $("#PmsID").val(), PmsPassword: $("#PmsPassword").val(), MachineNo: $("#MachineNo").val(), HotelCode: $("#HotelCode").val()};
+                alert("go");
+                var GuestInformation = { SystemID: $("#SystemID").text(), PmsID: $("#PmsID").val(), PmsPassword: $("#PmsPassword").val(), MachineNo: $("#MachineNo").val(), HotelCode: $("#HotelCode").val() };
                 var response = CalltoApiController('@Url.Action("Check_Login", "api/CardAPI/")', GuestInformation);
                 if (response == "success") {
                     swal.fire({

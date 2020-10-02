@@ -3,6 +3,65 @@
     Layout = null;
 }
 
+<link href="~/Content/bootstrap.css" rel="stylesheet" />
+<style>
+    body {
+        font-family: 'ヒラギノ角ゴ ProN W3', 'Hiragino Kaku Gothic ProN', "メイリオ", Meiryo, 'ＭＳ Ｐゴシック', 'MS PGothic', 'Helvetica Neue', Helvetica, Arial, Verdana, sans-serif;
+    }
+
+    /* Full-width input fields */
+    input[type=text], input[type=password] {
+        width: 100%;
+        padding: 8px 20px;        
+        margin: 8px 0;
+        display: inline-block;
+        border: 1px solid #ccc;
+        box-sizing: border-box;
+    }
+
+    /* Set a style for all buttons */
+    button {
+        background-color: #1b5696;
+        padding: 14px 20px;
+        color:white;
+        font-weight:bold;
+        margin: 8px 0;
+        border: none;
+        cursor: pointer;
+        width: 100%;
+    }
+  button:hover {
+      opacity: 0.8;
+   }
+
+    .container {
+        padding: 16px;
+    }
+
+    span.psw {
+        float: right;
+        padding-top: 16px;
+    }
+    /* Add Zoom Animation */
+    .animate {
+        -webkit-animation: animatezoom 0.6s;
+        animation: animatezoom 0.6s
+    }
+
+    .divLogin
+    {
+        margin-top:30px;
+        border:1px solid #808080;
+    }
+
+    .divtitle {
+        text-align: center;
+        color: #1b5696;
+        margin-top:5px;
+    }
+</style>
+
+
 <!DOCTYPE html>
 
 <html>
@@ -11,7 +70,7 @@
     <title>_LoginLayout</title>
 </head>
 <body>
-    <div> 
+    <div class="col-md-12">
         @RenderBody()
     </div>
 </body>

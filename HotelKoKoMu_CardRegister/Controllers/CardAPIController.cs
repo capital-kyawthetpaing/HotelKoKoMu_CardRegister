@@ -26,7 +26,7 @@ namespace HotelKoKoMu_CardRegister.Controllers
     {
         string conStr = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
         string culture = HttpContext.Current.Request.Cookies["culture"].Value;
-                
+      
         /// <summary>
         /// get registration card data from hotel system
         /// </summary>
@@ -209,6 +209,7 @@ namespace HotelKoKoMu_CardRegister.Controllers
         [ActionName("Check_Login")]
         public IHttpActionResult Check_Login(CardRegisterInfo cardRegisterInfo)
         {
+            var msg = string.Empty;
             BaseDL bdl = new BaseDL();
             cardRegisterInfo.Sqlprms = new NpgsqlParameter[5];
             cardRegisterInfo.Sqlprms[0] = new NpgsqlParameter("@SystemID", cardRegisterInfo.SystemID);
@@ -216,9 +217,19 @@ namespace HotelKoKoMu_CardRegister.Controllers
             cardRegisterInfo.Sqlprms[2] = new NpgsqlParameter("@PmsPassword", cardRegisterInfo.PmsPassword);
             cardRegisterInfo.Sqlprms[3] = new NpgsqlParameter("@MachineNo", cardRegisterInfo.MachineNo);
             cardRegisterInfo.Sqlprms[4] = new NpgsqlParameter("@HotelCode", cardRegisterInfo.HotelCode);
-            string cmdText = "Select systemid,pmsid, pmspassword ,hotel_code,machineno  from trn_guestinformation where systemid=@SystemID and pmsid=@PmsID and pmspassword=@PmsPassword and hotel_code=@HotelCode and machineno=@MachineNo";
+            string cmdText = "Select  systemid,pmsid, pmspassword ,hotel_code,machineno  from trn_guestinformation where systemid=@SystemID and pmsid=@PmsID and pmspassword=@PmsPassword and hotel_code=@HotelCode and machineno=@MachineNo limit 1";
             DataTable dt = bdl.SelectDataTable(cmdText, cardRegisterInfo.Sqlprms);
-            return Ok(dt);
+
+            if (dt.Rows.Count > 0)
+            {
+               
+            }
+            else
+            {
+                
+            }
+
+            return Ok(JsonConvert.SerializeObject(dt));
         }
 
         //[HttpGet]
@@ -312,8 +323,8 @@ namespace HotelKoKoMu_CardRegister.Controllers
             cardRegisterInfo.Sqlprms[4] = new NpgsqlParameter("@machineno", SqlDbType.VarChar) { Value = cardRegisterInfo.MachineNo };
 
             string sql = "Select hotel_code,reservationno, roomno, systemdate, guestname_text, kananame_text, zipcode_text, tel_text, address1_text, address2_text, company_text, nationality_text, passportno_text,sign_filename,flag,complete_flag from trn_guestinformation";
-            sql += " where pmsid=@pmsid and systemid=@systemid and  pmspassword=@pmspassword and machineno=@machineno and hotel_code=@hotelcode and flag=1 and complete_flag=1";
-            //sql += " Update trn_guesetinformation set flag = 2 where pmsid=@pmsid and systemid=@systemid and  pmspassword=@pmspassword and machineno=@machineno and hotel_code=@hotelcode and flag=1 and complete_flag=1";
+            sql += " where pmsid=@pmsid and systemid=@systemid and  pmspassword=@pmspassword and machineno=@machineno and hotel_code=@hotelcode and flag=1";
+            sql += " Update trn_guesetinformation set flag = 2 where pmsid=@pmsid and systemid=@systemid and  pmspassword=@pmspassword and machineno=@machineno and hotel_code=@hotelcode and flag=1 and complete_flag=1";
             Tuple<string, string> result = bdl.SelectJson(sql, cardRegisterInfo.Sqlprms);
 
             DataTable dt = JsonConvert.DeserializeObject<DataTable>(result.Item1);
@@ -346,15 +357,18 @@ namespace HotelKoKoMu_CardRegister.Controllers
                 //save success , update success and return getregisterdata
                 if (flag == "1" && completeflag == "1" && result.Item2 == "Success")
                     returnStatus = new { Success = result.Item1 };
-                //not yet save or update in table
-                //else if (flag == "0" && completeflag == "0" && result.Item2 == "Success")
-                //    returnStatus = new { NotStart = "" };
-                ////still writing
-                //else if (flag == "1" && completeflag == "0" && result.Item2 == "Success")
-                //    returnStatus = new { Writing = "" };
-                ////error
-                //else
-                //    returnStatus = new { Error = result.Item2 };
+               
+                //still writing
+                else if (flag == "1" && completeflag == "0" && result.Item2 == "Success")
+                    returnStatus = new { Writing = "" };
+                //error
+                else
+                    returnStatus = new { Error = result.Item2 };
+            }
+            else
+            {
+                 //not yet save or update in table
+                    returnStatus = new { NotStart = "" };
             }
 
             return Ok(returnStatus);

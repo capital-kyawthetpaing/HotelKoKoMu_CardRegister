@@ -24,7 +24,7 @@
         <label for="MachineNo"><b>MachineNo</b></label>
         <input type="text" id="MachineNo" placeholder="Enter MachineNo" name="MachineNo" required>
 
-        <button type="submit" id="btnlogin">Login</button>
+        <button  id="btnlogin">Login</button>
 
     </div>
 </div>
@@ -34,9 +34,12 @@
         $(document).ready(function () {
             $("#btnlogin").click(function () {
                 alert("go");
-                var GuestInformation = { SystemID: $("#SystemID").val(), PmsID: $("#PmsID").val(), PmsPassword: $("#PmsPassword").val(), MachineNo: $("#MachineNo").val(), HotelCode: $("#HotelCode").val() };
-                var response = CalltoApiController('@Url.Action("Check_Login", "api/CardAPI/")', GuestInformation);
-                if (response == "success") {
+                var cardRegisterInfo = { SystemID: $("#SystemID").val(), PmsID: $("#PmsID").val(), PmsPassword: $("#PmsPassword").val(), MachineNo: $("#MachineNo").val(), HotelCode: $("#HotelCode").val() };
+                
+                var result = CalltoApiController('@Url.Action("Check_Login", "api/CardAPI/")', cardRegisterInfo);
+
+                alert(result);
+                @*if (response == "success") {
                     swal.fire({
                         icon: 'success',
                         title: 'Login',
@@ -50,7 +53,7 @@
                          title: 'Guest Information',
                          text: response
                      })
-                 }                
+                 }*@                
              });
         });
 

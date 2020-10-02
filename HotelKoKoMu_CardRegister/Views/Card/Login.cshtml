@@ -33,12 +33,13 @@
     <script>
         $(document).ready(function () {
             $("#btnlogin").click(function () {
-                alert("go");
+               
                 var cardRegisterInfo = { SystemID: $("#SystemID").val(), PmsID: $("#PmsID").val(), PmsPassword: $("#PmsPassword").val(), MachineNo: $("#MachineNo").val(), HotelCode: $("#HotelCode").val() };
-                
+
                 var result = CalltoApiController('@Url.Action("Check_Login", "api/CardAPI/")', cardRegisterInfo);
 
                 alert(result);
+                location.href = '@Url.Action("Guest_InformationNew", "Hotel")';
                 @*if (response == "success") {
                     swal.fire({
                         icon: 'success',
@@ -53,7 +54,7 @@
                          title: 'Guest Information',
                          text: response
                      })
-                 }*@                
+                 }*@
              });
         });
 

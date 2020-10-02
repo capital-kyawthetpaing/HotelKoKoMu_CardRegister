@@ -220,39 +220,23 @@ namespace HotelKoKoMu_CardRegister.Controllers
 
         [HttpPost]
         [ActionName("requestForRegistrationCard")]
-        public IHttpActionResult requestForRegistrationCard(CardRegisterInfo cardRegisterInfo)        
+        public IHttpActionResult requestForRegistrationCard(CardRegisterInfo info)
         {
-            var returnStatus = new object();
+            string msg = string.Empty;
             BaseDL bdl = new BaseDL();
-            cardRegisterInfo.Sqlprms = new NpgsqlParameter[5];
-            cardRegisterInfo.Sqlprms[0] = new NpgsqlParameter("@systemid", SqlDbType.VarChar) { Value = cardRegisterInfo.SystemID };
-            cardRegisterInfo.Sqlprms[1] = new NpgsqlParameter("@pmsid", SqlDbType.VarChar) { Value = cardRegisterInfo.PmsID };
-            cardRegisterInfo.Sqlprms[2] = new NpgsqlParameter("@pmspassword", SqlDbType.VarChar) { Value = cardRegisterInfo.PmsPassword };
-            cardRegisterInfo.Sqlprms[3] = new NpgsqlParameter("@hotelcode", SqlDbType.VarChar) { Value = cardRegisterInfo.HotelCode };
-            cardRegisterInfo.Sqlprms[4] = new NpgsqlParameter("@machineno", SqlDbType.VarChar) { Value = cardRegisterInfo.MachineNo };
-
-            string sql = "select* from trn_guestinformation where flag = '0' and pmsid = @pmsid and systemid = @systemid and pmspassword = @pmspassword and machineno = @machineno and hotel_code = @hotelcode";
-
-            DataTable dt = bdl.SelectDataTable(sql, cardRegisterInfo.Sqlprms);
-            return Ok();
-            //string sql = "select ";
-            //sql += "(case when exists ";
-            //sql += "(select 1 from trn_guestinformation where flag='0' and pmsid=@pmsid and systemid=@systemid and  pmspassword=@pmspassword and machineno=@machineno and hotel_code=@hotelcode) ";
-            //sql += "then 'Success' else 'Error'end) as Status ";
-            //Tuple<string, string> result = bdl.SelectJson(sql, cardRegisterInfo.Sqlprms);
-            //DataTable dtExistData = JsonConvert.DeserializeObject<DataTable>(result.Item1);
-            //if(dtExistData.Rows.Count>0)
-            //{
-            //    //card registration data exist
-            //    if (dtExistData.Rows[0][0].ToString() == "Success")
-            //        returnStatus = new { Success = dtExistData.Rows[0][0].ToString() };
-            //    //error
-            //    else
-            //        returnStatus = new { Error = dtExistData.Rows[0][0].ToString() };
-            //}
-            //return Ok(returnStatus);
+            info.Sqlprms = new NpgsqlParameter[5];
+            info.Sqlprms[0] = new NpgsqlParameter("@SystemID", info.SystemID);
+            info.Sqlprms[1] = new NpgsqlParameter("@PmsID", info.PmsID);
+            info.Sqlprms[2] = new NpgsqlParameter("@PmsPassword", info.PmsPassword);
+            info.Sqlprms[3] = new NpgsqlParameter("@MachineNo", info.MachineNo);
+            info.Sqlprms[4] = new NpgsqlParameter("@HotelCode", info.HotelCode);
+            string sql_cmd = "select * from trn_guestinformation where systemid=@SystemID and pmsid=@PmsID and pmspassword=@PmsPassword and machineno=@MachineNo and hotel_code=@HotelCode and flag=0 limit 1";
+            DataTable dt = bdl.SelectDataTable(sql_cmd, info.Sqlprms);
+            if (dt.Rows.Count > 0)
+                msg = "success";
+            else msg = "no record";
+            return Ok(msg);
         }
-
 
         [HttpPost]
         [ActionName("getRegistrationCardData")]

@@ -159,15 +159,14 @@
     <script type="text/javascript">
         var commonName = '';
         var intervalId;
-        var GuestName, GuestNameHW, KanaName, KanaNameHW, ZipCode, ZipCodeHW, Tel, TelHW, Address1, AddressHW1, Address2, AddressHW2, Company, CompanyHW, Nationality, NationalityHW, Passport, PassportHW, Sign;       
+        var GuestName, GuestNameHW, KanaName, KanaNameHW, ZipCode, ZipCodeHW, Tel, TelHW, Address1, AddressHW1, Address2, AddressHW2, Company, CompanyHW, Nationality, NationalityHW, Passport, PassportHW, Sign;
         var getCanvas, CardRegisterInfo;
 
         $(document).ready(function () {
-           
-            CardRegisterInfo = { SystemID: $("#lblsystemid").text(), PmsID: $("#lblPmsId").text(), PmsPassword: $("#lblPmsPassword").text(), HotelCode: $("#lblhotelCode").text(), MachineNo: $("#lblmachineno").text() };
 
-            //bind card registeration information every 3 secods
-            intervalId = setInterval(function () { SearchCardRegisterData(); }, 3000);
+            CardRegisterInfo = { SystemID: $("#lblsystemid").text(), PmsID: $("#lblPmsId").text(), PmsPassword: $("#lblPmsPassword").text(), HotelCode: $("#lblhotelCode").text(), MachineNo: $("#lblmachineno").text() };
+            ReBindFormData();
+            
 
             var currentDate = new Date();
             //set current date into arrival date
@@ -252,8 +251,8 @@
                 $('#CardRegisterModal').modal('hide');
             })
 
-            //save guest information
-            $("#btnfinish").click(function () {
+           //save guest information
+             $("#btnfinish").click(function () {
 
                 //get kokomu table as image
                 var element = $("#divkokomuTable");
@@ -325,8 +324,7 @@
                                             $(this).html('');
                                         }
                                     });
-
-                                    setInterval(function () { SearchCardRegisterData(); }, 3000);
+                                    ReBindFormData();
                                 })
                             }
                            else {
@@ -505,16 +503,17 @@
             ctx.fillStyle = 'rgb(255,255,255)';
         }
 
-        //search card register data every 3 seconds and stop when data found
+       //search card register data every 3 seconds and stop when data found
         function SearchCardRegisterData() {
-         
-            var result = CalltoApiController('@Url.Action("requestForRegistrationCard", "api/CardAPI/")', CardRegisterInfo); 
-            if (result["Success"] != undefined) {
-                clearInterval(intervalId);            
-                var data = CalltoApiController('@Url.Action("getRequestForRegistrationCard", "api/CardAPI/")', CardRegisterInfo);
-                if (data["Success"] != undefined) {
-                    clearInterval(intervalId);     
-                    var cardObj = JSON.parse(data.Success);
+            var result = CalltoApiController("/api/CardAPI/requestForRegistrationCard", CardRegisterInfo);
+            return result;
+        }
+        //table having data
+        function TableFillRegisterData() {
+            var result = CalltoApiController('@Url.Action("getRequestForRegistrationCard", "api/CardAPI/")', CardRegisterInfo);
+                if (result["Success"] != undefined) {
+
+                    var cardObj = JSON.parse(result.Success);
                     if (cardObj.length > 0) {
                         $("#lblHotelCode").text(cardObj[0].hotel_code);
                         $("#lblSystemDate").text(cardObj[0].systemdate);
@@ -538,9 +537,20 @@
                         if (cardObj[0].nationality != null)
                             $('#tdNationality').append(CreateLabelControl(cardObj[0].nationality_hotel, "lblNationality"));
                         if (cardObj[0].passportno_hotel != null)
-                            $('#tdPassport').append(CreateLabelControl(result[0].passportno_hotel, "lblPassport"));
+                            $('#tdPassport').append(CreateLabelControl(cardObj[0].passportno_hotel, "lblPassport"));
                     }
                 }
+        }
+
+        function ReBindFormData() {
+            var r_val = SearchCardRegisterData();
+            if (r_val == "success") {
+                clearInterval(intervalId);
+                TableFillRegisterData();
+            }
+            else {
+                intervalId = setInterval(function () { SearchCardRegisterData(); }, 3000);
+                
             }
         }
     </script>

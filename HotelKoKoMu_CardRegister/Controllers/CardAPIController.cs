@@ -26,7 +26,7 @@ namespace HotelKoKoMu_CardRegister.Controllers
     {
         string conStr = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
         string culture = HttpContext.Current.Request.Cookies["culture"].Value;
-                
+      
         /// <summary>
         /// get registration card data from hotel system
         /// </summary>
@@ -209,6 +209,7 @@ namespace HotelKoKoMu_CardRegister.Controllers
         [ActionName("Check_Login")]
         public IHttpActionResult Check_Login(CardRegisterInfo cardRegisterInfo)
         {
+            var msg = string.Empty;
             BaseDL bdl = new BaseDL();
             cardRegisterInfo.Sqlprms = new NpgsqlParameter[5];
             cardRegisterInfo.Sqlprms[0] = new NpgsqlParameter("@SystemID", cardRegisterInfo.SystemID);
@@ -216,9 +217,19 @@ namespace HotelKoKoMu_CardRegister.Controllers
             cardRegisterInfo.Sqlprms[2] = new NpgsqlParameter("@PmsPassword", cardRegisterInfo.PmsPassword);
             cardRegisterInfo.Sqlprms[3] = new NpgsqlParameter("@MachineNo", cardRegisterInfo.MachineNo);
             cardRegisterInfo.Sqlprms[4] = new NpgsqlParameter("@HotelCode", cardRegisterInfo.HotelCode);
-            string cmdText = "Select systemid,pmsid, pmspassword ,hotel_code,machineno  from trn_guestinformation where systemid=@SystemID and pmsid=@PmsID and pmspassword=@PmsPassword and hotel_code=@HotelCode and machineno=@MachineNo";
+            string cmdText = "Select  systemid,pmsid, pmspassword ,hotel_code,machineno  from trn_guestinformation where systemid=@SystemID and pmsid=@PmsID and pmspassword=@PmsPassword and hotel_code=@HotelCode and machineno=@MachineNo limit 1";
             DataTable dt = bdl.SelectDataTable(cmdText, cardRegisterInfo.Sqlprms);
-            return Ok(dt);
+
+            if (dt.Rows.Count > 0)
+            {
+               
+            }
+            else
+            {
+                
+            }
+
+            return Ok(JsonConvert.SerializeObject(dt));
         }
 
         //[HttpGet]

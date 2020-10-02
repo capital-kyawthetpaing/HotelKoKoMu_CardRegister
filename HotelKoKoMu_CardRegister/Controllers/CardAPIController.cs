@@ -280,7 +280,7 @@ namespace HotelKoKoMu_CardRegister.Controllers
             sql += "then 'Success' else 'Error'end) as Status ";
             Tuple<string, string> result = bdl.SelectJson(sql, cardRegisterInfo.Sqlprms);
             DataTable dtExistData = JsonConvert.DeserializeObject<DataTable>(result.Item1);
-            
+
             //card registration data exist
             if (dtExistData.Rows[0][0].ToString() == "Success")
                 returnStatus = new { Success = dtExistData.Rows[0][0].ToString() };
@@ -289,7 +289,7 @@ namespace HotelKoKoMu_CardRegister.Controllers
                 returnStatus = new { Error = dtExistData.Rows[0][0].ToString() };
             return Ok(returnStatus);
         }
-        
+
         [HttpPost]
         [ActionName("getRegistrationCardData")]
         public IHttpActionResult getRegistrationCardData(CardRegisterInfo cardRegisterInfo)
@@ -303,40 +303,48 @@ namespace HotelKoKoMu_CardRegister.Controllers
             cardRegisterInfo.Sqlprms[3] = new NpgsqlParameter("@hotelcode", SqlDbType.VarChar) { Value = cardRegisterInfo.HotelCode };
             cardRegisterInfo.Sqlprms[4] = new NpgsqlParameter("@machineno", SqlDbType.VarChar) { Value = cardRegisterInfo.MachineNo };
 
-            string sql = "Select flag,reservationno, roomno, systemdate, guestname_text, kananame_text, zipcode_text, tel_text, address1_text, address2_text, company_text, nationality_text, passportno_text,sign_filename from trn_guestinformation";
-            sql += " where pmsid=@pmsid and systemid=@systemid and  pmspassword=@pmspassword and machineno=@machineno and hotel_code=@hotelcode";
+            string sql = "Select reservationno, roomno, systemdate, guestname_text, kananame_text, zipcode_text, tel_text, address1_text, address2_text, company_text, nationality_text, passportno_text,sign_filename,flag,complete_flag from trn_guestinformation";
+            sql += " where pmsid=@pmsid and systemid=@systemid and  pmspassword=@pmspassword and machineno=@machineno and hotel_code=@hotelcode and flag=1 and complete_flag=1";
             Tuple<string, string> result = bdl.SelectJson(sql, cardRegisterInfo.Sqlprms);
 
-            DataTable dt =JsonConvert.DeserializeObject<DataTable>(result.Item1);
-            string filename = "20201001000002.JPG";
-            string flag = dt.Rows[0]["flag"].ToString();
-            if (!String.IsNullOrWhiteSpace(filename) && filename != "")
+            DataTable dt = JsonConvert.DeserializeObject<DataTable>(result.Item1);
+            if (dt.Rows.Count > 0)
             {
-                var filepath = @"C:\My Data\Projects\Youcom\Hotelkokomu_CardRegister\HotelKoKoMu_CardRegister\000002\20201001000002.JPG";
-                using (System.Drawing.Image image = System.Drawing.Image.FromFile(filepath))
+                string filename = dt.Rows[0]["sign_filename"].ToString();
+                string flag = dt.Rows[0]["flag"].ToString();
+                string completeflag = dt.Rows[0]["complete_flag"].ToString();
+                if (!String.IsNullOrWhiteSpace(filename) && filename != "")
                 {
-                    using (MemoryStream ms = new MemoryStream())
+                    var dirPath = HttpContext.Current.Server.MapPath("~/" + cardRegisterInfo.HotelCode);
+                    dirPath = dirPath + "//" + filename;
+
+                    using (System.Drawing.Image image = System.Drawing.Image.FromFile(dirPath))
                     {
-                        string base64String;
-                        image.Save(ms, image.RawFormat);
-                        byte[] imageBytes = ms.ToArray();
-                        base64String = Convert.ToBase64String(imageBytes);
-                        dt.Rows[0]["sign_filename"] = base64String;
+                        using (MemoryStream ms = new MemoryStream())
+                        {
+                            string base64String;
+                            image.Save(ms, image.RawFormat);
+                            byte[] imageBytes = ms.ToArray();
+                            base64String = Convert.ToBase64String(imageBytes);
+                            dt.Rows[0]["sign_filename"] = base64String;
+                        }
                     }
                 }
+
+
+                //save success , update success and return getregisterdata
+                if (dt.Rows.Count > 0 && flag == "True" && result.Item2 == "Success")
+                    returnStatus = new { Success = result.Item1 };
+                //not yet save or update in table
+                else if (dt.Rows.Count < 0 && flag == "0" && result.Item2 == "Success")
+                    returnStatus = new { NotStart = "" };
+                //still writing
+                else if (dt.Rows.Count < 0 && flag == "1" && result.Item2 == "Success")
+                    returnStatus = new { Writeing = "" };
+                //error
+                else
+                    returnStatus = new { Error = result.Item2 };
             }
-            //save success , update success and return getregisterdata
-            if (dt.Rows.Count > 0 && flag == "True" && result.Item2 == "Success")
-                returnStatus = new { Success = result.Item1 };
-            //not yet save or update in table
-            else if (dt.Rows.Count < 0 && flag == "0" && result.Item2 == "Success")
-                returnStatus = new { NotStart = "" };
-            //still writing
-            else if (dt.Rows.Count < 0 && flag == "1" && result.Item2 == "Success")
-                returnStatus = new { Writeing = "" };
-            //error
-            else
-                returnStatus = new { Error = result.Item2 };
 
             return Ok(returnStatus);
         }

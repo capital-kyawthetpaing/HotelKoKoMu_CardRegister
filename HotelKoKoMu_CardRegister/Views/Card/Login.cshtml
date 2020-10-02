@@ -6,36 +6,30 @@
 
 <div class="divLogin col-md-4 offset-md-4">
     <div class="divtitle">
-        <h4>e-RegistrationCard System</h4>
-        @*<span onclick="document.getElementById('id01').style.display='none'" class="close" title="Close Modal">&times;</span>
-        <img src="img_avatar2.png" alt="Avatar" class="avatar">*@
+        <h2>e-Registration Card System</h2>       
     </div>
-
-    
     <div class="container">
-
-        <label for="SystemID">SystemID</label>
-        @*<label for="SystemID"><b>SystemID</b></label>*@
-        <input type="text" placeholder="Enter SystemID" name="SystemID" required>
+        <label for="SystemID"><b>SystemID</b></label>
+        <input type="text" id="SystemID" placeholder="Enter SystemID" name="SystemID" required>
 
         <label for="PmsID"><b>PmsID</b></label>
-        <input type="text" placeholder="Enter PmsID" name="PmsID" required>
+        <input type="text" id="PmsID" placeholder="Enter PmsID" name="PmsID" required>
 
         <label for="PmsPassword"><b>PmsPassword</b></label>
-        <input type="password" placeholder="Enter PmsPassword" name="PmsPassword" required>
+        <input type="password" id="PmsPassword" placeholder="Enter PmsPassword" name="PmsPassword" required>
 
         <label for="HotelCode"><b>HotelCode</b></label>
-        <input type="text" placeholder="Enter HotelCode" name="HotelCode" required>
+        <input type="text" id="HotelCode" placeholder="Enter HotelCode" name="HotelCode" required>
 
         <label for="MachineNo"><b>MachineNo</b></label>
-        <input type="text" placeholder="Enter MachineNo" name="MachineNo" required>
+        <input type="text" id="MachineNo" placeholder="Enter MachineNo" name="MachineNo" required>
 
         <button type="submit" id="btnlogin">Login</button>
 
     </div>
 </div>
 
-@*@section Scripts{
+@section Scripts{
     <script>
         $(document).ready(function () {
             $("#btnlogin").click(function () {
@@ -43,7 +37,6 @@
                 var GuestInformation = { SystemID: $("#SystemID").val(), PmsID: $("#PmsID").val(), PmsPassword: $("#PmsPassword").val(), MachineNo: $("#MachineNo").val(), HotelCode: $("#HotelCode").val()};
                 var response = CalltoApiController('@Url.Action("Check_Login", "api/CardAPI/")', GuestInformation);
                 if (response == "success") {
-
                     swal.fire({
                         icon: 'success',
                         title: 'Login',
@@ -57,10 +50,9 @@
                          title: 'Guest Information',
                          text: response
                      })
-                 }
-                //window.location.reload();
+                 }                
              });
         });
 
     </script>
-}*@
+}

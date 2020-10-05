@@ -5,7 +5,7 @@ using System.Web;
 
 namespace HotelKoKoMu_CardRegister.Models
 {
-    public class Check_Loing_Info: BaseInfo
+    public class LoginInfo: BaseInfo
     {
         public string SystemID { get; set; }
         public string PmsID { get; set; }

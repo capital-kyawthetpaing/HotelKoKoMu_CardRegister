@@ -72,13 +72,11 @@ namespace HotelKoKoMu_CardRegister.Controllers
             if (dt.Rows.Count > 0)
             {
                 NpgsqlParameter[] para = new NpgsqlParameter[5];
-                DateTime systemDate = Convert.ToDateTime(dt.Rows[0]["systemdate"].ToString());
-                DateTime createdDate = Convert.ToDateTime(dt.Rows[0]["created_date"].ToString());
                 para[0] = new NpgsqlParameter("@hotelcode", SqlDbType.VarChar) { Value = cardRegisterInfo.HotelCode };
                 para[1] = new NpgsqlParameter("@reservationno", SqlDbType.VarChar) { Value = dt.Rows[0]["reservationno"].ToString() };
                 para[2] = new NpgsqlParameter("@roomno", SqlDbType.VarChar) { Value = dt.Rows[0]["roomno"].ToString() };
-                para[3] = new NpgsqlParameter("@createddate", SqlDbType.Date) { Value = createdDate };
-                para[4] = new NpgsqlParameter("@systemdate", SqlDbType.Date) { Value = systemDate };
+                para[3] = new NpgsqlParameter("@createddate", SqlDbType.Date) { Value = Convert.ToDateTime(dt.Rows[0]["created_date"].ToString()) };
+                para[4] = new NpgsqlParameter("@systemdate", SqlDbType.Date) { Value = Convert.ToDateTime(dt.Rows[0]["systemdate"].ToString()) };
                 string cmdText = "update trn_guestinformation set flag = 1 where flag = 0 and complete_flag=0 and hotel_code = @hotelcode and reservationno = @reservationno and roomno =@roomno and CAST(created_date as Date) =CAST(@createddate as Date) and CAST(systemdate as Date) = CAST(@systemdate as Date)";
                 string result2 = bdl.InsertUpdateDeleteData(cmdText, para);
                 if (result2 == "true")
@@ -174,7 +172,7 @@ namespace HotelKoKoMu_CardRegister.Controllers
                 param[1] = new NpgsqlParameter("@roomno", SqlDbType.VarChar) { Value = dt.Rows[0]["roomno"].ToString() };
                 param[2] = new NpgsqlParameter("@systemdate", SqlDbType.VarChar) { Value = dt.Rows[0]["systemdate"].ToString() };
                 param[3] = new NpgsqlParameter("@hotelcode", SqlDbType.VarChar) { Value = cardRegisterInfo.HotelCode };
-                param[4] = new NpgsqlParameter("@createddate", SqlDbType.VarChar) { Value = dt.Rows[0]["created_date"].ToString() };
+                param[4] = new NpgsqlParameter("@createddate", SqlDbType.Date) { Value =dt.Rows[0]["created_date"].ToString() };
                 string sql1 = "Update trn_guestinformation set flag = 2 where reservationno = @reservationno and roomno = @roomno and  CAST(systemdate as DATE)= CAST(@systemdate AS DATE) and CAST(created_date as DATE)= CAST(@createddate AS DATE) and hotel_code=@hotelcode and flag=1 and complete_flag=1";
                 string result2 = bdl.InsertUpdateDeleteData(sql1, param);
                 if (result2 == "true")
@@ -358,10 +356,7 @@ namespace HotelKoKoMu_CardRegister.Controllers
                 completeflg= Convert.ToInt32(dt.Rows[0]["complete_flag"].ToString());
                 //save success , update success and return getregisterdata
                 if (flag == 1 && completeflg == 0 && result2 == "true")
-                    returnStatus = new { Success = result1.Item1 };
-                //still writing
-                //else if (flag == 1 && completeflg ==0)
-                //    returnStatus = new { Writing = "" };
+                    returnStatus = new { Success = result1.Item1 };                
                 //error
                 else
                     returnStatus = new { Error = result2 };

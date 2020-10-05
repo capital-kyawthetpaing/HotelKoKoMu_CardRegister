@@ -31,7 +31,7 @@
     @section Scripts{
     <script src="~/Scripts/Common.js"></script>
     <script src="~/Scripts/jquery-3.5.1.js"></script>
-        <script>
+    <script>
         $(document).ready(function () {
             $("#btnlogin").click(function () {
                 Login();
@@ -40,17 +40,19 @@
 
         function Login() {
             var result = CalltoApiController("/api/CardAPI/ValidateLogin", { SystemID: $("#SystemID").val(), PmsID: $("#PmsID").val(), PmsPassword: $("#PmsPassword").val(), MachineNo: $("#MachineNo").val(), HotelCode: $("#HotelCode").val() });
-            
-            if (result.length > 0) {                    
-                var cardInfo = result[0].systemid + '_' + result[0].pmsid + '_' + result[0].pmspassword + '_' + result[0].machineno + '_' + result[0].hotel_code;               
+            alert("go");
+            if (result.length > 0) {
+
+                var cardInfo = result[0].systemid + '_' + result[0].pmsid + '_' + result[0].pmspassword + '_' + result[0].machineno + '_' + result[0].hotel_code;
                         $.post('@Url.Action("CreateSession", "Card")',
                             { key: "CardInfo", value: cardInfo }, function (data) {
+
                                 location.href = '@Url.Action("CardRegisterPage", "Card")';
                             });
                 }
                 else {
-                    $("#SystemID").focus();                   
+                    $("#SystemID").focus();
                 }
         }
-        </script>
+    </script>
     }

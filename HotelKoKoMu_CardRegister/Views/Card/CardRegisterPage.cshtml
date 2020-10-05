@@ -113,6 +113,7 @@
     <label class="d-none" id="lblRoomNo"></label>
     <label class="d-none" id="lblCreatedDate"></label>
     <button class="clsfinish" id="btnfinish">@HotelKoKoMu_CardRegister.Resources.Resources.Complete</button>
+    <button id="btnCancelRequest">Cancel Request</button>
 </div>
 
 <div id="CardRegisterModal" class="modal fade" role="dialog">
@@ -167,7 +168,6 @@
             CardRegisterInfo = { SystemID: $("#lblsystemid").text(), PmsID: $("#lblPmsId").text(), PmsPassword: $("#lblPmsPassword").text(), HotelCode: $("#lblhotelCode").text(), MachineNo: $("#lblmachineno").text() };
             ReBindFormData();
             
-
             var currentDate = new Date();
             //set current date into arrival date
             $("#dtpArrivalDate").val(moment(currentDate).format('YYYY-MM-DD'));
@@ -189,7 +189,7 @@
             $("#btnConfirm").click(function () {
                 ConfirmData();
             });
-
+                       
             $(".kokomuTable td").click(function () {
                 $("#btnInputKeyboard").removeClass('d-none');
                 commonName = $(this).attr("id");
@@ -336,10 +336,41 @@
                             }
                     }
                 });
+             });
 
+            $("#btnCancelRequest").click(function () {
+                Swal.fire({
+                    title: 'Are you sure to cancel request!',
+                    text: "Guest Information",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',                    
+                    confirmButtonText: 'Yes, I am sure!',
+                    cancelButtonText: "No, cancel it!",
+                    closeOnConfirm: false,
+                    closeOnCancel: false
+                }).then((result) => {
+                            var guestInfo = { HotelCode: $("#lblHotelCode").text(), ReservationNo: $("#lblReservationNo").text(), RoomNo: $("#lblRoomNo").text(), SystemDate: $("#lblSystemDate").text(), CreatedDate: $("#lblCreatedDate").text()};
+                            var response = CalltoApiController('@Url.Action("CancelRegistrationCard", "api/CardAPI/")', guestInfo);
+                            if (response == "true") {
+                                swal.fire({
+                                    icon: 'success',
+                                    title: 'Guest Information',
+                                    text: "Success request cancel"
+                                });
+                            }
+                            else {
+                                    swal.fire({
+                                    icon: 'error',
+                                    title: 'Guest Information',
+                                    text: response
+                                    });
+                                }                
+                })
             });
-
         });
+
         var canvas = document.getElementById('csvRegister'),
             ctx = canvas.getContext('2d'),
             moveflg = 0,
@@ -508,11 +539,11 @@
             var result = CalltoApiController("/api/CardAPI/requestForRegistrationCard", CardRegisterInfo);
             return result;
         }
+
         //table having data
         function TableFillRegisterData() {
             var result = CalltoApiController('@Url.Action("getRequestForRegistrationCard", "api/CardAPI/")', CardRegisterInfo);
-                if (result["Success"] != undefined) {
-
+           if (result["Success"] != undefined) {
                     var cardObj = JSON.parse(result.Success);
                     if (cardObj.length > 0) {
                         $("#lblHotelCode").text(cardObj[0].hotel_code);
@@ -550,11 +581,10 @@
             }
             else {
                 intervalId = setInterval(function () { SearchCardRegisterData(); }, 3000);
-                
             }
         }
-    </script>
 
+    </script>
 }
 
 

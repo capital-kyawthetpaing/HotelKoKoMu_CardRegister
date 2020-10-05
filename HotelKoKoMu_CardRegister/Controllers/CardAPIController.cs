@@ -337,17 +337,8 @@ namespace HotelKoKoMu_CardRegister.Controllers
             cardRegisterInfo.Sqlprms[3] = new NpgsqlParameter("@systemdate", SqlDbType.VarChar) { Value = cardRegisterInfo.SystemDate };
             cardRegisterInfo.Sqlprms[4] = new NpgsqlParameter("@createddate", SqlDbType.VarChar) { Value = cardRegisterInfo.CreatedDate };
             string sql = "Update trn_guestinformation set flag = 9 where reservationno = @reservationno and roomno = @roomno and  CAST(systemdate as DATE)= CAST(@systemdate AS DATE) and CAST(created_date as DATE)= CAST(@createddate AS DATE) and hotel_code=@hotelcode and flag=1 and complete_flag=0";
-            string result = bdl.InsertUpdateDeleteData(sql, cardRegisterInfo.Sqlprms);
-            
+            string result = bdl.InsertUpdateDeleteData(sql, cardRegisterInfo.Sqlprms);            
             return Ok(result);
         }
-
-        [HttpPost]
-        [ActionName("GetData")]
-        public IHttpActionResult GetData(CardRegisterInfo info)
-        {
-            return Ok("success");
-        }
-
     }
 }

@@ -166,7 +166,6 @@
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\HotelController.cs" />
     <Compile Include="Controllers\MultiLanguageController.cs" />
-    <Compile Include="Controllers\TestApiController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>

@@ -247,7 +247,7 @@ namespace HotelKoKoMu_CardRegister.Controllers
             cardRegisterInfo.Sqlprms[18] = new NpgsqlParameter("@systemdate", cardRegisterInfo.SystemDate);
 
             string sql = "insert into trn_guestinformation(created_date,systemid, pmsid, pmspassword, hotel_code, machineno, systemdate, reservationno, roomno, arrivaldate_hotel, departuredate_hotel, guestname_hotel, kananame_hotel, zipcode_hotel, tel_hotel, address1_hotel, address2_hotel, company_hotel, nationality_hotel, passportno_hotel,flag,complete_flag) " +
-               @"values('2020-10-01',@SystemID, @PmsID, @PmsPassword, @hotelcode, @MachineNo, @systemdate, @reservationno, @roomno, @arrDate, @deptDate, @guestName,@kanaName, @zipcode, @tel, @address1, @address2, @company, @nationality, @PmsPassword,'0','0')";
+               @"values('2020-10-01',@SystemID, @PmsID, @PmsPassword, @hotelcode, @MachineNo, @systemdate, @reservationno, @roomno, @arrDate, @deptDate, @guestName,@kanaName, @zipcode, @tel, @address1, @address2, @company, @nationality, @passport,'0','0')";
             #endregion
 
             return Ok(bdl.InsertUpdateDeleteData(sql, cardRegisterInfo.Sqlprms));
@@ -339,7 +339,7 @@ namespace HotelKoKoMu_CardRegister.Controllers
             cardRegisterInfo.Sqlprms[2] = new NpgsqlParameter("@PmsPassword", SqlDbType.VarChar) { Value = cardRegisterInfo.PmsPassword };
             cardRegisterInfo.Sqlprms[3] = new NpgsqlParameter("@HotelCode", SqlDbType.VarChar) { Value = cardRegisterInfo.HotelCode };
             cardRegisterInfo.Sqlprms[4] = new NpgsqlParameter("@MachineNo", SqlDbType.VarChar) { Value = cardRegisterInfo.MachineNo };
-            string sql1 = "select systemdate,reservationno,roomno from trn_guestinformation where systemid = @SystemID and pmsid = @PmsID and  PmsPassword= @pmspassword and hotel_code= @HotelCode and machineno=@MachineNo and flag=1";
+            string sql1 = "select Cast(systemdate as Date),reservationno,roomno,flag,complete_flag from trn_guestinformation where systemid = @SystemID and pmsid = @PmsID and  PmsPassword= @pmspassword and hotel_code= @HotelCode and machineno=@MachineNo and flag=1 limit 1";
             Tuple<string, string> result1 = bdl.SelectJson(sql1, cardRegisterInfo.Sqlprms);
             DataTable dt = JsonConvert.DeserializeObject<DataTable>(result1.Item1);
             if(dt.Rows.Count>0)
@@ -351,18 +351,18 @@ namespace HotelKoKoMu_CardRegister.Controllers
                 para[3] = new NpgsqlParameter("@HotelCode", SqlDbType.VarChar) { Value = cardRegisterInfo.HotelCode };
                 para[4] = new NpgsqlParameter("@MachineNo", SqlDbType.VarChar) { Value = cardRegisterInfo.MachineNo };
                 string sql2 = "Update trn_guestinformation set flag = 9 where systemid = @SystemID and pmsid = @PmsID and  PmsPassword= @pmspassword and hotel_code= @HotelCode and machineno=@MachineNo and flag=1 and complete_flag=0";
-                string result2 = bdl.InsertUpdateDeleteData(sql2, cardRegisterInfo.Sqlprms);
+                string result2 = bdl.InsertUpdateDeleteData(sql2, para);
                 flag = Convert.ToInt32(dt.Rows[0]["flag"].ToString());
                 completeflg= Convert.ToInt32(dt.Rows[0]["complete_flag"].ToString());
                 //save success , update success and return getregisterdata
-                if (flag == 1 && completeflg == 0 && result1.Item2 == "Success")
+                if (flag == 1 && completeflg == 0 && result2 == "true")
                     returnStatus = new { Success = result1.Item1 };
                 //still writing
-                else if (flag == 1 && completeflg == 1 && result1.Item2 == "Success")
-                    returnStatus = new { Writing = "" };
+                //else if (flag == 1 && completeflg ==0)
+                //    returnStatus = new { Writing = "" };
                 //error
                 else
-                    returnStatus = new { Error = result1.Item2 };
+                    returnStatus = new { Error = result2 };
             }
             else
             {

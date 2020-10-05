@@ -136,7 +136,7 @@
     <value>キャンセル</value>
   </data>
   <data name="CancelRequest" xml:space="preserve">
-    <value>Cancel Request</value>
+    <value>リクエストのキャンセル</value>
   </data>
   <data name="Clear" xml:space="preserve">
     <value>クリア</value>

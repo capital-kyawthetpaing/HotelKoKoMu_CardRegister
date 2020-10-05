@@ -115,6 +115,15 @@ namespace HotelKoKoMu_CardRegister.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Cancel Request.
+        /// </summary>
+        public static string CancelRequest {
+            get {
+                return ResourceManager.GetString("CancelRequest", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Clear.
         /// </summary>
         public static string Clear {

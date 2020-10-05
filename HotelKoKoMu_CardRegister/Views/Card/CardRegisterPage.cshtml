@@ -19,55 +19,46 @@
                 <td class="td1">
                     <label>@HotelKoKoMu_CardRegister.Resources.Resources.GuestName</label>
                 </td>
-                <td class="td2" id="tdGuestName">
-                </td>
+                <td class="td2" id="tdGuestName"></td>
                 <td class="td1">
                     <label>@HotelKoKoMu_CardRegister.Resources.Resources.KanaName</label>
                 </td>
-                <td class="td2" id="tdKanaName">
-                </td>
+                <td class="td2" id="tdKanaName"></td>
             </tr>
             <tr>
                 <td class="td1">
                     <label>@HotelKoKoMu_CardRegister.Resources.Resources.ZipCode</label>
                 </td>
-                <td class="td2" id="tdZipCode">
-                </td>
+                <td class="td2" id="tdZipCode"></td>
                 <td class="td1">
                     <label>@HotelKoKoMu_CardRegister.Resources.Resources.Tel</label>
                 </td>
-                <td class="td2" id="tdTel">
-                </td>
+                <td class="td2" id="tdTel"></td>
             </tr>
             <tr>
                 <td rowspan="2">
                     <label>@HotelKoKoMu_CardRegister.Resources.Resources.Address</label>
                 </td>
-                <td colspan="3" id="tdAddress1">
-                </td>
+                <td colspan="3" id="tdAddress1"></td>
             </tr>
             <tr>
-                <td colspan="3" id="tdAddress2">
-                </td>
+                <td colspan="3" id="tdAddress2"></td>
             </tr>
             <tr>
                 <td class="td1">
                     <label>@HotelKoKoMu_CardRegister.Resources.Resources.Company</label>
                 </td>
-                <td colspan="3" id="tdCompany">
-                </td>
+                <td colspan="3" id="tdCompany"></td>
             </tr>
             <tr>
                 <td class="td1">
                     <label>@HotelKoKoMu_CardRegister.Resources.Resources.Nationality</label>
                 </td>
-                <td class="td2" id="tdNationality">
-                </td>
+                <td class="td2" id="tdNationality"></td>
                 <td class="td1">
                     <label>@HotelKoKoMu_CardRegister.Resources.Resources.Passport</label>
                 </td>
-                <td class="td2" id="tdPassport">
-                </td>
+                <td class="td2" id="tdPassport"></td>
             </tr>
         </tbody>
     </table>
@@ -98,21 +89,24 @@
                     <label>@HotelKoKoMu_CardRegister.Resources.Resources.Sign</label>
                 </td>
 
-                <td colspan="3" id="tdSign">
-                </td>
+                <td colspan="3" id="tdSign"></td>
             </tr>
         </tbody>
     </table>
 
 </div>
-
-<div class="col-md-4 offset-md-4">
-    <label class="d-none" id="lblHotelCode"></label>
-    <label class="d-none" id="lblSystemDate"></label>
-    <label class="d-none" id="lblReservationNo"></label>
-    <label class="d-none" id="lblRoomNo"></label>
-    <label class="d-none" id="lblCreatedDate"></label>
-    <button class="clsfinish" id="btnfinish">@HotelKoKoMu_CardRegister.Resources.Resources.Complete</button>
+<label class="d-none" id="lblHotelCode"></label>
+<label class="d-none" id="lblSystemDate"></label>
+<label class="d-none" id="lblReservationNo"></label>
+<label class="d-none" id="lblRoomNo"></label>
+<label class="d-none" id="lblCreatedDate"></label>
+<div class="col-md-8 offset-md-3" style="display:flex;">
+    <div class="col-md-4">
+        <button class="clsfinish" id="btnfinish">@HotelKoKoMu_CardRegister.Resources.Resources.Complete</button>
+    </div>
+    <div class="col-md-4">        
+        <button class="clsCancelRequest" id="btnCancelRequest">@HotelKoKoMu_CardRegister.Resources.Resources.CancelRequest</button>
+    </div>
 </div>
 
 <div id="CardRegisterModal" class="modal fade" role="dialog">
@@ -166,7 +160,6 @@
 
             CardRegisterInfo = { SystemID: $("#lblsystemid").text(), PmsID: $("#lblPmsId").text(), PmsPassword: $("#lblPmsPassword").text(), HotelCode: $("#lblhotelCode").text(), MachineNo: $("#lblmachineno").text() };
             ReBindFormData();
-            
 
             var currentDate = new Date();
             //set current date into arrival date
@@ -336,10 +329,46 @@
                             }
                     }
                 });
+             });
 
+            $("#btnCancelRequest").click(function () {
+                Swal.fire({
+                    title: 'Are you sure to cancel request!',
+                    text: "Guest Information",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, I am sure!',
+                    cancelButtonText: "No, cancel it!",
+                    closeOnConfirm: false,
+                    closeOnCancel: false
+                }).then((result) => {
+                            var guestInfo = { HotelCode: $("#lblHotelCode").text(), ReservationNo: $("#lblReservationNo").text(), RoomNo: $("#lblRoomNo").text(), SystemDate: $("#lblSystemDate").text(), CreatedDate: $("#lblCreatedDate").text()};
+                            var response = CalltoApiController('@Url.Action("CancelRegistrationCard", "api/CardAPI/")', guestInfo);
+                    if (response == "true") {
+                        $('.kokomuTable tr td').each(function () {
+                            if ($(this).attr("id") != undefined) {
+                                $(this).html('');
+                            }
+                        });
+                                swal.fire({
+                                    icon: 'success',
+                                    title: 'Guest Information',
+                                    text: "Success"
+                                });
+                            }
+                            else {
+                                    swal.fire({
+                                    icon: 'error',
+                                    title: 'Guest Information',
+                                    text: response
+                                    });
+                                }
+                })
             });
-
         });
+
         var canvas = document.getElementById('csvRegister'),
             ctx = canvas.getContext('2d'),
             moveflg = 0,
@@ -508,11 +537,11 @@
             var result = CalltoApiController("/api/CardAPI/requestForRegistrationCard", CardRegisterInfo);
             return result;
         }
+
         //table having data
         function TableFillRegisterData() {
             var result = CalltoApiController('@Url.Action("getRequestForRegistrationCard", "api/CardAPI/")', CardRegisterInfo);
-                if (result["Success"] != undefined) {
-
+           if (result["Success"] != undefined) {
                     var cardObj = JSON.parse(result.Success);
                     if (cardObj.length > 0) {
                         $("#lblHotelCode").text(cardObj[0].hotel_code);
@@ -550,11 +579,10 @@
             }
             else {
                 intervalId = setInterval(function () { SearchCardRegisterData(); }, 3000);
-                
             }
         }
-    </script>
 
+    </script>
 }
 
 

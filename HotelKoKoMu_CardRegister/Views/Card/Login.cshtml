@@ -40,7 +40,7 @@
 
         function Login() {
             var result = CalltoApiController("/api/CardAPI/ValidateLogin", { SystemID: $("#SystemID").val(), PmsID: $("#PmsID").val(), PmsPassword: $("#PmsPassword").val(), MachineNo: $("#MachineNo").val(), HotelCode: $("#HotelCode").val() });
-            alert("go");
+           
             if (result.length > 0) {
 
                 var cardInfo = result[0].systemid + '_' + result[0].pmsid + '_' + result[0].pmspassword + '_' + result[0].machineno + '_' + result[0].hotel_code;

@@ -330,43 +330,6 @@
                     }
                 });
              });
-
-            $("#btnCancelRequest").click(function () {
-                Swal.fire({
-                    title: 'Are you sure to cancel request!',
-                    text: "Guest Information",
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Yes, I am sure!',
-                    cancelButtonText: "No, cancel it!",
-                    closeOnConfirm: false,
-                    closeOnCancel: false
-                }).then((result) => {
-                            var guestInfo = { HotelCode: $("#lblHotelCode").text(), ReservationNo: $("#lblReservationNo").text(), RoomNo: $("#lblRoomNo").text(), SystemDate: $("#lblSystemDate").text(), CreatedDate: $("#lblCreatedDate").text()};
-                            var response = CalltoApiController('@Url.Action("CancelRegistrationCard", "api/CardAPI/")', guestInfo);
-                    if (response == "true") {
-                        $('.kokomuTable tr td').each(function () {
-                            if ($(this).attr("id") != undefined) {
-                                $(this).html('');
-                            }
-                        });
-                                swal.fire({
-                                    icon: 'success',
-                                    title: 'Guest Information',
-                                    text: "Success"
-                                });
-                            }
-                            else {
-                                    swal.fire({
-                                    icon: 'error',
-                                    title: 'Guest Information',
-                                    text: response
-                                    });
-                                }
-                })
-            });
         });
 
         var canvas = document.getElementById('csvRegister'),

@@ -70,9 +70,10 @@
 
             var cardinfo = {
                 ArrivalDate: $("#dtpArrivalDate").val(),
-                //RoomNo: $("#CheckinRoom").val(),
-                //GuestName: $("#GuestName").val(),
-                //KanaName: $("#GuestName").val()
+                DepartureDate: $("#dtpDepartureDate").val(),
+                RoomNo: $("#CheckinRoom").val(),
+                GuestName: $("#GuestName").val(),
+                KanaName: $("#GuestName").val()
             }
 
             var result = CalltoApiController("/api/HotelAPI/Search_GuestData", cardinfo);

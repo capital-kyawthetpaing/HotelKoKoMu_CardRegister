@@ -1,0 +1,98 @@
+﻿
+@{
+    ViewBag.Title = "Hotel_GuestList";
+    Layout = "~/Views/Shared/_CardRegisterLayout.cshtml";
+}
+
+
+
+<div class="row" style="display:flex ">
+    <div class="col-md-12">
+        <label class="col-xl-2">ArrivalDate</label>
+        <input type="text" id="dtpArrivalDate" class="datepicker-here" />
+        ~
+        <input type="text" id="dtpDepartureDate" class="datepicker-here" />
+        <button type="button" id="btnSearch">Search</button>
+        <button type="button" id="btnClear">Clear</button>
+    </div>
+    <div class="col-md-12">
+        <label class="col-xl-2">Checkin-Room</label>
+        <input type="text" id="CheckinRoom" />
+    </div>
+    <div class="col-md-12">
+        <label class="col-xl-2">GuestName</label>
+        <input type="text" id="GuestName" />
+    </div>
+</div>
+
+
+
+<div class="row col-md-12">
+    <div class="table-responsive">
+        <table id="tblHotel_guestlist" border="1">
+            <thead>
+                <tr>
+                    <th>ArrivalDate</th>
+                    <th>DepartureDate</th>
+                    <th>RoomNo</th>
+                    <th>GuestName(Kanji</th>
+                    <th>GuestName(Kana)</th>
+                    <th>Address</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+</div>
+
+@section Scripts{
+   
+    <script>
+        $(document).ready(function () {
+
+            var currentDate = new Date();
+            //set current date into arrival date
+            $("#dtpArrivalDate").val(moment(currentDate).format('YYYY-MM-DD'));
+
+            SearchData();
+        });
+
+        function SearchData() {
+
+            var result = CalltoApiController("/api/HotelAPI/Search_GuestData", { ArrivalDate: $("#dtpArrivalDate").val() });
+            alert(result);
+
+            //if (result.length > 0) {
+            //    BindGuestTable(result.data);
+            //}
+        }
+
+        function BindGuestTable(response) {
+            table = $('#tblHotel_guestlist').DataTable({
+
+                data: JSON.parse(response),
+                "bFilter": false,
+                "bLengthChange": false,
+                "bInfo": false,
+                "ordering": false,
+                destroy: true,
+                scrollX: true,
+                paging: false,
+                "columns": [
+
+                    { "data": "arrival_date"},
+                    { "data": "departure_date" },
+                    { "data": "roomno" },
+                    { "data": "guestname_text" },
+                    { "data": "kananame_text"},
+                    { "data": "address1_text"},
+                ]
+            });
+
+        }
+
+
+    </script>
+}
+
+
+

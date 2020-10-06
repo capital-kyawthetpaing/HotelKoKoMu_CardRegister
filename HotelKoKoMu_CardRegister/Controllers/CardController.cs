@@ -26,6 +26,8 @@ namespace HotelKoKoMu_CardRegister.Controllers
             return this.Json(new { success = true });
         }
 
+       
+
         public ActionResult Login()
         {
             return View();

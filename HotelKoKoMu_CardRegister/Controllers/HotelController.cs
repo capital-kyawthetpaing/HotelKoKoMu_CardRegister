@@ -40,5 +40,15 @@ namespace HotelKoKoMu_CardRegister.Controllers
             return View();
         }
 
+        public ActionResult Hotel_Login()
+        {
+            return View();
+        }
+
+        public ActionResult Hotel_GuestList()
+        {
+            return View();
+        }
+
     }
 }

@@ -13,36 +13,7 @@ namespace HotelKoKoMu_CardRegister.ContextDB
     public class BaseDL
     {
         string conStr = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
-        //public DataTable SelectDataTable(string sSQL, NpgsqlParameter[] param)
-        //{
-        //    DataTable dt = new DataTable
-        //    {
-        //        TableName = "data"
-        //    };
-        //    try
-        //    {
-        //        var newCon = new NpgsqlConnection(conStr);
-        //        using (var adapt = new NpgsqlDataAdapter(sSQL, newCon))
-        //        {
-        //            newCon.Open();
-        //            NpgsqlCommand cmd = new NpgsqlCommand(sSQL, newCon);
-        //            cmd.CommandType = CommandType.StoredProcedure;
-        //            if (param != null)
-        //            {
-        //                param = ChangeToDBNull(param);
-        //                adapt.SelectCommand.Parameters.AddRange(param);
-        //            }
-        //            adapt.Fill(dt);
-        //            newCon.Close();
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        string msg = ex.Message;
-        //    }
-        //    return dt;
-        //}
-
+       
         public async Task<DataTable> SelectDataTable(string sSQL, NpgsqlParameter[] param)
         {
             DataTable dt = new DataTable
@@ -149,41 +120,6 @@ namespace HotelKoKoMu_CardRegister.ContextDB
             }
             return new Tuple<string, string>(DataTableToJSONWithJSONNet(dt), msg);
         }
-
-
-        //public Tuple<string, string> SelectJson(string sSQL, params NpgsqlParameter[] param)
-        //{
-        //    string msg = string.Empty;
-        //    DataTable dt = new DataTable
-        //    {
-        //        TableName = "data"
-        //    };
-        //    try
-        //    {
-        //        var newCon = new NpgsqlConnection(conStr);
-        //        using (var adapt = new NpgsqlDataAdapter(sSQL, newCon))
-        //        {
-        //            newCon.Open();
-        //            NpgsqlCommand cmd = new NpgsqlCommand(sSQL, newCon);
-        //            cmd.CommandType = CommandType.Text;
-        //            if (param != null)
-        //            {
-        //                param = ChangeToDBNull(param);
-        //                adapt.SelectCommand.Parameters.AddRange(param);
-        //            }
-        //            adapt.Fill(dt);
-        //            msg = "Success";
-        //            newCon.Close();
-
-        //        }
-        //    }
-        //    catch (NpgsqlException ex)
-        //    {
-        //        msg =ex.ErrorCode+":"+ex.InnerException;
-        //    }
-        //    return new Tuple<string, string>(DataTableToJSONWithJSONNet(dt), msg);
-        //}
-
 
         public string DataTableToJSONWithJSONNet(DataTable table)
         {

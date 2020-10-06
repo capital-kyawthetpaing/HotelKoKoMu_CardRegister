@@ -3,10 +3,17 @@
     ViewBag.Title = "Hotel_Login";
     Layout = "~/Views/Shared/_LoginLayout.cshtml";
 }
+<style>
+    .divLogin {
+        margin-top: 200px;
+        border: 1px solid #808080;
+        border-radius: 5px;
+    }
+</style>
 
 <div class="divLogin col-md-4 offset-md-4">
     <div class="container">
-        <table>
+        <table width="100%">
             <tr>
                 <th>
                     <label>ホテル番号</label>
@@ -31,40 +38,36 @@
                     <input type="password" id="Password" required>
                 </td>
             </tr>
+            <tr>
+                <td colspan="2">
+                    <button type="submit" class="btnlogin" id="btnlogin">ログイン</button>
+                </td>
+            </tr>
         </table>
-    </div>
-    <div class="container">
-        <button type="button" id="btnlogin">ログイン</button>
     </div>
 </div>
 
-@section Scripts{
-    <script src="~/Scripts/Common.js"></script>
-    <script src="~/Scripts/jquery-3.5.1.js"></script>
+@section Scripts{  
     <script>
         $(document).ready(function () {
             $("#btnlogin").click(function () {
-                Login();
-             });
+                var response = CalltoApiController('@Url.Action("checkLogin", "api/HotelAPI/")', { HotelCode: $("#HotelNo").val(), UserCode: $("#UserID").val(), Password: $("#Password").val() });
+                if (response["Result"] == 0)
+                    ShowError("Invalid Hotel Code");
+                else if (response["Result"] == 1)
+                    ShowError("Invalid User Code")
+                else if (response["Result"] == 2)
+                    ShowError("Invalid User Password");
+                else {
+                    var resultObj = response["Result"];                    
+                    var LoginInfo = resultObj[0].hotel_code + '_' + resultObj[0].usercode + '_' + resultObj[0].username;
+                    $.post('@Url.Action("CreateSession", "Card")',
+                        { key: "HotelLoginInfo", value: LoginInfo }, function (data) {
+
+                            location.href = '@Url.Action("Hotel_GuestList", "Hotel")';
+                        });
+                }
+            });
         });
-
-        function Login() {
-            var result = CalltoApiController("/api/HotelAPI/ValidateLogin", { HotelCode: $("#HotelNo").val(), UserID: $("#UserID").val(), Password: $("#Password").val() });
-
-            if (result.length > 0) {
-
-                 location.href = '@Url.Action("Hotel_GuestList", "Hotel")';
-
-                @*var cardInfo = result[0].hotel_code + '_' + result[0].usercode + '_' + result[0].username + '_' ;
-                $.post('@Url.Action("CreateSession", "Card")',
-                    { key: "CardInfo", value: cardInfo }, function (data) {
-
-                        location.href = '@Url.Action("Hotel_GuestList", "Hotel")';
-                    });*@
-            }
-            else {
-                $("#HotelNo").focus();
-            }
-        }
     </script>
 }

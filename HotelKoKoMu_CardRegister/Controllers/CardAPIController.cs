@@ -324,8 +324,8 @@ namespace HotelKoKoMu_CardRegister.Controllers
         {
             BaseDL bdl = new BaseDL();
             hotelInfo.Sqlprms = new NpgsqlParameter[1];
-            hotelInfo.Sqlprms[0] = new NpgsqlParameter("@hotelno", hotelInfo.HotelNo);
-            string cmdText = "Select hotel_name,logo_data from mst_hotel where hotel_no=@hotelno";
+            hotelInfo.Sqlprms[0] = new NpgsqlParameter("@hotel_code", hotelInfo.HotelNo);
+            string cmdText = "Select hotel_name,logo_data from mst_hotel where hotel_code=@hotel_code";
             DataTable dt =await bdl.SelectDataTable(cmdText, hotelInfo.Sqlprms);
             return Ok(dt);
         }

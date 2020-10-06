@@ -17,7 +17,7 @@
     </div>
     <div class="col-md-12">
         <label class="col-xl-2">Checkin-Room</label>
-        <input type="text" id="CheckinRoom" />
+        <input type="text" id="CheckinRoom" maxlength="4"  />
     </div>
     <div class="col-md-12">
         <label class="col-xl-2">GuestName</label>
@@ -52,12 +52,30 @@
             var currentDate = new Date();
             //set current date into arrival date
             $("#dtpArrivalDate").val(moment(currentDate).format('YYYY-MM-DD'));
+            $("#dtpDepartureDate").val(moment(currentDate).format('YYYY-MM-DD'));
             SearchData();
+        });
+
+        $("#btnSearch").click(function () {
+            SearchData();
+        });
+
+        $("#btnClear").click(function () {
+            $("#CheckinRoom").val(""),
+            $("#GuestName").val(""),
+            $("#GuestName").val("")
         });
 
         function SearchData() {
 
-            var result = CalltoApiController("/api/HotelAPI/Search_GuestData", { ArrivalDate: $("#dtpArrivalDate").val() });
+            var cardinfo = {
+                ArrivalDate: $("#dtpArrivalDate").val(),
+                //RoomNo: $("#CheckinRoom").val(),
+                //GuestName: $("#GuestName").val(),
+                //KanaName: $("#GuestName").val()
+            }
+
+            var result = CalltoApiController("/api/HotelAPI/Search_GuestData", cardinfo);
            
             if (result.length > 0) {
                 BindGuestTable(result);
@@ -72,7 +90,6 @@
                 "bFilter": false,
                 "bLengthChange": false,
                 "bInfo": false,
-                "ordering": false,
                 destroy: true,
                 scrollX: true,
                 paging: false,
@@ -83,12 +100,11 @@
                     { "data": "roomno" },
                     { "data": "guestname_text" },
                     { "data": "kananame_text"},
-                    { "data": "address1_text"},
+                    { "data": "address"},
                 ]
             });
 
         }
-
 
     </script>
 }

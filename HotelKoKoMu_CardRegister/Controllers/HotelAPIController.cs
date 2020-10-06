@@ -39,7 +39,7 @@ namespace HotelKoKoMu_CardRegister.Controllers
             cardInfo.Sqlprms = new NpgsqlParameter[1];
             cardInfo.Sqlprms[0] = new NpgsqlParameter("@arrivaldate", cardInfo.ArrivalDate);
 
-            string sql_cmd = "select * from trn_guestinformation_test where arrival_date >= @arrivaldate";
+            string sql_cmd = "select arrival_date,departure_date,roomno,guestname_text,kananame_text,concat(address1_text,address2_text) as address from trn_guestinformation_test where arrival_date >= @arrivaldate";
             DataTable dt = await bdl.SelectDataTable(sql_cmd, cardInfo.Sqlprms);
             return Ok(dt);
         }

@@ -524,7 +524,7 @@
                         $("#lblReservationNo").text(cardObj[0].reservationno);
                         $("#lblRoomNo").text(cardObj[0].roomno);
                         $("#lblCreatedDate").text(cardObj[0].created_date);
-
+                       
                         if (cardObj[0].guestname_hotel != null)
                             $('#tdGuestName').append(CreateLabelControl(cardObj[0].guestname_hotel, "lblGuestName"));
                         if (cardObj[0].kananame_hotel != null)
@@ -539,7 +539,7 @@
                             $('#tdAddress2').append(CreateLabelControl(cardObj[0].address2_hotel, "lblAddress2"));
                         if (cardObj[0].company_hotel != null)
                             $('#tdCompany').append(CreateLabelControl(cardObj[0].company_hotel, "lblCompany"));
-                        if (cardObj[0].nationality != null)
+                        if (cardObj[0].nationality_hotel != null)
                             $('#tdNationality').append(CreateLabelControl(cardObj[0].nationality_hotel, "lblNationality"));
                         if (cardObj[0].passportno_hotel != null)
                             $('#tdPassport').append(CreateLabelControl(cardObj[0].passportno_hotel, "lblPassport"));

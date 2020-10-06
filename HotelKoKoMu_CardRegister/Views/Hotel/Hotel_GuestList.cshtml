@@ -2,6 +2,7 @@
 @{
     ViewBag.Title = "Hotel_GuestList";
     Layout = "~/Views/Shared/_CardRegisterLayout.cshtml";
+    //Layout = "~/Views/Shared/_LoginLayout.cshtml";
 }
 
 
@@ -9,9 +10,10 @@
 <div class="row" style="display:flex ">
     <div class="col-md-12">
         <label class="col-xl-2">ArrivalDate</label>
-        <input type="text" />
+        <input id="fromDate" class="datepicker-here" placeholder="yyyy-mm-dd" />
+        <i class="fa fa-calendar"></i>
         ~
-        <input type="text" />
+        <input id="toDate" class="datepicker-here" placeholder="yyyy-mm-dd" />
         <button type="submit">Search</button>
         <button type="submit">Clear</button>
     </div>
@@ -24,48 +26,6 @@
         <input type="text" />
     </div>
 </div>
-
-@*<div class="row col-md-12" style="padding-bottom:20px;">
-    <table>
-        <tr>
-            <td>
-                <label>Arrival Date</label>
-            </td>
-            <td>
-                <input type="text" />
-            </td>
-            <td style="padding-right:20px;">
-                <label>~</label>
-            </td>
-            <td style="padding-right:50px;">
-                <input type="text" />
-            </td>
-            <td style="padding-right:60px;">
-                <button type="submit">Search</button>
-            </td>
-            <td>
-                <button type="submit">Clear</button>
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <label>Check-in Room</label>
-            </td>
-            <td>
-                <input type="text" />
-            </td>
-        </tr>
-        <tr>
-            <td>
-                <label>GuestName</label>
-            </td>
-            <td>
-                <input type="text" />
-            </td>
-        </tr>
-    </table>
-</div>*@    
-
 <div class="row col-md-12">
     <div class="table-responsive">
         <table id="tblHotel_guestlist" border="1">
@@ -82,5 +42,82 @@
         </table>
     </div>
 </div>
+
+@*<div class=" divLogin col-md-8 offset-2">
+    <div class="container">
+        <div style="text-align:left;">
+            <img src="../images/logo2.jpg" alt="" />
+            <label>YOUCOM</label>
+        </div>
+        <div class="row col-md-12" style="padding-bottom:20px;">
+            <table>
+                <tr>
+                    <td>
+                        <label>Arrival Date</label>
+                    </td>
+                    <td>
+                        <input id="dtpArrivalDate" name="lblDepartureDate" class="datepicker-here" placeholder="yyyy-mm-dd"/>
+                    </td>
+                    <td style="padding-right:20px;">
+                        <label>~</label>
+                    </td>
+                    <td style="padding-right:50px;">
+                        <input id="dtpArrivalDate" name="lblDepartureDate" class="datepicker-here" placeholder="yyyy-mm-dd" />
+                    </td>
+                    <td style="padding-right:60px;">
+                        <button type="submit">Search</button>
+                    </td>
+                    <td>
+                        <button type="submit">Clear</button>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label>Check-in Room</label>
+                    </td>
+                    <td>
+                        <input type="text" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label>GuestName</label>
+                    </td>
+                    <td>
+                        <input type="text" />
+                    </td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="row col-md-12">
+            <div class="table-responsive">
+                <table id="tblHotel_guestlist" border="1">
+                    <thead>
+                        <tr>
+                            <th>ArrivalDate</th>
+                            <th>DepartureDate</th>
+                            <th>RoomNo</th>
+                            <th>GuestName(Kanji</th>
+                            <th>GuestName(Kana)</th>
+                            <th>Address</th>
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>*@
+
+@section Scripts{
+    <script type="text/javascript">
+        $(document).ready(function () {
+            var currentDate = new Date();
+            //set current date into arrival date
+            $("#fromDate").val(moment(currentDate).format('YYYY-MM-DD'));
+            $("#toDate").val(moment(currentDate).format('YYYY-MM-DD'));
+        });
+    </script>
+    }
 
 

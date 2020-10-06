@@ -164,6 +164,7 @@
     <Compile Include="Controllers\CardAPIController.cs" />
     <Compile Include="Controllers\CardController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\HotelAPIController.cs" />
     <Compile Include="Controllers\HotelController.cs" />
     <Compile Include="Controllers\MultiLanguageController.cs" />
     <Compile Include="Global.asax.cs">

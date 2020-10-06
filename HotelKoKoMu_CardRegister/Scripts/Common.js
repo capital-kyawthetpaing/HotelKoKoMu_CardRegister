@@ -159,6 +159,15 @@ function isNumberKey(evt) {
     return true;
 }
 
+//show error message based on result
+function ShowError(errorMsg) {
+    swal.fire({
+        icon: 'error',
+        title: 'Hotel Login',
+        text: errorMsg
+    });
+}
+
 //function SetThousandSeparator(ctrl_id) { //function to add commas to textboxes
 //var obj=$("#"+ctrl_id);
 //var cleave = new Cleave(obj, {

@@ -72,8 +72,7 @@ textarea {
 .clsCancel,
 .clsConfirm,
 .clsInputKeyboard,
-.clsfinish,
-.clsCancelRequest
+.clsfinish
  {
     height: 50px;
     text-align: center;
@@ -109,19 +108,16 @@ textarea {
     background-color: #d74715;
     border-bottom-color: #888690;
 }
-.clsCancelRequest {
-    width: 100%;
-    margin-top: 20px;
-    background-color: #888690;
-    border-bottom-color: #888690;
-}
 
 .clsCancel {
     width: 100%;
     background-color: #505f83;
     border-bottom-color: #888690;
 }
+
 canvas {    
     position: relative;
     border: 2px solid #000;
 }
+
+

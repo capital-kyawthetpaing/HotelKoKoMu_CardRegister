@@ -27,7 +27,7 @@ namespace HotelKoKoMu_CardRegister.Controllers
 
         [HttpPost]
         [ActionName("requestForRegistrationCard")]
-        public IHttpActionResult requestForRegistrationCard(CardRegisterInfo info)
+        public async Task<IHttpActionResult> requestForRegistrationCard(CardRegisterInfo info)
         {
             string msg = string.Empty;
             BaseDL bdl = new BaseDL();
@@ -38,12 +38,32 @@ namespace HotelKoKoMu_CardRegister.Controllers
             info.Sqlprms[3] = new NpgsqlParameter("@MachineNo", info.MachineNo);
             info.Sqlprms[4] = new NpgsqlParameter("@HotelCode", info.HotelCode);
             string sql_cmd = "select * from trn_guestinformation where systemid=@SystemID and pmsid=@PmsID and pmspassword=@PmsPassword and machineno=@MachineNo and hotel_code=@HotelCode and flag=0 order by created_date limit 1";
-            DataTable dt = bdl.SelectDataTable(sql_cmd, info.Sqlprms);
+            DataTable dt =await bdl.SelectDataTable(sql_cmd, info.Sqlprms);
             if (dt.Rows.Count > 0)
                 msg = "success";
             else msg = "no record";
             return Ok(msg);
         }
+
+        //[HttpPost]
+        //[ActionName("requestForRegistrationCard")]
+        //public IHttpActionResult requestForRegistrationCard(CardRegisterInfo info)
+        //{
+        //    string msg = string.Empty;
+        //    BaseDL bdl = new BaseDL();
+        //    info.Sqlprms = new NpgsqlParameter[5];
+        //    info.Sqlprms[0] = new NpgsqlParameter("@SystemID", info.SystemID);
+        //    info.Sqlprms[1] = new NpgsqlParameter("@PmsID", info.PmsID);
+        //    info.Sqlprms[2] = new NpgsqlParameter("@PmsPassword", info.PmsPassword);
+        //    info.Sqlprms[3] = new NpgsqlParameter("@MachineNo", info.MachineNo);
+        //    info.Sqlprms[4] = new NpgsqlParameter("@HotelCode", info.HotelCode);
+        //    string sql_cmd = "select * from trn_guestinformation where systemid=@SystemID and pmsid=@PmsID and pmspassword=@PmsPassword and machineno=@MachineNo and hotel_code=@HotelCode and flag=0 order by created_date limit 1";
+        //    DataTable dt = bdl.SelectDataTable(sql_cmd, info.Sqlprms);
+        //    if (dt.Rows.Count > 0)
+        //        msg = "success";
+        //    else msg = "no record";
+        //    return Ok(msg);
+        //}
 
 
         /// <summary>
@@ -53,7 +73,7 @@ namespace HotelKoKoMu_CardRegister.Controllers
         /// <returns></returns>
         [HttpPost]
         [ActionName("getRequestForRegistrationCard")]
-        public IHttpActionResult getRequestForRegistrationCard(CardRegisterInfo cardRegisterInfo)
+        public async Task<IHttpActionResult> getRequestForRegistrationCard(CardRegisterInfo cardRegisterInfo)
         {
             var cardRegistrationObj = new object();
 
@@ -67,7 +87,7 @@ namespace HotelKoKoMu_CardRegister.Controllers
 
             string sql = "Select hotel_code,created_date,systemdate,reservationno, roomno, guestname_hotel, kananame_hotel, zipcode_hotel, tel_hotel, address1_hotel, address2_hotel, company_hotel, nationality_hotel, passportno_hotel from trn_guestinformation";
             sql += " where pmsid=@pmsid and systemid=@systemid and  pmspassword=@pmspassword and  machineno=@machineno and hotel_code=@hotelcode and flag=0 and complete_flag=0 order by created_date limit 1";
-            Tuple<string, string> result1 = bdl.SelectJson(sql, cardRegisterInfo.Sqlprms);
+            Tuple<string, string> result1 =await bdl.SelectJson(sql, cardRegisterInfo.Sqlprms);
             DataTable dt = JsonConvert.DeserializeObject<DataTable>(result1.Item1);
             if (dt.Rows.Count > 0)
             {
@@ -78,7 +98,7 @@ namespace HotelKoKoMu_CardRegister.Controllers
                 para[3] = new NpgsqlParameter("@createddate", SqlDbType.Date) { Value = Convert.ToDateTime(dt.Rows[0]["created_date"].ToString()) };
                 para[4] = new NpgsqlParameter("@systemdate", SqlDbType.Date) { Value = Convert.ToDateTime(dt.Rows[0]["systemdate"].ToString()) };
                 string cmdText = "update trn_guestinformation set flag = 1 where flag = 0 and complete_flag=0 and hotel_code = @hotelcode and reservationno = @reservationno and roomno =@roomno and CAST(created_date as Date) =CAST(@createddate as Date) and CAST(systemdate as Date) = CAST(@systemdate as Date)";
-                string result2 = bdl.InsertUpdateDeleteData(cmdText, para);
+                string result2 =await bdl.InsertUpdateDeleteData(cmdText, para);
                 if (result2 == "true")
                 {
                     //card registeration data exist
@@ -103,7 +123,7 @@ namespace HotelKoKoMu_CardRegister.Controllers
         /// <returns></returns>
         [HttpPost]
         [ActionName("setRegistrationCard")]
-        public IHttpActionResult setRegistrationCard(CardRegisterInfo cardRegisterInfo)
+        public async Task<IHttpActionResult> setRegistrationCard(CardRegisterInfo cardRegisterInfo)
         {
             BaseDL bdl = new BaseDL();
             string culture = HttpContext.Current.Request.Cookies["culture"].Value;
@@ -139,7 +159,7 @@ namespace HotelKoKoMu_CardRegister.Controllers
             sql += " address1_text=@address1,address2_text=@address2,company_text=@company,nationality_text=@nationality,passportno_text=@passport,complete_flag=1,";
             sql += " arrival_date=@arrivaldate,departure_date=@departuredate,updator=@updator,updated_date=@updateddate,imagedata=@filename where hotel_code=@hotelcode and";
             sql += " reservationno=@reservationno and roomno=@roomno and CAST(systemdate as DATE)=CAST(@systemdate AS DATE)  and CAST(created_date as DATE)=CAST(@createddate AS DATE) and flag=1 and complete_flag=0";
-            string result = bdl.InsertUpdateDeleteData(sql, cardRegisterInfo.Sqlprms);
+            string result =await bdl.InsertUpdateDeleteData(sql, cardRegisterInfo.Sqlprms);
             if (result == "true")
                 returnStatus = new { Success = "Success" };
             else
@@ -150,7 +170,7 @@ namespace HotelKoKoMu_CardRegister.Controllers
 
         [HttpPost]
         [ActionName("getRegistrationCardData")]
-        public IHttpActionResult getRegistrationCardData(CardRegisterInfo cardRegisterInfo)
+        public async Task<IHttpActionResult> getRegistrationCardData(CardRegisterInfo cardRegisterInfo)
         {
             var returnStatus = new object();
             BaseDL bdl = new BaseDL();
@@ -163,7 +183,7 @@ namespace HotelKoKoMu_CardRegister.Controllers
 
             string sql = "Select hotel_code,created_date,systemid,pmsid,pmspassword,machineno,reservationno, roomno, systemdate, guestname_text, kananame_text, zipcode_text, tel_text, address1_text, address2_text, company_text, nationality_text, passportno_text,imagedata,flag,complete_flag from trn_guestinformation";
             sql += " where pmsid=@pmsid and systemid=@systemid and  pmspassword=@pmspassword and machineno=@machineno and hotel_code=@hotelcode and flag=1";
-            Tuple<string, string> result = bdl.SelectJson(sql, cardRegisterInfo.Sqlprms);
+            Tuple<string, string> result =await bdl.SelectJson(sql, cardRegisterInfo.Sqlprms);
             DataTable dt = JsonConvert.DeserializeObject<DataTable>(result.Item1);
             if (dt.Rows.Count > 0)
             {
@@ -174,7 +194,7 @@ namespace HotelKoKoMu_CardRegister.Controllers
                 param[3] = new NpgsqlParameter("@hotelcode", SqlDbType.VarChar) { Value = cardRegisterInfo.HotelCode };
                 param[4] = new NpgsqlParameter("@createddate", SqlDbType.Date) { Value =dt.Rows[0]["created_date"].ToString() };
                 string sql1 = "Update trn_guestinformation set flag = 2 where reservationno = @reservationno and roomno = @roomno and  CAST(systemdate as DATE)= CAST(@systemdate AS DATE) and CAST(created_date as DATE)= CAST(@createddate AS DATE) and hotel_code=@hotelcode and flag=1 and complete_flag=1";
-                string result2 = bdl.InsertUpdateDeleteData(sql1, param);
+                string result2 =await bdl.InsertUpdateDeleteData(sql1, param);
                 if (result2 == "true")
                 {
                     string filename = dt.Rows[0]["imagedata"].ToString();
@@ -220,7 +240,7 @@ namespace HotelKoKoMu_CardRegister.Controllers
         
         [HttpPost]
         [ActionName("GuestInfo_Save")]
-        public IHttpActionResult GuestInfo_Save(CardRegisterInfo cardRegisterInfo)
+        public async Task<IHttpActionResult> GuestInfo_Save(CardRegisterInfo cardRegisterInfo)
         {
             BaseDL bdl = new BaseDL();
             DateTime currentDate = DateTime.Now;
@@ -250,7 +270,7 @@ namespace HotelKoKoMu_CardRegister.Controllers
                @"values('2020-10-01',@SystemID, @PmsID, @PmsPassword, @hotelcode, @MachineNo, @systemdate, @reservationno, @roomno, @arrDate, @deptDate, @guestName,@kanaName, @zipcode, @tel, @address1, @address2, @company, @nationality, @passport,'0','0')";
             #endregion
 
-            return Ok(bdl.InsertUpdateDeleteData(sql, cardRegisterInfo.Sqlprms));
+            return Ok(await bdl.InsertUpdateDeleteData(sql, cardRegisterInfo.Sqlprms));
         }
 
        
@@ -300,19 +320,19 @@ namespace HotelKoKoMu_CardRegister.Controllers
         /// <returns></returns>
         [HttpPost]
         [ActionName("getHotelInformation")]
-        public IHttpActionResult getHotelInformation(HotelInfo hotelInfo)
+        public async Task<IHttpActionResult> getHotelInformation(HotelInfo hotelInfo)
         {
             BaseDL bdl = new BaseDL();
             hotelInfo.Sqlprms = new NpgsqlParameter[1];
             hotelInfo.Sqlprms[0] = new NpgsqlParameter("@hotelno", hotelInfo.HotelNo);
             string cmdText = "Select hotel_name,logo_data from mst_hotel where hotel_no=@hotelno";
-            DataTable dt = bdl.SelectDataTable(cmdText, hotelInfo.Sqlprms);
+            DataTable dt =await bdl.SelectDataTable(cmdText, hotelInfo.Sqlprms);
             return Ok(dt);
         }
 
         [HttpPost]
         [ActionName("ValidateLogin")]
-        public IHttpActionResult ValidateLogin(LoginInfo info)
+        public async Task<IHttpActionResult> ValidateLogin(LoginInfo info)
         {
             BaseDL bdl = new BaseDL();
             info.Sqlprms = new NpgsqlParameter[5];
@@ -322,13 +342,13 @@ namespace HotelKoKoMu_CardRegister.Controllers
             info.Sqlprms[3] = new NpgsqlParameter("@MachineNo", info.MachineNo);
             info.Sqlprms[4] = new NpgsqlParameter("@HotelCode", info.HotelCode);
             string sql_cmd = "select * from trn_guestinformation where systemid=@SystemID and pmsid=@PmsID and pmspassword=@PmsPassword and machineno=@MachineNo and hotel_code=@HotelCode";
-            DataTable dt = bdl.SelectDataTable(sql_cmd, info.Sqlprms);
+            DataTable dt =await bdl.SelectDataTable(sql_cmd, info.Sqlprms);
             return Ok(dt);
         }
 
         [HttpPost]
         [ActionName("CancelRegistrationCard")]
-        public IHttpActionResult CancelRegistrationCard(CardRegisterInfo cardRegisterInfo)
+        public async Task<IHttpActionResult> CancelRegistrationCard(CardRegisterInfo cardRegisterInfo)
         {
             BaseDL bdl = new BaseDL();
             int flag, completeflg;
@@ -340,7 +360,7 @@ namespace HotelKoKoMu_CardRegister.Controllers
             cardRegisterInfo.Sqlprms[3] = new NpgsqlParameter("@HotelCode", SqlDbType.VarChar) { Value = cardRegisterInfo.HotelCode };
             cardRegisterInfo.Sqlprms[4] = new NpgsqlParameter("@MachineNo", SqlDbType.VarChar) { Value = cardRegisterInfo.MachineNo };
             string sql1 = "select Cast(systemdate as Date),reservationno,roomno,flag,complete_flag from trn_guestinformation where systemid = @SystemID and pmsid = @PmsID and  PmsPassword= @pmspassword and hotel_code= @HotelCode and machineno=@MachineNo and flag=1 limit 1";
-            Tuple<string, string> result1 = bdl.SelectJson(sql1, cardRegisterInfo.Sqlprms);
+            Tuple<string, string> result1 =await bdl.SelectJson(sql1, cardRegisterInfo.Sqlprms);
             DataTable dt = JsonConvert.DeserializeObject<DataTable>(result1.Item1);
             if(dt.Rows.Count>0)
             {
@@ -351,7 +371,7 @@ namespace HotelKoKoMu_CardRegister.Controllers
                 para[3] = new NpgsqlParameter("@HotelCode", SqlDbType.VarChar) { Value = cardRegisterInfo.HotelCode };
                 para[4] = new NpgsqlParameter("@MachineNo", SqlDbType.VarChar) { Value = cardRegisterInfo.MachineNo };
                 string sql2 = "Update trn_guestinformation set flag = 9 where systemid = @SystemID and pmsid = @PmsID and  PmsPassword= @pmspassword and hotel_code= @HotelCode and machineno=@MachineNo and flag=1 and complete_flag=0";
-                string result2 = bdl.InsertUpdateDeleteData(sql2, para);
+                string result2 =await bdl.InsertUpdateDeleteData(sql2, para);
                 flag = Convert.ToInt32(dt.Rows[0]["flag"].ToString());
                 completeflg= Convert.ToInt32(dt.Rows[0]["complete_flag"].ToString());
                 //save success , update success and return getregisterdata

@@ -1,7 +1,44 @@
 ﻿
 @{
     ViewBag.Title = "Hotel_GuestList";
+    Layout = "~/Views/Shared/_CardRegisterLayout.cshtml";
 }
 
-<h2>Hotel_GuestList</h2>
+
+
+<div class="row" style="display:flex">
+    <div class="col-md-12">
+        <label class="col-xl-2">ArrivalDate</label>
+        <input type="text" />
+        ~
+        <input type="text" />
+    </div>
+    <div class="col-md-12">
+        <label class="col-xl-2">Checkin-Room</label>
+        <input type="text" />
+    </div>
+    <div class="col-md-12">
+        <label class="col-xl-2">GuestName</label>
+        <input type="text" />
+    </div>
+</div>
+               
+
+<div class="row">
+    <div class="table-responsive">
+        <table id="tblHotel_guestlist" border="1">
+            <thead>
+                <tr>
+                    <th>ArrivalDate</th>
+                    <th>DepartureDate</th>
+                    <th>RoomNo</th>
+                    <th>GuestName(Kanji</th>
+                    <th>GuestName(Kana)</th>
+                    <th>Address</th>
+                </tr>
+            </thead>
+        </table>
+    </div>
+</div>
+
 

@@ -1,20 +1,4 @@
-﻿//function CalltoApiController(url,model) {   
-//    var result;
-//    $.ajax({
-//        url: url.replace("%2F", "/"),        
-//        method: 'POST',
-//        dataType: 'json',
-//        contentType: 'application/json; charset=utf-8',
-//        data: JSON.stringify(model),
-//        async: true,
-//        success: function (data) {           
-//            result = data;
-//        },
-//    });
-//    return result;
-//}
-
-function CalltoApiController(url, model) {  
+﻿function CalltoApiController(url, model) {  
     var result;
     $.ajax({
         url: url.replace("%2F", "/"),
@@ -160,10 +144,10 @@ function isNumberKey(evt) {
 }
 
 //show error message based on result
-function ShowError(errorMsg) {
+function ShowError(titleMsg,errorMsg) {
     swal.fire({
         icon: 'error',
-        title: 'Hotel Login',
+        title: titleMsg,
         text: errorMsg
     });
 }

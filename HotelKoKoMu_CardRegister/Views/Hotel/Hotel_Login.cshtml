@@ -53,11 +53,11 @@
             $("#btnlogin").click(function () {
                 var response = CalltoApiController('@Url.Action("checkLogin", "api/HotelAPI/")', { HotelCode: $("#HotelNo").val(), UserCode: $("#UserID").val(), Password: $("#Password").val() });
                 if (response["Result"] == 0)
-                    ShowError("Invalid Hotel Code");
+                    ShowError("Hotel Login","Invalid Hotel Code");
                 else if (response["Result"] == 1)
-                    ShowError("Invalid User Code")
+                    ShowError("Hotel Login","Invalid User Code")
                 else if (response["Result"] == 2)
-                    ShowError("Invalid User Password");
+                    ShowError("Hotel Login","Invalid User Password");
                 else {
                     var resultObj = response["Result"];                    
                     var LoginInfo = resultObj[0].hotel_code + '_' + resultObj[0].usercode + '_' + resultObj[0].username;

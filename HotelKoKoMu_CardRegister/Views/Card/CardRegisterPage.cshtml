@@ -154,8 +154,7 @@
         $(document).ready(function () {
 
             CardRegisterInfo = { SystemID: $("#lblsystemid").text(), PmsID: $("#lblPmsId").text(), PmsPassword: $("#lblPmsPassword").text(), HotelCode: $("#lblhotelCode").text(), MachineNo: $("#lblmachineno").text() };
-            //intervalId = setInterval(function () { SearchCardRegisterData(); }, 5000);
-
+            
             intervalId = setInterval(function () {
                 if (intervalFlag == 0) {
                     SearchCardRegisterData();
@@ -250,100 +249,95 @@
 
            //save guest information
              $("#btnfinish").click(function () {
-                 rowCount= $(".kokomuTable tr").length
-                //get kokomu table as image
-                var element = $("#divkokomuTable");
-                html2canvas(element, {
-                    onrendered: function (canvas) {
 
-                    $('.kokomuTable tr td').each(function () {
-                    if ($(this).find("label").attr("id") == "lblGuestName")
-                        GuestName = $("#lblGuestName").text();
-                    else
-                        GuestNameHW = $("#imgGuestName").attr('src');
+                 if (CheckValidation()) {
+                     //get kokomu table as image
+                     var element = $("#divkokomuTable");
+                     html2canvas(element, {
+                         onrendered: function (canvas) {
 
-                    if ($(this).find("label").attr("id") == "lblKanaName")
-                        KanaName = $("#lblKanaName").text();
-                    else
-                        KanaNameHW = $("#imgKanaName").attr('src');
+                             $('.kokomuTable tr td').each(function () {
+                                 if ($(this).find("label").attr("id") == "lblGuestName")
+                                     GuestName = $("#lblGuestName").text();
+                                 else
+                                     GuestNameHW = $("#imgGuestName").attr('src');
 
-                    if ($(this).find("label").attr("id") == "lblZipCode")
-                        ZipCode = $("#lblZipCode").text();
-                    else
-                        ZipCodeHW = $("#imgZipCode").attr('src');
+                                 if ($(this).find("label").attr("id") == "lblKanaName")
+                                     KanaName = $("#lblKanaName").text();
+                                 else
+                                     KanaNameHW = $("#imgKanaName").attr('src');
 
-                    if ($(this).find("label").attr("id") == "lblTel")
-                        Tel = $("#lblTel").text();
-                    else
-                        TelHW = $("#imgTel").attr('src');
+                                 if ($(this).find("label").attr("id") == "lblZipCode")
+                                     ZipCode = $("#lblZipCode").text();
+                                 else
+                                     ZipCodeHW = $("#imgZipCode").attr('src');
 
-                    if ($(this).find("label").attr("id") == "lblAddress1")
-                        Address1 = $("#lblAddress1").text();
-                    else
-                        AddressHW1 = $("#imgAddress1").attr('src');
+                                 if ($(this).find("label").attr("id") == "lblTel")
+                                     Tel = $("#lblTel").text();
+                                 else
+                                     TelHW = $("#imgTel").attr('src');
 
-                    if ($(this).find("label").attr("id") == "lblAddress2")
-                        Address2 = $("#lblAddress2").text();
-                    else
-                        AddressHW2 = $("#imgAddress2").attr('src');
+                                 if ($(this).find("label").attr("id") == "lblAddress1")
+                                     Address1 = $("#lblAddress1").text();
+                                 else
+                                     AddressHW1 = $("#imgAddress1").attr('src');
 
-                    if ($(this).find("label").attr("id") == "lblCompany")
-                        Company = $("#lblCompany").text();
-                    else
-                        CompanyHW = $("#imgCompany").attr('src');
+                                 if ($(this).find("label").attr("id") == "lblAddress2")
+                                     Address2 = $("#lblAddress2").text();
+                                 else
+                                     AddressHW2 = $("#imgAddress2").attr('src');
 
-                    if ($(this).find("label").attr("id") == "lblNationality")
-                        Nationality = $("#lblNationality").text();
-                    else
-                        NationalityHW = $("#imgNationality").attr('src');
+                                 if ($(this).find("label").attr("id") == "lblCompany")
+                                     Company = $("#lblCompany").text();
+                                 else
+                                     CompanyHW = $("#imgCompany").attr('src');
 
-                    if ($(this).find("label").attr("id") == "lblPassport")
-                        Passport = $("#lblPassport").text();
-                    else
-                        PassportHW = $("#imgPassport").attr('src');
-                      });
-                        var guestInfo = { HotelCode: $("#lblHotelCode").text(), ReservationNo: $("#lblReservationNo").text(), RoomNo: $("#lblRoomNo").text(), SystemDate: $("#lblSystemDate").text(), GuestName: GuestName, GuestNameHW: GuestNameHW, KanaName: KanaName, KanaNameHW: KanaNameHW, ZipCode: ZipCode, ZipCodeHW: ZipCodeHW, Tel: Tel, TelHW: TelHW, Address1: Address1, AddressHW1: AddressHW1, Address2: Address2, AddressHW2, AddressHW2, Company: Company, CompanyHW: CompanyHW, Nationality: Nationality, NationalityHW: NationalityHW, Passport: Passport, PassportHW: PassportHW, Sign: $("#imgSign").attr('src'), ArrivalDate: $("#dtpArrivalDate").val(), DepartureDate: $("#dtpDepartureDate").val(), CreatedDate: $("#lblCreatedDate").text(), ImageData: canvas.toDataURL("image/jpg") };
-                          var response = CalltoApiController('@Url.Action("setRegistrationCard", "api/CardAPI/")', guestInfo);
+                                 if ($(this).find("label").attr("id") == "lblNationality")
+                                     Nationality = $("#lblNationality").text();
+                                 else
+                                     NationalityHW = $("#imgNationality").attr('src');
 
-                        if (response["Success"] != undefined) {
-                            //window.location.reload();
-                            Swal.fire({
-                                title: 'Guest Information',
-                                text: response["Success"],
-                                icon: 'success',
-                                showCancelButton: true,
-                                confirmButtonColor: '#3085d6',
-                                cancelButtonColor: '#d33',
-                                confirmButtonText: 'OK',
-                            }).then((result) => {
-                                $('.kokomuTable tr td').each(function () {
-                                    if ($(this).attr("id") != undefined) {
-                                        $(this).html('');
-                                    }
-                                });
-                                $('#tdArrivalDate').append('<input id="dtpArrivalDate" name="lblDepartureDate" class="datepicker-here" placeholder="yyyy-mm-dd" disabled />');
-                                $('#tdDepartureDate').append('<input id="dtpDepartureDate" name="lblDepartureDate" class="datepicker-here" placeholder="yyyy-mm-dd" disabled />');
+                                 if ($(this).find("label").attr("id") == "lblPassport")
+                                     Passport = $("#lblPassport").text();
+                                 else
+                                     PassportHW = $("#imgPassport").attr('src');
+                             });
+                             var guestInfo = { HotelCode: $("#lblHotelCode").text(), ReservationNo: $("#lblReservationNo").text(), RoomNo: $("#lblRoomNo").text(), SystemDate: $("#lblSystemDate").text(), GuestName: GuestName, GuestNameHW: GuestNameHW, KanaName: KanaName, KanaNameHW: KanaNameHW, ZipCode: ZipCode, ZipCodeHW: ZipCodeHW, Tel: Tel, TelHW: TelHW, Address1: Address1, AddressHW1: AddressHW1, Address2: Address2, AddressHW2, AddressHW2, Company: Company, CompanyHW: CompanyHW, Nationality: Nationality, NationalityHW: NationalityHW, Passport: Passport, PassportHW: PassportHW, Sign: $("#imgSign").attr('src'), ArrivalDate: $("#dtpArrivalDate").val(), DepartureDate: $("#dtpDepartureDate").val(), CreatedDate: $("#lblCreatedDate").text(), ImageData: canvas.toDataURL("image/jpg") };
+                             var response = CalltoApiController('@Url.Action("setRegistrationCard", "api/CardAPI/")', guestInfo);
 
-                                var currentDate = new Date();
-                                //set current date into arrival date
-                                $("#dtpArrivalDate").val(moment(currentDate).format('YYYY-MM-DD'));
+                             if (response["Success"] != undefined) {
+                                 Swal.fire({
+                                     title: 'Guest Information',
+                                     text: response["Success"],
+                                     icon: 'success',
+                                     confirmButtonColor: '#3085d6',
+                                     confirmButtonText: 'OK',
+                                 }).then((result) => {
+                                     $('.kokomuTable tr td').each(function () {
+                                         if ($(this).attr("id") != undefined) {
+                                             $(this).html('');
+                                         }
+                                     });
+                                     $('#tdArrivalDate').append('<input id="dtpArrivalDate" name="lblDepartureDate" class="datepicker-here" placeholder="yyyy-mm-dd" disabled />');
+                                     $('#tdDepartureDate').append('<input id="dtpDepartureDate" name="lblDepartureDate" class="datepicker-here" placeholder="yyyy-mm-dd" disabled />');
 
-                                //set departure date (current date + 1)
-                                var dtDepartureDate = currentDate.setDate(currentDate.getDate() + 1);
-                                $("#dtpDepartureDate").val(moment(dtDepartureDate).format('YYYY-MM-DD'));
+                                     var currentDate = new Date();
+                                     //set current date into arrival date
+                                     $("#dtpArrivalDate").val(moment(currentDate).format('YYYY-MM-DD'));
 
-                                intervalFlag = 0;                              
-                            });
-                            }
-                        else {
-                                swal.fire({
-                                icon: 'error',
-                                title: 'Guest Information',
-                                text: response["Error"]
-                                });
-                        }
-                    }
-                });
+                                     //set departure date (current date + 1)
+                                     var dtDepartureDate = currentDate.setDate(currentDate.getDate() + 1);
+                                     $("#dtpDepartureDate").val(moment(dtDepartureDate).format('YYYY-MM-DD'));
+
+                                     intervalFlag = 0;
+                                 });
+                             }
+                             else {
+                                 ShowError("Guest Information", response["Error"]);
+                             }
+                         }
+                     });
+                 }
              });
         });
 
@@ -396,7 +390,7 @@
                 moveflg = 1;
                 ctx.lineTo(Xpoint, Ypoint);
                 ctx.lineCap = "round";
-                ctx.lineWidth = defSize * 2;
+                ctx.lineWidth = defSize;
                 ctx.strokeStyle = defColor;
                 ctx.stroke();
             }
@@ -406,7 +400,7 @@
             if (moveflg === 0) {
                 ctx.lineTo(Xpoint - 1, Ypoint - 1);
                 ctx.lineCap = "round";
-                ctx.lineWidth = defSize * 2;
+                ctx.lineWidth = defSize;
                 ctx.strokeStyle = defColor;
                 ctx.stroke();
             }
@@ -546,6 +540,16 @@
                     }
                 }
             }
+        }
+
+        function CheckValidation() {
+            var flag = false;
+            if ($("#imgSign").attr('src') != undefined)
+                flag = true;            
+            else 
+                ShowError("Guest Information","Fill Sign");
+            
+            return flag;
         }
 
     </script>

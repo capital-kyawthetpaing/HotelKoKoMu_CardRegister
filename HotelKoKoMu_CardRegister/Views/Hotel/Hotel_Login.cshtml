@@ -1,0 +1,39 @@
+﻿
+@{
+    ViewBag.Title = "Hotel_Login";
+    Layout = "~/Views/Shared/_LoginLayout.cshtml";
+}
+
+<div class="divLogin col-md-4 offset-md-4">
+    <div class="container">
+        <table>
+            <tr>
+                <th>
+                    <label>ホテル番号</label>
+                </th>
+                <td>
+                    <input type="text" id="HotelNo" required>
+                </td>
+            </tr>
+            <tr>
+                <th>
+                    <label>ユーザーID</label>
+                </th>
+                <td>
+                    <input type="text" id="UserID" required>
+                </td>
+            </tr>
+            <tr>
+                <th>
+                    <label>パスワード</label>
+                </th>
+                <td>
+                    <input type="password" id="Password" required>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="container" >
+        <button type="submit" id="btnlogin">ログイン</button>
+    </div>
+</div>

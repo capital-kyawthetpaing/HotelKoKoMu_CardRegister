@@ -28,5 +28,19 @@ namespace HotelKoKoMu_CardRegister.Controllers
             DataTable dt = bdl.SelectDataTable(sql_cmd, info.Sqlprms);
             return Ok(dt);
         }
+
+        [HttpPost]
+        [ActionName("Search_GuestData")]
+        public IHttpActionResult Search_GuestData(CardRegisterInfo cardInfo)
+        {
+            BaseDL bdl = new BaseDL();
+            cardInfo.Sqlprms = new NpgsqlParameter[1];
+            cardInfo.Sqlprms[0] = new NpgsqlParameter("@arrivaldate", cardInfo.ArrivalDate);
+           
+
+            string sql_cmd = "select * from trn_guestinformation_test where arrival_date >= @arrivaldate";
+            DataTable dt = bdl.SelectDataTable(sql_cmd, cardInfo.Sqlprms);
+            return Ok(dt);
+        }
     }
 }

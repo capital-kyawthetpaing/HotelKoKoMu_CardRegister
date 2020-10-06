@@ -9,6 +9,7 @@ using HotelKoKoMu_CardRegister.ContextDB;
 using Npgsql;
 using System.Data;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 
 namespace HotelKoKoMu_CardRegister.Controllers
 {
@@ -61,7 +62,7 @@ namespace HotelKoKoMu_CardRegister.Controllers
             cardInfo.Sqlprms[0] = new NpgsqlParameter("@arrivaldate", cardInfo.ArrivalDate);
 
             string sql_cmd = "select * from trn_guestinformation_test where arrival_date >= @arrivaldate";
-            DataTable dt =await bdl.SelectDataTable(sql_cmd, cardInfo.Sqlprms);
+            DataTable dt = await bdl.SelectDataTable(sql_cmd, cardInfo.Sqlprms);
             return Ok(dt);
         }
     }

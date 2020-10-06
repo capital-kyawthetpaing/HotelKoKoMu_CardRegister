@@ -40,7 +40,7 @@
 
 <div class="row col-md-12">
     <div class="table-responsive">
-        <table id="tblHotel_guestlist" border="1">
+        <table id="tblHotel_guestlist" border="1" width="100%">
             <thead>
                 <tr>
                     <th>ArrivalDate</th>
@@ -63,24 +63,23 @@
             var currentDate = new Date();
             //set current date into arrival date
             $("#dtpArrivalDate").val(moment(currentDate).format('YYYY-MM-DD'));
-
             SearchData();
         });
 
         function SearchData() {
 
             var result = CalltoApiController("/api/HotelAPI/Search_GuestData", { ArrivalDate: $("#dtpArrivalDate").val() });
-            alert(result);
-
-            //if (result.length > 0) {
-            //    BindGuestTable(result.data);
-            //}
+           
+            if (result.length > 0) {
+                BindGuestTable(result);
+            }
         }
 
-        function BindGuestTable(response) {
+        function BindGuestTable(result) {
+
             table = $('#tblHotel_guestlist').DataTable({
 
-                data: JSON.parse(response),
+                data: result,
                 "bFilter": false,
                 "bLengthChange": false,
                 "bInfo": false,

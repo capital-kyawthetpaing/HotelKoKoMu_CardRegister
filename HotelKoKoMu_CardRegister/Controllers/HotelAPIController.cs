@@ -8,6 +8,7 @@ using HotelKoKoMu_CardRegister.Models;
 using HotelKoKoMu_CardRegister.ContextDB;
 using Npgsql;
 using System.Data;
+using System.Threading.Tasks;
 
 namespace HotelKoKoMu_CardRegister.Controllers
 {
@@ -16,7 +17,7 @@ namespace HotelKoKoMu_CardRegister.Controllers
 
         [HttpPost]
         [ActionName("ValidateLogin")]
-        public IHttpActionResult ValidateLogin(LoginInfo info)
+        public async Task<IHttpActionResult> ValidateLogin(LoginInfo info)
         {
             BaseDL bdl = new BaseDL();
             info.Sqlprms = new NpgsqlParameter[3];
@@ -25,21 +26,20 @@ namespace HotelKoKoMu_CardRegister.Controllers
             info.Sqlprms[2] = new NpgsqlParameter("@password", info.Password);
             
             string sql_cmd = "select * from mst_hoteluser where hotel_code = @hotelcode and usercode=@userid and password=@password";
-            DataTable dt = bdl.SelectDataTable(sql_cmd, info.Sqlprms);
+            DataTable dt =await bdl.SelectDataTable(sql_cmd, info.Sqlprms);
             return Ok(dt);
         }
 
         [HttpPost]
         [ActionName("Search_GuestData")]
-        public IHttpActionResult Search_GuestData(CardRegisterInfo cardInfo)
+        public async Task<IHttpActionResult> Search_GuestData(CardRegisterInfo cardInfo)
         {
             BaseDL bdl = new BaseDL();
             cardInfo.Sqlprms = new NpgsqlParameter[1];
             cardInfo.Sqlprms[0] = new NpgsqlParameter("@arrivaldate", cardInfo.ArrivalDate);
-           
 
             string sql_cmd = "select * from trn_guestinformation_test where arrival_date >= @arrivaldate";
-            DataTable dt = bdl.SelectDataTable(sql_cmd, cardInfo.Sqlprms);
+            DataTable dt =await bdl.SelectDataTable(sql_cmd, cardInfo.Sqlprms);
             return Ok(dt);
         }
     }

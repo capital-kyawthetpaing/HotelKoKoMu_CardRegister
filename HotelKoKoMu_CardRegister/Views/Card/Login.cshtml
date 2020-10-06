@@ -41,8 +41,7 @@
                 if (result.length > 0) {                  
                 var cardInfo = result[0].systemid + '_' + result[0].pmsid + '_' + result[0].pmspassword + '_' + result[0].machineno + '_' + result[0].hotel_code;               
                         $.post('@Url.Action("CreateSession", "Card")',
-                            { key: "CardInfo", value: cardInfo }, function (data) {
-                               
+                            { key: "CardInfo", value: cardInfo }, function (data) {                               
                                 location.href = '@Url.Action("CardRegisterPage", "Card")';
                             });
                 }

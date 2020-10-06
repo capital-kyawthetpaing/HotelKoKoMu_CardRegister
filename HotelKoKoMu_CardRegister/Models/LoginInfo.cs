@@ -12,5 +12,7 @@ namespace HotelKoKoMu_CardRegister.Models
         public string PmsPassword { get; set; }
         public string MachineNo { get; set; }
         public string HotelCode { get; set; }
+        public string UserID { get; set; }
+        public string Password { get; set; }
     }
 }

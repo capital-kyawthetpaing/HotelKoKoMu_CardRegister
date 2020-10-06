@@ -33,7 +33,38 @@
             </tr>
         </table>
     </div>
-    <div class="container" >
-        <button type="submit" id="btnlogin">ログイン</button>
+    <div class="container">
+        <button type="button" id="btnlogin">ログイン</button>
     </div>
 </div>
+
+@section Scripts{
+    <script src="~/Scripts/Common.js"></script>
+    <script src="~/Scripts/jquery-3.5.1.js"></script>
+    <script>
+        $(document).ready(function () {
+            $("#btnlogin").click(function () {
+                Login();
+             });
+        });
+
+        function Login() {
+            var result = CalltoApiController("/api/HotelAPI/ValidateLogin", { HotelCode: $("#HotelNo").val(), UserID: $("#UserID").val(), Password: $("#Password").val() });
+
+            if (result.length > 0) {
+
+                 location.href = '@Url.Action("Hotel_GuestList", "Hotel")';
+
+                @*var cardInfo = result[0].hotel_code + '_' + result[0].usercode + '_' + result[0].username + '_' ;
+                $.post('@Url.Action("CreateSession", "Card")',
+                    { key: "CardInfo", value: cardInfo }, function (data) {
+
+                        location.href = '@Url.Action("Hotel_GuestList", "Hotel")';
+                    });*@
+            }
+            else {
+                $("#HotelNo").focus();
+            }
+        }
+    </script>
+}

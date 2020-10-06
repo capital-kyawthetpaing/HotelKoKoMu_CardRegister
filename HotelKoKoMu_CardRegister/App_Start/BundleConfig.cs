@@ -20,11 +20,33 @@ namespace HotelKoKoMu_CardRegister
                         "~/Scripts/modernizr-*"));
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
-                      "~/Scripts/bootstrap.js"));
+                      "~/Scripts/bootstrap.js",
+                      "~/Scripts/jquery.dd.js",
+                      "~/Scripts/Common.js",
+                      "~/Scripts/datepicker.js",
+                      "~/Scripts/datepicker.en.js",
+                      "~/Scripts/SweetAlert2.js",
+                      "~/Scripts/moment.js",
+                      "~/Vendor/DataTables/datatables.js",
+                      "~/Vendor/DataTables/datatables.min.js",
+                      "~/Scripts/html2canvas.js"
+                      ));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
-                      "~/Content/site.css"));
+                      "~/Content/site.css",
+                      "~/Content/dd.css",
+                      "~/Vendor/DataTables/datatables.css",
+                      "~/Vendor/DataTables/datatables.min.css",
+                      "~/Content/Global.css",
+                      "~/Content/datepicker.css"));
+
+            //bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
+            //          "~/Scripts/bootstrap.js"));
+
+            //bundles.Add(new StyleBundle("~/Content/css").Include(
+            //          "~/Content/bootstrap.css",
+            //          "~/Content/site.css"));
         }
     }
 }

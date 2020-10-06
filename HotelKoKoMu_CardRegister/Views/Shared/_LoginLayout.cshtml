@@ -3,9 +3,8 @@
     Layout = null;
 }
 
-@Scripts.Render(Url.Content("~/bundles/jquery"))
-<link href='@Url.Content("~/Content/bootstrap.css")' rel="stylesheet" />
-@RenderSection("scripts", required: false)
+@*<script src="@Url.Content("~/Scripts/jquery-3.5.1.js")"></script>*@
+
 <style>
     body {
         font-family: 'ヒラギノ角ゴ ProN W3', 'Hiragino Kaku Gothic ProN', "メイリオ", Meiryo, 'ＭＳ Ｐゴシック', 'MS PGothic', 'Helvetica Neue', Helvetica, Arial, Verdana, sans-serif;
@@ -61,7 +60,11 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>_LoginLayout</title>
+
+    @Scripts.Render(Url.Content("~/bundles/jquery"))
+    <link href='@Url.Content("~/Content/bootstrap.css")' rel="stylesheet" />
     <script src="@Url.Content("~/Scripts/Common.js")"></script>
+    @*<script src="@Url.Content("~/Scripts/Common.js")"></script>*@
 </head>
 <body>
     <div class="col-md-12">
@@ -69,4 +72,5 @@
     </div>
 </body>
 </html>
+@RenderSection("scripts", required: false)
 

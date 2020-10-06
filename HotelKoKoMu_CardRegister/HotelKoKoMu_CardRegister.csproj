@@ -710,6 +710,7 @@
     <Content Include="Views\Hotel\Guest_InformationNew.cshtml" />
     <Content Include="Views\Hotel\Hotel_GuestList.cshtml" />
     <Content Include="Views\Hotel\Hotel_Login.cshtml" />
+    <Content Include="Views\Shared\_HotelSystemLayout.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

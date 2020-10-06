@@ -1,18 +1,7 @@
 ﻿
 @{
     ViewBag.Title = "Hotel_GuestList";
-    string obj = Session["HotelLoginInfo"].ToString();
-    string hotelcode = string.Empty;
-    string usercode = string.Empty;
-    string username = string.Empty;
-
-    if (obj != null)
-    {
-        hotelcode = obj.Split('_')[0];
-        usercode = obj.Split('_')[1];
-        username = obj.Split('_')[2];
-    }
-   
+    Layout = "~/Views/Shared/_HotelSystemLayout.cshtml";
 }
 
 

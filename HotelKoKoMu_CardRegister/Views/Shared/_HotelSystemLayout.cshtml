@@ -1,0 +1,54 @@
+﻿
+@{
+    Layout = null;
+    string obj = Session["HotelLoginInfo"].ToString();
+    string hotelcode = string.Empty;
+    string usercode = string.Empty;
+    string username = string.Empty;
+
+    if (obj != null)
+    {
+        hotelcode = obj.Split('_')[0];
+        usercode = obj.Split('_')[1];
+        username = obj.Split('_')[2];
+    }
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Hotel System</title>
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Styles.Render("~/Content/css")
+</head>
+<body>
+    <div>
+        <div class="container" style="margin-top:10px;">
+            <div class="card">
+                <h5 class="card-header" id="hoteltitle" style="margin-top: 15px;border-radius: unset; background-color: #1b5696">
+                </h5>
+                <div class="card-body">
+                    
+                    @RenderBody()
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+@RenderSection("scripts", required: false)
+@RenderSection("styles", required: false)
+
+<script>
+    $(document).ready(function () {
+        var HotelObj = { HotelNo: '@hotelcode' };
+        var result = CalltoApiController('@Url.Action("getHotelInformation", "api/HotelAPI/")', HotelObj);
+        if (result != "") {
+            var hotelInfo = '<img src="data:image/png;base64,' + result[0].logo_data + '" class="imgcss text-left" style="width:60px; height:40px;"> ' + result[0].hotel_name+"<label></label>";
+            $("#hoteltitle").append(hotelInfo);
+        }
+    })
+</script>

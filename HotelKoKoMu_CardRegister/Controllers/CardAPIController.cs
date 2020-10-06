@@ -313,23 +313,6 @@ namespace HotelKoKoMu_CardRegister.Controllers
             }
         }
 
-        /// <summary>
-        /// get hotel information based on hotel no
-        /// </summary>
-        /// <param name="hotelInfo"></param>
-        /// <returns></returns>
-        [HttpPost]
-        [ActionName("getHotelInformation")]
-        public async Task<IHttpActionResult> getHotelInformation(HotelInfo hotelInfo)
-        {
-            BaseDL bdl = new BaseDL();
-            hotelInfo.Sqlprms = new NpgsqlParameter[1];
-            hotelInfo.Sqlprms[0] = new NpgsqlParameter("@hotel_code", hotelInfo.HotelNo);
-            string cmdText = "Select hotel_name,logo_data from mst_hotel where hotel_code=@hotel_code";
-            DataTable dt =await bdl.SelectDataTable(cmdText, hotelInfo.Sqlprms);
-            return Ok(dt);
-        }
-
         [HttpPost]
         [ActionName("ValidateLogin")]
         public async Task<IHttpActionResult> ValidateLogin(LoginInfo info)

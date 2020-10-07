@@ -28,7 +28,7 @@
             <label>Check-in Room :</label>
         </div>
         <div class="col-md-2">
-            <input type="text" id="txtCheckinRoom" maxlength="4" />
+            <input type="text" id="txtCheckinRoom" maxlength="4" onkeypress="return isNumber(event)" />
         </div>
     </div>
 </div>
@@ -81,8 +81,32 @@
     <script>
         $(document).ready(function () {
 
-            var currentDate = new Date();
 
+            //date compare check
+            $("#dtpArrivalToDate").datepicker({
+                format: 'YYYY-MM-DD',
+                todayHighlight: true,
+                onSelect: function (dateText, inst) {
+                    var arrivaldate = new Date($('#dtpArrivalFromDate').val());
+                    var departuredate = new Date($('#dtpArrivalToDate').val());
+                    if (departuredate < arrivaldate)
+                        ShowError("ToDate must be less than FromDate");
+                }
+            })
+
+            //if select arrival date again greater than departure date
+            $("#dtpArrivalFromDate").datepicker({
+                format: 'YYYY-MM-DD',
+                todayHighlight: true,
+                onSelect: function (dateText, inst) {
+                    var arrivaldate = new Date($('#dtpArrivalFromDate').val());
+                    var departuredate = new Date($('#dtpArrivalToDate').val());
+                    if (departuredate < arrivaldate)
+                        $("#dtpArrivalToDate").val("");
+                }
+            })
+
+            var currentDate = new Date();
             //set current date into arrival date
             $("#dtpArrivalFromDate").val(moment(currentDate).format('YYYY-MM-DD'));
             $("#dtpArrivalToDate").val(moment(currentDate).format('YYYY-MM-DD'));
@@ -91,21 +115,22 @@
             SearchData();
 
             $("#btnSearch").click(function () {
+            if (CheckValidate()) {
                 SearchData();
-            });
+            }
+        });
 
-            //clear data
             $("#btnClear").click(function () {
-                $("#txtCheckinRoom").val("");
-                $("#txtGuestName").val("");
-                $("#dtpArrivalFromDate").val(moment(currentDate).format('YYYY-MM-DD'));
-                $("#dtpArrivalToDate").val(moment(currentDate).format('YYYY-MM-DD'));
-
+                var currentDate = new Date();
+                $("#dtpArrivalDate").val(moment(currentDate).format('YYYY-MM-DD'));
+                $("#dtpDepartureDate").val(moment(currentDate).format('YYYY-MM-DD'));
+                $("#CheckinRoom").val(""),
+                $("#GuestName").val(""),
             });
 
             //show image on table's row click event
             $('#tblhotelguestlist tbody').on('click', 'tr', function () {
-                var data = table.row(this).data();                
+                var data = table.row(this).data();
                 if (data["imagedata"] != null) {
                     var imagePath = "/" + data["hotel_code"] + "/" + data["imagedata"];
                     $("#imgImage").attr('src', imagePath);
@@ -124,16 +149,7 @@
                 var result= CalltoApiController('@Url.Action("searchGuestData", "api/HotelAPI/")', guestinfo)
                 BindGuestTable(result);
 
-            @*if (CheckValidate()) {
-                 var guestinfo = {
-                    ArrivalFromDate: $("#dtpArrivalFromDate").val(),
-                    ArrivalToDate: $("#dtpArrivalToDate").val(),
-                    RoomNo: $("#txtCheckinRoom").val(),
-                    GuestName: $("#txtGuestName").val()
-                 }
-                var result= CalltoApiController('@Url.Action("searchGuestData", "api/HotelAPI/")', guestinfo)
-                BindGuestTable(result);
-            }*@
+          
         }
 
         function BindGuestTable(result) {
@@ -163,16 +179,43 @@
             });
         }
 
-        //check validation
+
+        //auto complete zero fill in checkin roomno
+        $('#txtCheckinRoom').on('keydown', function (e) {
+            if (e.keyCode == 13 || e.keyCode == 9) {
+                str = $('#txtCheckinRoom').val();
+                str = str.toString();
+                if (str.length < 4) {
+                    var roomno = str.padStart(4, '0');
+                    $('#txtCheckinRoom').val(roomno);
+                }
+            }
+        });
+
+        //validation
         function CheckValidate() {
             var flag = false;
+
             str = $('#txtCheckinRoom').val();
-            str = str.toString();
-            if (str.length < 4)
-                ShowError("Hotel System","Please Check Your Check-in Room");
-            else
-                flag = true;
+            if (str != "") {
+                str = str.toString();
+                if (str.length < 4) {
+                    ShowError("Please Check Your Check-in Room");
+                }
+                else
+                    flag = true;
+            }
             return flag;
+        }
+
+        //number only
+        function isNumber(evt) {
+            evt = (evt) ? evt : window.event;
+            var charCode = (evt.which) ? evt.which : evt.keyCode;
+            if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+                return false;
+            }
+            return true;
         }
     </script>
 }

@@ -379,5 +379,9 @@ namespace HotelKoKoMu_CardRegister.Controllers
             }
             return Ok(returnStatus);
         }
+
+
+        
+
     }
 }

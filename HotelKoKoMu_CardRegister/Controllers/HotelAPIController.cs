@@ -93,5 +93,7 @@ namespace HotelKoKoMu_CardRegister.Controllers
             DataTable dt = await bdl.SelectDataTable(cmdText, hotelInfo.Sqlprms);
             return Ok(dt);
         }
+
+
     }
 }

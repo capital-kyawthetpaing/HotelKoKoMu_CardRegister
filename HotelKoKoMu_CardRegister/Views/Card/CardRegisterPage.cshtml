@@ -245,9 +245,104 @@
 
             $("#btnCancel").click(function () {
                 $('#CardRegisterModal').modal('hide');
-            })
+            });
 
-           //save guest information
+
+             //save guest information
+             $("#btnfinish").click(function () {
+
+                 if (CheckValidation()) {
+                     //get kokomu table as image
+                     var element = $("#divkokomuTable");
+                     html2canvas(element, {
+                         allowTaint: true,
+                         onrendered: function (canvas) {
+
+                             $('.kokomuTable tr td').each(function () {
+                                 if ($(this).find("label").attr("id") == "lblGuestName")
+                                     GuestName = $("#lblGuestName").text();
+                                 else
+                                     GuestNameHW = $("#imgGuestName").attr('src');
+
+                                 if ($(this).find("label").attr("id") == "lblKanaName")
+                                     KanaName = $("#lblKanaName").text();
+                                 else
+                                     KanaNameHW = $("#imgKanaName").attr('src');
+
+                                 if ($(this).find("label").attr("id") == "lblZipCode")
+                                     ZipCode = $("#lblZipCode").text();
+                                 else
+                                     ZipCodeHW = $("#imgZipCode").attr('src');
+
+                                 if ($(this).find("label").attr("id") == "lblTel")
+                                     Tel = $("#lblTel").text();
+                                 else
+                                     TelHW = $("#imgTel").attr('src');
+
+                                 if ($(this).find("label").attr("id") == "lblAddress1")
+                                     Address1 = $("#lblAddress1").text();
+                                 else
+                                     AddressHW1 = $("#imgAddress1").attr('src');
+
+                                 if ($(this).find("label").attr("id") == "lblAddress2")
+                                     Address2 = $("#lblAddress2").text();
+                                 else
+                                     AddressHW2 = $("#imgAddress2").attr('src');
+
+                                 if ($(this).find("label").attr("id") == "lblCompany")
+                                     Company = $("#lblCompany").text();
+                                 else
+                                     CompanyHW = $("#imgCompany").attr('src');
+
+                                 if ($(this).find("label").attr("id") == "lblNationality")
+                                     Nationality = $("#lblNationality").text();
+                                 else
+                                     NationalityHW = $("#imgNationality").attr('src');
+
+                                 if ($(this).find("label").attr("id") == "lblPassport")
+                                     Passport = $("#lblPassport").text();
+                                 else
+                                     PassportHW = $("#imgPassport").attr('src');
+                             });
+                             var guestInfo = { HotelCode: $("#lblHotelCode").text(), ReservationNo: $("#lblReservationNo").text(), RoomNo: $("#lblRoomNo").text(), SystemDate: $("#lblSystemDate").text(), GuestName: GuestName, GuestNameHW: GuestNameHW, KanaName: KanaName, KanaNameHW: KanaNameHW, ZipCode: ZipCode, ZipCodeHW: ZipCodeHW, Tel: Tel, TelHW: TelHW, Address1: Address1, AddressHW1: AddressHW1, Address2: Address2, AddressHW2, AddressHW2, Company: Company, CompanyHW: CompanyHW, Nationality: Nationality, NationalityHW: NationalityHW, Passport: Passport, PassportHW: PassportHW, Sign: $("#imgSign").attr('src'), ArrivalDate: $("#dtpArrivalDate").val(), DepartureDate: $("#dtpDepartureDate").val(), CreatedDate: $("#lblCreatedDate").text(), ImageData: canvas.toDataURL("image/jpg") };
+                             var response = CalltoApiController('@Url.Action("setRegistrationCard", "api/CardAPI/")', guestInfo);
+
+                             if (response["Success"] != undefined) {
+                                 Swal.fire({
+                                     title: ' ありがとうございました。',
+                                     text: response["Success"],
+                                     icon: 'success',
+                                     confirmButtonColor: '#3085d6',
+                                     confirmButtonText: 'OK',
+                                 }).then((result) => {
+                                     $('.kokomuTable tr td').each(function () {
+                                         if ($(this).attr("id") != undefined) {
+                                             $(this).html('');
+                                         }
+                                     });
+                                     $('#tdArrivalDate').append('<input id="dtpArrivalDate" name="lblDepartureDate" class="datepicker-here" placeholder="yyyy-mm-dd" disabled />');
+                                     $('#tdDepartureDate').append('<input id="dtpDepartureDate" name="lblDepartureDate" class="datepicker-here" placeholder="yyyy-mm-dd" disabled />');
+
+                                     var currentDate = new Date();
+                                     //set current date into arrival date
+                                     $("#dtpArrivalDate").val(moment(currentDate).format('YYYY-MM-DD'));
+
+                                     //set departure date (current date + 1)
+                                     var dtDepartureDate = currentDate.setDate(currentDate.getDate() + 1);
+                                     $("#dtpDepartureDate").val(moment(dtDepartureDate).format('YYYY-MM-DD'));
+
+                                     intervalFlag = 0;
+                                 });
+                             }
+                             else {
+                                 ShowError("Guest Information", response["Error"]);
+                             }
+                         }
+                     });
+                 }
+             });
+
+           @*//save guest information
              $("#btnfinish").click(function () {
 
                  if (CheckValidation()) {
@@ -338,7 +433,7 @@
                          }
                      });
                  }
-             });
+             });*@
         });
 
         var canvas = document.getElementById('csvRegister'),

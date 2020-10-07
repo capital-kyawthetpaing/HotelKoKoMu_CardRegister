@@ -68,7 +68,7 @@ namespace HotelKoKoMu_CardRegister.Controllers
             string condition = string.Empty;
             condition += " where Cast(arrival_date as Date) between Cast('" + searchGuestInfo.ArrivalFromDate + "' as Date) and Cast('" + searchGuestInfo.ArrivalToDate + "' as Date)";
             if (!string.IsNullOrEmpty(searchGuestInfo.RoomNo))
-                condition += " and roomno='" + searchGuestInfo.RoomNo + "'";
+                condition += " and lpad(roomno,4,'0')='" + searchGuestInfo.RoomNo + "'";
             if (!string.IsNullOrEmpty(searchGuestInfo.GuestName))
                 condition +=" and (guestname_hotel like '%"+searchGuestInfo.GuestName+"%' or kananame_hotel like '%"+ searchGuestInfo.GuestName + "%')";
                 

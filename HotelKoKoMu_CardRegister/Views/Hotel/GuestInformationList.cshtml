@@ -1,8 +1,9 @@
 ﻿
 @{
-    ViewBag.Title = "Guest_InformationList";
+    ViewBag.Title = "GuestInformationList";
     Layout = "~/Views/Shared/_CardRegisterLayout.cshtml";
 }
+
 
 <div class="row">
     <div class="table-responsive">
@@ -42,7 +43,7 @@
 
 
         function BindGuestInformationTable(response) {
-           
+
             table = $('#tblGuestList').DataTable({
 
                 data: JSON.parse(response),
@@ -69,13 +70,10 @@
                     { "data": "nationality_text", orderable: false},
                     { "data": "passportno_text", orderable: false },
                 ]
-
-                 //"drawCallback": function (settings) {
-                 //   $("#tblGuestList thead").remove();
-                //}
             });
         }
-       
+
     </script>
 }
+
 

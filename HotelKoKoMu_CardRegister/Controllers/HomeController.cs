@@ -25,5 +25,10 @@ namespace HotelKoKoMu_CardRegister.Controllers
             ViewBag.Message = "Your contact page.";
             return View();
         }
+
+        public ActionResult Test()
+        {
+            return View();
+        }
     }
 }

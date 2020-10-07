@@ -1,0 +1,36 @@
+﻿
+@{
+    Layout = null;
+}
+<script src="~/Scripts/jquery-3.5.1.min.js"></script>
+<script src="~/Vendor/DataTables/DataTables-1.10.22/js/jquery.dataTables.min.js"></script>
+<script src="~/Vendor/DataTables/DataTables-1.10.22/js/dataTables.bootstrap4.min.js"></script>
+<link href="~/Content/bootstrap.css" rel="stylesheet" />
+<link href="~/Vendor/DataTables/DataTables-1.10.22/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Test</title>
+</head>
+<body>
+    <div>
+        <table id="example" class="table table-striped table-bordered" style="width:100%">
+            <tr>
+                <th>Name</th>
+                <th>Address</th>
+            </tr>
+            <tr>
+                <td>Mg</td>
+                <td>Ygn</td>
+            </tr>
+        </table>
+    </div>
+</body>
+</html>
+<script>
+    $(document).ready(function () {
+        $('#example').DataTable();      
+    });
+    </script>

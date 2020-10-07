@@ -3,9 +3,7 @@
     ViewBag.Title = "HotelGuestList";
     Layout = "~/Views/Shared/_HotelSystemLayout.cshtml";
 }
-
-
-<link href="~/Content/hotel.css" rel="stylesheet" />
+<link href="@Url.Content("~/Content/hotel.css")" rel="stylesheet" />
 <style>
     .fake-input {
         position: relative;
@@ -115,6 +113,7 @@
 </div>
 
 @section Scripts{
+
     <script>
         $(document).ready(function () {
 
@@ -159,7 +158,7 @@
                     }
                 }
             });
-            
+
             //fill guest information
             SearchData();
 

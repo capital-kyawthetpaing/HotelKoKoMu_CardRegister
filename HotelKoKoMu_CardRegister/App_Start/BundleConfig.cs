@@ -27,26 +27,22 @@ namespace HotelKoKoMu_CardRegister
                       "~/Scripts/datepicker.en.js",
                       "~/Scripts/SweetAlert2.js",
                       "~/Scripts/moment.js",
-                      "~/Vendor/DataTables/datatables.js",
+                      "~/Scripts/html2canvas.js",
                       "~/Vendor/DataTables/datatables.min.js",
-                      "~/Scripts/html2canvas.js"
+                      "~/Vendor/DataTables/DataTables-1.10.22/js/jquery.dataTables.min.js",
+                      "~/Vendor/DataTables/DataTables-1.10.22/js/dataTables.bootstrap4.min.js"
                       ));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
                       "~/Content/site.css",
-                      "~/Content/dd.css",
-                      "~/Vendor/DataTables/datatables.css",
-                      "~/Vendor/DataTables/datatables.min.css",
+                      "~/Content/dd.css",                      
                       "~/Content/Global.css",
-                      "~/Content/datepicker.css"));
-
-            //bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
-            //          "~/Scripts/bootstrap.js"));
-
-            //bundles.Add(new StyleBundle("~/Content/css").Include(
-            //          "~/Content/bootstrap.css",
-            //          "~/Content/site.css"));
+                      "~/Content/datepicker.css",
+                      "~/Vendor/DataTables/datatables.min.css",
+                      "~/Vendor/DataTables/DataTables-1.10.22/css/dataTables.bootstrap4.min.css"
+                      //"~/Vendor/DataTables/DataTables-1.10.22/css/jquery.dataTables.min.css"
+                      ));
         }
     }
 }

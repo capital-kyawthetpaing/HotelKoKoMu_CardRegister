@@ -22,6 +22,9 @@
             top: 2px;
             right: 5px
         }
+        .datepicker{
+            top:200px;
+        }
 </style>
 
 <div class="row">
@@ -34,7 +37,7 @@
                 <tr>
                     <td width="45%">
                         <div class="fake-input">
-                            <input type="text" id="dtpArrivalFromDate" class="datepicker-here" /><img src="~/images/calendar.png" width=25 />
+                            <input type="text" id="dtpArrivalFromDate" class="datepicker-here" /><img id="fromdate" src="~/images/calendar.png" width=25 />
                         </div>
                     </td>
                     <td style="text-align:center">
@@ -42,7 +45,7 @@
                     </td>
                     <td width="45%">
                         <div class="fake-input">
-                            <input type="text" id="dtpArrivalToDate" class="datepicker-here" /><img src="~/images/calendar.png" width=25 />
+                            <input type="text" id="dtpArrivalToDate" class="datepicker-here" /><img id="todate" src="~/images/calendar.png" width=25 />
                         </div>
                     </td>
                 </tr>
@@ -116,7 +119,7 @@
 
     <script>
         $(document).ready(function () {
-
+           
             //date compare check
             $("#dtpArrivalToDate").datepicker({
                 format: 'YYYY-MM-DD',
@@ -145,7 +148,6 @@
             //set current date into arrival date
             $("#dtpArrivalFromDate").val(moment(currentDate).format('YYYY-MM-DD'));
             $("#dtpArrivalToDate").val(moment(currentDate).format('YYYY-MM-DD'));
-
 
             //auto complete zero fill in checkin roomno
             $('#txtCheckinRoom').on('keydown', function (e) {
@@ -184,6 +186,14 @@
                     $("#imgImage").attr('src', imagePath);
                     $("#showImageModal").modal('show');
                 }
+            });
+
+            $("#fromdate").click(function () {
+                $("#dtpArrivalFromDate").focus();
+            });
+
+            $("#todate").click(function () {
+                $("#dtpArrivalToDate").focus();
             });
         });
 
@@ -250,6 +260,8 @@
             }
             return true;
         }
+
+      
     </script>
 }
 

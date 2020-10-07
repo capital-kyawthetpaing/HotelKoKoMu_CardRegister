@@ -80,16 +80,16 @@
 @section Scripts{    
     <script>
         $(document).ready(function () {
+            alert("win");
 
-            alert("go");
             //date compare check
             $("#dtpArrivalToDate").datepicker({
                 format: 'YYYY-MM-DD',
                 todayHighlight: true,
                 onSelect: function (dateText, inst) {
-                    var arrivaldate = new Date($('#dtpArrivalFromDate').val());
-                    var departuredate = new Date($('#dtpArrivalToDate').val());
-                    if (departuredate < arrivaldate)
+                    var fromdate = new Date($('#dtpArrivalFromDate').val());
+                    var todate = new Date($('#dtpArrivalToDate').val());
+                    if (todate < fromdate)
                         ShowError("ToDate must be less than FromDate");
                 }
             })
@@ -99,9 +99,9 @@
                 format: 'YYYY-MM-DD',
                 todayHighlight: true,
                 onSelect: function (dateText, inst) {
-                    var arrivaldate = new Date($('#dtpArrivalFromDate').val());
-                    var departuredate = new Date($('#dtpArrivalToDate').val());
-                    if (departuredate < arrivaldate)
+                    var fromdate = new Date($('#dtpArrivalFromDate').val());
+                    var todate = new Date($('#dtpArrivalToDate').val());
+                    if (fromdate < todate)
                         $("#dtpArrivalToDate").val("");
                 }
             })
@@ -110,6 +110,8 @@
             //set current date into arrival date
             $("#dtpArrivalFromDate").val(moment(currentDate).format('YYYY-MM-DD'));
             $("#dtpArrivalToDate").val(moment(currentDate).format('YYYY-MM-DD'));
+
+           
 
             //fill guest information
             SearchData();
@@ -122,10 +124,10 @@
 
             $("#btnClear").click(function () {
                 var currentDate = new Date();
-                $("#dtpArrivalDate").val(moment(currentDate).format('YYYY-MM-DD'));
-                $("#dtpDepartureDate").val(moment(currentDate).format('YYYY-MM-DD'));
-                $("#CheckinRoom").val(""),
-                $("#GuestName").val(""),
+                $("#dtpArrivalFromDate").val(moment(currentDate).format('YYYY-MM-DD'));
+                $("#dtpArrivalToDate").val(moment(currentDate).format('YYYY-MM-DD'));
+                $("#txtCheckinRoom").val("");
+                $("#txtGuestName").val("");
             });
 
             //show image on table's row click event
@@ -140,7 +142,6 @@
         });
 
         function SearchData() {
-            alert("go");
               var guestinfo = {
                     ArrivalFromDate: $("#dtpArrivalFromDate").val(),
                     ArrivalToDate: $("#dtpArrivalToDate").val(),

@@ -9,11 +9,15 @@
         border: 1px solid #808080;
         border-radius: 5px;
     }
+
+    table{
+        width:100%;
+    }
 </style>
 
 <div class="divLogin col-md-4 offset-md-4">
     <div class="container">
-        <table width="100%">
+        <table>
             <tr>
                 <th>
                     <label>ホテル番号</label>
@@ -48,6 +52,7 @@
 </div>
 
 @section Scripts{  
+
     <script>
         $(document).ready(function () {
             $("#btnlogin").click(function () {

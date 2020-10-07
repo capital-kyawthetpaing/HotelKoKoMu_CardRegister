@@ -69,12 +69,14 @@ namespace HotelKoKoMu_CardRegister.Controllers
             cardInfo.Sqlprms[2] = new NpgsqlParameter("@roomno", cardInfo.RoomNo);
             cardInfo.Sqlprms[3] = new NpgsqlParameter("@guestname", cardInfo.GuestName);
 
-            string sql_cmd = "select arrival_date,departure_date,roomno,guestname_text,kananame_text,concat(address1_text,address2_text) as address from trn_guestinformation_test where arrival_date >= @arrivaldate";
+            string sql_cmd = "select arrival_date,departure_date,roomno,guestname_text,kananame_text,concat(address1_text,address2_text) as address from trn_guestinformation_test where arrival_date >= @arrivaldate and (roomno is null or roomno= @roomno) and (guestname_text is null or guestname_text=@guestname) and (departure_date is null or departure_date= @departuredate)";
+
+            //string sql_cmd = "select arrival_date,departure_date,roomno,guestname_text,kananame_text,concat(address1_text,address2_text) as address from trn_guestinformation_test where arrival_date >= @arrivaldate";
             //string sql_cmd = "select * from trn_guestinformation_test where";
             //sql_cmd += " (@arrivaldate is null or (arrival_date = @arrivaldate))";
             //sql_cmd += " and (@departuredate is null or (departure_date = @departuredate)) and (@roomno is null or (roomno = @roomno))";
             //sql_cmd += " and (@guestname is null or (guestname_text LIKE '% +@guestname+ %')) and (@guestname is null or (kananame_text LIKE '% +@guestname+ %'))";
-           
+
             DataTable dt = await bdl.SelectDataTable(sql_cmd, cardInfo.Sqlprms);
             return Ok(dt);
         }

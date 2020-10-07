@@ -4,9 +4,24 @@
     Layout = "~/Views/Shared/_HotelSystemLayout.cshtml";
 }
 <link href="~/Content/hotel.css" rel="stylesheet" />
-@*<link href="~/Content/bootstrap.min.css" rel="stylesheet" />*@
-@*<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">*@
 <style>
+    .fake-input {
+        position: relative;
+        width: 100%;
+    }
+
+        .fake-input input {
+            border: none: background:#fff;
+            display: block;
+            width: 100%;
+            box-sizing: border-box
+        }
+
+        .fake-input img {
+            position: absolute;
+            top: 2px;
+            right: 5px
+        }
 </style>
 
 <div class="row">
@@ -14,16 +29,32 @@
         <div class="col-md-2">
             <label>到着日</label>
         </div>
-        <div class="input-group col-md-6">
-            <input type="text" id="dtpArrivalFromDate" class="datepicker-here" />&emsp;<span>~</span>&emsp;<input type="text" id="dtpArrivalToDate" class="datepicker-here" />
+        <div class="col-md-6">
+            <table>
+                <tr>
+                    <td width="45%">
+                        <div class="fake-input">
+                            <input type="text" id="dtpArrivalFromDate" class="datepicker-here" /><img src="~/images/calendar.png" width=25 />
+                        </div>
+                    </td>
+                    <td style="text-align:center">
+                        <span>~</span>
+                    </td>
+                    <td width="45%">
+                        <div class="fake-input">
+                            <input type="text" id="dtpArrivalToDate" class="datepicker-here" /><img src="~/images/calendar.png" width=25 />
+                        </div>
+                    </td>
+                </tr>
+            </table>
         </div>
-        <div class="col-md-2">
-            <button type="button" id="btnSearch" class="clsbtnSearch">検 索</button>
+            <div class="col-md-2">
+                <button type="button" id="btnSearch" class="clsbtnSearch">検 索</button>
+            </div>
+            <div class="col-md-2">
+                <button type="button" id="btnClear" class="clsbtnClear">クリア</button>
+            </div>
         </div>
-        <div class="col-md-2">
-            <button type="button" id="btnClear" class="clsbtnClear">クリア</button>
-        </div>
-    </div>
 </div>
 
 <div class="row">

@@ -3,21 +3,25 @@
     ViewBag.Title = "Hotel_GuestList";
     Layout = "~/Views/Shared/_HotelSystemLayout.cshtml";
 }
-
 <link href="~/Content/hotel.css" rel="stylesheet" />
+@*<link href="~/Content/bootstrap.min.css" rel="stylesheet" />*@
+@*<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">*@
+<style>
+</style>
+
 <div class="row">
     <div class="col-md-12 form-inline">
         <div class="col-md-2">
-            <label>Arrival Date :</label>
+            <label>到着日</label>
         </div>
-        <div class="col-md-5">
+        <div class="input-group col-md-6">
             <input type="text" id="dtpArrivalFromDate" class="datepicker-here" />&emsp;<span>~</span>&emsp;<input type="text" id="dtpArrivalToDate" class="datepicker-here" />
         </div>
         <div class="col-md-2">
-            <button type="button" id="btnSearch" class="clsbtnSearch">Search</button>
+            <button type="button" id="btnSearch" class="clsbtnSearch">検 索</button>
         </div>
-        <div class="col-md-2 offset-md-1">
-            <button type="button" id="btnClear" class="clsbtnClear">Clear</button>
+        <div class="col-md-2">
+            <button type="button" id="btnClear" class="clsbtnClear">クリア</button>
         </div>
     </div>
 </div>
@@ -25,10 +29,10 @@
 <div class="row">
     <div class="col-md-12 form-inline">
         <div class="col-md-2">
-            <label>Check-in Room :</label>
+            <label>チェックイン部屋</label>
         </div>
         <div class="col-md-2">
-            <input type="text" id="txtCheckinRoom" maxlength="4" onkeypress="return isNumber(event)" />
+            <input type="text" id="txtCheckinRoom"  maxlength="4" onkeypress="return isNumber(event)" />
         </div>
     </div>
 </div>
@@ -36,7 +40,7 @@
 <div class="row">
     <div class="col-md-12  form-inline">
         <div class="col-md-2">
-            <label>Guest Name :</label>
+            <label>宿泊者名</label>
         </div>
         <div class="col-md-5">
             <input type="text" id="txtGuestName" style="width:95%;max-width:100%" />
@@ -49,12 +53,12 @@
         <table id="tblhotelguestlist" border="1" style="width:100%;">
             <thead>
                 <tr>
-                    <th>ArrivalDate</th>
-                    <th>DepartureDate</th>
-                    <th>RoomNo</th>
-                    <th>GuestName(Kanji</th>
-                    <th>GuestName(Kana)</th>
-                    <th>Address</th>
+                    <th>到着日</th>
+                    <th>出発日</th>
+                    <th>部屋番号</th>
+                    <th>宿泊者名（漢字）</th>
+                    <th>宿泊者名（カナ）</th>
+                    <th>住所</th>
                 </tr>
             </thead>
         </table>
@@ -65,22 +69,21 @@
 <div id="showImageModal" class="modal fade" role="dialog">
     <div class="modal-dialog modal-xl">
         <!-- Modal content-->
-        <div class="modal-content">           
+        <div class="modal-content">
             <div class="modal-body">
                 <div class="row">
                     <div class="col-md-12">
-                      <img id="imgImage" class="col-md-12"/>
+                        <img id="imgImage" class="col-md-12" />
                     </div>
-                </div>                
+                </div>
             </div>
         </div>
     </div>
 </div>
 
-@section Scripts{    
+@section Scripts{
     <script>
         $(document).ready(function () {
-           
 
             //date compare check
             $("#dtpArrivalToDate").datepicker({
@@ -101,7 +104,7 @@
                 onSelect: function (dateText, inst) {
                     var fromdate = new Date($('#dtpArrivalFromDate').val());
                     var todate = new Date($('#dtpArrivalToDate').val());
-                    if (fromdate < todate)
+                    if (fromdate > todate)
                         $("#dtpArrivalToDate").val("");
                 }
             })
@@ -111,14 +114,14 @@
             $("#dtpArrivalFromDate").val(moment(currentDate).format('YYYY-MM-DD'));
             $("#dtpArrivalToDate").val(moment(currentDate).format('YYYY-MM-DD'));
 
-           
+
 
             //fill guest information
             SearchData();
 
             $("#btnSearch").click(function () {
                 if (CheckValidate()) {
-                 
+
                     SearchData();
                 }
         });
@@ -152,7 +155,7 @@
                 var result= CalltoApiController('@Url.Action("searchGuestData", "api/HotelAPI/")', guestinfo)
                 BindGuestTable(result);
 
-          
+
         }
 
         function BindGuestTable(result) {

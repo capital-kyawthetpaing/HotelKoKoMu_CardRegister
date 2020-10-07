@@ -10,10 +10,12 @@
         border-radius: 5px;
     }
 
-    table{
-        width:100%;
+    table {
+        width: 100%;
     }
+
 </style>
+
 
 <div class="divLogin col-md-4 offset-md-4">
     <div class="container">
@@ -51,7 +53,7 @@
     </div>
 </div>
 
-@section Scripts{  
+@section Scripts{
 
     <script>
         $(document).ready(function () {
@@ -64,7 +66,7 @@
                 else if (response["Result"] == 2)
                     ShowError("Hotel Login","Invalid User Password");
                 else {
-                    var resultObj = response["Result"];                    
+                    var resultObj = response["Result"];
                     var LoginInfo = resultObj[0].hotel_code + '_' + resultObj[0].usercode + '_' + resultObj[0].username;
                     $.post('@Url.Action("CreateSession", "Card")',
                         { key: "HotelLoginInfo", value: LoginInfo }, function (data) {

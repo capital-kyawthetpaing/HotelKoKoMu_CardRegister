@@ -1,8 +1,10 @@
 ﻿
 @{
-    ViewBag.Title = "Hotel_GuestList";
+    ViewBag.Title = "HotelGuestList";
     Layout = "~/Views/Shared/_HotelSystemLayout.cshtml";
 }
+
+
 <link href="~/Content/hotel.css" rel="stylesheet" />
 <style>
     .fake-input {
@@ -48,13 +50,13 @@
                 </tr>
             </table>
         </div>
-            <div class="col-md-2">
-                <button type="button" id="btnSearch" class="clsbtnSearch">検 索</button>
-            </div>
-            <div class="col-md-2">
-                <button type="button" id="btnClear" class="clsbtnClear">クリア</button>
-            </div>
+        <div class="col-md-2">
+            <button type="button" id="btnSearch" class="clsbtnSearch">検 索</button>
         </div>
+        <div class="col-md-2">
+            <button type="button" id="btnClear" class="clsbtnClear">クリア</button>
+        </div>
+    </div>
 </div>
 
 <div class="row">
@@ -63,7 +65,7 @@
             <label>チェックイン部屋</label>
         </div>
         <div class="col-md-2">
-            <input type="text" id="txtCheckinRoom"  maxlength="4" onkeypress="return isNumber(event)" />
+            <input type="text" id="txtCheckinRoom" maxlength="4" onkeypress="return isNumber(event)" />
         </div>
     </div>
 </div>
@@ -146,16 +148,26 @@
             $("#dtpArrivalToDate").val(moment(currentDate).format('YYYY-MM-DD'));
 
 
-
+            //auto complete zero fill in checkin roomno
+            $('#txtCheckinRoom').on('keydown', function (e) {
+                if (e.keyCode == 13 || e.keyCode == 9) {
+                    str = $('#txtCheckinRoom').val();
+                    str = str.toString();
+                    if (str.length < 4) {
+                        var roomno = str.padStart(4, '0');
+                        $('#txtCheckinRoom').val(roomno);
+                    }
+                }
+            });
+            
             //fill guest information
             SearchData();
 
             $("#btnSearch").click(function () {
                 if (CheckValidate()) {
-
                     SearchData();
                 }
-        });
+            });
 
             $("#btnClear").click(function () {
                 var currentDate = new Date();
@@ -185,8 +197,6 @@
                  }
                 var result= CalltoApiController('@Url.Action("searchGuestData", "api/HotelAPI/")', guestinfo)
                 BindGuestTable(result);
-
-
         }
 
         function BindGuestTable(result) {
@@ -216,19 +226,6 @@
             });
         }
 
-
-        //auto complete zero fill in checkin roomno
-        $('#txtCheckinRoom').on('keydown', function (e) {
-            if (e.keyCode == 13 || e.keyCode == 9) {
-                str = $('#txtCheckinRoom').val();
-                str = str.toString();
-                if (str.length < 4) {
-                    var roomno = str.padStart(4, '0');
-                    $('#txtCheckinRoom').val(roomno);
-                }
-            }
-        });
-
         //validation
         function CheckValidate() {
             var flag = true;
@@ -256,6 +253,5 @@
         }
     </script>
 }
-
 
 

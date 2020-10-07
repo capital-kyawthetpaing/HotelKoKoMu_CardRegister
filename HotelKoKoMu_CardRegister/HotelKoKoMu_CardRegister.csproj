@@ -707,13 +707,13 @@
     <Content Include="Scripts\popper-utils.min.js.map" />
     <Content Include="Scripts\popper-utils.js.map" />
     <Content Include="Views\Card\CardRegisterPage.cshtml" />
-    <Content Include="Views\Hotel\Guest_InformationList.cshtml" />
     <Content Include="Views\Shared\_LoginLayout.cshtml" />
     <Content Include="Views\Card\Login.cshtml" />
-    <Content Include="Views\Hotel\Guest_InformationNew.cshtml" />
-    <Content Include="Views\Hotel\Hotel_GuestList.cshtml" />
-    <Content Include="Views\Hotel\Hotel_Login.cshtml" />
     <Content Include="Views\Shared\_HotelSystemLayout.cshtml" />
+    <Content Include="Views\Hotel\GuestInformationList.cshtml" />
+    <Content Include="Views\Hotel\GuestInformationNew.cshtml" />
+    <Content Include="Views\Hotel\HotelLogin.cshtml" />
+    <Content Include="Views\Hotel\HotelGuestList.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

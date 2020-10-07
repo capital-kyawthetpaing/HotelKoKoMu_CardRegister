@@ -19,36 +19,24 @@ namespace HotelKoKoMu_CardRegister.Controllers
 {
     public class HotelController : Controller
     {
-        // GET: Hotel
-        public ActionResult Index()
+        public ActionResult HotelLogin()
         {
             return View();
         }
 
-        public ActionResult Hotel_System()
+        public ActionResult HotelGuestList()
         {
             return View();
         }
 
-        public ActionResult Guest_InformationList()
+        public ActionResult GuestInformationList()
         {
             return View();
         }
 
-        public ActionResult Guest_InformationNew()
+        public ActionResult GuestInformationNew()
         {
             return View();
         }
-
-        public ActionResult Hotel_Login()
-        {
-            return View();
-        }
-
-        public ActionResult Hotel_GuestList()
-        {
-            return View();
-        }
-
     }
 }

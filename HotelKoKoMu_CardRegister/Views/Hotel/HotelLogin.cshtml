@@ -1,8 +1,10 @@
 ﻿
 @{
-    ViewBag.Title = "Hotel_Login";
+    ViewBag.Title = "HotelLogin";
     Layout = "~/Views/Shared/_LoginLayout.cshtml";
 }
+
+
 <style>
     .divLogin {
         margin-top: 200px;
@@ -13,7 +15,6 @@
     table {
         width: 100%;
     }
-
 </style>
 
 
@@ -54,7 +55,6 @@
 </div>
 
 @section Scripts{
-
     <script>
         $(document).ready(function () {
             $("#btnlogin").click(function () {
@@ -71,7 +71,7 @@
                     $.post('@Url.Action("CreateSession", "Card")',
                         { key: "HotelLoginInfo", value: LoginInfo }, function (data) {
 
-                            location.href = '@Url.Action("Hotel_GuestList", "Hotel")';
+                            location.href = '@Url.Action("HotelGuestList", "Hotel")';
                         });
                 }
             });

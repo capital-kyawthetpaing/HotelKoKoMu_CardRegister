@@ -90,7 +90,7 @@
                     var fromdate = new Date($('#dtpArrivalFromDate').val());
                     var todate = new Date($('#dtpArrivalToDate').val());
                     if (todate < fromdate)
-                        ShowError("ToDate must be less than FromDate");
+                        ShowError("ToDate must be greater than FromDate");
                 }
             })
 

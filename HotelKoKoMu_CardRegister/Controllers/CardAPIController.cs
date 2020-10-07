@@ -318,6 +318,7 @@ namespace HotelKoKoMu_CardRegister.Controllers
         public async Task<IHttpActionResult> ValidateLogin(LoginInfo info)
         {
             BaseDL bdl = new BaseDL();
+            var loginStatus = new object();
             info.Sqlprms = new NpgsqlParameter[5];
             info.Sqlprms[0] = new NpgsqlParameter("@SystemID", info.SystemID);
             info.Sqlprms[1] = new NpgsqlParameter("@PmsID", info.PmsID);
@@ -326,7 +327,15 @@ namespace HotelKoKoMu_CardRegister.Controllers
             info.Sqlprms[4] = new NpgsqlParameter("@HotelCode", info.HotelCode);
             string sql_cmd = "select * from trn_guestinformation where systemid=@SystemID and pmsid=@PmsID and pmspassword=@PmsPassword and machineno=@MachineNo and hotel_code=@HotelCode";
             DataTable dt =await bdl.SelectDataTable(sql_cmd, info.Sqlprms);
-            return Ok(dt);
+            if (dt.Rows.Count == 0)
+            {
+                loginStatus = new { Result = 0 };//login failed;
+            }
+            else
+            {
+                loginStatus = new { Result = dt };
+            }
+            return Ok(loginStatus);
         }
 
         [HttpPost]

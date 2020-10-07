@@ -11,4 +11,5 @@ namespace HotelKoKoMu_CardRegister.Models
         public string HotelName { get; set; }
         public string LogoData { get; set; }
     }
+
 }

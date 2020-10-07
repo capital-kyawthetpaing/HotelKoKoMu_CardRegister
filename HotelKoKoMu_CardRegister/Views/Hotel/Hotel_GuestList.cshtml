@@ -4,32 +4,49 @@
     Layout = "~/Views/Shared/_HotelSystemLayout.cshtml";
 }
 
-
-
-<div class="row" style="display:flex ">
-    <div class="col-md-12">
-        <label class="col-xl-2">ArrivalDate</label>
-        <input type="text" id="dtpArrivalDate" class="datepicker-here" />
-        ~
-        <input type="text" id="dtpDepartureDate" class="datepicker-here" />
-        <button type="button" id="btnSearch">Search</button>
-        <button type="button" id="btnClear">Clear</button>
-    </div>
-    <div class="col-md-12">
-        <label class="col-xl-2">Checkin-Room</label>
-        <input type="text" id="CheckinRoom" maxlength="4"  />
-    </div>
-    <div class="col-md-12">
-        <label class="col-xl-2">GuestName</label>
-        <input type="text" id="GuestName" />
+<link href="~/Content/hotel.css" rel="stylesheet" />
+<div class="row">
+    <div class="col-md-12 form-inline">
+        <div class="col-md-2">
+            <label>Arrival Date :</label>
+        </div>
+        <div class="col-md-5">
+            <input type="text" id="dtpArrivalFromDate" class="datepicker-here" />&emsp;<span>~</span>&emsp;<input type="text" id="dtpArrivalToDate" class="datepicker-here" />
+        </div>
+        <div class="col-md-2">
+            <button type="button" id="btnSearch" class="clsbtnSearch">Search</button>
+        </div>
+        <div class="col-md-2 offset-md-1">
+            <button type="button" id="btnClear" class="clsbtnClear">Clear</button>
+        </div>
     </div>
 </div>
 
+<div class="row">
+    <div class="col-md-12 form-inline">
+        <div class="col-md-2">
+            <label>Check-in Room :</label>
+        </div>
+        <div class="col-md-2">
+            <input type="text" id="txtCheckinRoom" maxlength="4" />
+        </div>
+    </div>
+</div>
 
+<div class="row">
+    <div class="col-md-12  form-inline">
+        <div class="col-md-2">
+            <label>Guest Name :</label>
+        </div>
+        <div class="col-md-5">
+            <input type="text" id="txtGuestName" style="width:95%;max-width:100%" />
+        </div>
+    </div>
+</div>
 
-<div class="row col-md-12">
-    <div class="table-responsive">
-        <table id="tblHotel_guestlist" border="1" width="100%">
+<div class="row">
+    <div class="col-md-12">
+        <table id="tblhotelguestlist" border="1" style="width:100%;">
             <thead>
                 <tr>
                     <th>ArrivalDate</th>
@@ -44,69 +61,119 @@
     </div>
 </div>
 
-@section Scripts{
-   
+
+<div id="showImageModal" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-xl">
+        <!-- Modal content-->
+        <div class="modal-content">           
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12">
+                      <img id="imgImage" class="col-md-12"/>
+                    </div>
+                </div>                
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts{    
     <script>
         $(document).ready(function () {
 
             var currentDate = new Date();
+
             //set current date into arrival date
-            $("#dtpArrivalDate").val(moment(currentDate).format('YYYY-MM-DD'));
-            $("#dtpDepartureDate").val(moment(currentDate).format('YYYY-MM-DD'));
-            SearchData();
-        });
+            $("#dtpArrivalFromDate").val(moment(currentDate).format('YYYY-MM-DD'));
+            $("#dtpArrivalToDate").val(moment(currentDate).format('YYYY-MM-DD'));
 
-        $("#btnSearch").click(function () {
+            //fill guest information
             SearchData();
-        });
 
-        $("#btnClear").click(function () {
-            $("#CheckinRoom").val(""),
-            $("#GuestName").val(""),
-            $("#GuestName").val("")
+            $("#btnSearch").click(function () {
+                SearchData();
+            });
+
+            //clear data
+            $("#btnClear").click(function () {
+                $("#txtCheckinRoom").val("");
+                $("#txtGuestName").val("");
+                $("#dtpArrivalFromDate").val(moment(currentDate).format('YYYY-MM-DD'));
+                $("#dtpArrivalToDate").val(moment(currentDate).format('YYYY-MM-DD'));
+
+            });
+
+            //show image on table's row click event
+            $('#tblhotelguestlist tbody').on('click', 'tr', function () {
+                var data = table.row(this).data();                
+                if (data["imagedata"] != null) {
+                    var imagePath = "/" + data["hotel_code"] + "/" + data["imagedata"];
+                    $("#imgImage").attr('src', imagePath);
+                    $("#showImageModal").modal('show');
+                }
+            });
         });
 
         function SearchData() {
-
-            var cardinfo = {
-                ArrivalDate: $("#dtpArrivalDate").val(),
-                DepartureDate: $("#dtpDepartureDate").val(),
-                RoomNo: $("#CheckinRoom").val(),
-                GuestName: $("#GuestName").val(),
-                KanaName: $("#GuestName").val()
-            }
-
-            var result = CalltoApiController("/api/HotelAPI/Search_GuestData", cardinfo);
-           
-            if (result.length > 0) {
+              var guestinfo = {
+                    ArrivalFromDate: $("#dtpArrivalFromDate").val(),
+                    ArrivalToDate: $("#dtpArrivalToDate").val(),
+                    RoomNo: $("#txtCheckinRoom").val(),
+                    GuestName: $("#txtGuestName").val()
+                 }
+                var result= CalltoApiController('@Url.Action("searchGuestData", "api/HotelAPI/")', guestinfo)
                 BindGuestTable(result);
-            }
+
+            @*if (CheckValidate()) {
+                 var guestinfo = {
+                    ArrivalFromDate: $("#dtpArrivalFromDate").val(),
+                    ArrivalToDate: $("#dtpArrivalToDate").val(),
+                    RoomNo: $("#txtCheckinRoom").val(),
+                    GuestName: $("#txtGuestName").val()
+                 }
+                var result= CalltoApiController('@Url.Action("searchGuestData", "api/HotelAPI/")', guestinfo)
+                BindGuestTable(result);
+            }*@
         }
 
         function BindGuestTable(result) {
-
-            table = $('#tblHotel_guestlist').DataTable({
-
-                data: result,
+            table = $('#tblhotelguestlist').DataTable({
                 "bFilter": false,
                 "bLengthChange": false,
                 "bInfo": false,
                 destroy: true,
                 scrollX: true,
                 paging: false,
+                data: result,
                 "columns": [
-
                     { "data": "arrival_date"},
                     { "data": "departure_date" },
                     { "data": "roomno" },
                     { "data": "guestname_text" },
                     { "data": "kananame_text"},
                     { "data": "address"},
-                ]
+                ],
+                "columnDefs": [{
+                    "targets": [0,1],
+                    "data": "",
+                    "render": function (data) {
+                        return moment(data).format("YYYY-MM-DD");
+                    }
+                }]
             });
-
         }
 
+        //check validation
+        function CheckValidate() {
+            var flag = false;
+            str = $('#txtCheckinRoom').val();
+            str = str.toString();
+            if (str.length < 4)
+                ShowError("Hotel System","Please Check Your Check-in Room");
+            else
+                flag = true;
+            return flag;
+        }
     </script>
 }
 

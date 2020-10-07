@@ -1,0 +1,20 @@
+﻿
+.clsbtnSearch,
+.clsbtnClear {
+    text-align: center;
+    border-radius: 2px;
+    font-size: 16px;
+    color: white;
+}
+.clsbtnClear {
+    width: 50%;    
+    background-color: #d74715;   
+}
+
+.clsbtnSearch {
+    width: 70%;   
+    background-color: #1b5696;
+}
+.row{
+    margin-top:5px;
+}

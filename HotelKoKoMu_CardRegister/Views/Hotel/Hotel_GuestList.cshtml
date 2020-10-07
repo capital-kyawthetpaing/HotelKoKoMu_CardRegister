@@ -81,15 +81,19 @@
     <script>
         $(document).ready(function () {
 
+            var currentDate = new Date();
+            //set current date into arrival date
+            $("#dtpArrivalFromDate").val(moment(currentDate).format('YYYY-MM-DD'));
+            $("#dtpArrivalToDate").val(moment(currentDate).format('YYYY-MM-DD'));
 
             //date compare check
             $("#dtpArrivalToDate").datepicker({
                 format: 'YYYY-MM-DD',
                 todayHighlight: true,
                 onSelect: function (dateText, inst) {
-                    var arrivaldate = new Date($('#dtpArrivalFromDate').val());
-                    var departuredate = new Date($('#dtpArrivalToDate').val());
-                    if (departuredate < arrivaldate)
+                    var fromdate = new Date($('#dtpArrivalFromDate').val());
+                    var todate = new Date($('#dtpArrivalToDate').val());
+                    if (todate < fromdate)
                         ShowError("ToDate must be less than FromDate");
                 }
             })
@@ -99,17 +103,12 @@
                 format: 'YYYY-MM-DD',
                 todayHighlight: true,
                 onSelect: function (dateText, inst) {
-                    var arrivaldate = new Date($('#dtpArrivalFromDate').val());
-                    var departuredate = new Date($('#dtpArrivalToDate').val());
-                    if (departuredate < arrivaldate)
+                    var fromdate = new Date($('#dtpArrivalFromDate').val());
+                    var todate = new Date($('#dtpArrivalToDate').val());
+                    if (fromdate < todate)
                         $("#dtpArrivalToDate").val("");
                 }
             })
-
-            var currentDate = new Date();
-            //set current date into arrival date
-            $("#dtpArrivalFromDate").val(moment(currentDate).format('YYYY-MM-DD'));
-            $("#dtpArrivalToDate").val(moment(currentDate).format('YYYY-MM-DD'));
 
             //fill guest information
             SearchData();

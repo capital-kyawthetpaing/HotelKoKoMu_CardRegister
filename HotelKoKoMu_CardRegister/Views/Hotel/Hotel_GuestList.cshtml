@@ -80,11 +80,7 @@
 @section Scripts{    
     <script>
         $(document).ready(function () {
-
-            var currentDate = new Date();
-            //set current date into arrival date
-            $("#dtpArrivalFromDate").val(moment(currentDate).format('YYYY-MM-DD'));
-            $("#dtpArrivalToDate").val(moment(currentDate).format('YYYY-MM-DD'));
+            alert("win");
 
             //date compare check
             $("#dtpArrivalToDate").datepicker({
@@ -110,6 +106,13 @@
                 }
             })
 
+            var currentDate = new Date();
+            //set current date into arrival date
+            $("#dtpArrivalFromDate").val(moment(currentDate).format('YYYY-MM-DD'));
+            $("#dtpArrivalToDate").val(moment(currentDate).format('YYYY-MM-DD'));
+
+           
+
             //fill guest information
             SearchData();
 
@@ -121,10 +124,10 @@
 
             $("#btnClear").click(function () {
                 var currentDate = new Date();
-                $("#dtpArrivalDate").val(moment(currentDate).format('YYYY-MM-DD'));
-                $("#dtpDepartureDate").val(moment(currentDate).format('YYYY-MM-DD'));
-                $("#CheckinRoom").val(""),
-                $("#GuestName").val(""),
+                $("#dtpArrivalFromDate").val(moment(currentDate).format('YYYY-MM-DD'));
+                $("#dtpArrivalToDate").val(moment(currentDate).format('YYYY-MM-DD'));
+                $("#txtCheckinRoom").val("");
+                $("#txtGuestName").val("");
             });
 
             //show image on table's row click event

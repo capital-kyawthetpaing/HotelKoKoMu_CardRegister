@@ -28,7 +28,7 @@
     <div>
         <div class="container" style="margin-top:10px;">
             <div class="card">
-                <h5 class="card-header" id="hoteltitle" style="margin-top: 15px;border-radius: unset; background-color: #1b5696">
+                <h5 class="card-header" id="hoteltitle" style="margin-top: 15px;border-radius: unset; background-color: #1b5696;">
                 </h5>
                 <div class="card-body">
                     
@@ -47,8 +47,7 @@
         var HotelObj = { HotelNo: '@hotelcode' };
         var result = CalltoApiController('@Url.Action("getHotelInformation", "api/HotelAPI/")', HotelObj);
         if (result != "") {
-           // var hotelInfo = '<img src="data:image/png;base64,' + result[0].logo_data + '" class="imgcss text-left" style="width:60px; height:40px;">' + result[0].hotel_name +'<label class="text-right">'+@username+'</label>';
-            @*var hotelInfo = '<img src="data:image/png;base64,' + result[0].logo_data + '" class="imgcss text-left" style="width:60px; height:40px;">' + result[0].hotel_name+'<label class="text-right">'+@username+'</label>';*@
+            var hotelInfo = '<img src="data:image/png;base64,' + result[0].logo_data + '" class="imgcss text-left" style="width:60px; height:40px;"><label>' + result[0].hotel_name + '</label><span class="text-right;" style="float:right;font-size:medium;">@username</span>';
             $("#hoteltitle").append(hotelInfo);
         }
     })

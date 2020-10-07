@@ -80,7 +80,7 @@
 @section Scripts{    
     <script>
         $(document).ready(function () {
-            alert("win");
+           
 
             //date compare check
             $("#dtpArrivalToDate").datepicker({
@@ -90,7 +90,7 @@
                     var fromdate = new Date($('#dtpArrivalFromDate').val());
                     var todate = new Date($('#dtpArrivalToDate').val());
                     if (todate < fromdate)
-                        ShowError("ToDate must be less than FromDate");
+                        ShowError("ToDate must be greater than FromDate");
                 }
             })
 
@@ -117,9 +117,10 @@
             SearchData();
 
             $("#btnSearch").click(function () {
-            if (CheckValidate()) {
-                SearchData();
-            }
+                if (CheckValidate()) {
+                 
+                    SearchData();
+                }
         });
 
             $("#btnClear").click(function () {
@@ -196,7 +197,7 @@
 
         //validation
         function CheckValidate() {
-            var flag = false;
+            var flag = true;
 
             str = $('#txtCheckinRoom').val();
             if (str != "") {

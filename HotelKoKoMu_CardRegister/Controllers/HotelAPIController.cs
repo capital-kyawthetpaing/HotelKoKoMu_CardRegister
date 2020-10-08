@@ -66,13 +66,15 @@ namespace HotelKoKoMu_CardRegister.Controllers
             BaseDL bdl = new BaseDL();
             NpgsqlParameter[] Sqlprms = new NpgsqlParameter[0];
             string condition = string.Empty;
-            condition += " where Cast(arrival_date as Date) between Cast('" + searchGuestInfo.ArrivalFromDate + "' as Date) and Cast('" + searchGuestInfo.ArrivalToDate + "' as Date)";
+            condition =" and hotel_code='"+searchGuestInfo.HotelCode+"'";           
+            if(!(searchGuestInfo.ArrivalFromDate==DateTime.MinValue && searchGuestInfo.ArrivalToDate==DateTime.MinValue))
+                condition += " and Cast(arrival_date as Date) between Cast('" + searchGuestInfo.ArrivalFromDate + "' as Date) and Cast('" + searchGuestInfo.ArrivalToDate + "' as Date)";
             if (!string.IsNullOrEmpty(searchGuestInfo.RoomNo))
-                condition += " and lpad(roomno, 4, '0')='" + searchGuestInfo.RoomNo + "'";
+                condition += " and lpad(roomno, 4, '0')=lpad('" + searchGuestInfo.RoomNo + "',4,\'0\')";           
             if (!string.IsNullOrEmpty(searchGuestInfo.GuestName))
-                condition +=" and (guestname_hotel like '%"+searchGuestInfo.GuestName+"%' or kananame_hotel like '%"+ searchGuestInfo.GuestName + "%')";
+                condition += " and (guestname_hotel like '%" +searchGuestInfo.GuestName+"%' or kananame_hotel like '%"+ searchGuestInfo.GuestName + "%')";
                 
-            string sql_cmd = "select arrival_date,departure_date,lpad(roomno, 4, '0') as roomno,guestname_text,kananame_text,concat(address1_text,address2_text) as address,hotel_code,imagedata from trn_guestinformation" + condition;           
+            string sql_cmd = "select arrival_date,departure_date,lpad(roomno, 4, '0') as roomno,guestname_text,kananame_text,concat(address1_text,address2_text) as address,hotel_code,imagedata from trn_guestinformation where complete_flag=1" + condition;           
             DataTable dt = await bdl.SelectDataTable(sql_cmd, Sqlprms);
             return Ok(dt);
         }

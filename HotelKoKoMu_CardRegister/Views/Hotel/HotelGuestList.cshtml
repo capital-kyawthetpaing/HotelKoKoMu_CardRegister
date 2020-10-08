@@ -143,9 +143,7 @@
             SearchData();
 
             $("#btnSearch").click(function () {
-                if (CheckValidate()) {
-                    SearchData();
-                }
+                SearchData();
             });
 
             $("#btnClear").click(function () {
@@ -176,11 +174,13 @@
         });
 
         function SearchData() {
+           
               var guestinfo = {
                     ArrivalFromDate: $("#dtpArrivalFromDate").val(),
                     ArrivalToDate: $("#dtpArrivalToDate").val(),
                     RoomNo: $("#txtCheckinRoom").val(),
-                    GuestName: $("#txtGuestName").val()
+                    GuestName: $("#txtGuestName").val(),
+                    HotelCode: $("#lblhotelcode").text()
                  }
                 var result= CalltoApiController('@Url.Action("searchGuestData", "api/HotelAPI/")', guestinfo)
                 BindGuestTable(result);

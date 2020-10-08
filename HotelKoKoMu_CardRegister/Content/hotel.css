@@ -19,3 +19,26 @@
 .row{
     margin-top:5px;
 }
+
+.fake-input {
+    position: relative;
+    width: 100%;
+}
+
+    .fake-input input {
+        border: none: background:#fff;
+        display: block;
+        width: 100%;
+        box-sizing: border-box
+    }
+
+    .fake-input img {
+        position: absolute;
+        top: 2px;
+        right: 5px
+    }
+
+.datepicker {
+    top: 200px;
+}
+    

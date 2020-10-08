@@ -1,167 +1,206 @@
 ﻿
 @{
     ViewBag.Title = "GuestInformationNew";
-    Layout = "~/Views/Shared/_HotelSystemLayout.cshtml";  
+    Layout = "~/Views/Shared/_HotelSystemLayout.cshtml";
 }
+<link href="@Url.Content("~/Content/hotel.css")" rel="stylesheet" />
 
+<style>
+    .fake-input {
+        width: 70%;
+    }
+</style>
 
 <div class="row">
-    <div class="col-md-6">
-        <table>
-            <tr>
-                <td>
-                    <label>SystemID</label>
-                </td>
-                <td>
-                    <input id="SystemID" type="text" />
-                </td>
-                <td>
-                    <label>PmsID</label>
-                </td>
-                <td>
-                    <input id="PmsID" type="text" />
-                </td>
-            </tr>
-
-            <tr>
-                <td>
-                    <label>PmsPassword</label>
-                </td>
-                <td>
-                    <input id="PmsPassword" type="text" />
-                </td>
-                <td>
-                    <label>HotelCode</label>
-                </td>
-                <td>
-                    <input id="HotelCode" type="text" />
-                </td>
-            </tr>
-
-            <tr>
-                <td>
-                    <label>MachineNo</label>
-                </td>
-                <td>
-                    <input id="MachineNo" type="text" />
-                </td>
-                <td>
-                    <label>SystemDate</label>
-                </td>
-                <td>
-                    <input id="SystemDate" type="date" />
-                </td>
-            </tr>
-
-            <tr>
-                <td>
-                    <label>ReservationNo</label>
-                </td>
-                <td>
-                    <input id="ReservationNo" type="text" />
-                </td>
-                <td>
-                    <label>RoomNo</label>
-                </td>
-                <td>
-                    <input id="RoomNo" type="text" />
-                </td>
-            </tr>
-
-            <tr>
-                <td>
-                    <label>ArriveDate</label>
-                </td>
-                <td>
-                    <input id="ArriveDate" type="date" />
-                </td>
-                <td>
-                    <label>DepartureDate</label>
-                </td>
-                <td>
-                    <input id="DepartureDate" type="date" />
-                </td>
-            </tr>
-
-            <tr>
-                <td>
-                    <label>NameKanji</label>
-                </td>
-                <td>
-                    <input id="NameKanji" type="text" />
-                </td>
-                <td>
-                    <label>NameKana</label>
-                </td>
-                <td>
-                    <input id="NameKana" type="text" />
-                </td>
-            </tr>
-
-            <tr>
-                <td>
-                    <label>ZipCode</label>
-                </td>
-                <td>
-                    <input id="ZipCode" type="text" />
-                </td>
-                <td>
-                    <label>Tel</label>
-                </td>
-                <td>
-                    <input id="Tel" type="text" />
-                </td>
-            </tr>
-
-            <tr>
-                <td>
-                    <label>Address1</label>
-                </td>
-                <td>
-                    <input id="Address1" type="text" />
-                </td>
-                <td>
-                    <label>Address2</label>
-                </td>
-                <td>
-                    <input id="Address2" type="text" />
-                </td>
-            </tr>
-
-            <tr>
-                <td>
-                    <label>Company</label>
-                </td>
-                <td>
-                    <input id="Company" type="text" />
-                </td>
-                <td>
-                    <label>Nationality</label>
-                </td>
-                <td>
-                    <input id="Nationality" type="text" />
-                </td>
-            </tr>
-
-            <tr>
-                <td>
-                    <label>PassportNo</label>
-                </td>
-                <td>
-                    <input id="PassportNo" type="text" />
-                </td>
-            </tr>
-        </table>
+    <div class="col-md-12 form-inline">
+        <div class="col-md-2">
+            <label>SystemID</label>
+        </div>
+        <div class="col-md-4">
+            <input type="text" id="SystemID" />
+        </div>
+        <div class="col-md-2">
+            <label>PmsID</label>
+        </div>
+        <div class="col-md-4">
+            <input type="text" id="PmsID" />
+        </div>
     </div>
 </div>
-<br />
-<div class="row">
+
+<div class="row" style="margin-top:15px;">
+    <div class="col-md-12 form-inline">
+        <div class="col-md-2">
+            <label>PmsPassword</label>
+        </div>
+        <div class="col-md-4">
+            <input type="text" id="PmsPassword" />
+        </div>
+        <div class="col-md-2">
+            <label>HotelCode</label>
+        </div>
+        <div class="col-md-4">
+            <input type="text" id="HotelCode" />
+        </div>
+    </div>
+
+</div>
+
+<div class="row" style="margin-top:15px;">
+    <div class="col-md-12 form-inline">
+        <div class="col-md-2">
+            <label>MachineNo</label>
+        </div>
+        <div class="col-md-4">
+            <input type="text" id="MachineNo" />
+        </div>
+        <div class="col-md-2">
+            <label>SystemDate</label>
+        </div>
+    <div class="col-md-4">
+        <div class="fake-input">
+            <input type="text" id="SystemDate" class="datepicker-here" /><img id="todate" src="~/images/calendar.png" width=25 />
+        </div>
+    </div>
+    </div>
+</div>
+
+<div class="row" style="margin-top:15px;">
+    <div class="col-md-12 form-inline">
+        <div class="col-md-2">
+            <label>ReservationNo</label>
+        </div>
+        <div class="col-md-4">
+            <input type="text" id="ReservationNo" />
+        </div>
+        <div class="col-md-2">
+            <label>RoomNo</label>
+        </div>
+        <div class="col-md-4">
+            <input type="text" id="RoomNo" />
+        </div>
+    </div>
+</div>
+
+<div class="row" style="margin-top:15px;">
+    <div class="col-md-12 form-inline">
+        <div class="col-md-2">
+            <label>ArriveDate</label>
+        </div>
+        <div class="col-md-4">
+            <div class="fake-input">
+                <input type="text" id="ArriveDate" class="datepicker-here" /><img id="arrivaldate" src="~/images/calendar.png" width=25 />
+            </div>
+        </div>
+        <div class="col-md-2">
+            <label>DepartureDate</label>
+        </div>
+        <div class="col-md-4">
+            <div class="fake-input">
+                <input type="text" id="DepartureDate" class="datepicker-here" /><img id="departuredate" src="~/images/calendar.png" width=25 />
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="row" style="margin-top:15px;">
+    <div class="col-md-12 form-inline">
+        <div class="col-md-2">
+            <label>NameKanji</label>
+        </div>
+        <div class="col-md-4">
+            <input type="text" id="NameKanji" />
+        </div>
+        <div class="col-md-2">
+            <label>NameKana</label>
+        </div>
+        <div class="col-md-4">
+            <input type="text" id="NameKana" />
+        </div>
+    </div>
+
+</div>
+
+<div class="row" style="margin-top:15px;">
+    <div class="col-md-12 form-inline">
+        <div class="col-md-2">
+            <label>ZipCode</label>
+        </div>
+        <div class="col-md-4">
+            <input type="text" id="ZipCode" />
+        </div>
+        <div class="col-md-2">
+            <label>Tel</label>
+        </div>
+        <div class="col-md-4">
+            <input type="text" id="Tel" />
+        </div>
+    </div>
+
+</div>
+
+<div class="row" style="margin-top:15px;">
+    <div class="col-md-12 form-inline">
+        <div class="col-md-2">
+            <label>Address1</label>
+        </div>
+        <div class="col-md-4">
+            <input type="text" id="Address1" />
+        </div>
+        <div class="col-md-2">
+            <label>Address2</label>
+        </div>
+        <div class="col-md-4">
+            <input type="text" id="Address2" />
+        </div>
+    </div>
+
+</div>
+
+<div class="row" style="margin-top:15px;">
+    <div class="col-md-12 form-inline">
+        <div class="col-md-2">
+            <label>Company</label>
+        </div>
+        <div class="col-md-4">
+            <input type="text" id="Company" />
+        </div>
+        <div class="col-md-2">
+            <label>Nationality</label>
+        </div>
+        <div class="col-md-4">
+            <input type="text" id="Nationality" />
+        </div>
+    </div>
+
+</div>
+
+<div class="row" style="margin-top:15px;">
+    <div class="col-md-12 form-inline">
+        <div class="col-md-2">
+            <label>PassportNo</label>
+        </div>
+        <div class="col-md-4">
+            <input type="text" id="PassportNo" />
+        </div>
+    </div>
+
+</div>
+</br>
+
+@*<div class="row">
     <div class="col-xl-12 text-center">
         <div class="text-s font-weight-bold text-custom1 text-uppercase mb-1">
             <button type="submit" id="btnSave" class="btn btn-success col-xl-2" tabindex="38"><i class="fa fa-save"></i>&nbsp; Save</button>
         </div>
     </div>
+</div>*@
+
+    <div class="col-md-4 offset-md-4">
+    <button type="button" id="btnSave" class="clsbtnSearch">Save</button>
 </div>
+
 
 @section Scripts{
     <script>

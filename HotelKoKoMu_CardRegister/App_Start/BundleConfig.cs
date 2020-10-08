@@ -21,7 +21,7 @@ namespace HotelKoKoMu_CardRegister
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                       "~/Scripts/bootstrap.js",
-                      //"~/Scripts/jquery.dd.js",
+                      "~/Scripts/jquery.dd.js",
                       "~/Scripts/Common.js",
                       "~/Scripts/datepicker.js",
                       "~/Scripts/datepicker.en.js",

@@ -481,8 +481,11 @@
                     $('#tdPassport').append(CreateImageControl(canvas.toDataURL(), "imgPassport"));
             }
             else if (commonName == "tdSign") {
-                $("#tdSign").html('');
-                $('#tdSign').append(CreateImageControl(canvas.toDataURL(), "imgSign"));
+                if (!isCanvasBlank(document.getElementById('csvRegister')))
+                {
+                    $("#tdSign").html('');
+                    $('#tdSign').append(CreateImageControl(canvas.toDataURL(), "imgSign"));
+                }
             }
             ClearData();
             $('#CardRegisterModal').modal('hide');
@@ -553,6 +556,13 @@
                 ShowError(" サインをご記入ください。");
             
             return flag;
+        }
+
+        function isCanvasBlank(canvas) {           
+            var blank = document.createElement('canvas');              
+            blank.width = canvas.width;
+            blank.height = canvas.height;
+            return canvas.toDataURL() === blank.toDataURL();
         }
 
     </script>

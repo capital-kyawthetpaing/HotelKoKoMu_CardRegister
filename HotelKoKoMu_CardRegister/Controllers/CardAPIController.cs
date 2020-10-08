@@ -86,8 +86,7 @@ namespace HotelKoKoMu_CardRegister.Controllers
                 {
                     //card registeration data exist
                     if (dt.Rows.Count > 0 && result1.Item2 == "Success")
-                        cardRegistrationObj = new { Success = result1.Item1 };
-                    // cardRegistrationObj = "{success:"+result1.Item1+"}";
+                        cardRegistrationObj = new { Success = result1.Item1 };                    
                     //card registeration data does not exist
                     else if (dt.Rows.Count == 0 && result1.Item2 == "Success")
                         cardRegistrationObj = new { NotData = "" };

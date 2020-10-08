@@ -169,14 +169,14 @@ namespace HotelKoKoMu_CardRegister.Controllers
             Tuple<string, string> result =await bdl.SelectJson(sql, cardRegisterInfo.Sqlprms);
             DataTable dt = JsonConvert.DeserializeObject<DataTable>(result.Item1);
             if (dt.Rows.Count > 0)
-            {
+            {               
                 NpgsqlParameter[] param = new NpgsqlParameter[5];
                 param[0] = new NpgsqlParameter("@reservationno", NpgsqlDbType.Varchar) { Value = dt.Rows[0]["reservationno"].ToString() };
                 param[1] = new NpgsqlParameter("@roomno", NpgsqlDbType.Varchar) { Value = dt.Rows[0]["roomno"].ToString() };
-                param[2] = new NpgsqlParameter("@systemdate", NpgsqlDbType.Date) { Value = dt.Rows[0]["systemdate"].ToString() };
+                param[2] = new NpgsqlParameter("@systemdate", NpgsqlDbType.Date) { Value = Convert.ToDateTime(dt.Rows[0]["systemdate"].ToString()) };
                 param[3] = new NpgsqlParameter("@hotelcode", NpgsqlDbType.Varchar) { Value = cardRegisterInfo.HotelCode };
-                param[4] = new NpgsqlParameter("@createddate", NpgsqlDbType.Date) { Value =dt.Rows[0]["created_date"].ToString() };
-                string sql1 = "Update trn_guestinformation set flag = 2 where reservationno = @reservationno and roomno = @roomno and  CAST(systemdate as DATE)= CAST(@systemdate AS DATE) and CAST(created_date as DATE)= CAST(@createddate AS DATE) and hotel_code=@hotelcode and flag=1 and complete_flag=1";
+                param[4] = new NpgsqlParameter("@createddate", NpgsqlDbType.Date) { Value = Convert.ToDateTime(dt.Rows[0]["created_date"].ToString()) };
+                string sql1 = "Update trn_guestinformation set flag=2 where reservationno=@reservationno and roomno=@roomno and  CAST(systemdate as DATE)=CAST(@systemdate AS DATE) and CAST(created_date as DATE)= CAST(@createddate AS DATE) and hotel_code=@hotelcode and flag=1 and complete_flag=1";
                 string result2 =await bdl.InsertUpdateDeleteData(sql1, param);
                 if (result2 == "true")
                 {
@@ -187,7 +187,6 @@ namespace HotelKoKoMu_CardRegister.Controllers
                     {
                         var dirPath = HttpContext.Current.Server.MapPath("~/" + cardRegisterInfo.HotelCode);
                         dirPath = dirPath + "//" + filename;
-
                         using (System.Drawing.Image image = System.Drawing.Image.FromFile(dirPath))
                         {
                             using (MemoryStream ms = new MemoryStream())
@@ -213,11 +212,8 @@ namespace HotelKoKoMu_CardRegister.Controllers
                         returnStatus = new { Error = result.Item2 };
                 }
             }
-            else
-            {
-                //not yet save or update in table
-                returnStatus = new { NotStart = "" };
-            }
+            else 
+                returnStatus = new { NotStart = "" };            
             return Ok(returnStatus);
         }
        

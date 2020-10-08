@@ -63,11 +63,6 @@ namespace HotelKoKoMu_CardRegister.ContextDB
             {
                 return ex.ErrorCode+":"+ex.InnerException;
             }
-            //catch (Exception ex)
-            //{
-            //    string msg =ex.Message;
-            //    return ex.Message;
-            //}
         }
 
         private NpgsqlParameter[] ChangeToDBNull(NpgsqlParameter[] para)

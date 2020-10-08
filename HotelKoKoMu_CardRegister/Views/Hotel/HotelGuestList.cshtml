@@ -4,33 +4,11 @@
     Layout = "~/Views/Shared/_HotelSystemLayout.cshtml";
 }
 <link href="@Url.Content("~/Content/hotel.css")" rel="stylesheet" />
-<style>
-    .fake-input {
-        position: relative;
-        width: 100%;
-    }
-
-        .fake-input input {
-            border: none: background:#fff;
-            display: block;
-            width: 100%;
-            box-sizing: border-box
-        }
-
-        .fake-input img {
-            position: absolute;
-            top: 2px;
-            right: 5px
-        }
-        .datepicker{
-            top:200px;
-        }
-</style>
 
 <div class="row">
-    <div class="col-md-12 form-inline">
+    <div class="col-md-12 form-inline" style="padding:2px;">
         <div class="col-md-2">
-            <label>到着日</label>
+            <label>到着日 :</label>
         </div>
         <div class="col-md-6">
             <table>
@@ -54,16 +32,16 @@
         <div class="col-md-2">
             <button type="button" id="btnSearch" class="clsbtnSearch">検 索</button>
         </div>
-        <div class="col-md-2">
-            <button type="button" id="btnClear" class="clsbtnClear">クリア</button>
+        <div class="col-md-1 offset-md-1">
+            <button type="button" id="btnClear" class="clsbtnClear" style="width:100%;">クリア</button>
         </div>
     </div>
 </div>
 
 <div class="row">
-    <div class="col-md-12 form-inline">
+    <div class="col-md-12 form-inline" style="padding:2px;">
         <div class="col-md-2">
-            <label>チェックイン部屋</label>
+            <label>チェックイン部屋 :</label>
         </div>
         <div class="col-md-2">
             <input type="text" id="txtCheckinRoom" maxlength="4" onkeypress="return isNumber(event)" />
@@ -72,9 +50,9 @@
 </div>
 
 <div class="row">
-    <div class="col-md-12  form-inline">
+    <div class="col-md-12 form-inline" style="padding:2px;">
         <div class="col-md-2">
-            <label>宿泊者名</label>
+            <label>宿泊者名 :</label>
         </div>
         <div class="col-md-5">
             <input type="text" id="txtGuestName" style="width:95%;max-width:100%" />
@@ -116,10 +94,10 @@
 </div>
 
 @section Scripts{
-
+   
     <script>
         $(document).ready(function () {
-           
+
             //date compare check
             $("#dtpArrivalToDate").datepicker({
                 format: 'YYYY-MM-DD',
@@ -261,7 +239,7 @@
             return true;
         }
 
-      
+
     </script>
 }
 

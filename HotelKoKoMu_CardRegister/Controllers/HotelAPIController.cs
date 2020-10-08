@@ -72,7 +72,7 @@ namespace HotelKoKoMu_CardRegister.Controllers
                 condition += " and lpad(roomno, 4, '0')=lpad('" + searchGuestInfo.RoomNo + "',4,\'0\')";           
             if (!string.IsNullOrEmpty(searchGuestInfo.GuestName))
                 condition += " and (guestname_hotel like '%" +searchGuestInfo.GuestName+"%' or kananame_hotel like '%"+ searchGuestInfo.GuestName + "%')";                
-            string sql_cmd = "select arrival_date,departure_date,lpad(roomno, 4, '0') as roomno,guestname_text,kananame_text,concat(address1_text,address2_text) as address,hotel_code,imagedata from trn_guestinformation where complete_flag=1" + condition;           
+            string sql_cmd = "select arrival_date,departure_date,lpad(roomno, 4, '0') as roomno,guestname_text,kananame_text,concat(address1_text,address2_text) as address,hotel_code,imagedata from trn_guestinformation where flag=1 and complete_flag=1" + condition+ " order by arrival_date,roomno,kananame_text";           
             DataTable dt = await bdl.SelectDataTable(sql_cmd, Sqlprms);
             return Ok(dt);
         }

@@ -9,12 +9,12 @@
 }
 
 .clsbtnClear {
-    width: 60%;
-    background-color: #d74715;
+    width: 100%;
+    background-color: #d74715;    
 }
 
 .clsbtnSearch {
-    width: 80%;
+    width: 100%;
     background-color: #1b5696;
 }
 

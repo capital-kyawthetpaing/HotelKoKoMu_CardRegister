@@ -7,198 +7,192 @@
 
 <style>
     .fake-input {
-        width: 70%;
+        width: 80%;
+    }
+    .row {
+        margin-top: 15px;
     }
 </style>
 
 <div class="row">
     <div class="col-md-12 form-inline">
         <div class="col-md-2">
-            <label>SystemID</label>
+            <label>System ID :</label>
         </div>
         <div class="col-md-4">
-            <input type="text" id="SystemID" />
+            <input type="text" id="txtSystemID" />
         </div>
         <div class="col-md-2">
-            <label>PmsID</label>
+            <label>Pms ID :</label>
         </div>
         <div class="col-md-4">
-            <input type="text" id="PmsID" />
+            <input type="text" id="txtPmsID" />
         </div>
     </div>
 </div>
 
-<div class="row" style="margin-top:15px;">
+<div class="row">
     <div class="col-md-12 form-inline">
         <div class="col-md-2">
-            <label>PmsPassword</label>
+            <label>Pms Password :</label>
         </div>
         <div class="col-md-4">
-            <input type="text" id="PmsPassword" />
+            <input type="text" id="txtPmsPassword" />
         </div>
         <div class="col-md-2">
-            <label>HotelCode</label>
+            <label>Hotel Code :</label>
         </div>
         <div class="col-md-4">
-            <input type="text" id="HotelCode" />
-        </div>
-    </div>
-
-</div>
-
-<div class="row" style="margin-top:15px;">
-    <div class="col-md-12 form-inline">
-        <div class="col-md-2">
-            <label>MachineNo</label>
-        </div>
-        <div class="col-md-4">
-            <input type="text" id="MachineNo" />
-        </div>
-        <div class="col-md-2">
-            <label>SystemDate</label>
-        </div>
-    <div class="col-md-4">
-        <div class="fake-input">
-            <input type="text" id="SystemDate" class="datepicker-here" /><img id="todate" src="~/images/calendar.png" width=25 />
-        </div>
-    </div>
-    </div>
-</div>
-
-<div class="row" style="margin-top:15px;">
-    <div class="col-md-12 form-inline">
-        <div class="col-md-2">
-            <label>ReservationNo</label>
-        </div>
-        <div class="col-md-4">
-            <input type="text" id="ReservationNo" />
-        </div>
-        <div class="col-md-2">
-            <label>RoomNo</label>
-        </div>
-        <div class="col-md-4">
-            <input type="text" id="RoomNo" />
+            <input type="text" id="txtHotelCode" />
         </div>
     </div>
 </div>
 
-<div class="row" style="margin-top:15px;">
+<div class="row">
     <div class="col-md-12 form-inline">
         <div class="col-md-2">
-            <label>ArriveDate</label>
+            <label>Machine No. :</label>
         </div>
         <div class="col-md-4">
+            <input type="text" id="txtMachineNo" />
+        </div>
+        <div class="col-md-2">
+            <label>System Date :</label>
+        </div>
+        <div class="col-md-3">
             <div class="fake-input">
-                <input type="text" id="ArriveDate" class="datepicker-here" /><img id="arrivaldate" src="~/images/calendar.png" width=25 />
-            </div>
-        </div>
-        <div class="col-md-2">
-            <label>DepartureDate</label>
-        </div>
-        <div class="col-md-4">
-            <div class="fake-input">
-                <input type="text" id="DepartureDate" class="datepicker-here" /><img id="departuredate" src="~/images/calendar.png" width=25 />
+                <input type="text" id="txtSystemDate" class="datepicker-here" /><img id="todate" src="~/images/calendar.png" width=25 />
             </div>
         </div>
     </div>
-
 </div>
 
-<div class="row" style="margin-top:15px;">
+<div class="row">
     <div class="col-md-12 form-inline">
         <div class="col-md-2">
-            <label>NameKanji</label>
+            <label>Reservation No. :</label>
         </div>
         <div class="col-md-4">
-            <input type="text" id="NameKanji" />
+            <input type="text" id="txtReservationNo" />
         </div>
         <div class="col-md-2">
-            <label>NameKana</label>
+            <label>Room No. :</label>
         </div>
         <div class="col-md-4">
-            <input type="text" id="NameKana" />
+            <input type="text" id="txtRoomNo" />
         </div>
     </div>
-
 </div>
 
-<div class="row" style="margin-top:15px;">
+
+<div class="row">
     <div class="col-md-12 form-inline">
         <div class="col-md-2">
-            <label>ZipCode</label>
+            <label>Name Kanji :</label>
         </div>
         <div class="col-md-4">
-            <input type="text" id="ZipCode" />
+            <input type="text" id="txtNameKanji" />
         </div>
         <div class="col-md-2">
-            <label>Tel</label>
+            <label>Name Kana :</label>
         </div>
         <div class="col-md-4">
-            <input type="text" id="Tel" />
+            <input type="text" id="txtNameKana" />
         </div>
     </div>
 
 </div>
 
-<div class="row" style="margin-top:15px;">
+<div class="row">
     <div class="col-md-12 form-inline">
         <div class="col-md-2">
-            <label>Address1</label>
+            <label>Arrive Date :</label>
         </div>
         <div class="col-md-4">
-            <input type="text" id="Address1" />
+            <div class="fake-input">
+                <input type="text" id="txtArriveDate" class="datepicker-here" /><img id="arrivaldate" src="~/images/calendar.png" width=25 />
+            </div>
         </div>
         <div class="col-md-2">
-            <label>Address2</label>
+            <label>Departure Date :</label>
         </div>
         <div class="col-md-4">
-            <input type="text" id="Address2" />
+            <div class="fake-input">
+                <input type="text" id="txtDepartureDate" class="datepicker-here" /><img id="departuredate" src="~/images/calendar.png" width=25 />
+            </div>
         </div>
     </div>
 
 </div>
 
-<div class="row" style="margin-top:15px;">
+<div class="row">
     <div class="col-md-12 form-inline">
         <div class="col-md-2">
-            <label>Company</label>
+            <label>ZipCode :</label>
         </div>
         <div class="col-md-4">
-            <input type="text" id="Company" />
+            <input type="text" id="txtZipCode" />
         </div>
         <div class="col-md-2">
-            <label>Nationality</label>
+            <label>Tel :</label>
         </div>
         <div class="col-md-4">
-            <input type="text" id="Nationality" />
+            <input type="text" id="txtTel" />
         </div>
     </div>
 
 </div>
 
-<div class="row" style="margin-top:15px;">
+<div class="row">
     <div class="col-md-12 form-inline">
         <div class="col-md-2">
-            <label>PassportNo</label>
+            <label>Company :</label>
         </div>
         <div class="col-md-4">
-            <input type="text" id="PassportNo" />
+            <input type="text" id="txtCompany" />
+        </div>
+        <div class="col-md-2">
+            <label>Nationality :</label>
+        </div>
+        <div class="col-md-4">
+            <input type="text" id="txtNationality" />
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12 form-inline">
+        <div class="col-md-2">
+            <label>Passport No. :</label>
+        </div>
+        <div class="col-md-4">
+            <input type="text" id="txtPassportNo" />
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12 form-inline">
+        <div class="col-md-2">
+            <label>Address1 :</label>
+        </div>
+        <div class="col-md-4">
+            <textarea id="txtAddress1"></textarea>            
+        </div>
+        <div class="col-md-2">
+            <label>Address2 :</label>
+        </div>
+        <div class="col-md-4">
+            <textarea id="txtAddress2"></textarea>           
         </div>
     </div>
 
 </div>
-</br>
 
-@*<div class="row">
-    <div class="col-xl-12 text-center">
-        <div class="text-s font-weight-bold text-custom1 text-uppercase mb-1">
-            <button type="submit" id="btnSave" class="btn btn-success col-xl-2" tabindex="38"><i class="fa fa-save"></i>&nbsp; Save</button>
-        </div>
-    </div>
-</div>*@
-
+<div class="row">
     <div class="col-md-4 offset-md-4">
-    <button type="button" id="btnSave" class="clsbtnSearch">Save</button>
+        <button type="button" id="btnSave" class="clsbtnSearch">Save</button>
+    </div>
 </div>
 
 
@@ -207,22 +201,17 @@
         $(document).ready(function () {
             $("#btnSave").click(function () {
 
-                var GuestInformation = { SystemID: $("#SystemID").val(), PmsID: $("#PmsID").val(), PmsPassword: $("#PmsPassword").val(), MachineNo: $("#MachineNo").val(), HotelCode: $("#HotelCode").val(), ReservationNo: $("#ReservationNo").val(), RoomNo: $("#RoomNo").val(), SystemDate: $("#SystemDate").val(), GuestName: $("#NameKanji").val(), KanaName: $("#NameKana").val(), ZipCode: $("#ZipCode").val(), Tel: $("#Tel").val(), Address1: $("#Address1").val(), Address2: $("#Address2").val(), Company: $("#Company").val(), Nationality: $("#Nationality").val(), Passport: $("#PassportNo").val(), ArrivalDate: $("#ArriveDate").val(), DepartureDate: $("#DepartureDate").val() };
+                var GuestInformation = { SystemID: $("#txtSystemID").val(), PmsID: $("#txtPmsID").val(), PmsPassword: $("#txtPmsPassword").val(), MachineNo: $("#txtMachineNo").val(), HotelCode: $("#txtHotelCode").val(), ReservationNo: $("#txtReservationNo").val(), RoomNo: $("#txtRoomNo").val(), SystemDate: $("#txtSystemDate").val(), NameKanji: $("#txtNameKanji").val(), NameKana: $("#txtNameKana").val(), ZipCode: $("#txtZipCode").val(), Tel: $("#txtTel").val(), Address1: $("#txtAddress1").val(), Address2: $("#txtAddress2").val(), Company: $("#txtCompany").val(), Nationality: $("#txtNationality").val(), PassportNo: $("#txtPassportNo").val(), ArriveDate: $("#txtArriveDate").val(), DepartureDate: $("#txtDepartureDate").val() };
                 var response = CalltoApiController('@Url.Action("requestForRegistrationCard", "api/CardAPI/")', GuestInformation);
-                if (response == "true") {
-
+                if (response["Status"] == "true") {
                     swal.fire({
                         icon: 'success',
                         title: 'Guest Information',
                         text: 'Successfully Saved...'
                     });
                  }
-                 else {
-                     swal.fire({
-                         icon: 'error',
-                         title: 'Guest Information',
-                         text: response
-                     })
+                else {
+                    ShowError("Guest Information", response["Status"]);                    
                  }
              });
         });

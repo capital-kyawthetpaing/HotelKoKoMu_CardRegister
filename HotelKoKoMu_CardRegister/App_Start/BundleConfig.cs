@@ -21,14 +21,13 @@ namespace HotelKoKoMu_CardRegister
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                       "~/Scripts/bootstrap.js",
-                      "~/Scripts/jquery.dd.js",
+                      //"~/Scripts/jquery.dd.js",
                       "~/Scripts/Common.js",
                       "~/Scripts/datepicker.js",
                       "~/Scripts/datepicker.en.js",
                       "~/Scripts/SweetAlert2.js",
                       "~/Scripts/moment.js",
-                      "~/Scripts/html2canvas.js",
-                      "~/Vendor/DataTables/datatables.min.js",
+                      "~/Scripts/html2canvas.js",                      
                       "~/Vendor/DataTables/DataTables-1.10.22/js/jquery.dataTables.min.js",
                       "~/Vendor/DataTables/DataTables-1.10.22/js/dataTables.bootstrap4.min.js"
                       ));
@@ -36,12 +35,10 @@ namespace HotelKoKoMu_CardRegister
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
                       "~/Content/site.css",
-                      "~/Content/dd.css",                      
+                      "~/Content/dd.css",
                       "~/Content/Global.css",
                       "~/Content/datepicker.css",
-                      "~/Vendor/DataTables/datatables.min.css",
                       "~/Vendor/DataTables/DataTables-1.10.22/css/dataTables.bootstrap4.min.css"
-                      //"~/Vendor/DataTables/DataTables-1.10.22/css/jquery.dataTables.min.css"
                       ));
         }
     }

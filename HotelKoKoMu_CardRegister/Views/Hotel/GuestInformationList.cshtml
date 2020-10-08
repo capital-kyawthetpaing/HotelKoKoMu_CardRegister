@@ -1,6 +1,6 @@
 ﻿
 @{
-    ViewBag.Title = "GuestInformationList";
+    ViewBag.Title = "GuestInformationList";    
     Layout = "~/Views/Shared/_CardRegisterLayout.cshtml";
 }
 
@@ -29,18 +29,17 @@
     </div>
 </div>
 
-
 @section Scripts{
     <script>
         $(document).ready(function () {
-
             var CardRegisterInfo = { SystemID: $("#lblsystemid").text(), PmsID: $("#lblPmsId").text(), PmsPassword: $("#lblPmsPassword").text(), HotelCode: $("#lblhotelCode").text(), MachineNo: $("#lblmachineno").text() };
             var result = CalltoApiController('@Url.Action("getRegistrationCardData", "api/CardAPI/")', CardRegisterInfo);
-
             var response = result.Success;
-            BindGuestInformationTable(response);
+            alert(response);
+            if (response != undefined) {
+                BindGuestInformationTable(response);
+            }
         });
-
 
         function BindGuestInformationTable(response) {
 
@@ -55,7 +54,6 @@
                 scrollX: true,
                 paging: false,
                 "columns": [
-
                     { "data": "hotel_code", orderable: false },
                     { "data": "reservationno", orderable: false },
                     { "data": "roomno", orderable: false },

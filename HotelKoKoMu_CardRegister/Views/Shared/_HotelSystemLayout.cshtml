@@ -31,12 +31,14 @@
                 <h5 class="card-header" id="hoteltitle" style="margin-top: 15px;border-radius: unset; background-color: #1b5696;">
                 </h5>
                 <div class="card-body">
-                    
                     @RenderBody()
                 </div>
             </div>
         </div>
     </div>
+
+    <label id="lblhotelcode" class="d-none">@hotelcode</label>
+    <label id="lblusercode" class="d-none">@usercode</label>    
 </body>
 </html>
 @RenderSection("scripts", required: false)

@@ -13,7 +13,7 @@ namespace HotelKoKoMu_CardRegister.Controllers
 
     public class CardController : MultiLanguageController
     {
-       
+       [Authorize]
         public ActionResult CardRegisterPage()
         {
             return View();

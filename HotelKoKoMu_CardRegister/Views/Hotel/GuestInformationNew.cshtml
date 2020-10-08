@@ -169,7 +169,7 @@
             $("#btnSave").click(function () {
 
                 var GuestInformation = { SystemID: $("#SystemID").val(), PmsID: $("#PmsID").val(), PmsPassword: $("#PmsPassword").val(), MachineNo: $("#MachineNo").val(), HotelCode: $("#HotelCode").val(), ReservationNo: $("#ReservationNo").val(), RoomNo: $("#RoomNo").val(), SystemDate: $("#SystemDate").val(), GuestName: $("#NameKanji").val(), KanaName: $("#NameKana").val(), ZipCode: $("#ZipCode").val(), Tel: $("#Tel").val(), Address1: $("#Address1").val(), Address2: $("#Address2").val(), Company: $("#Company").val(), Nationality: $("#Nationality").val(), Passport: $("#PassportNo").val(), ArrivalDate: $("#ArriveDate").val(), DepartureDate: $("#DepartureDate").val() };
-                var response = CalltoApiController('@Url.Action("GuestInfo_Save", "api/HotelAPI/")', GuestInformation);
+                var response = CalltoApiController('@Url.Action("requestForRegistrationCard", "api/CardAPI/")', GuestInformation);
                 if (response == "true") {
 
                     swal.fire({

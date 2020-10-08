@@ -87,10 +87,10 @@ namespace HotelKoKoMu_CardRegister.Controllers
         public async Task<IHttpActionResult> getHotelInformation(HotelInfo hotelInfo)
         {
             BaseDL bdl = new BaseDL();
-            hotelInfo.Sqlprms = new NpgsqlParameter[1];
-            hotelInfo.Sqlprms[0] = new NpgsqlParameter("@hotel_code", hotelInfo.HotelNo);
+            NpgsqlParameter[] Sqlprms = new NpgsqlParameter[1];
+            Sqlprms[0] = new NpgsqlParameter("@hotel_code", hotelInfo.HotelNo);
             string cmdText = "Select hotel_name,logo_data from mst_hotel where hotel_code=@hotel_code";
-            DataTable dt = await bdl.SelectDataTable(cmdText, hotelInfo.Sqlprms);
+            DataTable dt = await bdl.SelectDataTable(cmdText,Sqlprms);
             return Ok(dt);
         }
     }

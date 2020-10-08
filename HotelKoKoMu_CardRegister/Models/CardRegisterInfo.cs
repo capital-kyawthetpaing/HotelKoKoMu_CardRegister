@@ -5,7 +5,7 @@ using System.Web;
 
 namespace HotelKoKoMu_CardRegister.Models
 {
-    public class CardRegisterInfo:BaseInfo
+    public class CardRegisterInfo
     {
         public string SystemID { get; set; }
         public string PmsID { get; set; }        
@@ -29,6 +29,7 @@ namespace HotelKoKoMu_CardRegister.Models
         public DateTime DepartureDate { get; set; }
         public string Sign { get; set; }
         public string ImageData { get; set; }
-       
+        public string Creator { get; set; }
+        public string Updator { get; set; }
     }
 }

@@ -13,9 +13,13 @@ namespace HotelKoKoMu_CardRegister.Controllers
 
     public class CardController : MultiLanguageController
     {
-       
+       //[SessionExpireFilter]
         public ActionResult CardRegisterPage()
         {
+            //if(Session["CardInfo"] ==null)
+            //{
+            //    return RedirectToAction("Login", "Card");
+            //}
             return View();
         }
 

@@ -164,13 +164,13 @@
                 }
             }, 3000);
 
-            var currentDate = new Date();
-            //set current date into arrival date
-            $("#dtpArrivalDate").val(moment(currentDate).format('YYYY-MM-DD'));
+           // var currentDate = new Date();
+           // //set current date into arrival date
+           // $("#dtpArrivalDate").val(moment(currentDate).format('YYYY-MM-DD'));
 
-            //set departure date (current date + 1)
-           var dtDepartureDate = currentDate.setDate(currentDate.getDate() + 1);
-            $("#dtpDepartureDate").val(moment(dtDepartureDate).format('YYYY-MM-DD'));
+           // //set departure date (current date + 1)
+           //var dtDepartureDate = currentDate.setDate(currentDate.getDate() + 1);
+           // $("#dtpDepartureDate").val(moment(dtDepartureDate).format('YYYY-MM-DD'));
 
             $("#btnInputKeyboard").click(function () {
                 $("#divCanvas").addClass('d-none');
@@ -322,16 +322,16 @@
                                              $(this).html('');
                                          }
                                      });
-                                     $('#tdArrivalDate').append('<input id="dtpArrivalDate" name="lblDepartureDate" class="datepicker-here" placeholder="yyyy-mm-dd" disabled />');
-                                     $('#tdDepartureDate').append('<input id="dtpDepartureDate" name="lblDepartureDate" class="datepicker-here" placeholder="yyyy-mm-dd" disabled />');
+                                     //$('#tdArrivalDate').append('<input id="dtpArrivalDate" name="lblDepartureDate" class="datepicker-here" placeholder="yyyy-mm-dd" disabled />');
+                                     //$('#tdDepartureDate').append('<input id="dtpDepartureDate" name="lblDepartureDate" class="datepicker-here" placeholder="yyyy-mm-dd" disabled />');
 
-                                     var currentDate = new Date();
-                                     //set current date into arrival date
-                                     $("#dtpArrivalDate").val(moment(currentDate).format('YYYY-MM-DD'));
+                                     //var currentDate = new Date();
+                                     ////set current date into arrival date
+                                     //$("#dtpArrivalDate").val(moment(currentDate).format('YYYY-MM-DD'));
 
-                                     //set departure date (current date + 1)
-                                     var dtDepartureDate = currentDate.setDate(currentDate.getDate() + 1);
-                                     $("#dtpDepartureDate").val(moment(dtDepartureDate).format('YYYY-MM-DD'));
+                                     ////set departure date (current date + 1)
+                                     //var dtDepartureDate = currentDate.setDate(currentDate.getDate() + 1);
+                                     //$("#dtpDepartureDate").val(moment(dtDepartureDate).format('YYYY-MM-DD'));
 
                                      intervalFlag = 0;
                                  });
@@ -521,8 +521,7 @@
                         $("#lblSystemDate").text(cardObj[0].systemdate);
                         $("#lblReservationNo").text(cardObj[0].reservationno);
                         $("#lblRoomNo").text(cardObj[0].roomno);
-                        $("#lblCreatedDate").text(cardObj[0].created_date);
-
+                        $("#lblCreatedDate").text(cardObj[0].created_date);                    
                         if (cardObj[0].guestname_hotel != null)
                             $('#tdGuestName').append(CreateLabelControl(cardObj[0].guestname_hotel, "lblGuestName"));
                         if (cardObj[0].kananame_hotel != null)
@@ -541,6 +540,10 @@
                             $('#tdNationality').append(CreateLabelControl(cardObj[0].nationality_hotel, "lblNationality"));
                         if (cardObj[0].passportno_hotel != null)
                             $('#tdPassport').append(CreateLabelControl(cardObj[0].passportno_hotel, "lblPassport"));
+                        if (cardObj[0].arrivaldate_hotel != null) 
+                            $("#dtpArrivalDate").val(moment(cardObj[0].arrivaldate_hotel).format('YYYY-MM-DD'));
+                        if (cardObj[0].departuredate_hotel != null)
+                            $("#dtpDepartureDate").val(moment(cardObj[0].departuredate_hotel).format('YYYY-MM-DD'));
                     }
             }
         }

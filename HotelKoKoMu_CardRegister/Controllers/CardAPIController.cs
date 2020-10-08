@@ -341,6 +341,7 @@ namespace HotelKoKoMu_CardRegister.Controllers
         {
             BaseDL bdl = new BaseDL();           
             DateTime currentDate = DateTime.Now;
+            
             NpgsqlParameter[] para = new NpgsqlParameter[20];           
             para[0] = new NpgsqlParameter("@SystemID", cardRegisterInfo.SystemID);
             para[1] = new NpgsqlParameter("@PmsID", cardRegisterInfo.PmsID);
@@ -349,8 +350,8 @@ namespace HotelKoKoMu_CardRegister.Controllers
             para[4] = new NpgsqlParameter("@MachineNo", cardRegisterInfo.MachineNo);
             para[5] = new NpgsqlParameter("@systemdate", cardRegisterInfo.SystemDate);
             para[6] = new NpgsqlParameter("@reservationno", cardRegisterInfo.ReservationNo);
-            para[7] = new NpgsqlParameter("@roomno", cardRegisterInfo.RoomNo);
-            para[8] = new NpgsqlParameter("@arrDate", cardRegisterInfo.ArriveDate);
+            para[7] = new NpgsqlParameter("@roomno", cardRegisterInfo.RoomNo);            
+            para[8] = new NpgsqlParameter("@arrDate", cardRegisterInfo.ArriveDate);            
             para[9] = new NpgsqlParameter("@deptDate", cardRegisterInfo.DepartureDate);
             para[10] = new NpgsqlParameter("@guestName", cardRegisterInfo.NameKanji);
             para[11] = new NpgsqlParameter("@kanaName", cardRegisterInfo.NameKana);
@@ -379,7 +380,6 @@ namespace HotelKoKoMu_CardRegister.Controllers
         public async Task<IHttpActionResult> getRequestForRegistrationCard(CardRegisterInfo cardRegisterInfo)
         {
             var cardRegistrationObj = new object();
-
             BaseDL bdl = new BaseDL();
             NpgsqlParameter[] Sqlprms = new NpgsqlParameter[5];
             Sqlprms[0] = new NpgsqlParameter("@systemid", NpgsqlDbType.Varchar) { Value = cardRegisterInfo.SystemID };
@@ -388,7 +388,7 @@ namespace HotelKoKoMu_CardRegister.Controllers
             Sqlprms[3] = new NpgsqlParameter("@hotelcode", NpgsqlDbType.Varchar) { Value = cardRegisterInfo.HotelCode };
             Sqlprms[4] = new NpgsqlParameter("@machineno", NpgsqlDbType.Varchar) { Value = cardRegisterInfo.MachineNo };
 
-            string sql = "Select hotel_code,created_date,systemdate,reservationno, roomno, guestname_hotel, kananame_hotel, zipcode_hotel, tel_hotel, address1_hotel, address2_hotel, company_hotel, nationality_hotel, passportno_hotel from trn_guestinformation";
+            string sql = "Select hotel_code,created_date,systemdate,reservationno, roomno, guestname_hotel, kananame_hotel, zipcode_hotel, tel_hotel, address1_hotel, address2_hotel, company_hotel, nationality_hotel, passportno_hotel,arrivaldate_hotel,departuredate_hotel from trn_guestinformation";
             sql += " where pmsid=@pmsid and systemid=@systemid and  pmspassword=@pmspassword and  machineno=@machineno and hotel_code=@hotelcode and flag=0 and complete_flag=0 order by created_date limit 1";
             Tuple<string, string> result1 = await bdl.SelectJson(sql,Sqlprms);
             DataTable dt = JsonConvert.DeserializeObject<DataTable>(result1.Item1);

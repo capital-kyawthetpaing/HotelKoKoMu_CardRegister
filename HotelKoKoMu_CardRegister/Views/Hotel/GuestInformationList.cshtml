@@ -35,9 +35,9 @@
             var result = CalltoApiController('@Url.Action("getRegistrationCardData", "api/CardAPI/")', CardRegisterInfo);
             var response = result.Success;
             alert(response);
-            if (response != undefined) {
-                BindGuestInformationTable(response);
-            }
+            //if (response != undefined) {
+            //    BindGuestInformationTable(response);
+            //}
         });
 
         function BindGuestInformationTable(response) {

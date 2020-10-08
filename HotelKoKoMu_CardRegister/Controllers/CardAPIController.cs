@@ -18,6 +18,7 @@ using System.Web.Hosting;
 using System.IO;
 using System.Drawing;
 using Newtonsoft.Json;
+using System.Globalization;
 
 namespace HotelKoKoMu_CardRegister.Controllers
 {
@@ -473,6 +474,7 @@ namespace HotelKoKoMu_CardRegister.Controllers
         [ActionName("getRegistrationCardData")]
         public async Task<IHttpActionResult> getRegistrationCardData(CardRegisterInfo cardRegisterInfo)
         {
+            GetCardDatainfo getinfo = new GetCardDatainfo();
             var returnStatus = new object();
             BaseDL bdl = new BaseDL();
             NpgsqlParameter[] Sqlprms = new NpgsqlParameter[5];
@@ -498,6 +500,19 @@ namespace HotelKoKoMu_CardRegister.Controllers
                 string result2 = await bdl.InsertUpdateDeleteData(sql1, param);
                 if (result2 == "true")
                 {
+                    getinfo.SystemDate = Convert.ToDateTime(dt.Rows[0]["systemdate"].ToString());
+                    getinfo.ReservationNo = dt.Rows[0]["reservationno"].ToString();
+                    getinfo.RoomNo = dt.Rows[0]["roomno"].ToString();
+                    getinfo.NameKanji = dt.Rows[0]["guestname_text"].ToString();
+                    getinfo.NameKana = dt.Rows[0]["kananame_text"].ToString();
+                    getinfo.ZipCode = dt.Rows[0]["zipcode_text"].ToString();
+                    getinfo.Tel = dt.Rows[0]["tel_text"].ToString();
+                    getinfo.Address1 = dt.Rows[0]["address1_text"].ToString();
+                    getinfo.Address2 = dt.Rows[0]["address2_text"].ToString();
+                    getinfo.Company = dt.Rows[0]["company_text"].ToString();
+                    getinfo.Nationality = dt.Rows[0]["nationality_text"].ToString();
+                    getinfo.PassportNo = dt.Rows[0]["passportno_text"].ToString();
+
                     string filename = dt.Rows[0]["imagedata"].ToString();
                     string flag = dt.Rows[0]["flag"].ToString();
                     string completeflag = dt.Rows[0]["complete_flag"].ToString();
@@ -514,14 +529,16 @@ namespace HotelKoKoMu_CardRegister.Controllers
                                 byte[] imageBytes = ms.ToArray();
                                 base64String = Convert.ToBase64String(imageBytes);
                                 dt.Rows[0]["imagedata"] = base64String;
-                                string jsonstring = JsonConvert.SerializeObject(dt);
-                                result = new Tuple<string, string>(jsonstring, result.Item2);
+                                //string jsonstring = JsonConvert.SerializeObject(dt);
+                                //result = new Tuple<string, string>(jsonstring, result.Item2);
+                                getinfo.ImageData = dt.Rows[0]["imagedata"].ToString();
                             }
                         }
                     }
+
                     //save success , update success and return getregisterdata
                     if (flag == "1" && completeflag == "1" && result.Item2 == "Success")
-                        returnStatus = new { Success = result.Item1 };
+                        returnStatus = new { Success = getinfo };
                     //still writing
                     else if (flag == "1" && completeflag == "0" && result.Item2 == "Success")
                         returnStatus = new { Writing = "" };

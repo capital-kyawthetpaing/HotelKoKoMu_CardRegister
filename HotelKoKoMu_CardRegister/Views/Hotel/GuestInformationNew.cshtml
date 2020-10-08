@@ -7,8 +7,26 @@
 
 <style>
     .fake-input {
-        width: 80%;
+        position: relative;
+        width: 74%;
     }
+
+        .fake-input input {
+            display: block;
+            width: 100%;
+            box-sizing: border-box
+        }
+
+        .fake-input img {
+            position: absolute;
+            top: 2px;
+            right: 5px
+        }
+
+    .datepicker {
+        top: 200px;
+    }
+    
     .row {
         margin-top: 15px;
     }
@@ -59,9 +77,9 @@
         <div class="col-md-2">
             <label>System Date :</label>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-3 col-sm-7">
             <div class="fake-input">
-                <input type="text" id="txtSystemDate" class="datepicker-here" /><img id="todate" src="~/images/calendar.png" width=25 />
+                <input type="text" id="txtSystemDate" class="datepicker-here" /><img id="systemdate" src="~/images/calendar.png" width=25 />
             </div>
         </div>
     </div>
@@ -108,15 +126,15 @@
         <div class="col-md-2">
             <label>Arrive Date :</label>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-3 col-sm-7">
             <div class="fake-input">
                 <input type="text" id="txtArriveDate" class="datepicker-here" /><img id="arrivaldate" src="~/images/calendar.png" width=25 />
             </div>
         </div>
-        <div class="col-md-2">
+        <div class="col-md-2 offset-md-1">
             <label>Departure Date :</label>
         </div>
-        <div class="col-md-4">
+        <div class="col-md-3  col-sm-7">
             <div class="fake-input">
                 <input type="text" id="txtDepartureDate" class="datepicker-here" /><img id="departuredate" src="~/images/calendar.png" width=25 />
             </div>
@@ -199,6 +217,25 @@
 @section Scripts{
     <script>
         $(document).ready(function () {
+
+            var currentDate = new Date();
+            var dtDepartureDate = currentDate.setDate(currentDate.getDate() + 1);
+            //set current date into arrival date
+            $("#txtArriveDate").val(moment(currentDate).format('YYYY-MM-DD'));
+            $("#txtDepartureDate").val(moment(dtDepartureDate).format('YYYY-MM-DD'));
+            $("#txtSystemDate").val(moment(currentDate).format('YYYY-MM-DD'));
+            $("#arrivaldate").click(function () {
+                $("#txtArriveDate").focus();
+            });
+
+            $("#departuredate").click(function () {
+                $("#txtDepartureDate").focus();
+            });
+
+            $("#systemdate").click(function () {
+                $("#txtSystemDate").focus();
+            });            
+
             $("#btnSave").click(function () {
 
                 var GuestInformation = { SystemID: $("#txtSystemID").val(), PmsID: $("#txtPmsID").val(), PmsPassword: $("#txtPmsPassword").val(), MachineNo: $("#txtMachineNo").val(), HotelCode: $("#txtHotelCode").val(), ReservationNo: $("#txtReservationNo").val(), RoomNo: $("#txtRoomNo").val(), SystemDate: $("#txtSystemDate").val(), NameKanji: $("#txtNameKanji").val(), NameKana: $("#txtNameKana").val(), ZipCode: $("#txtZipCode").val(), Tel: $("#txtTel").val(), Address1: $("#txtAddress1").val(), Address2: $("#txtAddress2").val(), Company: $("#txtCompany").val(), Nationality: $("#txtNationality").val(), PassportNo: $("#txtPassportNo").val(), ArriveDate: $("#txtArriveDate").val(), DepartureDate: $("#txtDepartureDate").val() };

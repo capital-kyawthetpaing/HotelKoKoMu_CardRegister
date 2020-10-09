@@ -168,15 +168,25 @@
                     GuestName: $("#txtGuestName").val(),
                     HotelCode: $("#lblhotelcode").text()
                  }
-                var result= CalltoApiController('@Url.Action("searchGuestData", "api/HotelAPI/")', guestinfo)
-                BindGuestTable(result);
+            var result = CalltoApiController('@Url.Action("searchGuestData", "api/HotelAPI/")', guestinfo)
+            if (result.Result == 0) {
+                ShowError("Please Check your check-in RoomNo");
+            }
+            else if (result.Result == 1) {
+
+            }
+            else {
+                BindGuestTable(result.Result);
+            } 
         }
 
-        function BindGuestTable(result) {
+        function BindGuestTable(response) {
+          
             table = $('#tblhotelguestlist').DataTable({
                 "language": {
                     "emptyTable": " "
                 },
+                data: JSON.parse(response),
                 "bFilter": false,
                 "bLengthChange": false,
                 "bInfo": false,
@@ -219,6 +229,7 @@
         //}
 
         //number only
+
         function isNumber(evt) {
             evt = (evt) ? evt : window.event;
             var charCode = (evt.which) ? evt.which : evt.keyCode;

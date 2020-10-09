@@ -121,5 +121,35 @@ namespace HotelKoKoMu_CardRegister.ContextDB
         {
             return JsonConvert.SerializeObject(table);
         }
+
+        public  DataTable SelectDataTable_Info(string sSQL, NpgsqlParameter[] param)
+        {
+            DataTable dt = new DataTable
+            {
+                TableName = "data"
+            };
+            try
+            {
+                var newCon = new NpgsqlConnection(conStr);
+                using (var adapt = new NpgsqlDataAdapter(sSQL, newCon))
+                {
+                    newCon.Open();
+                    NpgsqlCommand cmd = new NpgsqlCommand(sSQL, newCon);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    if (param != null)
+                    {
+                        param = ChangeToDBNull(param);
+                        adapt.SelectCommand.Parameters.AddRange(param);
+                    }
+                    adapt.Fill(dt);
+                    newCon.Close();
+                }
+            }
+            catch (Exception ex)
+            {
+                string msg = ex.Message;
+            }
+            return dt;
+        }
     }
 }

@@ -62,19 +62,40 @@ namespace HotelKoKoMu_CardRegister.Controllers
         [ActionName("searchGuestData")]
         public async Task<IHttpActionResult> searchGuestData(SearchGuestInfo searchGuestInfo)
         {
-            BaseDL bdl = new BaseDL();
-            NpgsqlParameter[] Sqlprms = new NpgsqlParameter[0];
-            string condition = string.Empty;
-            condition =" and hotel_code='"+searchGuestInfo.HotelCode+"'";           
-            if(!(searchGuestInfo.ArrivalFromDate==DateTime.MinValue && searchGuestInfo.ArrivalToDate==DateTime.MinValue))
-                condition += " and Cast(arrival_date as Date) between Cast('" + searchGuestInfo.ArrivalFromDate + "' as Date) and Cast('" + searchGuestInfo.ArrivalToDate + "' as Date)";
-            if (!string.IsNullOrEmpty(searchGuestInfo.RoomNo))
-                condition += " and lpad(roomno, 4, '0')=lpad('" + searchGuestInfo.RoomNo + "',4,\'0\')";           
-            if (!string.IsNullOrEmpty(searchGuestInfo.GuestName))
-                condition += " and (guestname_hotel like '%" +searchGuestInfo.GuestName+"%' or kananame_hotel like '%"+ searchGuestInfo.GuestName + "%')";                
-            string sql_cmd = "select arrival_date,departure_date,lpad(roomno, 4, '0') as roomno,guestname_text,kananame_text,concat(address1_text,address2_text) as address,hotel_code,imagedata from trn_guestinformation where complete_flag=1" + condition+ " order by arrival_date,roomno,kananame_text";           
-            DataTable dt = await bdl.SelectDataTable(sql_cmd, Sqlprms);
-            return Ok(dt);
+            var Status = new object();
+            int roomno_count = 0;
+            string filltext = string.Empty;
+            DataTable dtinfo = GetRoomNo_Info(searchGuestInfo.HotelCode);
+            if (dtinfo.Rows.Count > 0)
+            {
+                roomno_count = Convert.ToInt32(dtinfo.Rows[0]["hotel_roomno_count"].ToString());
+                filltext = dtinfo.Rows[0]["roomno_fill_text"].ToString();
+
+                if (roomno_count >= searchGuestInfo.RoomNo.Length)
+                {
+                    BaseDL bdl = new BaseDL();
+                    NpgsqlParameter[] Sqlprms = new NpgsqlParameter[0];
+                    string condition = string.Empty;
+                    condition = " and hotel_code='" + searchGuestInfo.HotelCode + "'";
+                    if (!(searchGuestInfo.ArrivalFromDate == DateTime.MinValue && searchGuestInfo.ArrivalToDate == DateTime.MinValue))
+                        condition += " and Cast(arrival_date as Date) between Cast('" + searchGuestInfo.ArrivalFromDate + "' as Date) and Cast('" + searchGuestInfo.ArrivalToDate + "' as Date)";
+                    if (!string.IsNullOrEmpty(searchGuestInfo.RoomNo))
+                        condition += " and lpad(roomno, roomno_count, filltext)=lpad('" + searchGuestInfo.RoomNo + "',roomno_count,filltext)";
+                    if (!string.IsNullOrEmpty(searchGuestInfo.GuestName))
+                        condition += " and (guestname_hotel like '%" + searchGuestInfo.GuestName + "%' or kananame_hotel like '%" + searchGuestInfo.GuestName + "%')";
+                    string sql_cmd = "select arrival_date,departure_date,roomno,guestname_text,kananame_text,concat_ws(', ', coalesce(address1_text, ''), coalesce(address2_text, '')) as address,hotel_code,imagedata from trn_guestinformation where complete_flag=1" + condition + " order by arrival_date,roomno,kananame_text";
+                    DataTable dt = await bdl.SelectDataTable(sql_cmd, Sqlprms);
+                    if (dt.Rows.Count == 0)
+                        Status = new { Result = 1 };//no data search
+                    else
+                        Status = new { Result = dt };
+                }
+            }
+            else
+            {
+                Status = new { Result = 0 };//roomno count is less.
+            }
+            return Ok(Status);
         }
        
         /// <summary>
@@ -139,6 +160,21 @@ namespace HotelKoKoMu_CardRegister.Controllers
             }
 
             return Ok(result);
+        }
+
+      
+        public DataTable GetRoomNo_Info(string hotelcode)
+        {
+            BaseDL bdl = new BaseDL();
+            NpgsqlParameter[] Sqlprms = new NpgsqlParameter[1];
+            Sqlprms[0] = new NpgsqlParameter("@hotel_code", hotelcode);
+            string cmdText = "Select hotel_roomno_count,roomno_fill_text from mst_hotel where hotel_code=@hotel_code";
+            DataTable dt =  bdl.SelectDataTable_Info(cmdText, Sqlprms);
+            if (dt.Rows.Count > 0)
+            {
+                return dt;
+            }
+            return dt;
         }
     }
 }

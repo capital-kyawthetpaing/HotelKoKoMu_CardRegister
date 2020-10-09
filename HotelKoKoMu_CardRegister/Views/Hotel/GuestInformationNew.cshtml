@@ -1,189 +1,254 @@
 ﻿
 @{
     ViewBag.Title = "GuestInformationNew";
-    Layout = "~/Views/Shared/_HotelSystemLayout.cshtml";  
+    Layout = "~/Views/Shared/_HotelSystemLayout.cshtml";
 }
+<link href="@Url.Content("~/Content/hotel.css")" rel="stylesheet" />
 
+<style>
+    .fake-input {
+        position: relative;
+        width: 74%;
+    }
+
+        .fake-input input {
+            display: block;
+            width: 100%;
+            box-sizing: border-box
+        }
+
+        .fake-input img {
+            position: absolute;
+            top: 2px;
+            right: 5px
+        }
+
+    .datepicker {
+        top: 200px;
+    }
+    
+    .row {
+        margin-top: 15px;
+    }
+</style>
 
 <div class="row">
-    <div class="col-md-6">
-        <table>
-            <tr>
-                <td>
-                    <label>SystemID</label>
-                </td>
-                <td>
-                    <input id="SystemID" type="text" />
-                </td>
-                <td>
-                    <label>PmsID</label>
-                </td>
-                <td>
-                    <input id="PmsID" type="text" />
-                </td>
-            </tr>
-
-            <tr>
-                <td>
-                    <label>PmsPassword</label>
-                </td>
-                <td>
-                    <input id="PmsPassword" type="text" />
-                </td>
-                <td>
-                    <label>HotelCode</label>
-                </td>
-                <td>
-                    <input id="HotelCode" type="text" />
-                </td>
-            </tr>
-
-            <tr>
-                <td>
-                    <label>MachineNo</label>
-                </td>
-                <td>
-                    <input id="MachineNo" type="text" />
-                </td>
-                <td>
-                    <label>SystemDate</label>
-                </td>
-                <td>
-                    <input id="SystemDate" type="date" />
-                </td>
-            </tr>
-
-            <tr>
-                <td>
-                    <label>ReservationNo</label>
-                </td>
-                <td>
-                    <input id="ReservationNo" type="text" />
-                </td>
-                <td>
-                    <label>RoomNo</label>
-                </td>
-                <td>
-                    <input id="RoomNo" type="text" />
-                </td>
-            </tr>
-
-            <tr>
-                <td>
-                    <label>ArriveDate</label>
-                </td>
-                <td>
-                    <input id="ArriveDate" type="date" />
-                </td>
-                <td>
-                    <label>DepartureDate</label>
-                </td>
-                <td>
-                    <input id="DepartureDate" type="date" />
-                </td>
-            </tr>
-
-            <tr>
-                <td>
-                    <label>NameKanji</label>
-                </td>
-                <td>
-                    <input id="NameKanji" type="text" />
-                </td>
-                <td>
-                    <label>NameKana</label>
-                </td>
-                <td>
-                    <input id="NameKana" type="text" />
-                </td>
-            </tr>
-
-            <tr>
-                <td>
-                    <label>ZipCode</label>
-                </td>
-                <td>
-                    <input id="ZipCode" type="text" />
-                </td>
-                <td>
-                    <label>Tel</label>
-                </td>
-                <td>
-                    <input id="Tel" type="text" />
-                </td>
-            </tr>
-
-            <tr>
-                <td>
-                    <label>Address1</label>
-                </td>
-                <td>
-                    <input id="Address1" type="text" />
-                </td>
-                <td>
-                    <label>Address2</label>
-                </td>
-                <td>
-                    <input id="Address2" type="text" />
-                </td>
-            </tr>
-
-            <tr>
-                <td>
-                    <label>Company</label>
-                </td>
-                <td>
-                    <input id="Company" type="text" />
-                </td>
-                <td>
-                    <label>Nationality</label>
-                </td>
-                <td>
-                    <input id="Nationality" type="text" />
-                </td>
-            </tr>
-
-            <tr>
-                <td>
-                    <label>PassportNo</label>
-                </td>
-                <td>
-                    <input id="PassportNo" type="text" />
-                </td>
-            </tr>
-        </table>
-    </div>
-</div>
-<br />
-<div class="row">
-    <div class="col-xl-12 text-center">
-        <div class="text-s font-weight-bold text-custom1 text-uppercase mb-1">
-            <button type="submit" id="btnSave" class="btn btn-success col-xl-2" tabindex="38"><i class="fa fa-save"></i>&nbsp; Save</button>
+    <div class="col-md-12 form-inline">
+        <div class="col-md-2">
+            <label>System ID :</label>
+        </div>
+        <div class="col-md-4">
+            <input type="text" id="txtSystemID" />
+        </div>
+        <div class="col-md-2">
+            <label>Pms ID :</label>
+        </div>
+        <div class="col-md-4">
+            <input type="text" id="txtPmsID" />
         </div>
     </div>
 </div>
 
+<div class="row">
+    <div class="col-md-12 form-inline">
+        <div class="col-md-2">
+            <label>Pms Password :</label>
+        </div>
+        <div class="col-md-4">
+            <input type="text" id="txtPmsPassword" />
+        </div>
+        <div class="col-md-2">
+            <label>Hotel Code :</label>
+        </div>
+        <div class="col-md-4">
+            <input type="text" id="txtHotelCode" />
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12 form-inline">
+        <div class="col-md-2">
+            <label>Machine No. :</label>
+        </div>
+        <div class="col-md-4">
+            <input type="text" id="txtMachineNo" />
+        </div>
+        <div class="col-md-2">
+            <label>System Date :</label>
+        </div>
+        <div class="col-md-3 col-sm-7">
+            <div class="fake-input">
+                <input type="text" id="txtSystemDate" class="datepicker-here" /><img id="systemdate" src="~/images/calendar.png" width=25 />
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12 form-inline">
+        <div class="col-md-2">
+            <label>Reservation No. :</label>
+        </div>
+        <div class="col-md-4">
+            <input type="text" id="txtReservationNo" />
+        </div>
+        <div class="col-md-2">
+            <label>Room No. :</label>
+        </div>
+        <div class="col-md-4">
+            <input type="text" id="txtRoomNo" />
+        </div>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-md-12 form-inline">
+        <div class="col-md-2">
+            <label>Name Kanji :</label>
+        </div>
+        <div class="col-md-4">
+            <input type="text" id="txtNameKanji" />
+        </div>
+        <div class="col-md-2">
+            <label>Name Kana :</label>
+        </div>
+        <div class="col-md-4">
+            <input type="text" id="txtNameKana" />
+        </div>
+    </div>
+
+</div>
+
+<div class="row">
+    <div class="col-md-12 form-inline">
+        <div class="col-md-2">
+            <label>Arrive Date :</label>
+        </div>
+        <div class="col-md-3 col-sm-7">
+            <div class="fake-input">
+                <input type="text" id="txtArriveDate" class="datepicker-here" /><img id="arrivaldate" src="~/images/calendar.png" width=25 />
+            </div>
+        </div>
+        <div class="col-md-2 offset-md-1">
+            <label>Departure Date :</label>
+        </div>
+        <div class="col-md-3  col-sm-7">
+            <div class="fake-input">
+                <input type="text" id="txtDepartureDate" class="datepicker-here" /><img id="departuredate" src="~/images/calendar.png" width=25 />
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="row">
+    <div class="col-md-12 form-inline">
+        <div class="col-md-2">
+            <label>ZipCode :</label>
+        </div>
+        <div class="col-md-4">
+            <input type="text" id="txtZipCode" />
+        </div>
+        <div class="col-md-2">
+            <label>Tel :</label>
+        </div>
+        <div class="col-md-4">
+            <input type="text" id="txtTel" />
+        </div>
+    </div>
+
+</div>
+
+<div class="row">
+    <div class="col-md-12 form-inline">
+        <div class="col-md-2">
+            <label>Company :</label>
+        </div>
+        <div class="col-md-4">
+            <input type="text" id="txtCompany" />
+        </div>
+        <div class="col-md-2">
+            <label>Nationality :</label>
+        </div>
+        <div class="col-md-4">
+            <input type="text" id="txtNationality" />
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12 form-inline">
+        <div class="col-md-2">
+            <label>Passport No. :</label>
+        </div>
+        <div class="col-md-4">
+            <input type="text" id="txtPassportNo" />
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12 form-inline">
+        <div class="col-md-2">
+            <label>Address1 :</label>
+        </div>
+        <div class="col-md-4">
+            <textarea id="txtAddress1"></textarea>            
+        </div>
+        <div class="col-md-2">
+            <label>Address2 :</label>
+        </div>
+        <div class="col-md-4">
+            <textarea id="txtAddress2"></textarea>           
+        </div>
+    </div>
+
+</div>
+
+<div class="row">
+    <div class="col-md-4 offset-md-4">
+        <button type="button" id="btnSave" class="clsbtnSearch">Save</button>
+    </div>
+</div>
+
+
 @section Scripts{
     <script>
         $(document).ready(function () {
+
+            var currentDate = new Date();
+            var dtDepartureDate = currentDate.setDate(currentDate.getDate() + 1);
+            //set current date into arrival date
+            $("#txtArriveDate").val(moment(currentDate).format('YYYY-MM-DD'));
+            $("#txtDepartureDate").val(moment(dtDepartureDate).format('YYYY-MM-DD'));
+            $("#txtSystemDate").val(moment(currentDate).format('YYYY-MM-DD'));
+            $("#arrivaldate").click(function () {
+                $("#txtArriveDate").focus();
+            });
+
+            $("#departuredate").click(function () {
+                $("#txtDepartureDate").focus();
+            });
+
+            $("#systemdate").click(function () {
+                $("#txtSystemDate").focus();
+            });            
+
             $("#btnSave").click(function () {
 
-                var GuestInformation = { SystemID: $("#SystemID").val(), PmsID: $("#PmsID").val(), PmsPassword: $("#PmsPassword").val(), MachineNo: $("#MachineNo").val(), HotelCode: $("#HotelCode").val(), ReservationNo: $("#ReservationNo").val(), RoomNo: $("#RoomNo").val(), SystemDate: $("#SystemDate").val(), GuestName: $("#NameKanji").val(), KanaName: $("#NameKana").val(), ZipCode: $("#ZipCode").val(), Tel: $("#Tel").val(), Address1: $("#Address1").val(), Address2: $("#Address2").val(), Company: $("#Company").val(), Nationality: $("#Nationality").val(), Passport: $("#PassportNo").val(), ArrivalDate: $("#ArriveDate").val(), DepartureDate: $("#DepartureDate").val() };
-                var response = CalltoApiController('@Url.Action("GuestInfo_Save", "api/HotelAPI/")', GuestInformation);
-                if (response == "true") {
-
+                var GuestInformation = { SystemID: $("#txtSystemID").val(), PmsID: $("#txtPmsID").val(), PmsPassword: $("#txtPmsPassword").val(), MachineNo: $("#txtMachineNo").val(), HotelCode: $("#txtHotelCode").val(), ReservationNo: $("#txtReservationNo").val(), RoomNo: $("#txtRoomNo").val(), SystemDate: $("#txtSystemDate").val(), NameKanji: $("#txtNameKanji").val(), NameKana: $("#txtNameKana").val(), ZipCode: $("#txtZipCode").val(), Tel: $("#txtTel").val(), Address1: $("#txtAddress1").val(), Address2: $("#txtAddress2").val(), Company: $("#txtCompany").val(), Nationality: $("#txtNationality").val(), PassportNo: $("#txtPassportNo").val(), ArriveDate: $("#txtArriveDate").val(), DepartureDate: $("#txtDepartureDate").val() };
+                var response = CalltoApiController('@Url.Action("requestForRegistrationCard", "api/CardAPI/")', GuestInformation);
+                if (response["Status"] == "true") {
                     swal.fire({
                         icon: 'success',
                         title: 'Guest Information',
                         text: 'Successfully Saved...'
                     });
                  }
-                 else {
-                     swal.fire({
-                         icon: 'error',
-                         title: 'Guest Information',
-                         text: response
-                     })
+                else {
+                    ShowError("Guest Information", response["Status"]);                    
                  }
              });
         });

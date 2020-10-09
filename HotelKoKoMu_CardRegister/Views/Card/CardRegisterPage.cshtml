@@ -150,11 +150,11 @@
         var commonName = '';
         var intervalId,intervalFlag=0;
         var GuestName, GuestNameHW, KanaName, KanaNameHW, ZipCode, ZipCodeHW, Tel, TelHW, Address1, AddressHW1, Address2, AddressHW2, Company, CompanyHW, Nationality, NationalityHW, Passport, PassportHW, Sign;
-        var getCanvas, CardRegisterInfo;      
+        var getCanvas, CardRegisterInfo;
         $(document).ready(function () {
 
             CardRegisterInfo = { SystemID: $("#lblsystemid").text(), PmsID: $("#lblPmsId").text(), PmsPassword: $("#lblPmsPassword").text(), HotelCode: $("#lblhotelCode").text(), MachineNo: $("#lblmachineno").text() };
-            
+
             intervalId = setInterval(function () {
                 if (intervalFlag == 0) {
                     SearchCardRegisterData();
@@ -164,13 +164,13 @@
                 }
             }, 3000);
 
-            var currentDate = new Date();
-            //set current date into arrival date
-            $("#dtpArrivalDate").val(moment(currentDate).format('YYYY-MM-DD'));
+           // var currentDate = new Date();
+           // //set current date into arrival date
+           // $("#dtpArrivalDate").val(moment(currentDate).format('YYYY-MM-DD'));
 
-            //set departure date (current date + 1)
-           var dtDepartureDate = currentDate.setDate(currentDate.getDate() + 1);
-            $("#dtpDepartureDate").val(moment(dtDepartureDate).format('YYYY-MM-DD'));
+           // //set departure date (current date + 1)
+           //var dtDepartureDate = currentDate.setDate(currentDate.getDate() + 1);
+           // $("#dtpDepartureDate").val(moment(dtDepartureDate).format('YYYY-MM-DD'));
 
             $("#btnInputKeyboard").click(function () {
                 $("#divCanvas").addClass('d-none');
@@ -247,7 +247,6 @@
                 $('#CardRegisterModal').modal('hide');
             });
 
-
              //save guest information
              $("#btnfinish").click(function () {
 
@@ -304,7 +303,9 @@
                                  else
                                      PassportHW = $("#imgPassport").attr('src');
                              });
-                             var guestInfo = { HotelCode: $("#lblHotelCode").text(), ReservationNo: $("#lblReservationNo").text(), RoomNo: $("#lblRoomNo").text(), SystemDate: $("#lblSystemDate").text(), GuestName: GuestName, GuestNameHW: GuestNameHW, KanaName: KanaName, KanaNameHW: KanaNameHW, ZipCode: ZipCode, ZipCodeHW: ZipCodeHW, Tel: Tel, TelHW: TelHW, Address1: Address1, AddressHW1: AddressHW1, Address2: Address2, AddressHW2, AddressHW2, Company: Company, CompanyHW: CompanyHW, Nationality: Nationality, NationalityHW: NationalityHW, Passport: Passport, PassportHW: PassportHW, Sign: $("#imgSign").attr('src'), ArrivalDate: $("#dtpArrivalDate").val(), DepartureDate: $("#dtpDepartureDate").val(), CreatedDate: $("#lblCreatedDate").text(), ImageData: canvas.toDataURL("image/jpg") };
+
+                             var guestInfo = { HotelCode: $("#lblHotelCode").text(), ReservationNo: $("#lblReservationNo").text(), RoomNo: $("#lblRoomNo").text(), SystemDate: $("#lblSystemDate").text(), NameKanji: GuestName, NameKana: KanaName,ZipCode: ZipCode, Tel: Tel,Address1: Address1, Address2: Address2, Company: Company, Nationality: Nationality, PassportNo: Passport, Sign: $("#imgSign").attr('src'), ArriveDate: $("#dtpArrivalDate").val(), DepartureDate: $("#dtpDepartureDate").val(), CreatedDate: $("#lblCreatedDate").text(), ImageData: canvas.toDataURL("image/jpg") };
+                             //var guestInfo = { HotelCode: $("#lblHotelCode").text(), ReservationNo: $("#lblReservationNo").text(), RoomNo: $("#lblRoomNo").text(), SystemDate: $("#lblSystemDate").text(), GuestName: GuestName, GuestNameHW: GuestNameHW, KanaName: KanaName, KanaNameHW: KanaNameHW, ZipCode: ZipCode, ZipCodeHW: ZipCodeHW, Tel: Tel, TelHW: TelHW, Address1: Address1, AddressHW1: AddressHW1, Address2: Address2, AddressHW2, AddressHW2, Company: Company, CompanyHW: CompanyHW, Nationality: Nationality, NationalityHW: NationalityHW, Passport: Passport, PassportHW: PassportHW, Sign: $("#imgSign").attr('src'), ArrivalDate: $("#dtpArrivalDate").val(), DepartureDate: $("#dtpDepartureDate").val(), CreatedDate: $("#lblCreatedDate").text(), ImageData: canvas.toDataURL("image/jpg") };
                              var response = CalltoApiController('@Url.Action("setRegistrationCard", "api/CardAPI/")', guestInfo);
 
                              if (response["Success"] != undefined) {
@@ -321,16 +322,16 @@
                                              $(this).html('');
                                          }
                                      });
-                                     $('#tdArrivalDate').append('<input id="dtpArrivalDate" name="lblDepartureDate" class="datepicker-here" placeholder="yyyy-mm-dd" disabled />');
-                                     $('#tdDepartureDate').append('<input id="dtpDepartureDate" name="lblDepartureDate" class="datepicker-here" placeholder="yyyy-mm-dd" disabled />');
+                                     //$('#tdArrivalDate').append('<input id="dtpArrivalDate" name="lblDepartureDate" class="datepicker-here" placeholder="yyyy-mm-dd" disabled />');
+                                     //$('#tdDepartureDate').append('<input id="dtpDepartureDate" name="lblDepartureDate" class="datepicker-here" placeholder="yyyy-mm-dd" disabled />');
 
-                                     var currentDate = new Date();
-                                     //set current date into arrival date
-                                     $("#dtpArrivalDate").val(moment(currentDate).format('YYYY-MM-DD'));
+                                     //var currentDate = new Date();
+                                     ////set current date into arrival date
+                                     //$("#dtpArrivalDate").val(moment(currentDate).format('YYYY-MM-DD'));
 
-                                     //set departure date (current date + 1)
-                                     var dtDepartureDate = currentDate.setDate(currentDate.getDate() + 1);
-                                     $("#dtpDepartureDate").val(moment(dtDepartureDate).format('YYYY-MM-DD'));
+                                     ////set departure date (current date + 1)
+                                     //var dtDepartureDate = currentDate.setDate(currentDate.getDate() + 1);
+                                     //$("#dtpDepartureDate").val(moment(dtDepartureDate).format('YYYY-MM-DD'));
 
                                      intervalFlag = 0;
                                  });
@@ -511,20 +512,16 @@
         }
 
         function SearchCardRegisterData() {
-            
-            var result = CalltoApiController("/api/CardAPI/requestForRegistrationCard", CardRegisterInfo);            
-            if (result == "success") {
+            var result = CalltoApiController('@Url.Action("getRequestForRegistrationCard", "api/CardAPI/")', CardRegisterInfo);
+            if (result["Success"] != undefined) {
                 intervalFlag = 1;
-                var result = CalltoApiController('@Url.Action("getRequestForRegistrationCard", "api/CardAPI/")', CardRegisterInfo);
-                if (result["Success"] != undefined) {
-                    var cardObj = JSON.parse(result.Success);
-                    if (cardObj.length > 0) {
+                var cardObj = JSON.parse(result.Success);
+                if (cardObj.length > 0) {
                         $("#lblHotelCode").text(cardObj[0].hotel_code);
                         $("#lblSystemDate").text(cardObj[0].systemdate);
                         $("#lblReservationNo").text(cardObj[0].reservationno);
                         $("#lblRoomNo").text(cardObj[0].roomno);
-                        $("#lblCreatedDate").text(cardObj[0].created_date);
-                       
+                        $("#lblCreatedDate").text(cardObj[0].created_date);                    
                         if (cardObj[0].guestname_hotel != null)
                             $('#tdGuestName').append(CreateLabelControl(cardObj[0].guestname_hotel, "lblGuestName"));
                         if (cardObj[0].kananame_hotel != null)
@@ -543,23 +540,26 @@
                             $('#tdNationality').append(CreateLabelControl(cardObj[0].nationality_hotel, "lblNationality"));
                         if (cardObj[0].passportno_hotel != null)
                             $('#tdPassport').append(CreateLabelControl(cardObj[0].passportno_hotel, "lblPassport"));
+                        if (cardObj[0].arrivaldate_hotel != null) 
+                            $("#dtpArrivalDate").val(moment(cardObj[0].arrivaldate_hotel).format('YYYY-MM-DD'));
+                        if (cardObj[0].departuredate_hotel != null)
+                            $("#dtpDepartureDate").val(moment(cardObj[0].departuredate_hotel).format('YYYY-MM-DD'));
                     }
-                }
             }
         }
 
         function CheckValidation() {
             var flag = false;
             if ($("#imgSign").attr('src') != undefined)
-                flag = true;            
-            else 
+                flag = true;
+            else
                 ShowError(" サインをご記入ください。");
-            
+
             return flag;
         }
 
-        function isCanvasBlank(canvas) {           
-            var blank = document.createElement('canvas');              
+        function isCanvasBlank(canvas) {
+            var blank = document.createElement('canvas');
             blank.width = canvas.width;
             blank.height = canvas.height;
             return canvas.toDataURL() === blank.toDataURL();

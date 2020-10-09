@@ -170,12 +170,13 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Models\BaseInfo.cs" />
     <Compile Include="Models\CardRegisterInfo.cs" />
+    <Compile Include="Models\GetCardDatainfo.cs" />
     <Compile Include="Models\LoginInfo.cs" />
     <Compile Include="Models\HotelInfo.cs" />
     <Compile Include="Models\MultiLanguages.cs" />
     <Compile Include="Models\SearchGuestInfo.cs" />
+    <Compile Include="Models\SessionExpireFilterAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resources\Resources.Designer.cs">
       <AutoGen>True</AutoGen>

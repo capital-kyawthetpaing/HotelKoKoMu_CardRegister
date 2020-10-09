@@ -662,7 +662,6 @@ namespace HotelKoKoMu_CardRegister.Controllers
                 returnStatus = new { NotStart = "" };
             return Ok(returnStatus);
         }
-
         #endregion
     }
 }

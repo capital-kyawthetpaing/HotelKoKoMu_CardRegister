@@ -318,8 +318,9 @@
                                              $(this).html('');
                                          }
                                      });
-                                     //$('#tdArrivalDate').append('<input id="dtpArrivalDate" name="lblDepartureDate" class="datepicker-here" placeholder="yyyy-mm-dd" disabled />');
-                                     //$('#tdDepartureDate').append('<input id="dtpDepartureDate" name="lblDepartureDate" class="datepicker-here" placeholder="yyyy-mm-dd" disabled />');
+
+                                     $('#tdArrivalDate').append('<input id="dtpArrivalDate" name="lblDepartureDate" class="datepicker-here d-none" placeholder="yyyy-mm-dd" disabled />');
+                                     $('#tdDepartureDate').append('<input id="dtpDepartureDate" name="lblDepartureDate" class="datepicker-here d-none" placeholder="yyyy-mm-dd" disabled />');
 
                                      //var currentDate = new Date();
                                      ////set current date into arrival date
@@ -534,7 +535,7 @@
                             $('#tdNationality').append(CreateLabelControl(cardObj[0].nationality_hotel, "lblNationality"));
                         if (cardObj[0].passportno_hotel != null)
                             $('#tdPassport').append(CreateLabelControl(cardObj[0].passportno_hotel, "lblPassport"));
-                        if (cardObj[0].arrivaldate_hotel != null) {
+                    if (cardObj[0].arrivaldate_hotel != null) {                        
                             $("#dtpArrivalDate").val(moment(cardObj[0].arrivaldate_hotel).format('YYYY/MM/DD'));
                             $("#dtpArrivalDate").removeClass('d-none');
                         }                          

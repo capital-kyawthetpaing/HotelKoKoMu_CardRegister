@@ -60,9 +60,9 @@
                 if (response["Result"] == 0)
                     ShowAlert("error","Hotel Login","Invalid Hotel Code");
                 else if (response["Result"] == 1)
-                    ShowError("error","Hotel Login","Invalid User Code")
+                    ShowAlert("error","Hotel Login","Invalid User Code")
                 else if (response["Result"] == 2)
-                    ShowError("error","Hotel Login","Invalid User Password");
+                    ShowAlert("error","Hotel Login","Invalid User Password");
                 else {
                     var resultObj = response["Result"];
                     var LoginInfo = resultObj[0].hotel_code + '_' + resultObj[0].usercode + '_' + resultObj[0].username;

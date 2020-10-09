@@ -5,7 +5,6 @@
     Layout = "~/Views/Shared/_CardRegisterLayout.cshtml";
     var lang = HttpContext.Current.Request.Cookies["culture"].Value;
 }
-
 <style>
     .modal-footer {
         display: inline-block !important;
@@ -93,13 +92,10 @@
             </tr>
         </tbody>
     </table>
-
 </div>
-<label class="d-none" id="lblHotelCode"></label>
 <label class="d-none" id="lblSystemDate"></label>
 <label class="d-none" id="lblReservationNo"></label>
 <label class="d-none" id="lblRoomNo"></label>
-<label class="d-none" id="lblCreatedDate"></label>
 
 <div class="col-md-4 offset-md-4">
     <button class="clsfinish" id="btnfinish">@HotelKoKoMu_CardRegister.Resources.Resources.Complete</button>
@@ -303,8 +299,8 @@
                                  else
                                      PassportHW = $("#imgPassport").attr('src');
                              });
-
-                             var guestInfo = { HotelCode: $("#lblHotelCode").text(), ReservationNo: $("#lblReservationNo").text(), RoomNo: $("#lblRoomNo").text(), SystemDate: $("#lblSystemDate").text(), NameKanji: GuestName, NameKana: KanaName,ZipCode: ZipCode, Tel: Tel,Address1: Address1, Address2: Address2, Company: Company, Nationality: Nationality, PassportNo: Passport, Sign: $("#imgSign").attr('src'), ArriveDate: $("#dtpArrivalDate").val(), DepartureDate: $("#dtpDepartureDate").val(), CreatedDate: $("#lblCreatedDate").text(), ImageData: canvas.toDataURL("image/jpg") };
+                             
+                             var guestInfo = { SystemID:$("#lblsystemid").text(), PmsID: $("#lblPmsId").text(), PmsPassword: $("#lblPmsPassword").text(), HotelCode: $("#lblhotelCode").text(), MachineNo: $("#lblmachineno").text(), ReservationNo: $("#lblReservationNo").text(), RoomNo: $("#lblRoomNo").text(), SystemDate: $("#lblSystemDate").text(), NameKanji: GuestName, NameKana: KanaName,ZipCode: ZipCode, Tel: Tel,Address1: Address1, Address2: Address2, Company: Company, Nationality: Nationality, PassportNo: Passport, Sign: $("#imgSign").attr('src'), ArriveDate: $("#dtpArrivalDate").val(), DepartureDate: $("#dtpDepartureDate").val(), ImageData: canvas.toDataURL("image/jpg") };
                              //var guestInfo = { HotelCode: $("#lblHotelCode").text(), ReservationNo: $("#lblReservationNo").text(), RoomNo: $("#lblRoomNo").text(), SystemDate: $("#lblSystemDate").text(), GuestName: GuestName, GuestNameHW: GuestNameHW, KanaName: KanaName, KanaNameHW: KanaNameHW, ZipCode: ZipCode, ZipCodeHW: ZipCodeHW, Tel: Tel, TelHW: TelHW, Address1: Address1, AddressHW1: AddressHW1, Address2: Address2, AddressHW2, AddressHW2, Company: Company, CompanyHW: CompanyHW, Nationality: Nationality, NationalityHW: NationalityHW, Passport: Passport, PassportHW: PassportHW, Sign: $("#imgSign").attr('src'), ArrivalDate: $("#dtpArrivalDate").val(), DepartureDate: $("#dtpDepartureDate").val(), CreatedDate: $("#lblCreatedDate").text(), ImageData: canvas.toDataURL("image/jpg") };
                              var response = CalltoApiController('@Url.Action("setRegistrationCard", "api/CardAPI/")', guestInfo);
 
@@ -516,12 +512,10 @@
             if (result["Success"] != undefined) {
                 intervalFlag = 1;
                 var cardObj = JSON.parse(result.Success);
-                if (cardObj.length > 0) {
-                        $("#lblHotelCode").text(cardObj[0].hotel_code);
+                if (cardObj.length > 0) {                       
                         $("#lblSystemDate").text(cardObj[0].systemdate);
                         $("#lblReservationNo").text(cardObj[0].reservationno);
-                        $("#lblRoomNo").text(cardObj[0].roomno);
-                        $("#lblCreatedDate").text(cardObj[0].created_date);                    
+                        $("#lblRoomNo").text(cardObj[0].roomno);                                         
                         if (cardObj[0].guestname_hotel != null)
                             $('#tdGuestName').append(CreateLabelControl(cardObj[0].guestname_hotel, "lblGuestName"));
                         if (cardObj[0].kananame_hotel != null)

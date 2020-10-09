@@ -339,9 +339,9 @@ namespace HotelKoKoMu_CardRegister.Controllers
         [ActionName("requestForRegistrationCard")]
         public async Task<IHttpActionResult> requestForRegistrationCard(CardRegisterInfo cardRegisterInfo)
         {
-            BaseDL bdl = new BaseDL();           
-            DateTime currentDate = DateTime.Now;
-            
+            BaseDL bdl = new BaseDL();
+            var returnStatus = new object();
+            DateTime currentDate = DateTime.Now;            
             NpgsqlParameter[] para = new NpgsqlParameter[20];           
             para[0] = new NpgsqlParameter("@SystemID", cardRegisterInfo.SystemID);
             para[1] = new NpgsqlParameter("@PmsID", cardRegisterInfo.PmsID);
@@ -365,8 +365,11 @@ namespace HotelKoKoMu_CardRegister.Controllers
             para[19] = new NpgsqlParameter("@createddate", currentDate);
             string sql = "insert into trn_guestinformation(created_date,systemid, pmsid, pmspassword, hotel_code, machineno, systemdate, reservationno, roomno, arrivaldate_hotel, departuredate_hotel, guestname_hotel, kananame_hotel, zipcode_hotel, tel_hotel, address1_hotel, address2_hotel, company_hotel, nationality_hotel, passportno_hotel,flag,complete_flag) " +
                @"values(@createddate,@SystemID, @PmsID, @PmsPassword, @hotelcode, @MachineNo, @systemdate, @reservationno, @roomno, @arrDate, @deptDate, @guestName,@kanaName, @zipcode, @tel, @address1, @address2, @company, @nationality, @passport,'0','0')";
-            string result = await bdl.InsertUpdateDeleteData(sql, para);            
-            var returnStatus = new { Status = result };          
+            string result = await bdl.InsertUpdateDeleteData(sql, para);
+            if (result == "true")
+                returnStatus = new { Status = "Success" };
+            else
+                returnStatus = new { Status = result };
             return Ok(returnStatus);
         }
 
@@ -474,7 +477,7 @@ namespace HotelKoKoMu_CardRegister.Controllers
         [ActionName("getRegistrationCardData")]
         public async Task<IHttpActionResult> getRegistrationCardData(CardRegisterInfo cardRegisterInfo)
         {
-            GetCardDatainfo getinfo = new GetCardDatainfo();
+            GuestInformation guestinfo = new GuestInformation();
             var returnStatus = new object();
             BaseDL bdl = new BaseDL();
             NpgsqlParameter[] Sqlprms = new NpgsqlParameter[5];
@@ -490,66 +493,69 @@ namespace HotelKoKoMu_CardRegister.Controllers
             DataTable dt = JsonConvert.DeserializeObject<DataTable>(result.Item1);
             if (dt.Rows.Count > 0)
             {
-                NpgsqlParameter[] param = new NpgsqlParameter[5];
-                param[0] = new NpgsqlParameter("@reservationno", NpgsqlDbType.Varchar) { Value = dt.Rows[0]["reservationno"].ToString() };
-                param[1] = new NpgsqlParameter("@roomno", NpgsqlDbType.Varchar) { Value = dt.Rows[0]["roomno"].ToString() };
-                param[2] = new NpgsqlParameter("@systemdate", NpgsqlDbType.Date) { Value = Convert.ToDateTime(dt.Rows[0]["systemdate"].ToString()) };
-                param[3] = new NpgsqlParameter("@hotelcode", NpgsqlDbType.Varchar) { Value = cardRegisterInfo.HotelCode };
-                param[4] = new NpgsqlParameter("@createddate", NpgsqlDbType.Date) { Value = Convert.ToDateTime(dt.Rows[0]["created_date"].ToString()) };
-                string sql1 = "Update trn_guestinformation set flag=2 where reservationno=@reservationno and roomno=@roomno and  CAST(systemdate as DATE)=CAST(@systemdate AS DATE) and CAST(created_date as DATE)= CAST(@createddate AS DATE) and hotel_code=@hotelcode and flag=1 and complete_flag=1";
-                string result2 = await bdl.InsertUpdateDeleteData(sql1, param);
-                if (result2 == "true")
+                int flag = Convert.ToInt32(dt.Rows[0]["flag"].ToString());
+                int completeflag = Convert.ToInt32(dt.Rows[0]["complete_flag"].ToString());
+                if(flag==1 && completeflag==1)
                 {
-                    getinfo.SystemDate = Convert.ToDateTime(dt.Rows[0]["systemdate"].ToString());
-                    getinfo.ReservationNo = dt.Rows[0]["reservationno"].ToString();
-                    getinfo.RoomNo = dt.Rows[0]["roomno"].ToString();
-                    getinfo.NameKanji = dt.Rows[0]["guestname_text"].ToString();
-                    getinfo.NameKana = dt.Rows[0]["kananame_text"].ToString();
-                    getinfo.ZipCode = dt.Rows[0]["zipcode_text"].ToString();
-                    getinfo.Tel = dt.Rows[0]["tel_text"].ToString();
-                    getinfo.Address1 = dt.Rows[0]["address1_text"].ToString();
-                    getinfo.Address2 = dt.Rows[0]["address2_text"].ToString();
-                    getinfo.Company = dt.Rows[0]["company_text"].ToString();
-                    getinfo.Nationality = dt.Rows[0]["nationality_text"].ToString();
-                    getinfo.PassportNo = dt.Rows[0]["passportno_text"].ToString();
-
-                    string filename = dt.Rows[0]["imagedata"].ToString();
-                    string flag = dt.Rows[0]["flag"].ToString();
-                    string completeflag = dt.Rows[0]["complete_flag"].ToString();
-                    if (!String.IsNullOrWhiteSpace(filename) && filename != "")
+                    NpgsqlParameter[] param = new NpgsqlParameter[5];
+                    param[0] = new NpgsqlParameter("@reservationno", NpgsqlDbType.Varchar) { Value = dt.Rows[0]["reservationno"].ToString() };
+                    param[1] = new NpgsqlParameter("@roomno", NpgsqlDbType.Varchar) { Value = dt.Rows[0]["roomno"].ToString() };
+                    param[2] = new NpgsqlParameter("@systemdate", NpgsqlDbType.Date) { Value = Convert.ToDateTime(dt.Rows[0]["systemdate"].ToString()) };
+                    param[3] = new NpgsqlParameter("@hotelcode", NpgsqlDbType.Varchar) { Value = cardRegisterInfo.HotelCode };
+                    param[4] = new NpgsqlParameter("@createddate", NpgsqlDbType.Date) { Value = Convert.ToDateTime(dt.Rows[0]["created_date"].ToString()) };
+                    string sql1 = "Update trn_guestinformation set flag=2 where reservationno=@reservationno and roomno=@roomno and  CAST(systemdate as DATE)=CAST(@systemdate AS DATE) and CAST(created_date as DATE)= CAST(@createddate AS DATE) and hotel_code=@hotelcode and flag=1 and complete_flag=1";
+                    string result2 = await bdl.InsertUpdateDeleteData(sql1, param);
+                    if (result2 == "true")
                     {
-                        var dirPath = HttpContext.Current.Server.MapPath("~/" + cardRegisterInfo.HotelCode);
-                        dirPath = dirPath + "//" + filename;
-                        using (System.Drawing.Image image = System.Drawing.Image.FromFile(dirPath))
-                        {
-                            using (MemoryStream ms = new MemoryStream())
-                            {
-                                string base64String;
-                                image.Save(ms, image.RawFormat);
-                                byte[] imageBytes = ms.ToArray();
-                                base64String = Convert.ToBase64String(imageBytes);
-                                dt.Rows[0]["imagedata"] = base64String;
-                                //string jsonstring = JsonConvert.SerializeObject(dt);
-                                //result = new Tuple<string, string>(jsonstring, result.Item2);
-                                getinfo.ImageData = dt.Rows[0]["imagedata"].ToString();
-                            }
-                        }
+                        guestinfo.SystemDate = Convert.ToDateTime(dt.Rows[0]["systemdate"].ToString());
+                        guestinfo.ReservationNo = dt.Rows[0]["reservationno"].ToString();
+                        guestinfo.RoomNo = dt.Rows[0]["roomno"].ToString();
+                        guestinfo.NameKanji = dt.Rows[0]["guestname_text"].ToString();
+                        guestinfo.NameKana = dt.Rows[0]["kananame_text"].ToString();
+                        guestinfo.ZipCode = dt.Rows[0]["zipcode_text"].ToString();
+                        guestinfo.Tel = dt.Rows[0]["tel_text"].ToString();
+                        guestinfo.Address1 = dt.Rows[0]["address1_text"].ToString();
+                        guestinfo.Address2 = dt.Rows[0]["address2_text"].ToString();
+                        guestinfo.Company = dt.Rows[0]["company_text"].ToString();
+                        guestinfo.Nationality = dt.Rows[0]["nationality_text"].ToString();
+                        guestinfo.PassportNo = dt.Rows[0]["passportno_text"].ToString();
+                        string filename = dt.Rows[0]["imagedata"].ToString();
+                        if (!String.IsNullOrWhiteSpace(filename) && filename != "")
+                            guestinfo.ImageData = CreateBase64String(filename, dt.Rows[0]["hotel_code"].ToString());
+                        //save success , update success and return getregisterdata
+                        returnStatus = new { Success = guestinfo };
                     }
-
-                    //save success , update success and return getregisterdata
-                    if (flag == "1" && completeflag == "1" && result.Item2 == "Success")
-                        returnStatus = new { Success = getinfo };
-                    //still writing
-                    else if (flag == "1" && completeflag == "0" && result.Item2 == "Success")
-                        returnStatus = new { Writing = "" };
-                    //error
                     else
-                        returnStatus = new { Error = result.Item2 };
+                        returnStatus = new { Error = result2 };
                 }
+                else if(flag == 1 && completeflag == 0 && result.Item2 == "Success")                 
+                   returnStatus = new { Writing = "" };
             }
             else
-                returnStatus = new { NotStart = "" };
+            {
+                if(result.Item2!="Success")
+                    returnStatus = new { Error = result.Item2 };
+                else
+                    returnStatus = new { NotStart = "" };
+            } 
             return Ok(returnStatus);
+        }
+
+        public string CreateBase64String(string filename,string hotelCode)
+        {
+            string base64String;
+            var dirPath = HttpContext.Current.Server.MapPath("~/" + hotelCode);
+            dirPath = dirPath + "//" + filename;
+            using (System.Drawing.Image image = System.Drawing.Image.FromFile(dirPath))
+            {
+                using (MemoryStream ms = new MemoryStream())
+                {                    
+                    image.Save(ms, image.RawFormat);
+                    byte[] imageBytes = ms.ToArray();
+                    base64String = "data:image/png;base64," + Convert.ToBase64String(imageBytes);                   
+                }
+            }
+            return base64String;           
         }
 
         /// <summary>

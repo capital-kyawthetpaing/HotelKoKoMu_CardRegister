@@ -102,7 +102,6 @@
     </div>
 </div>
 
-
 <div class="row">
     <div class="col-md-12 form-inline">
         <div class="col-md-2">
@@ -221,9 +220,9 @@
             var currentDate = new Date();
             var dtDepartureDate = currentDate.setDate(currentDate.getDate() + 1);
             //set current date into arrival date
-            $("#txtArriveDate").val(moment(currentDate).format('YYYY-MM-DD'));
-            $("#txtDepartureDate").val(moment(dtDepartureDate).format('YYYY-MM-DD'));
-            $("#txtSystemDate").val(moment(currentDate).format('YYYY-MM-DD'));
+            $("#txtArriveDate").val(moment(currentDate).format('YYYY/MM/DD'));
+            $("#txtDepartureDate").val(moment(dtDepartureDate).format('YYYY/MM/DD'));
+            $("#txtSystemDate").val(moment(currentDate).format('YYYY/MM/DD'));
             $("#arrivaldate").click(function () {
                 $("#txtArriveDate").focus();
             });
@@ -240,16 +239,11 @@
 
                 var GuestInformation = { SystemID: $("#txtSystemID").val(), PmsID: $("#txtPmsID").val(), PmsPassword: $("#txtPmsPassword").val(), MachineNo: $("#txtMachineNo").val(), HotelCode: $("#txtHotelCode").val(), ReservationNo: $("#txtReservationNo").val(), RoomNo: $("#txtRoomNo").val(), SystemDate: $("#txtSystemDate").val(), NameKanji: $("#txtNameKanji").val(), NameKana: $("#txtNameKana").val(), ZipCode: $("#txtZipCode").val(), Tel: $("#txtTel").val(), Address1: $("#txtAddress1").val(), Address2: $("#txtAddress2").val(), Company: $("#txtCompany").val(), Nationality: $("#txtNationality").val(), PassportNo: $("#txtPassportNo").val(), ArriveDate: $("#txtArriveDate").val(), DepartureDate: $("#txtDepartureDate").val() };
                 var response = CalltoApiController('@Url.Action("requestForRegistrationCard", "api/CardAPI/")', GuestInformation);
-                if (response["Status"] == "true") {
-                    swal.fire({
-                        icon: 'success',
-                        title: 'Guest Information',
-                        text: 'Successfully Saved...'
-                    });
-                 }
-                else {
-                    ShowError("Guest Information", response["Status"]);                    
-                 }
+                if (response["Status"] == "Success")
+                    ShowAlert("success", "Guest Information", "Successfully Saved...");                                   
+                else
+                    ShowAlert("error","Guest Information", response["Status"]);                    
+                
              });
         });
 

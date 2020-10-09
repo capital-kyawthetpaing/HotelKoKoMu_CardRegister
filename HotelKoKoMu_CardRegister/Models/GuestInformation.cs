@@ -5,7 +5,7 @@ using System.Web;
 
 namespace HotelKoKoMu_CardRegister.Models
 {
-    public class GetCardDatainfo
+    public class GuestInformation
     {
         public DateTime SystemDate { get; set; }
         public string ReservationNo { get; set; }
@@ -20,6 +20,5 @@ namespace HotelKoKoMu_CardRegister.Models
         public string Nationality { get; set; }
         public string PassportNo { get; set; }
         public string ImageData { get; set; }
-
     }
 }

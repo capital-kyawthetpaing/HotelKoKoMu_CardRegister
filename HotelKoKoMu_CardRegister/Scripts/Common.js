@@ -144,9 +144,9 @@ function isNumberKey(evt) {
 }
 
 //show error message based on result
-function ShowError(titleMsg,errorMsg) {
+function ShowAlert(iconName,titleMsg,errorMsg) {
     swal.fire({
-        icon: 'error',
+        icon: iconName,
         title: titleMsg,
         text: errorMsg
     });

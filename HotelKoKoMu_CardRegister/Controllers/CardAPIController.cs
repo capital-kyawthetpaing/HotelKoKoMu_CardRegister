@@ -627,8 +627,7 @@ namespace HotelKoKoMu_CardRegister.Controllers
         [ActionName("CancelRegistrationCard")]
         public async Task<IHttpActionResult> CancelRegistrationCard(CardRegisterInfo cardRegisterInfo)
         {
-            BaseDL bdl = new BaseDL();
-            int flag, completeflg;
+            BaseDL bdl = new BaseDL();           
             var returnStatus = new object();
             NpgsqlParameter[] Sqlprms = new NpgsqlParameter[5];
             Sqlprms[0] = new NpgsqlParameter("@SystemID", NpgsqlDbType.Varchar) { Value = cardRegisterInfo.SystemID };
@@ -641,25 +640,39 @@ namespace HotelKoKoMu_CardRegister.Controllers
             DataTable dt = JsonConvert.DeserializeObject<DataTable>(result1.Item1);
             if (dt.Rows.Count > 0)
             {
-                NpgsqlParameter[] para = new NpgsqlParameter[5];
-                para[0] = new NpgsqlParameter("@SystemID", NpgsqlDbType.Varchar) { Value = cardRegisterInfo.SystemID };
-                para[1] = new NpgsqlParameter("@PmsID", NpgsqlDbType.Varchar) { Value = cardRegisterInfo.PmsID };
-                para[2] = new NpgsqlParameter("@PmsPassword", NpgsqlDbType.Varchar) { Value = cardRegisterInfo.PmsPassword };
-                para[3] = new NpgsqlParameter("@HotelCode", NpgsqlDbType.Varchar) { Value = cardRegisterInfo.HotelCode };
-                para[4] = new NpgsqlParameter("@MachineNo", NpgsqlDbType.Varchar) { Value = cardRegisterInfo.MachineNo };
-                string sql2 = "Update trn_guestinformation set flag = 9 where systemid = @SystemID and pmsid = @PmsID and  PmsPassword= @pmspassword and hotel_code= @HotelCode and machineno=@MachineNo and flag=1 and complete_flag=0";
-                string result2 = await bdl.InsertUpdateDeleteData(sql2, para);
-                flag = Convert.ToInt32(dt.Rows[0]["flag"].ToString());
-                completeflg = Convert.ToInt32(dt.Rows[0]["complete_flag"].ToString());
-                //save success , update success and return getregisterdata
-                if (flag == 1 && completeflg == 0 && result2 == "true")
-                    returnStatus = new { Success = result1.Item1 };
-                //error
-                else
-                    returnStatus = new { Error = result2 };
+                int flag = Convert.ToInt32(dt.Rows[0]["flag"].ToString());
+                int completeflag= Convert.ToInt32(dt.Rows[0]["complete_flag"].ToString());
+                if(flag==1 && completeflag==0)
+                {
+                    NpgsqlParameter[] para = new NpgsqlParameter[5];
+                    para[0] = new NpgsqlParameter("@SystemID", NpgsqlDbType.Varchar) { Value = cardRegisterInfo.SystemID };
+                    para[1] = new NpgsqlParameter("@PmsID", NpgsqlDbType.Varchar) { Value = cardRegisterInfo.PmsID };
+                    para[2] = new NpgsqlParameter("@PmsPassword", NpgsqlDbType.Varchar) { Value = cardRegisterInfo.PmsPassword };
+                    para[3] = new NpgsqlParameter("@HotelCode", NpgsqlDbType.Varchar) { Value = cardRegisterInfo.HotelCode };
+                    para[4] = new NpgsqlParameter("@MachineNo", NpgsqlDbType.Varchar) { Value = cardRegisterInfo.MachineNo };
+                    string sql2 = "Update trn_guestinformation set flag = 9 where systemid = @SystemID and pmsid = @PmsID and  PmsPassword= @pmspassword and hotel_code= @HotelCode and machineno=@MachineNo and flag=1 and complete_flag=0";
+                    string result2 = await bdl.InsertUpdateDeleteData(sql2, para);
+                    //save success , update success and return getregisterdata
+                    if (result2 == "true")
+                    {
+                        var returnData = new {
+                            SystemDate=Convert.ToDateTime(dt.Rows[0]["systemdate"].ToString()),
+                            ReservationNo= dt.Rows[0]["reservationno"].ToString(),
+                            RoomNo= dt.Rows[0]["roomno"].ToString()
+                        };
+                        returnStatus = new { Success = returnData };
+                    }                       
+                    else
+                        returnStatus = new { Error = result2 };
+                }                
             }
             else
-                returnStatus = new { NotStart = "" };
+            {
+                if(result1.Item2!="Success")
+                    returnStatus = new { Error = result1.Item2 };
+                else
+                    returnStatus = new { NotStart = "" };
+            }  
             return Ok(returnStatus);
         }
         #endregion

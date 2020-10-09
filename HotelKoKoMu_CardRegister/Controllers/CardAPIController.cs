@@ -212,7 +212,7 @@ namespace HotelKoKoMu_CardRegister.Controllers
                     string result2 = await bdl.InsertUpdateDeleteData(sql1, param);
                     if (result2 == "true")
                     {
-                        guestinfo.SystemDate = Convert.ToDateTime(dt.Rows[0]["systemdate"].ToString());
+                        guestinfo.SystemDate = Convert.ToDateTime(dt.Rows[0]["systemdate"].ToString()).ToString("yyyyMMdd");
                         guestinfo.ReservationNo = dt.Rows[0]["reservationno"].ToString();
                         guestinfo.RoomNo = dt.Rows[0]["roomno"].ToString();
                         guestinfo.NameKanji = dt.Rows[0]["guestname_text"].ToString();

@@ -43,7 +43,7 @@
             <label>チェックイン部屋 :</label>
         </div>
         <div class="col-md-2 col-sm-3">
-            <input type="text" id="txtCheckinRoom" maxlength="4" onkeypress="return isNumber(event)" />
+            <input type="text" id="txtCheckinRoom"  onkeypress="return isNumber(event)" />
         </div>
     </div>
 </div>
@@ -124,17 +124,7 @@
             $("#dtpArrivalFromDate").val(moment(currentDate).format('YYYY/MM/DD'));
             $("#dtpArrivalToDate").val(moment(currentDate).format('YYYY/MM/DD'));
 
-            //auto complete zero fill in checkin roomno
-            $('#txtCheckinRoom').on('keydown', function (e) {
-                if (e.keyCode == 13 || e.keyCode == 9) {
-                    str = $('#txtCheckinRoom').val();
-                    str = str.toString();
-                    if (str.length < 4) {
-                        var roomno = str.padStart(4, '0');
-                        $('#txtCheckinRoom').val(roomno);
-                    }
-                }
-            });
+
 
             //fill guest information
             SearchData();
@@ -145,8 +135,8 @@
 
             $("#btnClear").click(function () {
                 var currentDate = new Date();
-                $("#dtpArrivalFromDate").val(moment(currentDate).format('YYYY-MM-DD'));
-                $("#dtpArrivalToDate").val(moment(currentDate).format('YYYY-MM-DD'));
+                $("#dtpArrivalFromDate").val(moment(currentDate).format('YYYY/MM/DD'));
+                $("#dtpArrivalToDate").val(moment(currentDate).format('YYYY/MM/DD'));
                 $("#txtCheckinRoom").val("");
                 $("#txtGuestName").val("");
             });
@@ -184,6 +174,9 @@
 
         function BindGuestTable(result) {
             table = $('#tblhotelguestlist').DataTable({
+                "language": {
+                    "emptyTable": " "
+                },
                 "bFilter": false,
                 "bLengthChange": false,
                 "bInfo": false,
@@ -234,6 +227,29 @@
             }
             return true;
         }
+
+
+        //auto complete zero fill in checkin roomno
+        $('#txtCheckinRoom').on('keydown', function (e) {
+            if (e.keyCode == 13 || e.keyCode == 9) {
+
+                Hotelinfo = { RoomNo: $('#txtCheckinRoom').val(), HotelNo: $('#lblhotelcode').text()}
+
+                var result = CalltoApiController('@Url.Action("CheckRoomNo", "api/HotelAPI/")', Hotelinfo);
+                if (result != 'Error')
+                    $('#txtCheckinRoom').val(result);
+                else
+                    ShowError(" RoomNo is not match!");
+
+                //str = $('#txtCheckinRoom').val();
+                //str = str.toString();
+                //if (str.length < 4) {
+                //    var roomno = str.padStart(4, '0');
+                //    $('#txtCheckinRoom').val(roomno);
+                //}
+            }
+        });
+
     </script>
 }
 

@@ -93,5 +93,52 @@ namespace HotelKoKoMu_CardRegister.Controllers
             DataTable dt = await bdl.SelectDataTable(cmdText,Sqlprms);
             return Ok(dt);
         }
+
+
+        [HttpPost]
+        [ActionName("CheckRoomNo")]
+        public async Task<IHttpActionResult> CheckRoomNo(HotelInfo hotelInfo)
+        {
+            BaseDL bdl = new BaseDL();
+            int roomno_count = 0;
+            string filltext = string.Empty;
+            string result = hotelInfo.RoomNo;
+            NpgsqlParameter[] Sqlprms = new NpgsqlParameter[1];
+            Sqlprms[0] = new NpgsqlParameter("@hotel_code", hotelInfo.HotelNo);
+            string cmdText = "Select hotel_code,hotel_roomno_count,roomno_fill_text from mst_hotel where hotel_code=@hotel_code";
+            DataTable dt = await bdl.SelectDataTable(cmdText, Sqlprms);
+            if(dt.Rows.Count> 0)
+            {
+                if (!String.IsNullOrWhiteSpace(dt.Rows[0]["hotel_roomno_count"].ToString()) && dt.Rows[0]["hotel_roomno_count"].ToString() != "")
+                {
+                    roomno_count  = Convert.ToInt32(dt.Rows[0]["hotel_roomno_count"].ToString());
+                    if (roomno_count >= result.Length)
+                    {
+                        if (!String.IsNullOrWhiteSpace(dt.Rows[0]["roomno_fill_text"].ToString()))
+                        {
+                            filltext = dt.Rows[0]["roomno_fill_text"].ToString();
+                            result = result.PadLeft(Convert.ToInt32(roomno_count), Convert.ToChar(filltext));
+                        }
+                        else if (dt.Rows[0]["roomno_fill_text"].ToString() == " "){
+                            result = result.PadLeft(Convert.ToInt32(roomno_count), ' ');
+                        }
+                        else
+                        {
+                            result = hotelInfo.RoomNo;
+                        }
+                    }
+                    else
+                    {
+                        result = "Error";
+                    }
+                } 
+            }
+            else
+            {
+                result = hotelInfo.RoomNo;
+            }
+
+            return Ok(result);
+        }
     }
 }

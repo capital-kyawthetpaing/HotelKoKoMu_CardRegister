@@ -167,14 +167,14 @@
                     HotelCode: $("#lblhotelcode").text()
                  }
             var result = CalltoApiController('@Url.Action("searchGuestData", "api/HotelAPI/")', guestinfo)
-            if (result.Result == 0) {
-                ShowError("Please Check your check-in RoomNo");
+            if (result["Result"] == 0) {
+                ShowAlert("info","Hotel Guest List","Please Check your check-in RoomNo");
             }
             else if (result.Result == 1) {
 
             }
             else {
-                BindGuestTable(result.Result);
+                BindGuestTable(result["Result"]);
             } 
         }
 
@@ -183,15 +183,14 @@
             table = $('#tblhotelguestlist').DataTable({
                 "language": {
                     "emptyTable": " "
-                },
-                data: JSON.parse(response),
+                },               
                 "bFilter": false,
                 "bLengthChange": false,
                 "bInfo": false,
                 destroy: true,
                 scrollX: true,
                 paging: false,
-                data: result,
+                data: response,
                 "columns": [
                     { "data": "arrival_date"},
                     { "data": "departure_date" },
@@ -209,36 +208,19 @@
                 }]
             });
         }
-
-        ////validation
-        //function CheckValidate() {
-        //    var flag = true;
-
-        //    str = $('#txtCheckinRoom').val();
-        //    if (str != "") {
-        //        str = str.toString();
-        //        if (str.length < 4) {
-        //            ShowError("Please Check Your Check-in Room");
-        //        }
-        //        else
-        //            flag = true;
+        
+        //number only
+        //function isNumber(evt) {
+        //    evt = (evt) ? evt : window.event;
+        //    var charCode = (evt.which) ? evt.which : evt.keyCode;
+        //    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+        //        return false;
         //    }
-        //    return flag;
+        //    return true;
         //}
 
-        //number only
 
-        function isNumber(evt) {
-            evt = (evt) ? evt : window.event;
-            var charCode = (evt.which) ? evt.which : evt.keyCode;
-            if (charCode > 31 && (charCode < 48 || charCode > 57)) {
-                return false;
-            }
-            return true;
-        }
-
-
-        //auto complete zero fill in checkin roomno
+        @*//auto complete zero fill in checkin roomno
         $('#txtCheckinRoom').on('keydown', function (e) {
             if (e.keyCode == 13 || e.keyCode == 9) {
 
@@ -257,7 +239,7 @@
                 //    $('#txtCheckinRoom').val(roomno);
                 //}
             }
-        });
+        });*@
 
     </script>
 }

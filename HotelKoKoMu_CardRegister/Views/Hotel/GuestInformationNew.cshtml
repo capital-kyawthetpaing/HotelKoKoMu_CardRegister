@@ -218,11 +218,12 @@
         $(document).ready(function () {
 
             var currentDate = new Date();
-            var dtDepartureDate = currentDate.setDate(currentDate.getDate() + 1);
-            //set current date into arrival date
             $("#txtArriveDate").val(moment(currentDate).format('YYYY/MM/DD'));
-            $("#txtDepartureDate").val(moment(dtDepartureDate).format('YYYY/MM/DD'));
             $("#txtSystemDate").val(moment(currentDate).format('YYYY/MM/DD'));
+
+            var dtDepartureDate = currentDate.setDate(currentDate.getDate() + 1);           
+            $("#txtDepartureDate").val(moment(dtDepartureDate).format('YYYY/MM/DD'));
+            
             $("#arrivaldate").click(function () {
                 $("#txtArriveDate").focus();
             });

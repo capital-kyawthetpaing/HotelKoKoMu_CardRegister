@@ -26,20 +26,22 @@ namespace HotelKoKoMu_CardRegister.Controllers
 
         public ActionResult HotelGuestList()
         {
+            if (Session["HotelLoginInfo"] == null)
+                return RedirectToAction("HotelLogin", "Hotel");
             return View();
         }
 
         public ActionResult GuestInformationList()
         {
-            if (Session["CardInfo"] == null)
-            {
-                return RedirectToAction("Login", "Card");
-            }
+            if (Session["CardInfo"] == null)            
+                return RedirectToAction("Login", "Card");           
             return View();
         }
 
         public ActionResult GuestInformationNew()
         {
+            if (Session["HotelLoginInfo"] == null)
+                return RedirectToAction("HotelLogin", "Hotel");
             return View();
         }
     }

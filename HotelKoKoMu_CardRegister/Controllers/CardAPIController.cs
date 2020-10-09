@@ -343,26 +343,26 @@ namespace HotelKoKoMu_CardRegister.Controllers
             var returnStatus = new object();
             DateTime currentDate = DateTime.Now;            
             NpgsqlParameter[] para = new NpgsqlParameter[20];           
-            para[0] = new NpgsqlParameter("@SystemID", cardRegisterInfo.SystemID);
-            para[1] = new NpgsqlParameter("@PmsID", cardRegisterInfo.PmsID);
-            para[2] = new NpgsqlParameter("@PmsPassword", cardRegisterInfo.PmsPassword);
-            para[3] = new NpgsqlParameter("@hotelcode", cardRegisterInfo.HotelCode);
-            para[4] = new NpgsqlParameter("@MachineNo", cardRegisterInfo.MachineNo);
-            para[5] = new NpgsqlParameter("@systemdate", cardRegisterInfo.SystemDate);
-            para[6] = new NpgsqlParameter("@reservationno", cardRegisterInfo.ReservationNo);
-            para[7] = new NpgsqlParameter("@roomno", cardRegisterInfo.RoomNo);            
-            para[8] = new NpgsqlParameter("@arrDate", cardRegisterInfo.ArriveDate);            
-            para[9] = new NpgsqlParameter("@deptDate", cardRegisterInfo.DepartureDate);
-            para[10] = new NpgsqlParameter("@guestName", cardRegisterInfo.NameKanji);
-            para[11] = new NpgsqlParameter("@kanaName", cardRegisterInfo.NameKana);
-            para[12] = new NpgsqlParameter("@zipcode", cardRegisterInfo.ZipCode);
-            para[13] = new NpgsqlParameter("@tel", cardRegisterInfo.Tel);
-            para[14] = new NpgsqlParameter("@address1", cardRegisterInfo.Address1);
-            para[15] = new NpgsqlParameter("@address2", cardRegisterInfo.Address2);
-            para[16] = new NpgsqlParameter("@company", cardRegisterInfo.Company);
-            para[17] = new NpgsqlParameter("@nationality", cardRegisterInfo.Nationality);
-            para[18] = new NpgsqlParameter("@passport", cardRegisterInfo.PassportNo);
-            para[19] = new NpgsqlParameter("@createddate", currentDate);
+            para[0] = new NpgsqlParameter("@SystemID", NpgsqlDbType.Varchar) { Value = cardRegisterInfo.SystemID };
+            para[1] = new NpgsqlParameter("@PmsID", NpgsqlDbType.Varchar) { Value = cardRegisterInfo.PmsID };
+            para[2] = new NpgsqlParameter("@PmsPassword", NpgsqlDbType.Varchar) { Value = cardRegisterInfo.PmsPassword };
+            para[3] = new NpgsqlParameter("@hotelcode", NpgsqlDbType.Varchar) { Value = cardRegisterInfo.HotelCode };
+            para[4] = new NpgsqlParameter("@MachineNo", NpgsqlDbType.Varchar) { Value = cardRegisterInfo.MachineNo };
+            para[5] = new NpgsqlParameter("@systemdate", NpgsqlDbType.Date) { Value = Convert.ToDateTime(cardRegisterInfo.SystemDate) };
+            para[6] = new NpgsqlParameter("@reservationno", NpgsqlDbType.Varchar) { Value = cardRegisterInfo.ReservationNo };
+            para[7] = new NpgsqlParameter("@roomno", NpgsqlDbType.Varchar) { Value = cardRegisterInfo.RoomNo };            
+            para[8] = new NpgsqlParameter("@arrDate", NpgsqlDbType.Date) { Value =Convert.ToDateTime(cardRegisterInfo.ArriveDate) };            
+            para[9] = new NpgsqlParameter("@deptDate", NpgsqlDbType.Date) { Value = Convert.ToDateTime(cardRegisterInfo.DepartureDate)};
+            para[10] = new NpgsqlParameter("@guestName", NpgsqlDbType.Varchar) { Value = cardRegisterInfo.NameKanji};
+            para[11] = new NpgsqlParameter("@kanaName", NpgsqlDbType.Varchar) { Value = cardRegisterInfo.NameKana };
+            para[12] = new NpgsqlParameter("@zipcode", NpgsqlDbType.Varchar) { Value = cardRegisterInfo.ZipCode };
+            para[13] = new NpgsqlParameter("@tel", NpgsqlDbType.Varchar) { Value = cardRegisterInfo.Tel };
+            para[14] = new NpgsqlParameter("@address1", NpgsqlDbType.Varchar) { Value = cardRegisterInfo.Address1};
+            para[15] = new NpgsqlParameter("@address2", NpgsqlDbType.Varchar) { Value = cardRegisterInfo.Address2};
+            para[16] = new NpgsqlParameter("@company", NpgsqlDbType.Varchar) { Value = cardRegisterInfo.Company };
+            para[17] = new NpgsqlParameter("@nationality", NpgsqlDbType.Varchar) { Value = cardRegisterInfo.Nationality };
+            para[18] = new NpgsqlParameter("@passport", NpgsqlDbType.Varchar) { Value = cardRegisterInfo.PassportNo };
+            para[19] = new NpgsqlParameter("@createddate", NpgsqlDbType.Date) { Value = Convert.ToDateTime(currentDate) };
             string sql = "insert into trn_guestinformation(created_date,systemid, pmsid, pmspassword, hotel_code, machineno, systemdate, reservationno, roomno, arrivaldate_hotel, departuredate_hotel, guestname_hotel, kananame_hotel, zipcode_hotel, tel_hotel, address1_hotel, address2_hotel, company_hotel, nationality_hotel, passportno_hotel,flag,complete_flag) " +
                @"values(@createddate,@SystemID, @PmsID, @PmsPassword, @hotelcode, @MachineNo, @systemdate, @reservationno, @roomno, @arrDate, @deptDate, @guestName,@kanaName, @zipcode, @tel, @address1, @address2, @company, @nationality, @passport,'0','0')";
             string result = await bdl.InsertUpdateDeleteData(sql, para);
@@ -494,7 +494,7 @@ namespace HotelKoKoMu_CardRegister.Controllers
             if (dt.Rows.Count > 0)
             {
                 int flag = Convert.ToInt32(dt.Rows[0]["flag"].ToString());
-                int completeflag = Convert.ToInt32(dt.Rows[0]["flag"].ToString());
+                int completeflag = Convert.ToInt32(dt.Rows[0]["complete_flag"].ToString());
                 if(flag==1 && completeflag==1)
                 {
                     NpgsqlParameter[] param = new NpgsqlParameter[5];
@@ -519,37 +519,43 @@ namespace HotelKoKoMu_CardRegister.Controllers
                         guestinfo.Company = dt.Rows[0]["company_text"].ToString();
                         guestinfo.Nationality = dt.Rows[0]["nationality_text"].ToString();
                         guestinfo.PassportNo = dt.Rows[0]["passportno_text"].ToString();
-
                         string filename = dt.Rows[0]["imagedata"].ToString();
                         if (!String.IsNullOrWhiteSpace(filename) && filename != "")
-                        {
-                            var dirPath = HttpContext.Current.Server.MapPath("~/" + cardRegisterInfo.HotelCode);
-                            dirPath = dirPath + "//" + filename;
-                            using (System.Drawing.Image image = System.Drawing.Image.FromFile(dirPath))
-                            {
-                                using (MemoryStream ms = new MemoryStream())
-                                {
-                                    string base64String;
-                                    image.Save(ms, image.RawFormat);
-                                    byte[] imageBytes = ms.ToArray();
-                                    base64String = Convert.ToBase64String(imageBytes);
-                                    dt.Rows[0]["imagedata"] = base64String;
-                                    guestinfo.ImageData = dt.Rows[0]["imagedata"].ToString();
-                                }
-                            }
-                        }
+                            guestinfo.ImageData = CreateBase64String(filename, dt.Rows[0]["hotel_code"].ToString());
                         //save success , update success and return getregisterdata
                         returnStatus = new { Success = guestinfo };
                     }
                     else
-                        returnStatus = new { Error = result.Item2 };
+                        returnStatus = new { Error = result2 };
                 }
                 else if(flag == 1 && completeflag == 0 && result.Item2 == "Success")                 
                    returnStatus = new { Writing = "" };
             }
             else
-                returnStatus = new { NotStart = "" };
+            {
+                if(result.Item2!="Success")
+                    returnStatus = new { Error = result.Item2 };
+                else
+                    returnStatus = new { NotStart = "" };
+            } 
             return Ok(returnStatus);
+        }
+
+        public string CreateBase64String(string filename,string hotelCode)
+        {
+            string base64String;
+            var dirPath = HttpContext.Current.Server.MapPath("~/" + hotelCode);
+            dirPath = dirPath + "//" + filename;
+            using (System.Drawing.Image image = System.Drawing.Image.FromFile(dirPath))
+            {
+                using (MemoryStream ms = new MemoryStream())
+                {                    
+                    image.Save(ms, image.RawFormat);
+                    byte[] imageBytes = ms.ToArray();
+                    base64String = "data:image/png;base64," + Convert.ToBase64String(imageBytes);                   
+                }
+            }
+            return base64String;           
         }
 
         /// <summary>
@@ -656,7 +662,6 @@ namespace HotelKoKoMu_CardRegister.Controllers
                 returnStatus = new { NotStart = "" };
             return Ok(returnStatus);
         }
-
         #endregion
     }
 }

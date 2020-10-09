@@ -1,73 +1,156 @@
 ﻿
 @{
-    ViewBag.Title = "GuestInformationList";    
+    ViewBag.Title = "GuestInformationList";
     Layout = "~/Views/Shared/_CardRegisterLayout.cshtml";
 }
 
+
+<style>
+    .fake-input {
+        position: relative;
+        width: 74%;
+    }
+
+        .fake-input input {
+            display: block;
+            width: 100%;
+            box-sizing: border-box
+        }
+
+        .fake-input img {
+            position: absolute;
+            top: 2px;
+            right: 5px
+        }
+
+    .datepicker {
+        top: 200px;
+    }
+
+    .row {
+        margin-top: 15px;
+    }
+</style>
+
 <div class="row">
-    <div class="table-responsive">
-        <table id="tblGuestList" border="1">
-            <thead>
-                <tr>
-                    <th>HotelCode</th>
-                    <th>ReservationNo</th>
-                    <th>RoomNo</th>
-                    <th>SystemDate</th>
-                    <th>GuestName</th>
-                    <th>KanaName</th>
-                    <th>ZipCode</th>
-                    <th>Tel</th>
-                    <th>Address1</th>
-                    <th>Address2</th>
-                    <th>Company</th>
-                    <th>Nationality</th>
-                    <th>PassportNo</th>
-                </tr>
-            </thead>
-        </table>
+    <div class="col-md-12 form-inline">
+        <div class="col-md-2">
+            <label>ReservationNo :</label>
+        </div>
+        <div class="col-md-4">
+            <label id="lblReservationNo"></label>
+        </div>
+        <div class="col-md-2">
+            <label>Room No. :</label>
+        </div>
+        <div class="col-md-4">
+            <label id="lblRoomNo"></label>
+        </div>
     </div>
 </div>
+
+<div class="row">
+    <div class="col-md-12 form-inline">
+        <div class="col-md-2">
+            <label>Name Kanji :</label>
+        </div>
+        <div class="col-md-4">
+            <label id="lblNameKanji"></label>
+        </div>
+        <div class="col-md-2">
+            <label>Name Kana :</label>
+        </div>
+        <div class="col-md-4">
+            <label id="lblNameKana"></label>
+        </div>
+
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12 form-inline">
+        <div class="col-md-2">
+            <label>ZipCode :</label>
+        </div>
+        <div class="col-md-4">
+            <label id="lblZipCode"></label>
+        </div>
+        <div class="col-md-2">
+            <label>Tel :</label>
+        </div>
+        <div class="col-md-4">
+            <label id="lblTel"></label>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12 form-inline">
+        <div class="col-md-2">
+            <label>Company :</label>
+        </div>
+        <div class="col-md-4">
+            <label id="lblCompany"></label>
+        </div>
+        <div class="col-md-2">
+            <label>Nationality :</label>
+        </div>
+        <div class="col-md-4">
+            <label id="lblNationality"></label>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12 form-inline">
+        <div class="col-md-2">
+            <label>Passport No. :</label>
+        </div>
+        <div class="col-md-4">
+            <label id="lblPassportNo"></label>
+        </div>
+        <div class="col-md-2">
+            <label>System Date :</label>
+        </div>
+        <div class="col-md-4">
+            <label id="lblSystemDate"></label>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12 form-inline">
+        <div class="col-md-2">
+            <label>Address1 :</label>
+        </div>
+        <div class="col-md-4">
+            <label id="lblAddress1"></label>
+        </div>
+        <div class="col-md-2">
+            <label>Address2 :</label>
+        </div>
+        <div class="col-md-4">
+            <label id="lblAddress2"></label>
+        </div>
+    </div>
+
+</div>
+
 
 @section Scripts{
     <script>
         $(document).ready(function () {
             var CardRegisterInfo = { SystemID: $("#lblsystemid").text(), PmsID: $("#lblPmsId").text(), PmsPassword: $("#lblPmsPassword").text(), HotelCode: $("#lblhotelCode").text(), MachineNo: $("#lblmachineno").text() };
             var result = CalltoApiController('@Url.Action("getRegistrationCardData", "api/CardAPI/")', CardRegisterInfo);
-            var response = result.Success;
-            alert(response);
-            //if (response != undefined) {
-            //    BindGuestInformationTable(response);
-            //}
+           
+            alert("Success" + result.Success);
+            alert("Writing" + result.Writing);
+            BindGuestInfo(result.success);
+           
         });
 
-        function BindGuestInformationTable(response) {
-
-            table = $('#tblGuestList').DataTable({
-
-                data: JSON.parse(response),
-                "bFilter": false,
-                "bLengthChange": false,
-                "bInfo": false,
-                "ordering": false,
-                destroy: true,
-                scrollX: true,
-                paging: false,
-                "columns": [
-                    { "data": "hotel_code", orderable: false },
-                    { "data": "reservationno", orderable: false },
-                    { "data": "roomno", orderable: false },
-                    { "data": "systemdate", orderable: false },
-                    { "data": "guestname_text", orderable: false},
-                    { "data": "kananame_text", orderable: false },
-                    { "data": "zipcode_text", orderable: false },
-                    { "data": "tel_text", orderable: false },
-                    { "data": "address1_text", orderable: false },
-                    { "data": "address2_text", orderable: false},
-                    { "data": "company_text", orderable: false },
-                    { "data": "nationality_text", orderable: false},
-                    { "data": "passportno_text", orderable: false },
-                ]
-            });
+        function BindGuestInfo(result) {
+            alert(result.SystemDate);
         }
 
     </script>

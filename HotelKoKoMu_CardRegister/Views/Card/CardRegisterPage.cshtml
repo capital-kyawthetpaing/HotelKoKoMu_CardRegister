@@ -70,13 +70,13 @@
                     <label>@HotelKoKoMu_CardRegister.Resources.Resources.ArrivalDate</label>
                 </td>
                 <td class="td2" id="tdArrivalDate">
-                    <input id="dtpArrivalDate" name="lblDepartureDate" class="datepicker-here" placeholder="yyyy-mm-dd" disabled />
+                    <input id="dtpArrivalDate" name="lblDepartureDate" class="datepicker-here d-none" placeholder="yyyy-mm-dd" disabled />
                 </td>
                 <td class="td1">
                     <label>@HotelKoKoMu_CardRegister.Resources.Resources.DepartureDate</label>
                 </td>
                 <td class="td2" id="tdDepartureDate">
-                    <input id="dtpDepartureDate" name="lblDepartureDate" class="datepicker-here" placeholder="yyyy-mm-dd" disabled />
+                    <input id="dtpDepartureDate" name="lblDepartureDate" class="datepicker-here d-none" placeholder="yyyy-mm-dd" disabled />
                 </td>
             </tr>
         </tbody>
@@ -540,10 +540,14 @@
                             $('#tdNationality').append(CreateLabelControl(cardObj[0].nationality_hotel, "lblNationality"));
                         if (cardObj[0].passportno_hotel != null)
                             $('#tdPassport').append(CreateLabelControl(cardObj[0].passportno_hotel, "lblPassport"));
-                        if (cardObj[0].arrivaldate_hotel != null) 
-                            $("#dtpArrivalDate").val(moment(cardObj[0].arrivaldate_hotel).format('YYYY-MM-DD'));
-                        if (cardObj[0].departuredate_hotel != null)
+                        if (cardObj[0].arrivaldate_hotel != null) {
+                            $("#dtpArrivalDate").val(moment(cardObj[0].arrivaldate_hotel).format('YYYY/MM/DD'));
+                            $("#dtpArrivalDate").removeClass('d-none');
+                        }                          
+                        if (cardObj[0].departuredate_hotel != null) {
                             $("#dtpDepartureDate").val(moment(cardObj[0].departuredate_hotel).format('YYYY-MM-DD'));
+                            $("#dtpDepartureDate").removeClass('d-none');
+                        }
                     }
             }
         }

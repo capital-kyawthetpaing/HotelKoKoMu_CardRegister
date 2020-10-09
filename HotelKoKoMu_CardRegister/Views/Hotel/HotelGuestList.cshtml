@@ -97,7 +97,7 @@
 
             //date compare check
             $("#dtpArrivalToDate").datepicker({
-                format: 'YYYY-MM-DD',
+                format: 'YYYY/MM/DD',
                 todayHighlight: true,
                 onSelect: function (dateText, inst) {
                     var fromdate = new Date($('#dtpArrivalFromDate').val());
@@ -109,7 +109,7 @@
 
             //if select arrival date again greater than departure date
             $("#dtpArrivalFromDate").datepicker({
-                format: 'YYYY-MM-DD',
+                format: 'YYYY/MM/DD',
                 todayHighlight: true,
                 onSelect: function (dateText, inst) {
                     var fromdate = new Date($('#dtpArrivalFromDate').val());
@@ -121,8 +121,8 @@
 
             var currentDate = new Date();
             //set current date into arrival date
-            $("#dtpArrivalFromDate").val(moment(currentDate).format('YYYY-MM-DD'));
-            $("#dtpArrivalToDate").val(moment(currentDate).format('YYYY-MM-DD'));
+            $("#dtpArrivalFromDate").val(moment(currentDate).format('YYYY/MM/DD'));
+            $("#dtpArrivalToDate").val(moment(currentDate).format('YYYY/MM/DD'));
 
             //auto complete zero fill in checkin roomno
             $('#txtCheckinRoom').on('keydown', function (e) {

@@ -31,6 +31,10 @@ namespace HotelKoKoMu_CardRegister.Controllers
 
         public ActionResult GuestInformationList()
         {
+            if (Session["CardInfo"] == null)
+            {
+                return RedirectToAction("Login", "Card");
+            }
             return View();
         }
 

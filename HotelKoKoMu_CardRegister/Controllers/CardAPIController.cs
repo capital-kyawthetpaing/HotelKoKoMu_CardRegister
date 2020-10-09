@@ -25,10 +25,7 @@ namespace HotelKoKoMu_CardRegister.Controllers
 
     public class CardAPIController : ApiController
     {
-      
-
         #region 
-
         /// <summary>
         /// request guest information from hotel system
         /// </summary>

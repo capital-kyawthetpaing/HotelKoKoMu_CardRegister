@@ -16,10 +16,8 @@ namespace HotelKoKoMu_CardRegister.Controllers
        //[SessionExpireFilter]
         public ActionResult CardRegisterPage()
         {
-            if (Session["CardInfo"] == null)
-            {
-                return RedirectToAction("Login", "Card");
-            }
+            if (Session["CardInfo"] == null)            
+                return RedirectToAction("Login", "Card");            
             return View();
         }
 

@@ -337,7 +337,7 @@
                                  });
                              }
                              else {
-                                 ShowError("Guest Information", response["Error"]);
+                                 ShowAlert("error","Guest Information", response["Error"]);
                              }
                          }
                      });
@@ -545,7 +545,7 @@
                             $("#dtpArrivalDate").removeClass('d-none');
                         }                          
                         if (cardObj[0].departuredate_hotel != null) {
-                            $("#dtpDepartureDate").val(moment(cardObj[0].departuredate_hotel).format('YYYY-MM-DD'));
+                            $("#dtpDepartureDate").val(moment(cardObj[0].departuredate_hotel).format('YYYY/MM/DD'));
                             $("#dtpDepartureDate").removeClass('d-none');
                         }
                     }
@@ -557,7 +557,7 @@
             if ($("#imgSign").attr('src') != undefined)
                 flag = true;
             else
-                ShowError(" サインをご記入ください。");
+                ShowAlert("error","Guest Information"," サインをご記入ください。");
 
             return flag;
         }

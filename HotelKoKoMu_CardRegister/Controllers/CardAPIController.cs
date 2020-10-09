@@ -494,7 +494,7 @@ namespace HotelKoKoMu_CardRegister.Controllers
             if (dt.Rows.Count > 0)
             {
                 int flag = Convert.ToInt32(dt.Rows[0]["flag"].ToString());
-                int completeflag = Convert.ToInt32(dt.Rows[0]["flag"].ToString());
+                int completeflag = Convert.ToInt32(dt.Rows[0]["complete_flag"].ToString());
                 if(flag==1 && completeflag==1)
                 {
                     NpgsqlParameter[] param = new NpgsqlParameter[5];
@@ -519,37 +519,43 @@ namespace HotelKoKoMu_CardRegister.Controllers
                         guestinfo.Company = dt.Rows[0]["company_text"].ToString();
                         guestinfo.Nationality = dt.Rows[0]["nationality_text"].ToString();
                         guestinfo.PassportNo = dt.Rows[0]["passportno_text"].ToString();
-
                         string filename = dt.Rows[0]["imagedata"].ToString();
                         if (!String.IsNullOrWhiteSpace(filename) && filename != "")
-                        {
-                            var dirPath = HttpContext.Current.Server.MapPath("~/" + cardRegisterInfo.HotelCode);
-                            dirPath = dirPath + "//" + filename;
-                            using (System.Drawing.Image image = System.Drawing.Image.FromFile(dirPath))
-                            {
-                                using (MemoryStream ms = new MemoryStream())
-                                {
-                                    string base64String;
-                                    image.Save(ms, image.RawFormat);
-                                    byte[] imageBytes = ms.ToArray();
-                                    base64String = Convert.ToBase64String(imageBytes);
-                                    dt.Rows[0]["imagedata"] = base64String;
-                                    guestinfo.ImageData = dt.Rows[0]["imagedata"].ToString();
-                                }
-                            }
-                        }
+                            guestinfo.ImageData = CreateBase64String(filename, dt.Rows[0]["hotel_code"].ToString());
                         //save success , update success and return getregisterdata
                         returnStatus = new { Success = guestinfo };
                     }
                     else
-                        returnStatus = new { Error = result.Item2 };
+                        returnStatus = new { Error = result2 };
                 }
                 else if(flag == 1 && completeflag == 0 && result.Item2 == "Success")                 
                    returnStatus = new { Writing = "" };
             }
             else
-                returnStatus = new { NotStart = "" };
+            {
+                if(result.Item2!="Success")
+                    returnStatus = new { Error = result.Item2 };
+                else
+                    returnStatus = new { NotStart = "" };
+            } 
             return Ok(returnStatus);
+        }
+
+        public string CreateBase64String(string filename,string hotelCode)
+        {
+            string base64String;
+            var dirPath = HttpContext.Current.Server.MapPath("~/" + hotelCode);
+            dirPath = dirPath + "//" + filename;
+            using (System.Drawing.Image image = System.Drawing.Image.FromFile(dirPath))
+            {
+                using (MemoryStream ms = new MemoryStream())
+                {                    
+                    image.Save(ms, image.RawFormat);
+                    byte[] imageBytes = ms.ToArray();
+                    base64String = "data:image/png;base64," + Convert.ToBase64String(imageBytes);                   
+                }
+            }
+            return base64String;           
         }
 
         /// <summary>

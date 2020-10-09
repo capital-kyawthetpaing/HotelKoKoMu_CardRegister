@@ -133,7 +133,13 @@
             <label id="lblAddress2"></label>
         </div>
     </div>
-
+</div>
+<div class="row">
+    <div class="col-md-12 form-inline">       
+        <div class="col-md-4">
+            <img id="imgssImage" />
+        </div>        
+    </div>
 </div>
 
 
@@ -142,17 +148,32 @@
         $(document).ready(function () {
             var CardRegisterInfo = { SystemID: $("#lblsystemid").text(), PmsID: $("#lblPmsId").text(), PmsPassword: $("#lblPmsPassword").text(), HotelCode: $("#lblhotelCode").text(), MachineNo: $("#lblmachineno").text() };
             var result = CalltoApiController('@Url.Action("getRegistrationCardData", "api/CardAPI/")', CardRegisterInfo);
-           
-            alert("Success" + result.Success);
-            alert("Writing" + result.Writing);
-            BindGuestInfo(result.success);
-           
+            
+            if (result.Success != undefined)
+                BindGuestInfo(result.Success);
+            else if (result.Writing != undefined)
+                ShowAlert('info', 'Guest Information', 'Writing');
+            else if (result.NotStart != undefined)
+                ShowAlert('info', 'Guest Information', 'Not Start');
+            else
+                ShowAlert('error', 'Guest Information', result.Error);
         });
 
         function BindGuestInfo(result) {
-            alert(result.SystemDate);
+            $("#lblReservationNo").text(result.ReservationNo);
+            $("#lblRoomNo").text(result.RoomNo);
+            $("#lblNameKanji").text(result.NameKanji);
+            $("#lblNameKana").text(result.NameKana);
+            $("#lblZipCode").text(result.ZipCode);
+            $("#lblTel").text(result.Tel);
+            $("#lblCompany").text(result.Company);
+            $("#lblNationality").text(result.Nationality);
+            $("#lblPassportNo").text(result.PassportNo);
+            $("#lblSystemDate").text(result.SystemDate);
+            $("#lblAddress1").text(result.Address1);
+            $("#lblAddress2").text(result.Address2);
+            $("#imgssImage").attr('src',result.ImageData);
         }
-
     </script>
 }
 

@@ -19,6 +19,7 @@ using System.IO;
 using System.Drawing;
 using Newtonsoft.Json;
 using System.Globalization;
+using System.Web.Configuration;
 
 namespace HotelKoKoMu_CardRegister.Controllers
 {
@@ -278,6 +279,8 @@ namespace HotelKoKoMu_CardRegister.Controllers
 
         public void SaveImage(string common, string HotelCode, string fileName)
         {
+            //string path = WebConfigurationManager.AppSettings["imagePath"];
+            //var dirPath = path + HotelCode;
             var dirPath = HttpContext.Current.Server.MapPath("~/" + HotelCode);
             byte[] bytes = null;
             if (!Directory.Exists(dirPath))

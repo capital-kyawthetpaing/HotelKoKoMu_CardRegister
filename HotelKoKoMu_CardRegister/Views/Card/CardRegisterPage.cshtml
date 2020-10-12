@@ -69,13 +69,13 @@
                     <label>@HotelKoKoMu_CardRegister.Resources.Resources.ArrivalDate</label>
                 </td>
                 <td class="td2" id="tdArrivalDate">
-                    <input id="dtpArrivalDate" name="lblDepartureDate" class="datepicker-here d-none" placeholder="yyyy-mm-dd" disabled />
+                    @*<input id="dtpArrivalDate" name="lblDepartureDate" class="datepicker-here d-none" placeholder="yyyy-mm-dd" disabled />*@
                 </td>
                 <td class="td1">
                     <label>@HotelKoKoMu_CardRegister.Resources.Resources.DepartureDate</label>
                 </td>
                 <td class="td2" id="tdDepartureDate">
-                    <input id="dtpDepartureDate" name="lblDepartureDate" class="datepicker-here d-none" placeholder="yyyy-mm-dd" disabled />
+                    @*<input id="dtpDepartureDate" name="lblDepartureDate" class="datepicker-here d-none" placeholder="yyyy-mm-dd" disabled />*@
                 </td>
             </tr>
         </tbody>
@@ -103,7 +103,6 @@
 
 <div id="CardRegisterModal" class="modal fade" role="dialog">
     <div class="modal-dialog modal-xl">
-
         <!-- Modal content-->
         <div class="modal-content">
             <div class="modal-header" style="background-color:#1b5696;color:white;">
@@ -299,8 +298,10 @@
                                  else
                                      PassportHW = $("#imgPassport").attr('src');
                              });
+
+                             //ArriveDate: $("#dtpArrivalDate").val(), DepartureDate: $("#dtpDepartureDate").val(),
                              
-                             var guestInfo = { SystemID:$("#lblsystemid").text(), PmsID: $("#lblPmsId").text(), PmsPassword: $("#lblPmsPassword").text(), HotelCode: $("#lblhotelCode").text(), MachineNo: $("#lblmachineno").text(), ReservationNo: $("#lblReservationNo").text(), RoomNo: $("#lblRoomNo").text(), SystemDate: $("#lblSystemDate").text(), NameKanji: GuestName, NameKana: KanaName,ZipCode: ZipCode, Tel: Tel,Address1: Address1, Address2: Address2, Company: Company, Nationality: Nationality, PassportNo: Passport, Sign: $("#imgSign").attr('src'), ArriveDate: $("#dtpArrivalDate").val(), DepartureDate: $("#dtpDepartureDate").val(), ImageData: canvas.toDataURL("image/jpg") };
+                             var guestInfo = { SystemID:$("#lblsystemid").text(), PmsID: $("#lblPmsId").text(), PmsPassword: $("#lblPmsPassword").text(), HotelCode: $("#lblhotelCode").text(), MachineNo: $("#lblmachineno").text(), ReservationNo: $("#lblReservationNo").text(), RoomNo: $("#lblRoomNo").text(), SystemDate: $("#lblSystemDate").text(), NameKanji: GuestName, NameKana: KanaName,ZipCode: ZipCode, Tel: Tel,Address1: Address1, Address2: Address2, Company: Company, Nationality: Nationality, PassportNo: Passport, Sign: $("#imgSign").attr('src'), ImageData: canvas.toDataURL("image/jpg") };
                              //var guestInfo = { HotelCode: $("#lblHotelCode").text(), ReservationNo: $("#lblReservationNo").text(), RoomNo: $("#lblRoomNo").text(), SystemDate: $("#lblSystemDate").text(), GuestName: GuestName, GuestNameHW: GuestNameHW, KanaName: KanaName, KanaNameHW: KanaNameHW, ZipCode: ZipCode, ZipCodeHW: ZipCodeHW, Tel: Tel, TelHW: TelHW, Address1: Address1, AddressHW1: AddressHW1, Address2: Address2, AddressHW2, AddressHW2, Company: Company, CompanyHW: CompanyHW, Nationality: Nationality, NationalityHW: NationalityHW, Passport: Passport, PassportHW: PassportHW, Sign: $("#imgSign").attr('src'), ArrivalDate: $("#dtpArrivalDate").val(), DepartureDate: $("#dtpDepartureDate").val(), CreatedDate: $("#lblCreatedDate").text(), ImageData: canvas.toDataURL("image/jpg") };
                              var response = CalltoApiController('@Url.Action("setRegistrationCard", "api/CardAPI/")', guestInfo);
 
@@ -319,8 +320,8 @@
                                          }
                                      });
 
-                                     $('#tdArrivalDate').append('<input id="dtpArrivalDate" name="lblDepartureDate" class="datepicker-here d-none" placeholder="yyyy-mm-dd" disabled />');
-                                     $('#tdDepartureDate').append('<input id="dtpDepartureDate" name="lblDepartureDate" class="datepicker-here d-none" placeholder="yyyy-mm-dd" disabled />');
+                                     //$('#tdArrivalDate').append('<input id="dtpArrivalDate" name="lblDepartureDate" class="datepicker-here d-none" placeholder="yyyy-mm-dd" disabled />');
+                                     //$('#tdDepartureDate').append('<input id="dtpDepartureDate" name="lblDepartureDate" class="datepicker-here d-none" placeholder="yyyy-mm-dd" disabled />');
 
                                      //var currentDate = new Date();
                                      ////set current date into arrival date
@@ -535,14 +536,18 @@
                             $('#tdNationality').append(CreateLabelControl(cardObj[0].nationality_hotel, "lblNationality"));
                         if (cardObj[0].passportno_hotel != null)
                             $('#tdPassport').append(CreateLabelControl(cardObj[0].passportno_hotel, "lblPassport"));
-                    if (cardObj[0].arrivaldate_hotel != null) {                        
-                            $("#dtpArrivalDate").val(moment(cardObj[0].arrivaldate_hotel).format('YYYY/MM/DD'));
-                            $("#dtpArrivalDate").removeClass('d-none');
-                        }                          
-                        if (cardObj[0].departuredate_hotel != null) {
-                            $("#dtpDepartureDate").val(moment(cardObj[0].departuredate_hotel).format('YYYY/MM/DD'));
-                            $("#dtpDepartureDate").removeClass('d-none');
-                        }
+                        if (cardObj[0].arrivaldate_hotel != null)
+                            $("#tdArrivalDate").append(CreateLabelControl(cardObj[0].arrivaldate_hotel, "lblArrivalDate"));
+                        if (cardObj[0].departuredate_hotel != null) 
+                            $("#tdDepartureDate").append(CreateLabelControl(cardObj[0].departuredate_hotel, "lblDepartureDate"));
+                        //if (cardObj[0].arrivaldate_hotel != null) {                        
+                        //    $("#dtpArrivalDate").val(moment(cardObj[0].arrivaldate_hotel).format('YYYY/MM/DD'));
+                        //    $("#dtpArrivalDate").removeClass('d-none');
+                        //}                          
+                        //if (cardObj[0].departuredate_hotel != null) {
+                        //    $("#dtpDepartureDate").val(moment(cardObj[0].departuredate_hotel).format('YYYY/MM/DD'));
+                        //    $("#dtpDepartureDate").removeClass('d-none');
+                        //}
                     }
             }
         }

@@ -44,11 +44,11 @@ namespace HotelKoKoMu_CardRegister.Controllers
             para[2] = new NpgsqlParameter("@PmsPassword", NpgsqlDbType.Varchar) { Value = cardRegisterInfo.PmsPassword };
             para[3] = new NpgsqlParameter("@hotelcode", NpgsqlDbType.Varchar) { Value = cardRegisterInfo.HotelCode };
             para[4] = new NpgsqlParameter("@MachineNo", NpgsqlDbType.Varchar) { Value = cardRegisterInfo.MachineNo };
-            para[5] = new NpgsqlParameter("@systemdate", NpgsqlDbType.Date) { Value = Convert.ToDateTime(cardRegisterInfo.SystemDate) };
+            para[5] = new NpgsqlParameter("@systemdate", NpgsqlDbType.Varchar) { Value = Convert.ToDateTime(cardRegisterInfo.SystemDate).ToString("yyyyMMdd")};
             para[6] = new NpgsqlParameter("@reservationno", NpgsqlDbType.Varchar) { Value = cardRegisterInfo.ReservationNo };
             para[7] = new NpgsqlParameter("@roomno", NpgsqlDbType.Varchar) { Value = cardRegisterInfo.RoomNo };            
-            para[8] = new NpgsqlParameter("@arrDate", NpgsqlDbType.Date) { Value =Convert.ToDateTime(cardRegisterInfo.ArriveDate) };            
-            para[9] = new NpgsqlParameter("@deptDate", NpgsqlDbType.Date) { Value = Convert.ToDateTime(cardRegisterInfo.DepartureDate)};
+            para[8] = new NpgsqlParameter("@arrDate", NpgsqlDbType.Varchar) { Value =Convert.ToDateTime(cardRegisterInfo.ArriveDate).ToString("yyyyMMdd") };            
+            para[9] = new NpgsqlParameter("@deptDate", NpgsqlDbType.Varchar) { Value = Convert.ToDateTime(cardRegisterInfo.DepartureDate).ToString("yyyyMMdd") };
             para[10] = new NpgsqlParameter("@guestName", NpgsqlDbType.Varchar) { Value = cardRegisterInfo.NameKanji};
             para[11] = new NpgsqlParameter("@kanaName", NpgsqlDbType.Varchar) { Value = cardRegisterInfo.NameKana };
             para[12] = new NpgsqlParameter("@zipcode", NpgsqlDbType.Varchar) { Value = cardRegisterInfo.ZipCode };
@@ -86,11 +86,9 @@ namespace HotelKoKoMu_CardRegister.Controllers
             Sqlprms[2] = new NpgsqlParameter("@pmspassword", NpgsqlDbType.Varchar) { Value = cardRegisterInfo.PmsPassword };
             Sqlprms[3] = new NpgsqlParameter("@hotelcode", NpgsqlDbType.Varchar) { Value = cardRegisterInfo.HotelCode };
             Sqlprms[4] = new NpgsqlParameter("@machineno", NpgsqlDbType.Varchar) { Value = cardRegisterInfo.MachineNo };
-            //string sql = "Select hotel_code,created_date,systemdate,reservationno, roomno, guestname_hotel, kananame_hotel, zipcode_hotel, tel_hotel, address1_hotel, address2_hotel, company_hotel, nationality_hotel, passportno_hotel,arrivaldate_hotel,departuredate_hotel from trn_guestinformation";
-            //sql += " where pmsid=@pmsid and systemid=@systemid and  pmspassword=@pmspassword and  machineno=@machineno and hotel_code=@hotelcode and flag=0 and complete_flag=0 order by created_date limit 1";
 
             string sql = "Select systemdate,reservationno, roomno, guestname_hotel, kananame_hotel, zipcode_hotel, tel_hotel, address1_hotel, address2_hotel, company_hotel, nationality_hotel, passportno_hotel,arrivaldate_hotel,departuredate_hotel from trn_guestinformation";
-            sql += " where pmsid=@pmsid and systemid=@systemid and  pmspassword=@pmspassword and  machineno=@machineno and hotel_code=@hotelcode and flag=0 and complete_flag=0 order by created_date limit 1";
+            sql += " where pmsid=@pmsid and systemid=@systemid and  pmspassword=@pmspassword and machineno=@machineno and hotel_code=@hotelcode and flag=0 and complete_flag=0 order by created_date limit 1";
             Tuple<string, string> result1 = await bdl.SelectJson(sql,Sqlprms);
             DataTable dt = JsonConvert.DeserializeObject<DataTable>(result1.Item1);
             if (dt.Rows.Count > 0)
@@ -131,7 +129,7 @@ namespace HotelKoKoMu_CardRegister.Controllers
             BaseDL bdl = new BaseDL();
             string culture = HttpContext.Current.Request.Cookies["culture"].Value;
             var returnStatus = new object();
-            NpgsqlParameter[] Sqlprms = new NpgsqlParameter[23];
+            NpgsqlParameter[] Sqlprms = new NpgsqlParameter[21];
 
             Sqlprms[0] = new NpgsqlParameter("@guestName", cardRegisterInfo.NameKanji);
             if (culture == "Ja")
@@ -148,23 +146,20 @@ namespace HotelKoKoMu_CardRegister.Controllers
             Sqlprms[9] = new NpgsqlParameter("@updator", cardRegisterInfo.Updator);
             Sqlprms[10] = new NpgsqlParameter("@createddate", cardRegisterInfo.CreatedDate);
             Sqlprms[11] = new NpgsqlParameter("@updateddate", DateTime.Now);
-            string fileName = cardRegisterInfo.SystemDate.ToString("yyyyMMdd") + cardRegisterInfo.ReservationNo + cardRegisterInfo.RoomNo + DateTime.Now.ToString("yyyyMMdd") + cardRegisterInfo.HotelCode + ".jpg";
+            string fileName = cardRegisterInfo.SystemDate + cardRegisterInfo.ReservationNo + cardRegisterInfo.RoomNo + DateTime.Now.ToString("yyyyMMdd") + cardRegisterInfo.HotelCode + ".jpg";
             Sqlprms[12] = new NpgsqlParameter("@filename", fileName);
             Sqlprms[13] = new NpgsqlParameter("@hotelcode", cardRegisterInfo.HotelCode);
             Sqlprms[14] = new NpgsqlParameter("@reservationno", cardRegisterInfo.ReservationNo);
             Sqlprms[15] = new NpgsqlParameter("@roomno", cardRegisterInfo.RoomNo);
-            Sqlprms[16] = new NpgsqlParameter("@systemdate", cardRegisterInfo.SystemDate);
-            Sqlprms[17] = new NpgsqlParameter("@arrivaldate", cardRegisterInfo.ArriveDate);
-            Sqlprms[18] = new NpgsqlParameter("@departuredate", cardRegisterInfo.DepartureDate);
-
-            Sqlprms[19] = new NpgsqlParameter("@pmsid", cardRegisterInfo.PmsID);
-            Sqlprms[20] = new NpgsqlParameter("@pmspassword", cardRegisterInfo.PmsPassword);
-            Sqlprms[21] = new NpgsqlParameter("@machineno", cardRegisterInfo.MachineNo);
-            Sqlprms[22] = new NpgsqlParameter("@systemid", cardRegisterInfo.SystemID);
+            Sqlprms[16] = new NpgsqlParameter("@systemdate", cardRegisterInfo.SystemDate);            
+            Sqlprms[17] = new NpgsqlParameter("@pmsid", cardRegisterInfo.PmsID);
+            Sqlprms[18] = new NpgsqlParameter("@pmspassword", cardRegisterInfo.PmsPassword);
+            Sqlprms[19] = new NpgsqlParameter("@machineno", cardRegisterInfo.MachineNo);
+            Sqlprms[20] = new NpgsqlParameter("@systemid", cardRegisterInfo.SystemID);
            
             string sql = "update trn_guestinformation set guestname_text=@guestName,kananame_text=@kanaName,zipcode_text=@zipcode,tel_text=@tel,";
             sql += " address1_text=@address1,address2_text=@address2,company_text=@company,nationality_text=@nationality,passportno_text=@passport,complete_flag=1,";
-            sql += " arrival_date=@arrivaldate,departure_date=@departuredate,updator=@updator,updated_date=@updateddate,imagedata=@filename where pmsid=@pmsid and";
+            sql += " updator=@updator,updated_date=@updateddate,imagedata=@filename where pmsid=@pmsid and";
             sql += " pmspassword=@pmspassword and  machineno=@machineno and  systemid=@systemid and  hotel_code=@hotelcode and flag=1 and complete_flag=0";
             string result = await bdl.InsertUpdateDeleteData(sql,Sqlprms);
             if (result == "true")
@@ -205,14 +200,15 @@ namespace HotelKoKoMu_CardRegister.Controllers
                     NpgsqlParameter[] param = new NpgsqlParameter[5];
                     param[0] = new NpgsqlParameter("@reservationno", NpgsqlDbType.Varchar) { Value = dt.Rows[0]["reservationno"].ToString() };
                     param[1] = new NpgsqlParameter("@roomno", NpgsqlDbType.Varchar) { Value = dt.Rows[0]["roomno"].ToString() };
-                    param[2] = new NpgsqlParameter("@systemdate", NpgsqlDbType.Date) { Value = Convert.ToDateTime(dt.Rows[0]["systemdate"].ToString()) };
+                    param[2] = new NpgsqlParameter("@systemdate", NpgsqlDbType.Varchar) { Value = dt.Rows[0]["systemdate"].ToString() };
                     param[3] = new NpgsqlParameter("@hotelcode", NpgsqlDbType.Varchar) { Value = cardRegisterInfo.HotelCode };
                     param[4] = new NpgsqlParameter("@createddate", NpgsqlDbType.Date) { Value = Convert.ToDateTime(dt.Rows[0]["created_date"].ToString()) };
-                    string sql1 = "Update trn_guestinformation set flag=2 where reservationno=@reservationno and roomno=@roomno and  CAST(systemdate as DATE)=CAST(@systemdate AS DATE) and CAST(created_date as DATE)= CAST(@createddate AS DATE) and hotel_code=@hotelcode and flag=1 and complete_flag=1";
+                    string sql1 = "Update trn_guestinformation set flag=2 where reservationno=@reservationno and roomno=@roomno and  systemdate=@systemdate and CAST(created_date as DATE)= CAST(@createddate AS DATE) and hotel_code=@hotelcode and flag=1 and complete_flag=1";
                     string result2 = await bdl.InsertUpdateDeleteData(sql1, param);
                     if (result2 == "true")
                     {
-                        guestinfo.SystemDate = Convert.ToDateTime(dt.Rows[0]["systemdate"].ToString()).ToString("yyyyMMdd");
+                        guestinfo.SystemDate = dt.Rows[0]["systemdate"].ToString();
+                        //guestinfo.SystemDate = Convert.ToDateTime(dt.Rows[0]["systemdate"].ToString()).ToString("yyyyMMdd");
                         guestinfo.ReservationNo = dt.Rows[0]["reservationno"].ToString();
                         guestinfo.RoomNo = dt.Rows[0]["roomno"].ToString();
                         guestinfo.NameKanji = dt.Rows[0]["guestname_text"].ToString();
@@ -340,7 +336,7 @@ namespace HotelKoKoMu_CardRegister.Controllers
             Sqlprms[2] = new NpgsqlParameter("@PmsPassword", NpgsqlDbType.Varchar) { Value = cardRegisterInfo.PmsPassword };
             Sqlprms[3] = new NpgsqlParameter("@HotelCode", NpgsqlDbType.Varchar) { Value = cardRegisterInfo.HotelCode };
             Sqlprms[4] = new NpgsqlParameter("@MachineNo", NpgsqlDbType.Varchar) { Value = cardRegisterInfo.MachineNo };
-            string sql1 = "select Cast(systemdate as Date),reservationno,roomno,flag,complete_flag from trn_guestinformation where systemid = @SystemID and pmsid = @PmsID and  PmsPassword= @pmspassword and hotel_code= @HotelCode and machineno=@MachineNo and flag=1 limit 1";
+            string sql1 = "select systemdate,reservationno,roomno,flag,complete_flag from trn_guestinformation where systemid = @SystemID and pmsid = @PmsID and  PmsPassword= @pmspassword and hotel_code= @HotelCode and machineno=@MachineNo and flag=1 limit 1";
             Tuple<string, string> result1 = await bdl.SelectJson(sql1, Sqlprms);
             DataTable dt = JsonConvert.DeserializeObject<DataTable>(result1.Item1);
             if (dt.Rows.Count > 0)
@@ -361,7 +357,7 @@ namespace HotelKoKoMu_CardRegister.Controllers
                     if (result2 == "true")
                     {
                         var returnData = new {
-                            SystemDate=Convert.ToDateTime(dt.Rows[0]["systemdate"].ToString()),
+                            SystemDate= dt.Rows[0]["systemdate"].ToString(),
                             ReservationNo= dt.Rows[0]["reservationno"].ToString(),
                             RoomNo= dt.Rows[0]["roomno"].ToString()
                         };

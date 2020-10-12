@@ -7,7 +7,8 @@ namespace HotelKoKoMu_CardRegister.Models
 {
     public class GuestInformation
     {
-        public DateTime SystemDate { get; set; }
+        public string SystemDate { get; set; }
+        //public DateTime SystemDate { get; set; }
         public string ReservationNo { get; set; }
         public string RoomNo { get; set; }
         public string NameKanji { get; set; }

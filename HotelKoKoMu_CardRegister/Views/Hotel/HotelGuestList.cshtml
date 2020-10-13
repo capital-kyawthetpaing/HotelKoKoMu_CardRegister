@@ -97,12 +97,10 @@
 
             //if select arrival date again greater than departure date
             $("#dtpArrivalFromDate").datepicker({
-               
                 format: 'YYYY/MM/DD',
                 todayHighlight: true,
                 onSelect: function (dateText, inst) {
                     $("#dtpArrivalFromDate").val(moment(dateText).format('YYYY/MM/DD'));
-                    alert("go");
                 }
             });
 
@@ -113,8 +111,11 @@
                 onSelect: function (dateText, inst) {
                     var fromdate = new Date($('#dtpArrivalFromDate').val());
                     var todate = new Date($('#dtpArrivalToDate').val());
-                    if (todate < fromdate)
+                    if (todate < fromdate) {
+                        alert("go");
                         ShowError("ToDate must be greater than FromDate");
+                    }
+                        
                     else
                         $("#dtpArrivalToDate").val(moment(dateText).format('YYYY/MM/DD'));
                 }

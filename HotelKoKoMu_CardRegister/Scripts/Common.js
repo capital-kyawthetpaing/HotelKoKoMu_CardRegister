@@ -1,4 +1,4 @@
-﻿function CalltoApiController(url, model) {   
+﻿function CalltoApiController(url, model) {    
     var result;
     $.ajax({
         url: url.replace("%2F", "/"),

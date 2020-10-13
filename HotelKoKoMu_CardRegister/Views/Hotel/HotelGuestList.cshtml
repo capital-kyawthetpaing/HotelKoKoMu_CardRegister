@@ -97,10 +97,12 @@
 
             //if select arrival date again greater than departure date
             $("#dtpArrivalFromDate").datepicker({
+               
                 format: 'YYYY/MM/DD',
                 todayHighlight: true,
                 onSelect: function (dateText, inst) {
                     $("#dtpArrivalFromDate").val(moment(dateText).format('YYYY/MM/DD'));
+                    alert("go");
                 }
             });
 

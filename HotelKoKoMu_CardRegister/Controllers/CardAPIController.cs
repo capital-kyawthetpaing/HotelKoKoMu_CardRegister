@@ -246,8 +246,11 @@ namespace HotelKoKoMu_CardRegister.Controllers
         public string CreateBase64String(string filename,string hotelCode)
         {
             string base64String;
-            var dirPath = HttpContext.Current.Server.MapPath("~/" + hotelCode);
-            dirPath = dirPath + "//" + filename;
+            string path = WebConfigurationManager.AppSettings["imagePath"];
+            var dirPath = path + hotelCode+'/'+filename;
+
+            //var dirPath = HttpContext.Current.Server.MapPath("~/" + hotelCode);
+            //dirPath = dirPath + "//" + filename;
             using (System.Drawing.Image image = System.Drawing.Image.FromFile(dirPath))
             {
                 using (MemoryStream ms = new MemoryStream())
@@ -379,6 +382,14 @@ namespace HotelKoKoMu_CardRegister.Controllers
             }  
             return Ok(returnStatus);
         }
+
+        [HttpPost]
+        [ActionName("showImage")]
+        public IHttpActionResult showImage(ImageInfo imageInfo)
+        {            
+            return Ok(CreateBase64String(imageInfo.fileName,imageInfo.HotelCode));
+        }
+
         #endregion
     }
 }

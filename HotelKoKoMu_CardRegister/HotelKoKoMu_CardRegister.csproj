@@ -172,6 +172,7 @@
     </Compile>
     <Compile Include="Models\CardRegisterInfo.cs" />
     <Compile Include="Models\GuestInformation.cs" />
+    <Compile Include="Models\ImageInfo.cs" />
     <Compile Include="Models\LoginInfo.cs" />
     <Compile Include="Models\HotelInfo.cs" />
     <Compile Include="Models\MultiLanguages.cs" />

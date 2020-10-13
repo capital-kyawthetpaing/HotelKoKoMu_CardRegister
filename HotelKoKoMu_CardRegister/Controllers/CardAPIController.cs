@@ -389,14 +389,7 @@ namespace HotelKoKoMu_CardRegister.Controllers
         {            
             return Ok(CreateBase64String(imageInfo.fileName,imageInfo.HotelCode));
         }
-
-       //[HttpPost]
-       //[ActionName("requestForRegistrationCard")]
-       //public IHttpActionResult requestForRegistrationCard(string json)
-       // {
-       //     return Ok(json);
-       // }
-
+        
         #endregion
     }
 }

@@ -16,8 +16,6 @@ namespace HotelKoKoMu_CardRegister.Models
         public string RoomNo { get; set; }
         public string SystemDate { get; set; }
         public DateTime CreatedDate { get; set; }
-        //public DateTime SystemDate { get; set; }
-        //public DateTime CreatedDate { get; set; }
         public string NameKanji { get; set; }
         public string NameKana { get; set; }       
         public string ZipCode { get; set; }       
@@ -33,5 +31,6 @@ namespace HotelKoKoMu_CardRegister.Models
         public string ImageData { get; set; }
         public string Creator { get; set; }
         public string Updator { get; set; }
+        public string json { get; set; }
     }
 }

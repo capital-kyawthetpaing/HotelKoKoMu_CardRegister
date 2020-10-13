@@ -19,6 +19,7 @@ using System.IO;
 using System.Drawing;
 using Newtonsoft.Json;
 using System.Globalization;
+using System.Web.Configuration;
 
 namespace HotelKoKoMu_CardRegister.Controllers
 {
@@ -37,24 +38,24 @@ namespace HotelKoKoMu_CardRegister.Controllers
         {
             BaseDL bdl = new BaseDL();
             var returnStatus = new object();
-            DateTime currentDate = DateTime.Now;            
-            NpgsqlParameter[] para = new NpgsqlParameter[20];           
+            DateTime currentDate = DateTime.Now;
+            NpgsqlParameter[] para = new NpgsqlParameter[20];
             para[0] = new NpgsqlParameter("@SystemID", NpgsqlDbType.Varchar) { Value = cardRegisterInfo.SystemID };
             para[1] = new NpgsqlParameter("@PmsID", NpgsqlDbType.Varchar) { Value = cardRegisterInfo.PmsID };
             para[2] = new NpgsqlParameter("@PmsPassword", NpgsqlDbType.Varchar) { Value = cardRegisterInfo.PmsPassword };
             para[3] = new NpgsqlParameter("@hotelcode", NpgsqlDbType.Varchar) { Value = cardRegisterInfo.HotelCode };
             para[4] = new NpgsqlParameter("@MachineNo", NpgsqlDbType.Varchar) { Value = cardRegisterInfo.MachineNo };
-            para[5] = new NpgsqlParameter("@systemdate", NpgsqlDbType.Varchar) { Value = Convert.ToDateTime(cardRegisterInfo.SystemDate).ToString("yyyyMMdd")};
+            para[5] = new NpgsqlParameter("@systemdate", NpgsqlDbType.Varchar) { Value = cardRegisterInfo.SystemDate };
             para[6] = new NpgsqlParameter("@reservationno", NpgsqlDbType.Varchar) { Value = cardRegisterInfo.ReservationNo };
-            para[7] = new NpgsqlParameter("@roomno", NpgsqlDbType.Varchar) { Value = cardRegisterInfo.RoomNo };            
-            para[8] = new NpgsqlParameter("@arrDate", NpgsqlDbType.Varchar) { Value =Convert.ToDateTime(cardRegisterInfo.ArriveDate).ToString("yyyyMMdd") };            
-            para[9] = new NpgsqlParameter("@deptDate", NpgsqlDbType.Varchar) { Value = Convert.ToDateTime(cardRegisterInfo.DepartureDate).ToString("yyyyMMdd") };
-            para[10] = new NpgsqlParameter("@guestName", NpgsqlDbType.Varchar) { Value = cardRegisterInfo.NameKanji};
+            para[7] = new NpgsqlParameter("@roomno", NpgsqlDbType.Varchar) { Value = cardRegisterInfo.RoomNo };
+            para[8] = new NpgsqlParameter("@arrDate", NpgsqlDbType.Varchar) { Value = cardRegisterInfo.ArriveDate };
+            para[9] = new NpgsqlParameter("@deptDate", NpgsqlDbType.Varchar) { Value = cardRegisterInfo.DepartureDate };
+            para[10] = new NpgsqlParameter("@guestName", NpgsqlDbType.Varchar) { Value = cardRegisterInfo.NameKanji };
             para[11] = new NpgsqlParameter("@kanaName", NpgsqlDbType.Varchar) { Value = cardRegisterInfo.NameKana };
             para[12] = new NpgsqlParameter("@zipcode", NpgsqlDbType.Varchar) { Value = cardRegisterInfo.ZipCode };
             para[13] = new NpgsqlParameter("@tel", NpgsqlDbType.Varchar) { Value = cardRegisterInfo.Tel };
-            para[14] = new NpgsqlParameter("@address1", NpgsqlDbType.Varchar) { Value = cardRegisterInfo.Address1};
-            para[15] = new NpgsqlParameter("@address2", NpgsqlDbType.Varchar) { Value = cardRegisterInfo.Address2};
+            para[14] = new NpgsqlParameter("@address1", NpgsqlDbType.Varchar) { Value = cardRegisterInfo.Address1 };
+            para[15] = new NpgsqlParameter("@address2", NpgsqlDbType.Varchar) { Value = cardRegisterInfo.Address2 };
             para[16] = new NpgsqlParameter("@company", NpgsqlDbType.Varchar) { Value = cardRegisterInfo.Company };
             para[17] = new NpgsqlParameter("@nationality", NpgsqlDbType.Varchar) { Value = cardRegisterInfo.Nationality };
             para[18] = new NpgsqlParameter("@passport", NpgsqlDbType.Varchar) { Value = cardRegisterInfo.PassportNo };
@@ -245,8 +246,11 @@ namespace HotelKoKoMu_CardRegister.Controllers
         public string CreateBase64String(string filename,string hotelCode)
         {
             string base64String;
-            var dirPath = HttpContext.Current.Server.MapPath("~/" + hotelCode);
-            dirPath = dirPath + "//" + filename;
+            string path = WebConfigurationManager.AppSettings["imagePath"];
+            var dirPath = path + hotelCode+'/'+filename;
+
+            //var dirPath = HttpContext.Current.Server.MapPath("~/" + hotelCode);
+            //dirPath = dirPath + "//" + filename;
             using (System.Drawing.Image image = System.Drawing.Image.FromFile(dirPath))
             {
                 using (MemoryStream ms = new MemoryStream())
@@ -278,7 +282,9 @@ namespace HotelKoKoMu_CardRegister.Controllers
 
         public void SaveImage(string common, string HotelCode, string fileName)
         {
-            var dirPath = HttpContext.Current.Server.MapPath("~/" + HotelCode);
+            string path = WebConfigurationManager.AppSettings["imagePath"];
+            var dirPath = path + HotelCode;
+            //var dirPath = HttpContext.Current.Server.MapPath("~/" + HotelCode);
             byte[] bytes = null;
             if (!Directory.Exists(dirPath))
             {
@@ -376,6 +382,21 @@ namespace HotelKoKoMu_CardRegister.Controllers
             }  
             return Ok(returnStatus);
         }
+
+        [HttpPost]
+        [ActionName("showImage")]
+        public IHttpActionResult showImage(ImageInfo imageInfo)
+        {            
+            return Ok(CreateBase64String(imageInfo.fileName,imageInfo.HotelCode));
+        }
+
+       //[HttpPost]
+       //[ActionName("requestForRegistrationCard")]
+       //public IHttpActionResult requestForRegistrationCard(string json)
+       // {
+       //     return Ok(json);
+       // }
+
         #endregion
     }
 }

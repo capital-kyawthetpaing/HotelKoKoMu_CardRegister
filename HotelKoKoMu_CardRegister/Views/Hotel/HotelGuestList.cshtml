@@ -43,7 +43,7 @@
             <label>チェックイン部屋 :</label>
         </div>
         <div class="col-md-2 col-sm-3">
-            <input type="text" id="txtCheckinRoom"  onkeypress="return isNumber(event)" />
+            <input type="text" id="txtCheckinRoom" onkeypress="return isNumber(event)" />
         </div>
     </div>
 </div>
@@ -91,7 +91,7 @@
     </div>
 </div>
 
-@section Scripts{   
+@section Scripts{
     <script>
         $(document).ready(function () {
 
@@ -103,7 +103,7 @@
                     $("#dtpArrivalFromDate").val(moment(dateText).format('YYYY/MM/DD'));
                 }
             });
-           
+
             //date compare check
             $("#dtpArrivalToDate").datepicker({
                 format: 'YYYY/MM/DD',
@@ -117,13 +117,13 @@
                         $("#dtpArrivalToDate").val(moment(dateText).format('YYYY/MM/DD'));
                 }
             });
-           
+
 
             var currentDate = new Date();
             //set current date into arrival date
             $("#dtpArrivalFromDate").val(moment(currentDate).format('YYYY/MM/DD'));
             $("#dtpArrivalToDate").val(moment(currentDate).format('YYYY/MM/DD'));
-            
+
 
             $("#btnSearch").click(function () {
                 SearchData();
@@ -141,14 +141,16 @@
             $('body').delegate('#tblhotelguestlist tbody tr', 'click', function () {
                 var data = table.row(this).data();
                 if (data["imagedata"] != null) {
-                    var imagePath = '/' + data["hotel_code"] + "/" + data["imagedata"];
-                    $("#imgImage").attr('src', imagePath);
+                    //var imagePath = '/' + data["hotel_code"] + "/" + data["imagedata"];
+                    var response = CalltoApiController('@Url.Action("showImage", "api/CardAPI/")', { fileName: data["imagedata"], HotelCode: data["hotel_code"] });                   
+                    $("#imgImage").attr('src', response);
+                    //$("#imgImage").attr('src', imagePath);
                     $("#showImageModal").modal('show');
                 }
             });
 
             $("#fromdate").click(function () {
-                $("#dtpArrivalFromDate").val(moment($("#dtpArrivalFromDate").val()).format('YYYY/MM/DD'));               
+                $("#dtpArrivalFromDate").val(moment($("#dtpArrivalFromDate").val()).format('YYYY/MM/DD'));
                 $("#dtpArrivalFromDate").focus();
             });
 
@@ -167,15 +169,15 @@
                     HotelCode: $("#lblhotelcode").text()
                  }
             var result = CalltoApiController('@Url.Action("searchGuestData", "api/HotelAPI/")', guestinfo);
-            BindGuestTable(result["Result"]);    
+            BindGuestTable(result["Result"]);
         }
 
         function BindGuestTable(response) {
-          
+
             table = $('#tblhotelguestlist').DataTable({
                 "language": {
                     "emptyTable": " "
-                },               
+                },
                 "bFilter": false,
                 "bLengthChange": false,
                 "bInfo": false,

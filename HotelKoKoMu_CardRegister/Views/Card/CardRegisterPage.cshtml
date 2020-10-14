@@ -330,7 +330,7 @@
                                  });
                              }
                              else {
-                                 ShowAlert("error","Guest Information", response["Error"]);
+                                 ShowAlert("error","", response["Error"]);
                              }
                          }
                      });
@@ -554,7 +554,7 @@
             if ($("#imgSign").attr('src') != undefined)
                 flag = true;
             else
-                ShowAlert("error","Guest Information"," サインをご記入ください。");
+                ShowAlert("error",""," サインをご記入ください。");
 
             return flag;
         }

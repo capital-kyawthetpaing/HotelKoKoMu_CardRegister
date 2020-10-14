@@ -150,7 +150,7 @@
             var result = CalltoApiController('@Url.Action("getRegistrationCardData", "api/CardAPI/")', CardRegisterInfo);
             
             if (result.Status == "Success")
-                BindGuestInfo(result.Success);
+                BindGuestInfo(result);
             else if (result.Status =="Writing")
                 ShowAlert('info', 'Guest Information', 'Writing');
             else if (result.Status =="NotStart")
@@ -159,7 +159,7 @@
                 ShowAlert('error', 'Guest Information', result.Error);
         });
 
-        function BindGuestInfo(result) {
+        function BindGuestInfo(result) {           
             $("#lblReservationNo").text(result.ReservationNo);
             $("#lblRoomNo").text(result.RoomNo);
             $("#lblNameKanji").text(result.NameKanji);

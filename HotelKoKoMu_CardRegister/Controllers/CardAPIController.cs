@@ -39,7 +39,6 @@ namespace HotelKoKoMu_CardRegister.Controllers
         {           
             BaseDL bdl = new BaseDL();
             ReturnMessageInfo msgInfo = new ReturnMessageInfo();
-            //var returnStatus = new object();
             DateTime currentDate = DateTime.Now;
             NpgsqlParameter[] para = new NpgsqlParameter[20];
             para[0] = new NpgsqlParameter("@SystemID", NpgsqlDbType.Varchar) { Value = cardRegisterInfo.SystemID };

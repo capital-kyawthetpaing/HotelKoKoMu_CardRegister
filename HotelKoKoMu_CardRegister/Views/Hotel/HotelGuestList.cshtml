@@ -7,13 +7,13 @@
 
 <div class="row">
     <div class="col-md-12 form-inline">
-        <div class="col-md-1 col-sm-4">
+        <div class="col-md-2 col-sm-4">
             <label>到着日 :</label>
         </div>
-        <div class="col-md-3 col-sm-12">
+        <div class="col-md-5 col-sm-12">
             <table>
                 <tr>
-                    <td width="50%">
+                    <td width="45%">
                         <div class="fake-input">
                             <input type="text" id="dtpArrivalFromDate" class="datepicker-here" /><img id="fromdate" src="~/images/calendar.png" width=25 />
                         </div>
@@ -21,7 +21,7 @@
                     <td style="text-align:center">
                         <span>~</span>
                     </td>
-                    <td width="50%">
+                    <td width="45%">
                         <div class="fake-input">
                             <input type="text" id="dtpArrivalToDate" class="datepicker-here" /><img id="todate" src="~/images/calendar.png" width=25 />
                         </div>
@@ -30,23 +30,23 @@
             </table>
         </div>
 
-        <div class="col-md-2 col-sm-4">
+        @*<div class="col-md-2 col-sm-2">
             <label>チェックイン部屋 :</label>
         </div>
-        <div class="col-md-2 col-sm-3">
+        <div class="col-md-2 col-sm-2">
             <input type="text" id="txtCheckinRoom" onkeypress="return isNumber(event)" />
-        </div>
+        </div>*@
 
         <div class="col-md-2 col-sm-4">
             <button type="button" id="btnSearch" class="clsbtnSearch">検 索</button>
         </div>
-        <div class="col-md-1 col-sm-4">
+        <div class="col-md-1 offset-md-2 col-sm-4">
             <button type="button" id="btnClear" class="clsbtnClear">クリア</button>
         </div>
     </div>
 </div>
 
-@*<div class="row">
+<div class="row">
     <div class="col-md-12 form-inline">
         <div class="col-md-2 col-sm-4">
             <label>チェックイン部屋 :</label>
@@ -55,7 +55,7 @@
             <input type="text" id="txtCheckinRoom" onkeypress="return isNumber(event)" />
         </div>
     </div>
-</div>*@
+</div>
 
 <div class="row">
     <div class="col-md-12 form-inline">
@@ -73,12 +73,12 @@
         <table id="tblhotelguestlist" border="1" class="table table-striped table-bordered" style="width:100%;table-layout:fixed;">
             <thead>
                 <tr>
-                    <th width="10%">到着日</th>
-                    <th width="10%">出発日</th>
-                    <th width="11%">部屋番号</th>
-                    <th width="17%">宿泊者名（漢字）</th>
-                    <th width="17%">宿泊者名（カナ）</th>
-                    <th width="30%">住所</th>
+                    <th>到着日</th>
+                    <th>出発日</th>
+                    <th>部屋番号</th>
+                    <th>宿泊者名（漢字）</th>
+                    <th>宿泊者名（カナ）</th>
+                    <th>住所</th>
                 </tr>
             </thead>
         </table>
@@ -200,14 +200,15 @@
                 paging: false,
                 data: response,
                 "columns": [
-                    { "data": "arrivaldate_hotel"},
-                    { "data": "departure_date" },
-                    { "data": "roomno" },
-                    { "data": "guestname_text" },
-                    { "data": "kananame_text"},
-                    { "data": "address"},
+                    { "data": "arrivaldate_hotel", "width": "10%"},
+                    { "data": "departure_date", "width": "10%" },
+                    { "data": "roomno", "width": "11%" },
+                    { "data": "guestname_text", "width": "17%" },
+                    { "data": "kananame_text", "width": "17%"},
+                    { "data": "address", "width": "30%"},
                 ],
                 "columnDefs": [{
+                    "width": "10%",
                     "targets": [0,1],
                     "data": "",
                     "render": function (data) {

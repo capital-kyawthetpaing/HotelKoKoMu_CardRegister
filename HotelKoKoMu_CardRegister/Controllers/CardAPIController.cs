@@ -38,7 +38,8 @@ namespace HotelKoKoMu_CardRegister.Controllers
         public async Task<IHttpActionResult> requestForRegistrationCard(CardRegisterInfo cardRegisterInfo)
         {           
             BaseDL bdl = new BaseDL();
-            var returnStatus = new object();
+            ReturnMessageInfo msgInfo = new ReturnMessageInfo();
+            //var returnStatus = new object();
             DateTime currentDate = DateTime.Now;
             NpgsqlParameter[] para = new NpgsqlParameter[20];
             para[0] = new NpgsqlParameter("@SystemID", NpgsqlDbType.Varchar) { Value = cardRegisterInfo.SystemID };
@@ -63,12 +64,21 @@ namespace HotelKoKoMu_CardRegister.Controllers
             para[19] = new NpgsqlParameter("@createddate", NpgsqlDbType.Date) { Value = Convert.ToDateTime(currentDate) };
             string sql = "insert into trn_guestinformation(created_date,systemid, pmsid, pmspassword, hotel_code, machineno, systemdate, reservationno, roomno, arrivaldate_hotel, departuredate_hotel, guestname_hotel, kananame_hotel, zipcode_hotel, tel_hotel, address1_hotel, address2_hotel, company_hotel, nationality_hotel, passportno_hotel,flag,complete_flag) " +
                @"values(@createddate,@SystemID, @PmsID, @PmsPassword, @hotelcode, @MachineNo, @systemdate, @reservationno, @roomno, @arrDate, @deptDate, @guestName,@kanaName, @zipcode, @tel, @address1, @address2, @company, @nationality, @passport,'0','0')";
-            string result = await bdl.InsertUpdateDeleteData(sql, para);           
+            string result = await bdl.InsertUpdateDeleteData(sql, para);
             if (result == "true")
-                returnStatus = new { Status = "Success" };
+                msgInfo.Status = "Success";
             else
-                returnStatus = new { Status = result };
-            return Ok(returnStatus);
+            {
+                string[] arr = result.Split('/');
+                msgInfo.Status = "Error";
+                msgInfo.FailureReason = arr[0];
+                msgInfo.ErrorDescription = arr[1];
+            }
+            //if (result == "true")
+            //    returnStatus = new { Status = "Success" };
+            //else
+            //    returnStatus = new { Status = result };
+            return Ok(msgInfo);
         }
 
         /// <summary>
@@ -390,15 +400,6 @@ namespace HotelKoKoMu_CardRegister.Controllers
         {            
             return Ok(CreateBase64String(imageInfo.fileName,imageInfo.HotelCode));
         }
-
-        [HttpGet]
-        [ActionName("getResult")]
-        public IHttpActionResult getResult()
-        {
-            var returnStatus = new { status = "success" };
-            return Ok(returnStatus);
-        }
-        
         #endregion
     }
 }

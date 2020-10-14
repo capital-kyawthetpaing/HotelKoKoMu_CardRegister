@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json.Serialization;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web.Http;
@@ -9,6 +10,7 @@ namespace HotelKoKoMu_CardRegister
     {
         public static void Register(HttpConfiguration config)
         {
+
             config.MapHttpAttributeRoutes();
 
             config.Routes.MapHttpRoute(
@@ -16,10 +18,12 @@ namespace HotelKoKoMu_CardRegister
                 routeTemplate: "api/{controller}/{action}/{id}",
                 defaults: new { id = RouteParameter.Optional }
             );
-
-            var json = config.Formatters.JsonFormatter;
-            json.SerializerSettings.PreserveReferencesHandling = Newtonsoft.Json.PreserveReferencesHandling.Objects;
-            config.Formatters.Remove(config.Formatters.XmlFormatter);
-        }
+            var appXmlType = config.Formatters.XmlFormatter.SupportedMediaTypes.FirstOrDefault(t => t.MediaType == "application/xml");
+            config.Formatters.XmlFormatter.SupportedMediaTypes.Remove(appXmlType);
+       
+        //var json = config.Formatters.JsonFormatter;
+        //json.SerializerSettings.PreserveReferencesHandling = Newtonsoft.Json.PreserveReferencesHandling.Objects;
+        //config.Formatters.Remove(config.Formatters.XmlFormatter);
+    }
     }
 }

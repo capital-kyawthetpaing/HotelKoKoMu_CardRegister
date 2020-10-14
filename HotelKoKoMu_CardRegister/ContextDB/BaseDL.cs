@@ -60,8 +60,9 @@ namespace HotelKoKoMu_CardRegister.ContextDB
                 return "true";
             }           
             catch (NpgsqlException ex)
-            {               
-                return ex.ErrorCode+"_"+ ex.Message;
+            {
+                return ex.ErrorCode + "/" + ex.Message;
+                //return ex.ErrorCode+"_"+ ex.Message;
                // return ex.ErrorCode + "_" + ex.InnerException;
             }
         }

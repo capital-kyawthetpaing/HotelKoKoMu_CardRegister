@@ -62,8 +62,6 @@ namespace HotelKoKoMu_CardRegister.ContextDB
             catch (NpgsqlException ex)
             {
                 return ex.ErrorCode + "/" + ex.Message;
-                //return ex.ErrorCode+"_"+ ex.Message;
-               // return ex.ErrorCode + "_" + ex.InnerException;
             }
         }
 
@@ -113,7 +111,7 @@ namespace HotelKoKoMu_CardRegister.ContextDB
             }
             catch (NpgsqlException ex)
             {
-                msg = ex.ErrorCode + ":" + ex.InnerException;
+                msg = ex.ErrorCode + "/" + ex.Message;
             }
             return new Tuple<string, string>(DataTableToJSONWithJSONNet(dt), msg);
         }

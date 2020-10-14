@@ -97,7 +97,6 @@ namespace HotelKoKoMu_CardRegister.Controllers
             Sqlprms[2] = new NpgsqlParameter("@pmspassword", NpgsqlDbType.Varchar) { Value = cardRegisterInfo.PmsPassword };
             Sqlprms[3] = new NpgsqlParameter("@hotelcode", NpgsqlDbType.Varchar) { Value = cardRegisterInfo.HotelCode };
             Sqlprms[4] = new NpgsqlParameter("@machineno", NpgsqlDbType.Varchar) { Value = cardRegisterInfo.MachineNo };
-
             string sql = "Select systemdate,reservationno, roomno, guestname_hotel, kananame_hotel, zipcode_hotel, tel_hotel, address1_hotel, address2_hotel, company_hotel, nationality_hotel, passportno_hotel,arrivaldate_hotel,departuredate_hotel from trn_guestinformation";
             sql += " where pmsid=@pmsid and systemid=@systemid and  pmspassword=@pmspassword and machineno=@machineno and hotel_code=@hotelcode and flag=0 and complete_flag=0 order by created_date limit 1";
             Tuple<string, string> result1 = await bdl.SelectJson(sql,Sqlprms);
@@ -139,9 +138,8 @@ namespace HotelKoKoMu_CardRegister.Controllers
         {
             BaseDL bdl = new BaseDL();
             string culture = HttpContext.Current.Request.Cookies["culture"].Value;
-            var returnStatus = new object();
+            ReturnMessageInfo msgInfo = new ReturnMessageInfo();
             NpgsqlParameter[] Sqlprms = new NpgsqlParameter[21];
-
             Sqlprms[0] = new NpgsqlParameter("@guestName", cardRegisterInfo.NameKanji);
             if (culture == "Ja")
                 Sqlprms[1] = new NpgsqlParameter("@kanaName", cardRegisterInfo.NameKana);
@@ -176,12 +174,18 @@ namespace HotelKoKoMu_CardRegister.Controllers
             if (result == "true")
             {
                 SaveImage(cardRegisterInfo.ImageData, cardRegisterInfo.HotelCode, fileName);
-                returnStatus = new { Success = "Success" };
+                msgInfo.Status = "Success";
+                msgInfo.FailureReason = "";
+                msgInfo.ErrorDescription = "";
             }
             else
-                returnStatus = new { Error = result };
-
-            return Ok(returnStatus);
+            {
+                string[] arr = result.Split('/');
+                msgInfo.Status = "Error";
+                msgInfo.FailureReason = arr[0];
+                msgInfo.ErrorDescription = arr[1];
+            }
+            return Ok(msgInfo);
         }
 
         [HttpPost]
@@ -189,7 +193,8 @@ namespace HotelKoKoMu_CardRegister.Controllers
         public async Task<IHttpActionResult> getRegistrationCardData(CardRegisterInfo cardRegisterInfo)
         {
             GuestInformation guestinfo = new GuestInformation();
-            var returnStatus = new object();
+            ReturnMessageInfo msgInfo = new ReturnMessageInfo();
+            //var returnStatus = new object();
             BaseDL bdl = new BaseDL();
             NpgsqlParameter[] Sqlprms = new NpgsqlParameter[5];
             Sqlprms[0] = new NpgsqlParameter("@systemid", NpgsqlDbType.Varchar) { Value = cardRegisterInfo.SystemID };
@@ -219,7 +224,6 @@ namespace HotelKoKoMu_CardRegister.Controllers
                     if (result2 == "true")
                     {
                         guestinfo.SystemDate = dt.Rows[0]["systemdate"].ToString();
-                        //guestinfo.SystemDate = Convert.ToDateTime(dt.Rows[0]["systemdate"].ToString()).ToString("yyyyMMdd");
                         guestinfo.ReservationNo = dt.Rows[0]["reservationno"].ToString();
                         guestinfo.RoomNo = dt.Rows[0]["roomno"].ToString();
                         guestinfo.NameKanji = dt.Rows[0]["guestname_text"].ToString();
@@ -235,22 +239,42 @@ namespace HotelKoKoMu_CardRegister.Controllers
                         if (!String.IsNullOrWhiteSpace(filename) && filename != "")
                             guestinfo.ImageData = CreateBase64String(filename, dt.Rows[0]["hotel_code"].ToString());
                         //save success , update success and return getregisterdata
-                        returnStatus = new { Success = guestinfo };
+                        msgInfo.Status = "Success:"+JsonConvert.SerializeObject(guestinfo);
+                        msgInfo.FailureReason = "";
+                        msgInfo.ErrorDescription = "";
                     }
                     else
-                        returnStatus = new { Error = result2 };
+                    {
+                        string[] arr = result2.Split('/');
+                        msgInfo.Status = "Error";
+                        msgInfo.FailureReason = arr[0];
+                        msgInfo.ErrorDescription = arr[1];
+                    } 
                 }
-                else if(flag == 1 && completeflag == 0 && result.Item2 == "Success")                 
-                   returnStatus = new { Writing = "" };
+                else if(flag == 1 && completeflag == 0 && result.Item2 == "Success")
+                {
+                    msgInfo.Status = "Writing";
+                    msgInfo.FailureReason = "";
+                    msgInfo.ErrorDescription = "";
+                }  
             }
             else
             {
-                if(result.Item2!="Success")
-                    returnStatus = new { Error = result.Item2 };
+                if (result.Item2 != "Success")
+                {
+                    string[] arr = result.Item2.Split('/');
+                    msgInfo.Status = "Error";
+                    msgInfo.FailureReason = arr[0];
+                    msgInfo.ErrorDescription = arr[1];
+                }  
                 else
-                    returnStatus = new { NotStart = "" };
+                {
+                    msgInfo.Status = "Not Start";
+                    msgInfo.FailureReason = "";
+                    msgInfo.ErrorDescription = "";
+                } 
             } 
-            return Ok(returnStatus);
+            return Ok(msgInfo);
         }
 
         public string CreateBase64String(string filename,string hotelCode)

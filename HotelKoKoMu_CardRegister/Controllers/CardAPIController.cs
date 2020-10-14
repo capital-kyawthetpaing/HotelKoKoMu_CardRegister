@@ -115,13 +115,46 @@ namespace HotelKoKoMu_CardRegister.Controllers
                 {
                     //card registeration data exist
                     if (dt.Rows.Count > 0 && result1.Item2 == "Success")
-                        cardRegistrationObj = new { Success = result1.Item1 };
+                    {
+                           cardRegistrationObj = new {
+                            Status = "Success",
+                            SystemDate = dt.Rows[0]["systemdate"].ToString(),
+                            ReservationNo = dt.Rows[0]["reservationno"].ToString(),
+                            RoomNo = dt.Rows[0]["roomno"].ToString(),
+                            ArriveDate= dt.Rows[0]["arrivaldate_hotel"].ToString(),
+                            DepartureDate= dt.Rows[0]["departuredate_hotel"].ToString(),
+                            NameKanji = dt.Rows[0]["guestname_hotel"].ToString(),
+                            NameKana = dt.Rows[0]["kananame_hotel"].ToString(),
+                            ZipCode = dt.Rows[0]["zipcode_hotel"].ToString(),
+                            Tel = dt.Rows[0]["tel_hotel"].ToString(),
+                            Address1 = dt.Rows[0]["address1_hotel"].ToString(),
+                            Address2 = dt.Rows[0]["address2_hotel"].ToString(),
+                            Company = dt.Rows[0]["company_hotel"].ToString(),
+                            Nationality = dt.Rows[0]["nationality_hotel"].ToString(),
+                            PassportNo = dt.Rows[0]["passportno_hotel"].ToString()                            
+                        };
+                    }                       
                     //card registeration data does not exist
                     else if (dt.Rows.Count == 0 && result1.Item2 == "Success")
-                        cardRegistrationObj = new { NotData = "" };
+                    {
+                        cardRegistrationObj = new
+                        {
+                            Status = "NotData",
+                            FailureReason = "",
+                            ErrorDescription = ""
+                        };
+                    } 
                     //error
                     else
-                        cardRegistrationObj = new { Error = result1.Item2 };
+                    {
+                        string[] arr = result1.Item2.Split('/');
+                        cardRegistrationObj = new
+                        {
+                            Status = "Error",
+                            FailureReason = arr[0],
+                            ErrorDescription = arr[1]
+                        };
+                    }
                 }
             }
             return Ok(cardRegistrationObj);
@@ -193,8 +226,7 @@ namespace HotelKoKoMu_CardRegister.Controllers
         public async Task<IHttpActionResult> getRegistrationCardData(CardRegisterInfo cardRegisterInfo)
         {
             GuestInformation guestinfo = new GuestInformation();
-            ReturnMessageInfo msgInfo = new ReturnMessageInfo();
-            //var returnStatus = new object();
+            ReturnMessageInfo msgInfo = new ReturnMessageInfo();           
             BaseDL bdl = new BaseDL();
             NpgsqlParameter[] Sqlprms = new NpgsqlParameter[5];
             Sqlprms[0] = new NpgsqlParameter("@systemid", NpgsqlDbType.Varchar) { Value = cardRegisterInfo.SystemID };
@@ -239,9 +271,10 @@ namespace HotelKoKoMu_CardRegister.Controllers
                         if (!String.IsNullOrWhiteSpace(filename) && filename != "")
                             guestinfo.ImageData = CreateBase64String(filename, dt.Rows[0]["hotel_code"].ToString());
                         //save success , update success and return getregisterdata
-                        msgInfo.Status = "Success:"+JsonConvert.SerializeObject(guestinfo);
-                        msgInfo.FailureReason = "";
-                        msgInfo.ErrorDescription = "";
+                        guestinfo.Status = "Success";
+                        guestinfo.FailureReason = "";
+                        guestinfo.ErrorDescription = "";
+                        return Ok(guestinfo);
                     }
                     else
                     {
@@ -282,9 +315,6 @@ namespace HotelKoKoMu_CardRegister.Controllers
             string base64String;
             string path = WebConfigurationManager.AppSettings["imagePath"];
             var dirPath = path + hotelCode+'/'+filename;
-
-            //var dirPath = HttpContext.Current.Server.MapPath("~/" + hotelCode);
-            //dirPath = dirPath + "//" + filename;
             using (System.Drawing.Image image = System.Drawing.Image.FromFile(dirPath))
             {
                 using (MemoryStream ms = new MemoryStream())
@@ -318,7 +348,6 @@ namespace HotelKoKoMu_CardRegister.Controllers
         {
             string path = WebConfigurationManager.AppSettings["imagePath"];
             var dirPath = path + HotelCode;
-            //var dirPath = HttpContext.Current.Server.MapPath("~/" + HotelCode);
             byte[] bytes = null;
             if (!Directory.Exists(dirPath))
             {
@@ -369,7 +398,7 @@ namespace HotelKoKoMu_CardRegister.Controllers
         public async Task<IHttpActionResult> CancelRegistrationCard(CardRegisterInfo cardRegisterInfo)
         {
             BaseDL bdl = new BaseDL();           
-            var returnStatus = new object();
+            var returnData = new object();
             NpgsqlParameter[] Sqlprms = new NpgsqlParameter[5];
             Sqlprms[0] = new NpgsqlParameter("@SystemID", NpgsqlDbType.Varchar) { Value = cardRegisterInfo.SystemID };
             Sqlprms[1] = new NpgsqlParameter("@PmsID", NpgsqlDbType.Varchar) { Value = cardRegisterInfo.PmsID };
@@ -382,8 +411,8 @@ namespace HotelKoKoMu_CardRegister.Controllers
             if (dt.Rows.Count > 0)
             {
                 int flag = Convert.ToInt32(dt.Rows[0]["flag"].ToString());
-                int completeflag= Convert.ToInt32(dt.Rows[0]["complete_flag"].ToString());
-                if(flag==1 && completeflag==0)
+                int completeflag = Convert.ToInt32(dt.Rows[0]["complete_flag"].ToString());
+                if (flag == 1 && completeflag == 0)
                 {
                     NpgsqlParameter[] para = new NpgsqlParameter[5];
                     para[0] = new NpgsqlParameter("@SystemID", NpgsqlDbType.Varchar) { Value = cardRegisterInfo.SystemID };
@@ -396,25 +425,50 @@ namespace HotelKoKoMu_CardRegister.Controllers
                     //save success , update success and return getregisterdata
                     if (result2 == "true")
                     {
-                        var returnData = new {
-                            SystemDate= dt.Rows[0]["systemdate"].ToString(),
-                            ReservationNo= dt.Rows[0]["reservationno"].ToString(),
-                            RoomNo= dt.Rows[0]["roomno"].ToString()
+                        returnData = new {
+                            SystemDate = dt.Rows[0]["systemdate"].ToString(),
+                            ReservationNo = dt.Rows[0]["reservationno"].ToString(),
+                            RoomNo = dt.Rows[0]["roomno"].ToString(),
+                            Status = "Success",
+                            FailureReason = "",
+                            ErrorDescription = ""
                         };
-                        returnStatus = new { Success = returnData };
-                    }                       
+                    }
                     else
-                        returnStatus = new { Error = result2 };
-                }                
+                    {
+                        string[] arr = result2.Split('/');
+                        returnData = new
+                        {
+                            Status = "Error",
+                            FailureReason = arr[0],
+                            ErrorDescription = arr[1]
+                        };
+                    }
+                }
             }
             else
             {
-                if(result1.Item2!="Success")
-                    returnStatus = new { Error = result1.Item2 };
+                if (result1.Item2 != "Success")
+                {
+                    string[] arr = result1.Item2.Split('/');
+                     returnData = new
+                    {
+                        Status = "Error",
+                        FailureReason = arr[0],
+                        ErrorDescription = arr[1]
+                    };
+                }             
                 else
-                    returnStatus = new { NotStart = "" };
+                {
+                    returnData = new
+                    {
+                        Status = "NotStart",
+                        FailureReason = "",
+                        ErrorDescription = ""
+                    };
+                }
             }  
-            return Ok(returnStatus);
+            return Ok(returnData);
         }
 
         [HttpPost]

@@ -81,6 +81,15 @@
         </tbody>
     </table>
 
+    <div>
+        <input id="checkid1" type="checkbox" value="test" />
+        <label for="checkid1">Test data1</label><br/>
+        <input id="checkid2" type="checkbox" value="test" />
+        <label for="checkid2">Test data2</label><br/>
+        <input id="checkid3" type="checkbox" value="test" />
+        <label for="checkid3">Test data3</label>
+    </div>
+
     <table class="kokomuTable">
         <tbody>
             <tr>
@@ -460,6 +469,7 @@
                 else
                     $('#tdPassport').append(CreateImageControl(canvas.toDataURL(), "imgPassport"));
             }
+
             else if (commonName == "tdSign") {
                 if (!isCanvasBlank(document.getElementById('csvRegister')))
                 {

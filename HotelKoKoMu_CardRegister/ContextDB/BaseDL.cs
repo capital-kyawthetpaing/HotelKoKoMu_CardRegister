@@ -58,9 +58,9 @@ namespace HotelKoKoMu_CardRegister.ContextDB
                 await cmd.ExecuteNonQueryAsync();
                 cmd.Connection.Close();
                 return "true";
-            }
+            }           
             catch (NpgsqlException ex)
-            {
+            {               
                 return ex.ErrorCode+"_"+ ex.Message;
                // return ex.ErrorCode + "_" + ex.InnerException;
             }

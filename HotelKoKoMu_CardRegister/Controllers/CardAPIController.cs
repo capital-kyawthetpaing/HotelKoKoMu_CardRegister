@@ -20,6 +20,7 @@ using System.Drawing;
 using Newtonsoft.Json;
 using System.Globalization;
 using System.Web.Configuration;
+using System.Web.UI.WebControls;
 
 namespace HotelKoKoMu_CardRegister.Controllers
 {
@@ -35,7 +36,7 @@ namespace HotelKoKoMu_CardRegister.Controllers
         [HttpPost]
         [ActionName("requestForRegistrationCard")]
         public async Task<IHttpActionResult> requestForRegistrationCard(CardRegisterInfo cardRegisterInfo)
-        {
+        {           
             BaseDL bdl = new BaseDL();
             var returnStatus = new object();
             DateTime currentDate = DateTime.Now;
@@ -62,7 +63,7 @@ namespace HotelKoKoMu_CardRegister.Controllers
             para[19] = new NpgsqlParameter("@createddate", NpgsqlDbType.Date) { Value = Convert.ToDateTime(currentDate) };
             string sql = "insert into trn_guestinformation(created_date,systemid, pmsid, pmspassword, hotel_code, machineno, systemdate, reservationno, roomno, arrivaldate_hotel, departuredate_hotel, guestname_hotel, kananame_hotel, zipcode_hotel, tel_hotel, address1_hotel, address2_hotel, company_hotel, nationality_hotel, passportno_hotel,flag,complete_flag) " +
                @"values(@createddate,@SystemID, @PmsID, @PmsPassword, @hotelcode, @MachineNo, @systemdate, @reservationno, @roomno, @arrDate, @deptDate, @guestName,@kanaName, @zipcode, @tel, @address1, @address2, @company, @nationality, @passport,'0','0')";
-            string result = await bdl.InsertUpdateDeleteData(sql, para);
+            string result = await bdl.InsertUpdateDeleteData(sql, para);           
             if (result == "true")
                 returnStatus = new { Status = "Success" };
             else
@@ -294,10 +295,10 @@ namespace HotelKoKoMu_CardRegister.Controllers
             {
                 string[] arrCommon = common.Split(',');
                 bytes = Convert.FromBase64String(arrCommon[1]);
-                Image image;
+                System.Drawing.Image image;
                 using (MemoryStream ms = new MemoryStream(bytes))
                 {
-                    image = Image.FromStream(ms);
+                    image = System.Drawing.Image.FromStream(ms);
                 }
                 dirPath = dirPath + "//" + fileName;
                 image.Save(dirPath);
@@ -388,6 +389,14 @@ namespace HotelKoKoMu_CardRegister.Controllers
         public IHttpActionResult showImage(ImageInfo imageInfo)
         {            
             return Ok(CreateBase64String(imageInfo.fileName,imageInfo.HotelCode));
+        }
+
+        [HttpGet]
+        [ActionName("getResult")]
+        public IHttpActionResult getResult()
+        {
+            var returnStatus = new { status = "success" };
+            return Ok(returnStatus);
         }
         
         #endregion

@@ -238,10 +238,12 @@
                 var GuestInformation = { SystemID: $("#txtSystemID").val(), PmsID: $("#txtPmsID").val(), PmsPassword: $("#txtPmsPassword").val(), MachineNo: $("#txtMachineNo").val(), HotelCode: $("#txtHotelCode").val(), ReservationNo: $("#txtReservationNo").val(), RoomNo: $("#txtRoomNo").val(), SystemDate: moment($("#txtSystemDate").val()).format('YYYYMMDD'), NameKanji: $("#txtNameKanji").val(), NameKana: $("#txtNameKana").val(), ZipCode: $("#txtZipCode").val(), Tel: $("#txtTel").val(), Address1: $("#txtAddress1").val(), Address2: $("#txtAddress2").val(), Company: $("#txtCompany").val(), Nationality: $("#txtNationality").val(), PassportNo: $("#txtPassportNo").val(), ArriveDate: moment($("#txtArriveDate").val()).format("YYYYMMDD"), DepartureDate: moment($("#txtDepartureDate").val()).format("YYYYMMDD") };                
              
                 var response = CalltoApiController('@Url.Action("requestForRegistrationCard", "api/CardAPI/")', GuestInformation);
-                if (response["Status"] == "Success")
-                    ShowAlert("success", "Guest Information", "Successfully Saved...");                                   
-                else
-                    ShowAlert("error","Guest Information", response["Status"]);                    
+                alert(response);
+                alert(response.Status);
+                //if (response["Status"] == "Success")
+                //    ShowAlert("success", "Guest Information", "Successfully Saved...");                                   
+                //else
+                //    ShowAlert("error","Guest Information", response["Status"]);                    
                 
              });
         });

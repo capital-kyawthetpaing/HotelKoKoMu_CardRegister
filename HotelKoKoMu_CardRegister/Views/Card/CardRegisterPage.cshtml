@@ -302,7 +302,6 @@
                              if (response.Status == "Success") {
                                  Swal.fire({
                                      title: ' ありがとうございました。',
-                                     //text: response.Status,
                                      icon: 'success',
                                      confirmButtonColor: '#3085d6',
                                      confirmButtonText: 'OK',
@@ -493,11 +492,38 @@
 
         function SearchCardRegisterData() {
             var result = CalltoApiController('@Url.Action("getRequestForRegistrationCard", "api/CardAPI/")', CardRegisterInfo);
-            if (result["Success"] != undefined) {
+            if (result.Status == "Success") {
                 intervalFlag = 1;
-                cardObj = JSON.parse(result.Success);
-                BindCardInformation(cardObj);
+                BindCardInformation(result);
             }
+        }
+
+        function BindCardInformation(result) {
+            $("#lblSystemDate").text(result.SystemDate);
+            $("#lblReservationNo").text(result.ReservationNo);
+            $("#lblRoomNo").text(result.RoomNo);
+            if (result.NameKanji != null)
+                $('#tdGuestName').append(CreateLabelControl(result.NameKanji, "lblGuestName"));
+            if (result.NameKana != null)
+                $('#tdKanaName').append(CreateLabelControl(result.NameKana, "lblKanaName"));
+            if (result.ZipCode != null)
+                $('#tdZipCode').append(CreateLabelControl(result.ZipCode, "lblZipCode"));
+            if (result.Tel != null)
+                $('#tdTel').append(CreateLabelControl(result.Tel, "lblTel"));
+            if (result.Address1 != null)
+                $('#tdAddress1').append(CreateLabelControl(result.Address1, "lblAddress1"));
+            if (result.Address2 != null)
+                $('#tdAddress2').append(CreateLabelControl(result.Address2, "lblAddress2"));
+            if (result.Company != null)
+                $('#tdCompany').append(CreateLabelControl(result.Company, "lblCompany"));
+            if (result.Nationality != null)
+                $('#tdNationality').append(CreateLabelControl(result.Nationality, "lblNationality"));
+            if (result.PassportNo != null)
+                $('#tdPassport').append(CreateLabelControl(result.PassportNo, "lblPassport"));
+            if (result.ArriveDate != "")
+                $("#tdArrivalDate").append(CreateLabelControl(moment(result.ArriveDate).format("YYYY/MM/DD"), "lblArrivalDate"));
+            if (!(result.DepartureDate == null || result.DepartureDate == ""))
+                $("#tdDepartureDate").append(CreateLabelControl(moment(result.DepartureDate).format("YYYY/MM/DD"), "lblDepartureDate"));              
         }
 
         function CheckValidation() {
@@ -515,36 +541,6 @@
             blank.width = canvas.width;
             blank.height = canvas.height;
             return canvas.toDataURL() === blank.toDataURL();
-        }
-
-        function BindCardInformation(cardObj) {
-            if (cardObj.length > 0) {
-                $("#lblSystemDate").text(cardObj[0].systemdate);
-                $("#lblReservationNo").text(cardObj[0].reservationno);
-                $("#lblRoomNo").text(cardObj[0].roomno);
-                if (cardObj[0].guestname_hotel != null)
-                    $('#tdGuestName').append(CreateLabelControl(cardObj[0].guestname_hotel, "lblGuestName"));
-                if (cardObj[0].kananame_hotel != null)
-                    $('#tdKanaName').append(CreateLabelControl(cardObj[0].kananame_hotel, "lblKanaName"));
-                if (cardObj[0].zipcode_hotel != null)
-                    $('#tdZipCode').append(CreateLabelControl(cardObj[0].zipcode_hotel, "lblZipCode"));
-                if (cardObj[0].tel_hotel != null)
-                    $('#tdTel').append(CreateLabelControl(cardObj[0].tel_hotel, "lblTel"));
-                if (cardObj[0].address1_hotel != null)
-                    $('#tdAddress1').append(CreateLabelControl(cardObj[0].address1_hotel, "lblAddress1"));
-                if (cardObj[0].address2_hotel != null)
-                    $('#tdAddress2').append(CreateLabelControl(cardObj[0].address2_hotel, "lblAddress2"));
-                if (cardObj[0].company_hotel != null)
-                    $('#tdCompany').append(CreateLabelControl(cardObj[0].company_hotel, "lblCompany"));
-                if (cardObj[0].nationality_hotel != null)
-                    $('#tdNationality').append(CreateLabelControl(cardObj[0].nationality_hotel, "lblNationality"));
-                if (cardObj[0].passportno_hotel != null)
-                    $('#tdPassport').append(CreateLabelControl(cardObj[0].passportno_hotel, "lblPassport"));
-                if (cardObj[0].arrivaldate_hotel != null)
-                    $("#tdArrivalDate").append(CreateLabelControl(moment(cardObj[0].arrivaldate_hotel).format("YYYY/MM/DD"), "lblArrivalDate"));
-                if (cardObj[0].departuredate_hotel != null)
-                    $("#tdDepartureDate").append(CreateLabelControl(moment(cardObj[0].departuredate_hotel).format("YYYY/MM/DD"), "lblDepartureDate"));                
-            }
         }
 
     </script>

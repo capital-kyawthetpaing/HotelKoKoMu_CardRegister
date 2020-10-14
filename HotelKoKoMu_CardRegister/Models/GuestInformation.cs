@@ -20,5 +20,8 @@ namespace HotelKoKoMu_CardRegister.Models
         public string Nationality { get; set; }
         public string PassportNo { get; set; }
         public string ImageData { get; set; }
+        public string Status { get; set; }
+        public string FailureReason { get; set; }
+        public string ErrorDescription { get; set; }
     }
 }

@@ -140,7 +140,6 @@ namespace HotelKoKoMu_CardRegister.Controllers
             string culture = HttpContext.Current.Request.Cookies["culture"].Value;
             ReturnMessageInfo msgInfo = new ReturnMessageInfo();
             NpgsqlParameter[] Sqlprms = new NpgsqlParameter[21];
-
             Sqlprms[0] = new NpgsqlParameter("@guestName", cardRegisterInfo.NameKanji);
             if (culture == "Ja")
                 Sqlprms[1] = new NpgsqlParameter("@kanaName", cardRegisterInfo.NameKana);
@@ -225,7 +224,6 @@ namespace HotelKoKoMu_CardRegister.Controllers
                     if (result2 == "true")
                     {
                         guestinfo.SystemDate = dt.Rows[0]["systemdate"].ToString();
-                        //guestinfo.SystemDate = Convert.ToDateTime(dt.Rows[0]["systemdate"].ToString()).ToString("yyyyMMdd");
                         guestinfo.ReservationNo = dt.Rows[0]["reservationno"].ToString();
                         guestinfo.RoomNo = dt.Rows[0]["roomno"].ToString();
                         guestinfo.NameKanji = dt.Rows[0]["guestname_text"].ToString();
@@ -241,23 +239,40 @@ namespace HotelKoKoMu_CardRegister.Controllers
                         if (!String.IsNullOrWhiteSpace(filename) && filename != "")
                             guestinfo.ImageData = CreateBase64String(filename, dt.Rows[0]["hotel_code"].ToString());
                         //save success , update success and return getregisterdata
-                        msgInfo.Status = "Success";
-
+                        msgInfo.Status = "Success:"+JsonConvert.SerializeObject(guestinfo);
+                        msgInfo.FailureReason = "";
+                        msgInfo.ErrorDescription = "";
                     }
                     else
                     {
+                        string[] arr = result2.Split('/');
                         msgInfo.Status = "Error";
+                        msgInfo.FailureReason = arr[0];
+                        msgInfo.ErrorDescription = arr[1];
                     } 
                 }
                 else if(flag == 1 && completeflag == 0 && result.Item2 == "Success")
-                    msgInfo.Status="Writing";
+                {
+                    msgInfo.Status = "Writing";
+                    msgInfo.FailureReason = "";
+                    msgInfo.ErrorDescription = "";
+                }  
             }
             else
             {
                 if (result.Item2 != "Success")
+                {
+                    string[] arr = result.Item2.Split('/');
                     msgInfo.Status = "Error";
+                    msgInfo.FailureReason = arr[0];
+                    msgInfo.ErrorDescription = arr[1];
+                }  
                 else
+                {
                     msgInfo.Status = "Not Start";
+                    msgInfo.FailureReason = "";
+                    msgInfo.ErrorDescription = "";
+                } 
             } 
             return Ok(msgInfo);
         }

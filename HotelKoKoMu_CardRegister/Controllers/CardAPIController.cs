@@ -302,7 +302,7 @@ namespace HotelKoKoMu_CardRegister.Controllers
                 }  
                 else
                 {
-                    msgInfo.Status = "Not Start";
+                    msgInfo.Status = "NotStart";
                     msgInfo.FailureReason = "";
                     msgInfo.ErrorDescription = "";
                 } 

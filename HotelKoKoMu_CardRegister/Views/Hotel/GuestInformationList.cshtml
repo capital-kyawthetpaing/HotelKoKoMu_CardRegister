@@ -149,11 +149,11 @@
             var CardRegisterInfo = { SystemID: $("#lblsystemid").text(), PmsID: $("#lblPmsId").text(), PmsPassword: $("#lblPmsPassword").text(), HotelCode: $("#lblhotelCode").text(), MachineNo: $("#lblmachineno").text() };
             var result = CalltoApiController('@Url.Action("getRegistrationCardData", "api/CardAPI/")', CardRegisterInfo);
             
-            if (result.Success != undefined)
+            if (result.Status == "Success")
                 BindGuestInfo(result.Success);
-            else if (result.Writing != undefined)
+            else if (result.Status =="Writing")
                 ShowAlert('info', 'Guest Information', 'Writing');
-            else if (result.NotStart != undefined)
+            else if (result.Status =="NotStart")
                 ShowAlert('info', 'Guest Information', 'Not Start');
             else
                 ShowAlert('error', 'Guest Information', result.Error);

@@ -94,40 +94,22 @@
 @section Scripts{
     <script>
         $(document).ready(function () {
-
+          
             //if select arrival date again greater than departure date
-            //$("#dtpArrivalFromDate").datepicker({
-            //    format: 'YYYY/MM/DD',
-            //    todayHighlight: true,
-            //    onSelect: function (dateText, inst) {
-            //        $("#dtpArrivalFromDate").val(moment(dateText).format('YYYY/MM/DD'));
-            //    }
-            //});
-
-            //k
-            var currentDate;
-            $('#dtpArrivalFromDate').datepicker({
-                format: "YYYY/MM/DD",
-                viewMode: 'days',
-                todayHighlight: true
-
-                // currently picked date
-            }).on('show', function () {
-                currentDate = $(this).val();
-            })
-                // if no date picked replace with previous date
-                .on('changeDate', function (ev) {
-
-
-                    if ($(this).val() === '' || $(this).val() === null) {
-                        $(this).val(currentDate).datepicker('update');
-                    }
-                    var a = $('#dtpArrivalFromDate').datepicker('getDate');
-                    $(this).datepicker('hide');
-                    alert(a);
-
-                });
-            //k
+            $("#dtpArrivalFromDate").datepicker({
+                format: 'YYYY/MM/DD',
+                todayHighlight: true,
+                onSelect: function (dateText, inst) {                    
+                    var fromdate = new Date($('#dtpArrivalFromDate').val());
+                    var todate = new Date($('#dtpArrivalToDate').val());                    
+                    if (todate < fromdate) {
+                        $("#dtpArrivalFromDate").val(moment(dateText).format('YYYY/MM/DD'));
+                        ShowAlert("error", "Guest List", "ToDate must be greater than FromDate");
+                    }                       
+                    else
+                        $("#dtpArrivalFromDate").val(moment(dateText).format('YYYY/MM/DD'));
+                }
+            });
 
             //date compare check
             $("#dtpArrivalToDate").datepicker({
@@ -135,14 +117,13 @@
                 todayHighlight: true,
                 onSelect: function (dateText, inst) {
                     var fromdate = new Date($('#dtpArrivalFromDate').val());
-                    var todate = new Date($('#dtpArrivalToDate').val());
+                    var todate = new Date($('#dtpArrivalToDate').val());                   
                     if (todate < fromdate)
-                        ShowError("ToDate must be greater than FromDate");
+                        ShowAlert("error","Guest List","ToDate must be greater than FromDate");
                     else
                         $("#dtpArrivalToDate").val(moment(dateText).format('YYYY/MM/DD'));
                 }
             });
-
 
             var currentDate = new Date();
             //set current date into arrival date

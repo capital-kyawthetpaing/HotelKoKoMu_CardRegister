@@ -20,6 +20,7 @@ using System.Drawing;
 using Newtonsoft.Json;
 using System.Globalization;
 using System.Web.Configuration;
+using System.Web.UI.WebControls;
 
 namespace HotelKoKoMu_CardRegister.Controllers
 {
@@ -35,9 +36,10 @@ namespace HotelKoKoMu_CardRegister.Controllers
         [HttpPost]
         [ActionName("requestForRegistrationCard")]
         public async Task<IHttpActionResult> requestForRegistrationCard(CardRegisterInfo cardRegisterInfo)
-        {
+        {           
             BaseDL bdl = new BaseDL();
-            var returnStatus = new object();
+            ReturnMessageInfo msgInfo = new ReturnMessageInfo();
+            //var returnStatus = new object();
             DateTime currentDate = DateTime.Now;
             NpgsqlParameter[] para = new NpgsqlParameter[20];
             para[0] = new NpgsqlParameter("@SystemID", NpgsqlDbType.Varchar) { Value = cardRegisterInfo.SystemID };
@@ -64,10 +66,19 @@ namespace HotelKoKoMu_CardRegister.Controllers
                @"values(@createddate,@SystemID, @PmsID, @PmsPassword, @hotelcode, @MachineNo, @systemdate, @reservationno, @roomno, @arrDate, @deptDate, @guestName,@kanaName, @zipcode, @tel, @address1, @address2, @company, @nationality, @passport,'0','0')";
             string result = await bdl.InsertUpdateDeleteData(sql, para);
             if (result == "true")
-                returnStatus = new { Status = "Success" };
+                msgInfo.Status = "Success";
             else
-                returnStatus = new { Status = result };
-            return Ok(returnStatus);
+            {
+                string[] arr = result.Split('/');
+                msgInfo.Status = "Error";
+                msgInfo.FailureReason = arr[0];
+                msgInfo.ErrorDescription = arr[1];
+            }
+            //if (result == "true")
+            //    returnStatus = new { Status = "Success" };
+            //else
+            //    returnStatus = new { Status = result };
+            return Ok(msgInfo);
         }
 
         /// <summary>
@@ -294,10 +305,10 @@ namespace HotelKoKoMu_CardRegister.Controllers
             {
                 string[] arrCommon = common.Split(',');
                 bytes = Convert.FromBase64String(arrCommon[1]);
-                Image image;
+                System.Drawing.Image image;
                 using (MemoryStream ms = new MemoryStream(bytes))
                 {
-                    image = Image.FromStream(ms);
+                    image = System.Drawing.Image.FromStream(ms);
                 }
                 dirPath = dirPath + "//" + fileName;
                 image.Save(dirPath);
@@ -389,7 +400,6 @@ namespace HotelKoKoMu_CardRegister.Controllers
         {            
             return Ok(CreateBase64String(imageInfo.fileName,imageInfo.HotelCode));
         }
-        
         #endregion
     }
 }

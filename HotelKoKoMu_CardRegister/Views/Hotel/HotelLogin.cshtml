@@ -58,7 +58,7 @@
             $("#btnlogin").click(function () {
                 var response = CalltoApiController('@Url.Action("checkLogin", "api/HotelAPI/")', { HotelCode: $("#HotelNo").val(), UserCode: $("#UserID").val(), Password: $("#Password").val() });
                 if (response["Result"] == 0)
-                    ShowAlert("error", "ホテルコードが間違っています.");
+                    ShowAlert("error","ホテルコードが間違っています."," ");
                 else if (response["Result"] == 1)
                     ShowAlert("error","ユーザーコードが間違っています.")
                 else if (response["Result"] == 2)

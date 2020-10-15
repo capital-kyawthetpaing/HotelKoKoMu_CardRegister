@@ -122,8 +122,8 @@
                     var todate = new Date($('#dtpArrivalToDate').val());                    
                     if (todate < fromdate) {
                         $("#dtpArrivalFromDate").val(moment(dateText).format('YYYY/MM/DD'));
-                        //ShowAlert("error", "Guest List", "ToDate must be greater than FromDate");
                         ShowAlert("error", "到着日(to) は 到着日(from) より遅ければなりません。");
+                        //ShowAlert("error", "到着日(to) は 到着日(from) より遅ければなりません。");
                     }                       
                     else
                         $("#dtpArrivalFromDate").val(moment(dateText).format('YYYY/MM/DD'));

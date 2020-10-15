@@ -165,7 +165,7 @@ namespace HotelKoKoMu_CardRegister.Controllers
             string culture = HttpContext.Current.Request.Cookies["culture"].Value;
             DataTable dt = Get_CreatetedDate(cardRegisterInfo);
             cardRegisterInfo.CreatedDate = Convert.ToDateTime(dt.Rows[0]["created_date"].ToString());
-            NpgsqlParameter[] Sqlprms = new NpgsqlParameter[21];
+            NpgsqlParameter[] Sqlprms = new NpgsqlParameter[20];
             Sqlprms[0] = new NpgsqlParameter("@guestName", cardRegisterInfo.NameKanji);
             if (culture == "Ja")
                 Sqlprms[1] = new NpgsqlParameter("@kanaName", cardRegisterInfo.NameKana);
@@ -463,18 +463,18 @@ namespace HotelKoKoMu_CardRegister.Controllers
             {
                 msgInfo.Status = "Error";
                 msgInfo.FailureReason = "1002";
-                msgInfo.ErrorDescription = "Invalid PmsPassword";
+                msgInfo.ErrorDescription = "PmsPassword does not exist";
             }
             else if(!ExistCheckForHotelCode(cardRegisterInfo.HotelCode))
             {
                 msgInfo.Status = "Error";
                 msgInfo.FailureReason = "1002";
-                msgInfo.ErrorDescription = "Invalid Hotel Code";
+                msgInfo.ErrorDescription = "Hotel Code does not exist";
             }           
             else if(DuplicateKeyCheck(cardRegisterInfo.HotelCode,cardRegisterInfo.ReservationNo,cardRegisterInfo.RoomNo,cardRegisterInfo.SystemDate))
             {
                 msgInfo.Status = "Error";
-                msgInfo.FailureReason = "1002";
+                msgInfo.FailureReason = "1003";
                 msgInfo.ErrorDescription = "Primary key is duplicate value";
             }
             return msgInfo;

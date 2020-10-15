@@ -4,16 +4,6 @@
     Layout = "~/Views/Shared/_HotelSystemLayout.cshtml";
 }
 <link href="@Url.Content("~/Content/hotel.css")" rel="stylesheet" />
-
-<style>
-    .center {
-        text-align: center;
-    }
-    .size{
-        font-size:18px;
-    }
-</style>
-
 <div class="row">
     <div class="col-md-12 form-inline">
         <div class="col-md-2 col-sm-4">
@@ -38,14 +28,6 @@
                 </tr>
             </table>
         </div>
-
-        @*<div class="col-md-2 col-sm-2">
-            <label>チェックイン部屋 :</label>
-        </div>
-        <div class="col-md-2 col-sm-2">
-            <input type="text" id="txtCheckinRoom" onkeypress="return isNumber(event)" />
-        </div>*@
-
         <div class="col-md-2 col-sm-4">
             <button type="button" id="btnSearch" class="clsbtnSearch">検 索</button>
         </div>
@@ -119,11 +101,11 @@
                 todayHighlight: true,
                 onSelect: function (dateText, inst) {                    
                     var fromdate = new Date($('#dtpArrivalFromDate').val());
-                    var todate = new Date($('#dtpArrivalToDate').val());                    
+                    var todate = new Date($('#dtpArrivalToDate').val());
                     if (todate < fromdate) {
                         $("#dtpArrivalFromDate").val(moment(dateText).format('YYYY/MM/DD'));
-                        ShowAlert("error", "到着日(to) は 到着日(from) より遅ければなりません。");
-                        //ShowAlert("error", "到着日(to) は 到着日(from) より遅ければなりません。");
+                        //ShowAlert("error", "Guest List", "ToDate must be greater than FromDate");
+                        ShowAlert("error","", "到着日(to) は 到着日(from) より遅ければなりません。");
                     }                       
                     else
                         $("#dtpArrivalFromDate").val(moment(dateText).format('YYYY/MM/DD'));
@@ -138,7 +120,7 @@
                     var fromdate = new Date($('#dtpArrivalFromDate').val());
                     var todate = new Date($('#dtpArrivalToDate').val());                   
                     if (todate < fromdate)
-                        ShowAlert("error","到着日(to) は 到着日(from) より遅ければなりません。");
+                        ShowAlert("error","","到着日(to) は 到着日(from) より遅ければなりません。");
                     else
                         $("#dtpArrivalToDate").val(moment(dateText).format('YYYY/MM/DD'));
                 }
@@ -210,12 +192,12 @@
                 paging: false,
                 data: response,
                 "columns": [
-                    { "data": "arrivaldate_hotel", "width": "10%", "sClass": "center" },
-                    { "data": "departure_date", "width": "10%", "sClass": "center"},
-                    { "data": "roomno", "width": "11%", "sClass": "size"},
-                    { "data": "guestname_text", "width": "17%", "sClass": "center" },
-                    { "data": "kananame_text", "width": "17%", "sClass": "center"},
-                    { "data": "address", "width": "30%", "sClass": "center"},
+                    { "data": "arrivaldate_hotel", "width": "10%"},
+                    { "data": "departure_date", "width": "10%"},
+                    { "data": "roomno", "width": "11%"},
+                    { "data": "guestname_text", "width": "17%"},
+                    { "data": "kananame_text", "width": "17%"},
+                    { "data": "address", "width": "30%"},
                 ],
                 "columnDefs": [{
                     "width": "10%",

@@ -58,11 +58,11 @@
             $("#btnlogin").click(function () {
                 var response = CalltoApiController('@Url.Action("checkLogin", "api/HotelAPI/")', { HotelCode: $("#HotelNo").val(), UserCode: $("#UserID").val(), Password: $("#Password").val() });
                 if (response["Result"] == 0)
-                    ShowAlert("error","Hotel Login","Invalid Hotel Code");
+                    ShowAlert("error", "ホテルコードが間違っています.");
                 else if (response["Result"] == 1)
-                    ShowAlert("error","Hotel Login","Invalid User Code")
+                    ShowAlert("error","ユーザーコードが間違っています.")
                 else if (response["Result"] == 2)
-                    ShowAlert("error","Hotel Login","Invalid User Password");
+                    ShowAlert("error","パスワードが間違っています.");
                 else {
                     var resultObj = response["Result"];
                     var LoginInfo = resultObj[0].hotel_code + '_' + resultObj[0].usercode + '_' + resultObj[0].username;

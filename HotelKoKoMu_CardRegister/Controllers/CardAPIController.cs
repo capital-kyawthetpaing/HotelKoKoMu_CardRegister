@@ -471,7 +471,7 @@ namespace HotelKoKoMu_CardRegister.Controllers
                 msgInfo.FailureReason = "1002";
                 msgInfo.ErrorDescription = "Invalid Hotel Code";
             }           
-            else if(!DuplicateKeyCheck(cardRegisterInfo.HotelCode,cardRegisterInfo.ReservationNo,cardRegisterInfo.RoomNo,cardRegisterInfo.SystemDate))
+            else if(DuplicateKeyCheck(cardRegisterInfo.HotelCode,cardRegisterInfo.ReservationNo,cardRegisterInfo.RoomNo,cardRegisterInfo.SystemDate))
             {
                 msgInfo.Status = "Error";
                 msgInfo.FailureReason = "1002";

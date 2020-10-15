@@ -7,6 +7,12 @@ using Npgsql;
 using System.Data;
 using Newtonsoft.Json;
 using System.Threading.Tasks;
+using System.Net;
+using System.Net.Sockets;
+using System.Net.WebSockets;
+using System.Data.SqlClient;
+using System.Runtime.Remoting.Messaging;
+using HotelKoKoMu_CardRegister.Models;
 
 namespace HotelKoKoMu_CardRegister.ContextDB
 {
@@ -24,8 +30,7 @@ namespace HotelKoKoMu_CardRegister.ContextDB
             {
                 var newCon = new NpgsqlConnection(conStr);
                 using (var adapt = new NpgsqlDataAdapter(sSQL, newCon))
-                {
-                    newCon.Open();
+                {                   
                     NpgsqlCommand cmd = new NpgsqlCommand(sSQL, newCon);
                     cmd.CommandType = CommandType.StoredProcedure;
                     if (param != null)
@@ -33,18 +38,20 @@ namespace HotelKoKoMu_CardRegister.ContextDB
                         param = ChangeToDBNull(param);
                         adapt.SelectCommand.Parameters.AddRange(param);
                     }
+                    newCon.Open();
                     await Task.Run(() => adapt.Fill(dt));                    
                     newCon.Close();
                 }
             }
-            catch (Exception ex)
+            catch(NpgsqlException ex)
             {
-                string msg = ex.Message;
+                string msg = ex.ErrorCode + ex.Message;
             }
             return dt;
         }
-        public async Task<string> InsertUpdateDeleteData(string sSQL, params NpgsqlParameter[] para)
+        public async Task<ReturnMessageInfo> InsertUpdateDeleteData(string sSQL, params NpgsqlParameter[] para)
         {
+            ReturnMessageInfo msgInfo = new ReturnMessageInfo();
             try
             {
                 var newCon = new NpgsqlConnection(conStr);
@@ -57,11 +64,26 @@ namespace HotelKoKoMu_CardRegister.ContextDB
                 cmd.Connection.Open();
                 await cmd.ExecuteNonQueryAsync();
                 cmd.Connection.Close();
-                return "true";
-            }           
+                msgInfo.Status = "Success";
+                msgInfo.FailureReason = "";
+                msgInfo.ErrorDescription = "";
+                return msgInfo;
+            }
             catch (NpgsqlException ex)
             {
-                return ex.ErrorCode + "/" + ex.Message;
+                if(ex.ErrorCode==-2147467259)
+                {
+                    msgInfo.Status = "Error";
+                    msgInfo.FailureReason = "1003";
+                    msgInfo.ErrorDescription = "Database connection error.";
+                }
+                else
+                {
+                    msgInfo.Status = "Error";
+                    msgInfo.FailureReason = "1004";
+                    msgInfo.ErrorDescription = "Database error.";
+                }
+                return msgInfo;
             }
         }
 
@@ -94,8 +116,7 @@ namespace HotelKoKoMu_CardRegister.ContextDB
             {
                 var newCon = new NpgsqlConnection(conStr);
                 using (var adapt = new NpgsqlDataAdapter(sSQL, newCon))
-                {
-                    newCon.Open();
+                {                                      
                     NpgsqlCommand cmd = new NpgsqlCommand(sSQL, newCon);
                     cmd.CommandType = CommandType.Text;
                     if (param != null)
@@ -103,6 +124,7 @@ namespace HotelKoKoMu_CardRegister.ContextDB
                         param = ChangeToDBNull(param);
                         adapt.SelectCommand.Parameters.AddRange(param);
                     }
+                    newCon.Open();
                     await Task.Run(() => adapt.Fill(dt));                    
                     msg = "Success";
                     newCon.Close();
@@ -113,6 +135,10 @@ namespace HotelKoKoMu_CardRegister.ContextDB
             {
                 msg = ex.ErrorCode + "/" + ex.Message;
             }
+            catch(Exception ex)
+            {
+                msg = ex.Message;
+            }
             return new Tuple<string, string>(DataTableToJSONWithJSONNet(dt), msg);
         }
 
@@ -121,7 +147,7 @@ namespace HotelKoKoMu_CardRegister.ContextDB
             return JsonConvert.SerializeObject(table);
         }
 
-        public  DataTable SelectDataTable_Info(string sSQL, NpgsqlParameter[] param)
+        public DataTable SelectDataTable_Info(string sSQL, NpgsqlParameter[] param)
         {
             DataTable dt = new DataTable
             {
@@ -132,7 +158,6 @@ namespace HotelKoKoMu_CardRegister.ContextDB
                 var newCon = new NpgsqlConnection(conStr);
                 using (var adapt = new NpgsqlDataAdapter(sSQL, newCon))
                 {
-                    newCon.Open();
                     NpgsqlCommand cmd = new NpgsqlCommand(sSQL, newCon);
                     cmd.CommandType = CommandType.StoredProcedure;
                     if (param != null)
@@ -140,15 +165,16 @@ namespace HotelKoKoMu_CardRegister.ContextDB
                         param = ChangeToDBNull(param);
                         adapt.SelectCommand.Parameters.AddRange(param);
                     }
+                    newCon.Open();
                     adapt.Fill(dt);
                     newCon.Close();
                 }
             }
-            catch (Exception ex)
+            catch (NpgsqlException ex)
             {
-                string msg = ex.Message;
+                string msg =ex.ErrorCode+"/"+ ex.Message;
             }
             return dt;
-        }
+        }       
     }
 }

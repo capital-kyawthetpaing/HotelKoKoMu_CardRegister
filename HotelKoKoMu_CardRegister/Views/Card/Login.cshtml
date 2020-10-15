@@ -39,7 +39,7 @@
                 //var result = CalltoApiController("/api/CardAPI/ValidateLogin", { SystemID: $("#SystemID").val(), PmsID: $("#PmsID").val(), PmsPassword: $("#PmsPassword").val(), MachineNo: $("#MachineNo").val(), HotelCode: $("#HotelCode").val() });
                  var result = CalltoApiController('@Url.Action("ValidateLogin", "api/CardAPI/")', { SystemID: $("#SystemID").val(), PmsID: $("#PmsID").val(), PmsPassword: $("#PmsPassword").val(), MachineNo: $("#MachineNo").val(), HotelCode: $("#HotelCode").val() });
                 if (result["Result"] == 0) {
-                    ShowAlert("error","Login"," ログインに失敗しました。入力値を確認してください。");
+                    ShowAlert("error",""," ログインに失敗しました。入力値を確認してください。");
                     $("#SystemID").focus();
                 }
                 else {

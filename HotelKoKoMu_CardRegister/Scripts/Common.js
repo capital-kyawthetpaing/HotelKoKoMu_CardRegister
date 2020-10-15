@@ -147,8 +147,8 @@ function isNumberKey(evt) {
 function ShowAlert(iconName,titleMsg,errorMsg) {
     swal.fire({
         icon: iconName,
-        title: titleMsg,
-        text: errorMsg
+        text: errorMsg,
+        title: errorMsg,
     });
 }
 

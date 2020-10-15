@@ -166,7 +166,7 @@
                 else {
                     clearInterval();
                 }
-            }, 3000);         
+            }, 3000);
 
             $("#btnInputKeyboard").click(function () {
                 $("#divCanvas").addClass('d-none');
@@ -175,7 +175,7 @@
             });
 
             $("#btnClear").click(function () {
-                ClearData();              
+                ClearData();
             });
 
             $("#btnConfirm").click(function () {
@@ -300,8 +300,8 @@
                                      PassportHW = $("#imgPassport").attr('src');
                              });
                              var guestInfo = { SystemID:$("#lblsystemid").text(), PmsID: $("#lblPmsId").text(), PmsPassword: $("#lblPmsPassword").text(), HotelCode: $("#lblhotelCode").text(), MachineNo: $("#lblmachineno").text(), ReservationNo: $("#lblReservationNo").text(), RoomNo: $("#lblRoomNo").text(), SystemDate: $("#lblSystemDate").text(), NameKanji: GuestName, NameKana: KanaName,ZipCode: ZipCode, Tel: Tel,Address1: Address1, Address2: Address2, Company: Company, Nationality: Nationality, PassportNo: Passport, Sign: $("#imgSign").attr('src'), ImageData: canvas.toDataURL("image/jpg") };
-                             
-                             var response = CalltoApiController('@Url.Action("setRegistrationCard", "api/CardAPI/")', guestInfo);                            
+
+                             var response = CalltoApiController('@Url.Action("setRegistrationCard", "api/CardAPI/")', guestInfo);
                              if (response.Status == "Success") {
                                  Swal.fire({
                                      title: ' ありがとうございました。',
@@ -527,7 +527,7 @@
             if (result.ArriveDate != "")
                 $("#tdArrivalDate").append(CreateLabelControl(moment(result.ArriveDate).format("YYYY/MM/DD"), "lblArrivalDate"));
             if (!(result.DepartureDate == null || result.DepartureDate == ""))
-                $("#tdDepartureDate").append(CreateLabelControl(moment(result.DepartureDate).format("YYYY/MM/DD"), "lblDepartureDate"));              
+                $("#tdDepartureDate").append(CreateLabelControl(moment(result.DepartureDate).format("YYYY/MM/DD"), "lblDepartureDate"));
         }
 
         function CheckValidation() {
@@ -535,7 +535,7 @@
             if ($("#imgSign").attr('src') != undefined)
                 flag = true;
             else
-                ShowAlert("error",""," サインをご記入ください。");
+                ShowAlert("error","サインをご記入ください。"," ");
 
             return flag;
         }
@@ -546,6 +546,9 @@
             blank.height = canvas.height;
             return canvas.toDataURL() === blank.toDataURL();
         }
+
+       
+
 
     </script>
 }

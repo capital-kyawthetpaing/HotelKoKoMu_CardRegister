@@ -180,7 +180,7 @@ namespace HotelKoKoMu_CardRegister.Controllers
             Sqlprms[8] = new NpgsqlParameter("@passport", cardRegisterInfo.PassportNo);
             Sqlprms[9] = new NpgsqlParameter("@updator", cardRegisterInfo.Updator);
             Sqlprms[10] = new NpgsqlParameter("@updateddate", DateTime.Now);
-            string fileName = cardRegisterInfo.SystemDate + cardRegisterInfo.ReservationNo + cardRegisterInfo.RoomNo + DateTime.Now.ToString("yyyyMMdd") + cardRegisterInfo.HotelCode + ".jpg";
+            string fileName = cardRegisterInfo.SystemDate + cardRegisterInfo.ReservationNo + cardRegisterInfo.RoomNo + cardRegisterInfo.CreatedDate.ToString("yyyyMMddHHmmss") + ".jpg";
             Sqlprms[11] = new NpgsqlParameter("@filename", fileName);
             Sqlprms[12] = new NpgsqlParameter("@hotelcode", cardRegisterInfo.HotelCode);
             Sqlprms[13] = new NpgsqlParameter("@reservationno", cardRegisterInfo.ReservationNo);
@@ -546,8 +546,7 @@ namespace HotelKoKoMu_CardRegister.Controllers
             para[1] = new NpgsqlParameter("@reservNo", reservNo);
             para[2] = new NpgsqlParameter("@roomNo", roomNo);
             para[3] = new NpgsqlParameter("@systemDate", systemDate);
-            string sql = "select * from mst_guestinformation where hotel_code =@hcode and reservationno =reservNo and roomno =@roomNo and systemdate =@systemDate";
-            //string sql = "select * from mst_guestinformation where hotel_code =@hcode and reservationno = '' and roomno = '' and systemdate = '' and created_date = ''";
+            string sql = "select * from trn_guestinformation where hotel_code =@hcode and reservationno =@reservNo and roomno =@roomNo and systemdate =@systemDate";
             DataTable dt = bdl.SelectDataTable_Info(sql, para);
             if (dt.Rows.Count > 0)
                 return true;

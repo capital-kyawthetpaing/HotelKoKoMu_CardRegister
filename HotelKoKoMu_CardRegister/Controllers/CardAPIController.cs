@@ -463,13 +463,13 @@ namespace HotelKoKoMu_CardRegister.Controllers
             {
                 msgInfo.Status = "Error";
                 msgInfo.FailureReason = "1002";
-                msgInfo.ErrorDescription = "Invalid PmsPassword";
+                msgInfo.ErrorDescription = "PmsPassword does not exist";
             }
             else if(!ExistCheckForHotelCode(cardRegisterInfo.HotelCode))
             {
                 msgInfo.Status = "Error";
                 msgInfo.FailureReason = "1002";
-                msgInfo.ErrorDescription = "Invalid Hotel Code";
+                msgInfo.ErrorDescription = "Hotel Code does not exist";
             }           
             else if(DuplicateKeyCheck(cardRegisterInfo.HotelCode,cardRegisterInfo.ReservationNo,cardRegisterInfo.RoomNo,cardRegisterInfo.SystemDate))
             {

@@ -69,20 +69,20 @@ namespace HotelKoKoMu_CardRegister.ContextDB
                 msgInfo.ErrorDescription = "";
                 return msgInfo;
             }
-            catch (NpgsqlException ex)
+            catch(PostgresException ex)
             {
-                if(ex.ErrorCode==-2147467259)
-                {
-                    msgInfo.Status = "Error";
-                    msgInfo.FailureReason = "1003";
-                    msgInfo.ErrorDescription = "Database connection error.";
-                }
-                else
-                {
-                    msgInfo.Status = "Error";
-                    msgInfo.FailureReason = "1004";
-                    msgInfo.ErrorDescription = "Database error.";
-                }
+                string msg = ex.Message;
+                msgInfo.Status = "Error";
+                msgInfo.FailureReason = "1005";
+                msgInfo.ErrorDescription = "Database error.";
+                return msgInfo;
+            }
+            catch(Exception ex)
+            {
+                string msg = ex.Message;
+                msgInfo.Status = "Error";
+                msgInfo.FailureReason = "1004";
+                msgInfo.ErrorDescription = "Database connection error.";
                 return msgInfo;
             }
         }

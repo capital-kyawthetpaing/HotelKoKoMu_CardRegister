@@ -28,7 +28,11 @@ namespace HotelKoKoMu_CardRegister.Controllers
     public class CardAPIController : ApiController
     {
         #region 
-
+        /// <summary>
+        /// check login for e-card system
+        /// </summary>
+        /// <param name="info"></param>
+        /// <returns></returns>
         [HttpPost]
         [ActionName("ValidateLogin")]
         public async Task<IHttpActionResult> ValidateLogin(LoginInfo info)

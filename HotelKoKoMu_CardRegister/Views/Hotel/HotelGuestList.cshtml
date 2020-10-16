@@ -101,8 +101,7 @@
             $("#dtpArrivalFromDate").datepicker({
                 format: 'YYYY/MM/DD',
                 todayHighlight: true,
-                onSelect: function (dateText, inst) {
-                    alert(dateText);
+                onSelect: function (dateText, inst) {                  
                     var fromdate = new Date($('#dtpArrivalFromDate').val());
                     var todate = new Date($('#dtpArrivalToDate').val());
                     if (todate < fromdate) {

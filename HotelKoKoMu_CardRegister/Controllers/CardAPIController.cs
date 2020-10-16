@@ -496,7 +496,8 @@ namespace HotelKoKoMu_CardRegister.Controllers
                 msgInfo.ErrorDescription = "Primary key is duplicate value";
             }
             return msgInfo;
-        }
+        }     
+
 
         /// <summary>
         /// define error when parameter is null

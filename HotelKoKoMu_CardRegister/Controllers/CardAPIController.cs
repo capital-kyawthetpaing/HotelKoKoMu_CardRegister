@@ -629,6 +629,12 @@ namespace HotelKoKoMu_CardRegister.Controllers
                 return false;
             }
         }
+
+        /// <summary>
+        /// get created date from trn_guestinformation 
+        /// </summary>
+        /// <param name="cardRegisterInfo"></param>
+        /// <returns></returns>
         public DataTable Get_CreatetedDate(CardRegisterInfo cardRegisterInfo)
         {
             BaseDL bdl = new BaseDL();

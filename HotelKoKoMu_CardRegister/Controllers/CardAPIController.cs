@@ -39,7 +39,7 @@ namespace HotelKoKoMu_CardRegister.Controllers
         {           
             BaseDL bdl = new BaseDL();
             ReturnMessageInfo msgInfo = new ReturnMessageInfo();            
-            msgInfo = ErrorCheck(cardRegisterInfo);
+            msgInfo = ErrorCheckforrequestRegCard(cardRegisterInfo);
             if (msgInfo.Status == "Success")
             {
                 NpgsqlParameter[] para = new NpgsqlParameter[20];
@@ -441,7 +441,7 @@ namespace HotelKoKoMu_CardRegister.Controllers
             return Ok(CreateBase64String(imageInfo.fileName,imageInfo.HotelCode));
         }
 
-        public ReturnMessageInfo ErrorCheck(CardRegisterInfo cardRegisterInfo)
+        public ReturnMessageInfo ErrorCheckforrequestRegCard(CardRegisterInfo cardRegisterInfo)
         {
             ReturnMessageInfo msgInfo = new ReturnMessageInfo();
             msgInfo.Status = "Success";
@@ -453,12 +453,18 @@ namespace HotelKoKoMu_CardRegister.Controllers
                 msgInfo = DefineError("PmsPassword");
             else if (string.IsNullOrEmpty(cardRegisterInfo.HotelCode))
                 msgInfo = DefineError("HotelCode");
+            else if (string.IsNullOrEmpty(cardRegisterInfo.MachineNo))
+                msgInfo = DefineError("MachineNo");
             else if (string.IsNullOrEmpty(cardRegisterInfo.SystemDate))
                 msgInfo = DefineError("SystemDate");
             else if (string.IsNullOrEmpty(cardRegisterInfo.ReservationNo))
                 msgInfo = DefineError("ReservationNo");
             else if (string.IsNullOrEmpty(cardRegisterInfo.RoomNo))
                 msgInfo = DefineError("RoomNo");
+            else if (string.IsNullOrEmpty(cardRegisterInfo.ArriveDate))
+                msgInfo = DefineError("ArriveDate");
+            else if (string.IsNullOrEmpty(cardRegisterInfo.DepartureDate))
+                msgInfo = DefineError("DepartureDate");
             else if(!CheckDate(cardRegisterInfo.SystemDate))
             {
                 msgInfo.Status = "Error";

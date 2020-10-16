@@ -105,9 +105,9 @@ namespace HotelKoKoMu_CardRegister.ContextDB
 
             return para;
         }
-        public async Task<Tuple<string, string>> SelectJson(string sSQL, params NpgsqlParameter[] param)
+        public async Task<Tuple<string, ReturnMessageInfo>> SelectJson(string sSQL, params NpgsqlParameter[] param)
         {
-            string msg = string.Empty;
+            ReturnMessageInfo msgInfo = new ReturnMessageInfo();
             DataTable dt = new DataTable
             {
                 TableName = "data"
@@ -125,21 +125,28 @@ namespace HotelKoKoMu_CardRegister.ContextDB
                         adapt.SelectCommand.Parameters.AddRange(param);
                     }
                     newCon.Open();
-                    await Task.Run(() => adapt.Fill(dt));                    
-                    msg = "Success";
+                    await Task.Run(() => adapt.Fill(dt));                   
                     newCon.Close();
-
+                    msgInfo.Status = "Success";
+                    msgInfo.FailureReason = "";
+                    msgInfo.ErrorDescription = "";
                 }
             }
-            catch (NpgsqlException ex)
+            catch (PostgresException ex)
             {
-                msg = ex.ErrorCode + "/" + ex.Message;
+                string msg = ex.Message;
+                msgInfo.Status = "Error";
+                msgInfo.FailureReason = "1005";
+                msgInfo.ErrorDescription = "Database error.";                
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
-                msg = ex.Message;
+                string msg = ex.Message;
+                msgInfo.Status = "Error";
+                msgInfo.FailureReason = "1004";
+                msgInfo.ErrorDescription = "Database connection error.";
             }
-            return new Tuple<string, string>(DataTableToJSONWithJSONNet(dt), msg);
+            return new Tuple<string, ReturnMessageInfo>(DataTableToJSONWithJSONNet(dt), msgInfo);
         }
 
         public string DataTableToJSONWithJSONNet(DataTable table)

@@ -528,42 +528,6 @@ namespace HotelKoKoMu_CardRegister.Controllers
                 return false;
         }
 
-        ///// <summary>
-        /////check hotel code is exist or not in mst_hotel
-        ///// </summary>
-        ///// <param name="hotelCode"></param>
-        ///// <returns></returns>
-        //public bool CheckExistForHotelCode(string hotelCode)
-        //{
-        //    BaseDL bdl = new BaseDL();
-        //    NpgsqlParameter[] para = new NpgsqlParameter[1];
-        //    para[0] = new NpgsqlParameter("@hotelcode", hotelCode);
-        //    string sql = "select * from mst_hotel where hotel_code=@hotelcode";
-        //    DataTable dt =bdl.SelectDataTable_Info(sql, para);
-        //    if (dt.Rows.Count > 0)
-        //        return true;
-        //    else
-        //        return false;
-        //}
-
-        ///// <summary>
-        ///// check pmspassword is exist or not in mst_hotel
-        ///// </summary>
-        ///// <param name="pmspassword"></param>
-        ///// <returns></returns>
-        //public bool CheckExistForPmsPassword(string pmspassword)
-        //{
-        //    BaseDL bdl = new BaseDL();
-        //    NpgsqlParameter[] para = new NpgsqlParameter[1];
-        //    para[0] = new NpgsqlParameter("@pmspass", pmspassword);
-        //    string sql = "select * from mst_hotel where pmspassword=@pmspass";
-        //    DataTable dt = bdl.SelectDataTable_Info(sql, para);
-        //    if (dt.Rows.Count > 0)
-        //        return true;
-        //    else
-        //        return false;
-        //}
-
         /// <summary>
         /// check when primary key is duplicate or not
         /// </summary>
@@ -622,7 +586,6 @@ namespace HotelKoKoMu_CardRegister.Controllers
             }
             return dt;
         }
-
 
         #endregion
     }

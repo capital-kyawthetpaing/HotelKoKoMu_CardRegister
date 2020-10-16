@@ -4,6 +4,13 @@
     Layout = "~/Views/Shared/_HotelSystemLayout.cshtml";
 }
 <link href="@Url.Content("~/Content/hotel.css")" rel="stylesheet" />
+<style>
+    #tblhotelguestlist td {
+        text-align: center;
+        vertical-align: middle;
+    }
+
+</style>
 <div class="row">
     <div class="col-md-12 form-inline">
         <div class="col-md-2 col-sm-4">
@@ -94,19 +101,19 @@
 @section Scripts{
     <script>
         $(document).ready(function () {
-          
+
             //if select arrival date again greater than departure date
             $("#dtpArrivalFromDate").datepicker({
                 format: 'YYYY/MM/DD',
                 todayHighlight: true,
-                onSelect: function (dateText, inst) {                    
+                onSelect: function (dateText, inst) {
                     var fromdate = new Date($('#dtpArrivalFromDate').val());
                     var todate = new Date($('#dtpArrivalToDate').val());
                     if (todate < fromdate) {
                         $("#dtpArrivalFromDate").val(moment(dateText).format('YYYY/MM/DD'));
                         //ShowAlert("error", "Guest List", "ToDate must be greater than FromDate");
                         ShowAlert("error","", "到着日(to) は 到着日(from) より遅ければなりません。");
-                    }                       
+                    }
                     else
                         $("#dtpArrivalFromDate").val(moment(dateText).format('YYYY/MM/DD'));
                 }
@@ -118,7 +125,7 @@
                 todayHighlight: true,
                 onSelect: function (dateText, inst) {
                     var fromdate = new Date($('#dtpArrivalFromDate').val());
-                    var todate = new Date($('#dtpArrivalToDate').val());                   
+                    var todate = new Date($('#dtpArrivalToDate').val());
                     if (todate < fromdate)
                         ShowAlert("error","","到着日(to) は 到着日(from) より遅ければなりません。");
                     else
@@ -149,7 +156,7 @@
                 var data = table.row(this).data();
                 if (data["imagedata"] != null) {
                     //var imagePath = '/' + data["hotel_code"] + "/" + data["imagedata"];
-                    var response = CalltoApiController('@Url.Action("showImage", "api/CardAPI/")', { fileName: data["imagedata"], HotelCode: data["hotel_code"] });                   
+                    var response = CalltoApiController('@Url.Action("showImage", "api/CardAPI/")', { fileName: data["imagedata"], HotelCode: data["hotel_code"] });
                     $("#imgImage").attr('src', response);
                     //$("#imgImage").attr('src', imagePath);
                     $("#showImageModal").modal('show');
@@ -210,8 +217,9 @@
                     {
                      "targets":2,
                       "data": "roomno",
-                      "render": function (data) {
-                          return '<pre>' + data + '</pre>';
+                        "render": function (data) {
+                            return data;
+                          //return '<pre>' + data + '</pre>';
                       }
                     }
                 ]

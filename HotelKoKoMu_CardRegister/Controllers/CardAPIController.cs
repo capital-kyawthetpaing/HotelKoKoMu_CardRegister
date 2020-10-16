@@ -459,19 +459,31 @@ namespace HotelKoKoMu_CardRegister.Controllers
                 msgInfo = DefineError("ReservationNo");
             else if (string.IsNullOrEmpty(cardRegisterInfo.RoomNo))
                 msgInfo = DefineError("RoomNo");
-            else if(!ExistCheckForPmsPassword(cardRegisterInfo.PmsPassword))
+            else if(!CheckDate(cardRegisterInfo.SystemDate))
             {
                 msgInfo.Status = "Error";
-                msgInfo.FailureReason = "1002";
-                msgInfo.ErrorDescription = "PmsPassword does not exist";
+                msgInfo.FailureReason = "1006";
+                msgInfo.ErrorDescription = "Date check error.";
             }
-            else if(!ExistCheckForHotelCode(cardRegisterInfo.HotelCode))
+            else if(!CheckDate(cardRegisterInfo.ArriveDate))
+            {
+                msgInfo.Status = "Error";
+                msgInfo.FailureReason = "1006";
+                msgInfo.ErrorDescription = "Date check error.";
+            }
+            else if(!CheckDate(cardRegisterInfo.DepartureDate))
+            {
+                msgInfo.Status = "Error";
+                msgInfo.FailureReason = "1006";
+                msgInfo.ErrorDescription = "Date check error.";
+            }
+            else if(!CheckExistForCommonRequest(cardRegisterInfo.PmsID,cardRegisterInfo.PmsPassword,cardRegisterInfo.HotelCode,cardRegisterInfo.MachineNo))
             {
                 msgInfo.Status = "Error";
                 msgInfo.FailureReason = "1002";
-                msgInfo.ErrorDescription = "Hotel Code does not exist";
-            }           
-            else if(DuplicateKeyCheck(cardRegisterInfo.HotelCode,cardRegisterInfo.ReservationNo,cardRegisterInfo.RoomNo,cardRegisterInfo.SystemDate))
+                msgInfo.ErrorDescription = "There is something wrong with Common Request and required items.";
+            }                   
+            else if(CheckDuplicateKey(cardRegisterInfo.HotelCode,cardRegisterInfo.ReservationNo,cardRegisterInfo.RoomNo,cardRegisterInfo.SystemDate))
             {
                 msgInfo.Status = "Error";
                 msgInfo.FailureReason = "1003";
@@ -494,41 +506,57 @@ namespace HotelKoKoMu_CardRegister.Controllers
             return msgInfo;
         }
 
-        /// <summary>
-        ///check hotel code is exist or not in mst_hotel
-        /// </summary>
-        /// <param name="hotelCode"></param>
-        /// <returns></returns>
-        public bool ExistCheckForHotelCode(string hotelCode)
+        public bool CheckExistForCommonRequest(string pmsid,string pmspassword,string hotelcode,string machineno)
         {
             BaseDL bdl = new BaseDL();
-            NpgsqlParameter[] para = new NpgsqlParameter[1];
-            para[0] = new NpgsqlParameter("@hotelcode", hotelCode);
-            string sql = "select * from mst_hotel where hotel_code=@hotelcode";
-            DataTable dt =bdl.SelectDataTable_Info(sql, para);
-            if (dt.Rows.Count > 0)
-                return true;
-            else
-                return false;
-        }
-
-        /// <summary>
-        /// check pmspassword is exist or not in mst_hotel
-        /// </summary>
-        /// <param name="pmspassword"></param>
-        /// <returns></returns>
-        public bool ExistCheckForPmsPassword(string pmspassword)
-        {
-            BaseDL bdl = new BaseDL();
-            NpgsqlParameter[] para = new NpgsqlParameter[1];
-            para[0] = new NpgsqlParameter("@pmspass", pmspassword);
-            string sql = "select * from mst_hotel where pmspassword=@pmspass";
+            NpgsqlParameter[] para = new NpgsqlParameter[4];
+            para[0] = new NpgsqlParameter("@pmsid", pmsid);
+            para[1] = new NpgsqlParameter("@pmspassword", pmspassword);
+            para[2] = new NpgsqlParameter("@hotelcode", hotelcode);
+            para[3] = new NpgsqlParameter("@machineno", machineno);
+            string sql = "select * from mst_hotel h inner join mst_hotelmachine hm on h.hotel_code=hm.hotel_code where pmsid=@pmsid and pmspassword=@pmspassword and h.hotel_code=@hotelcode and hm.machineno=@machineno";
             DataTable dt = bdl.SelectDataTable_Info(sql, para);
             if (dt.Rows.Count > 0)
                 return true;
             else
                 return false;
         }
+
+        ///// <summary>
+        /////check hotel code is exist or not in mst_hotel
+        ///// </summary>
+        ///// <param name="hotelCode"></param>
+        ///// <returns></returns>
+        //public bool CheckExistForHotelCode(string hotelCode)
+        //{
+        //    BaseDL bdl = new BaseDL();
+        //    NpgsqlParameter[] para = new NpgsqlParameter[1];
+        //    para[0] = new NpgsqlParameter("@hotelcode", hotelCode);
+        //    string sql = "select * from mst_hotel where hotel_code=@hotelcode";
+        //    DataTable dt =bdl.SelectDataTable_Info(sql, para);
+        //    if (dt.Rows.Count > 0)
+        //        return true;
+        //    else
+        //        return false;
+        //}
+
+        ///// <summary>
+        ///// check pmspassword is exist or not in mst_hotel
+        ///// </summary>
+        ///// <param name="pmspassword"></param>
+        ///// <returns></returns>
+        //public bool CheckExistForPmsPassword(string pmspassword)
+        //{
+        //    BaseDL bdl = new BaseDL();
+        //    NpgsqlParameter[] para = new NpgsqlParameter[1];
+        //    para[0] = new NpgsqlParameter("@pmspass", pmspassword);
+        //    string sql = "select * from mst_hotel where pmspassword=@pmspass";
+        //    DataTable dt = bdl.SelectDataTable_Info(sql, para);
+        //    if (dt.Rows.Count > 0)
+        //        return true;
+        //    else
+        //        return false;
+        //}
 
         /// <summary>
         /// check when primary key is duplicate or not
@@ -538,7 +566,7 @@ namespace HotelKoKoMu_CardRegister.Controllers
         /// <param name="roomNo"></param>
         /// <param name="systemDate"></param>
         /// <returns></returns>
-        public bool DuplicateKeyCheck(string hCode,string reservNo,string roomNo,string systemDate)
+        public bool CheckDuplicateKey(string hCode,string reservNo,string roomNo,string systemDate)
         {
             BaseDL bdl = new BaseDL();
             NpgsqlParameter[] para = new NpgsqlParameter[4];
@@ -554,6 +582,24 @@ namespace HotelKoKoMu_CardRegister.Controllers
                 return false;
         }
 
+        /// <summary>
+        /// check parameter is date string
+        /// </summary>
+        /// <param name="date"></param>
+        /// <returns></returns>
+        private bool CheckDate(String date)
+        {
+            try
+            {
+                string formatString = "yyyyMMdd";
+                DateTime dt = DateTime.ParseExact(date, formatString, null);               
+                return true;
+            }
+            catch
+            {
+                return false;
+            }
+        }
         public DataTable Get_CreatetedDate(CardRegisterInfo cardRegisterInfo)
         {
             BaseDL bdl = new BaseDL();
@@ -570,6 +616,8 @@ namespace HotelKoKoMu_CardRegister.Controllers
             }
             return dt;
         }
+
+
         #endregion
     }
 }

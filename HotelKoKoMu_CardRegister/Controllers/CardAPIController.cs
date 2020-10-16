@@ -28,6 +28,28 @@ namespace HotelKoKoMu_CardRegister.Controllers
     public class CardAPIController : ApiController
     {
         #region 
+
+        [HttpPost]
+        [ActionName("ValidateLogin")]
+        public async Task<IHttpActionResult> ValidateLogin(LoginInfo info)
+        {
+            BaseDL bdl = new BaseDL();
+            var loginStatus = new object();
+            NpgsqlParameter[] Sqlprms = new NpgsqlParameter[5];
+            Sqlprms[0] = new NpgsqlParameter("@SystemID", info.SystemID);
+            Sqlprms[1] = new NpgsqlParameter("@PmsID", info.PmsID);
+            Sqlprms[2] = new NpgsqlParameter("@PmsPassword", info.PmsPassword);
+            Sqlprms[3] = new NpgsqlParameter("@MachineNo", info.MachineNo);
+            Sqlprms[4] = new NpgsqlParameter("@HotelCode", info.HotelCode);
+            string sql_cmd = "select * from trn_guestinformation where systemid=@SystemID and pmsid=@PmsID and pmspassword=@PmsPassword and machineno=@MachineNo and hotel_code=@HotelCode";
+            DataTable dt = await bdl.SelectDataTable(sql_cmd, Sqlprms);
+            if (dt.Rows.Count == 0)
+                loginStatus = new { Result = 0 };//login failed;
+            else
+                loginStatus = new { Result = dt };
+            return Ok(loginStatus);
+        }
+
         /// <summary>
         /// save guest information data  from hotel system
         /// </summary>
@@ -234,48 +256,51 @@ namespace HotelKoKoMu_CardRegister.Controllers
                 msgInfo = result.Item2;
                 if (dt.Rows.Count > 0)
                 {
-                    int flag = Convert.ToInt32(dt.Rows[0]["flag"].ToString());
-                    int completeflag = Convert.ToInt32(dt.Rows[0]["complete_flag"].ToString());                    
-                    if (flag == 1 && completeflag == 1)
+                    msgInfo = ErrorCheckForResponse(dt);
+                    if(msgInfo.Status=="Success")
                     {
-                        NpgsqlParameter[] param = new NpgsqlParameter[5];
-                        param[0] = new NpgsqlParameter("@reservationno", NpgsqlDbType.Varchar) { Value = dt.Rows[0]["reservationno"].ToString() };
-                        param[1] = new NpgsqlParameter("@roomno", NpgsqlDbType.Varchar) { Value = dt.Rows[0]["roomno"].ToString() };
-                        param[2] = new NpgsqlParameter("@systemdate", NpgsqlDbType.Varchar) { Value = dt.Rows[0]["systemdate"].ToString() };
-                        param[3] = new NpgsqlParameter("@hotelcode", NpgsqlDbType.Varchar) { Value = cardRegisterInfo.HotelCode };
-                        param[4] = new NpgsqlParameter("@createddate", NpgsqlDbType.Date) { Value = Convert.ToDateTime(dt.Rows[0]["created_date"].ToString()) };
-                        string sql1 = "Update trn_guestinformation set flag=2 where reservationno=@reservationno and roomno=@roomno and  systemdate=@systemdate and CAST(created_date as DATE)= CAST(@createddate AS DATE) and hotel_code=@hotelcode and flag=1 and complete_flag=1";
-                        msgInfo = await bdl.InsertUpdateDeleteData(sql1, param);
-                        if (msgInfo.Status == "Success")
+                        int flag = Convert.ToInt32(dt.Rows[0]["flag"].ToString());
+                        int completeflag = Convert.ToInt32(dt.Rows[0]["complete_flag"].ToString());
+                        if (flag == 1 && completeflag == 1)
                         {
-                            guestinfo.SystemDate = dt.Rows[0]["systemdate"].ToString();
-                            guestinfo.ReservationNo = dt.Rows[0]["reservationno"].ToString();
-                            guestinfo.RoomNo = dt.Rows[0]["roomno"].ToString();
-                            guestinfo.NameKanji = dt.Rows[0]["guestname_text"].ToString();
-                            guestinfo.NameKana = dt.Rows[0]["kananame_text"].ToString();
-                            guestinfo.ZipCode = dt.Rows[0]["zipcode_text"].ToString();
-                            guestinfo.Tel = dt.Rows[0]["tel_text"].ToString();
-                            guestinfo.Address1 = dt.Rows[0]["address1_text"].ToString();
-                            guestinfo.Address2 = dt.Rows[0]["address2_text"].ToString();
-                            guestinfo.Company = dt.Rows[0]["company_text"].ToString();
-                            guestinfo.Nationality = dt.Rows[0]["nationality_text"].ToString();
-                            guestinfo.PassportNo = dt.Rows[0]["passportno_text"].ToString();
-                            string filename = dt.Rows[0]["imagedata"].ToString();
-                            if (!String.IsNullOrWhiteSpace(filename) && filename != "")
-                                guestinfo.ImageData = CreateBase64String(filename, dt.Rows[0]["hotel_code"].ToString());
-                            //save success , update success and return getregisterdata
-                            guestinfo.Status = msgInfo.Status;
-                            guestinfo.FailureReason = "";
-                            guestinfo.ErrorDescription = "";
-                            return Ok(guestinfo);
-                        }                       
+                            NpgsqlParameter[] param = new NpgsqlParameter[5];
+                            param[0] = new NpgsqlParameter("@reservationno", NpgsqlDbType.Varchar) { Value = dt.Rows[0]["reservationno"].ToString() };
+                            param[1] = new NpgsqlParameter("@roomno", NpgsqlDbType.Varchar) { Value = dt.Rows[0]["roomno"].ToString() };
+                            param[2] = new NpgsqlParameter("@systemdate", NpgsqlDbType.Varchar) { Value = dt.Rows[0]["systemdate"].ToString() };
+                            param[3] = new NpgsqlParameter("@hotelcode", NpgsqlDbType.Varchar) { Value = cardRegisterInfo.HotelCode };
+                            param[4] = new NpgsqlParameter("@createddate", NpgsqlDbType.Date) { Value = Convert.ToDateTime(dt.Rows[0]["created_date"].ToString()) };
+                            string sql1 = "Update trn_guestinformation set flag=2 where reservationno=@reservationno and roomno=@roomno and  systemdate=@systemdate and CAST(created_date as DATE)= CAST(@createddate AS DATE) and hotel_code=@hotelcode and flag=1 and complete_flag=1";
+                            msgInfo = await bdl.InsertUpdateDeleteData(sql1, param);
+                            if (msgInfo.Status == "Success")
+                            {
+                                guestinfo.SystemDate = dt.Rows[0]["systemdate"].ToString();
+                                guestinfo.ReservationNo = dt.Rows[0]["reservationno"].ToString();
+                                guestinfo.RoomNo = dt.Rows[0]["roomno"].ToString();
+                                guestinfo.NameKanji = dt.Rows[0]["guestname_text"].ToString();
+                                guestinfo.NameKana = dt.Rows[0]["kananame_text"].ToString();
+                                guestinfo.ZipCode = dt.Rows[0]["zipcode_text"].ToString();
+                                guestinfo.Tel = dt.Rows[0]["tel_text"].ToString();
+                                guestinfo.Address1 = dt.Rows[0]["address1_text"].ToString();
+                                guestinfo.Address2 = dt.Rows[0]["address2_text"].ToString();
+                                guestinfo.Company = dt.Rows[0]["company_text"].ToString();
+                                guestinfo.Nationality = dt.Rows[0]["nationality_text"].ToString();
+                                guestinfo.PassportNo = dt.Rows[0]["passportno_text"].ToString();
+                                string filename = dt.Rows[0]["imagedata"].ToString();
+                                if (!String.IsNullOrWhiteSpace(filename) && filename != "")
+                                    guestinfo.ImageData = CreateBase64String(filename, dt.Rows[0]["hotel_code"].ToString());
+                                guestinfo.Status = msgInfo.Status;
+                                guestinfo.FailureReason = "";
+                                guestinfo.ErrorDescription = "";
+                                return Ok(guestinfo);
+                            }
 
-                    }
-                    else
-                    {
-                        msgInfo.Status = "Writing";
-                        msgInfo.FailureReason = "";
-                        msgInfo.ErrorDescription = "";
+                        }
+                        else
+                        {
+                            msgInfo.Status = "Writing";
+                            msgInfo.FailureReason = "";
+                            msgInfo.ErrorDescription = "";
+                        }
                     }
                 }
                 else
@@ -297,6 +322,107 @@ namespace HotelKoKoMu_CardRegister.Controllers
             }
             else
                 return Ok(msgInfo);
+        }
+
+        /// <summary>
+        /// cancel request 
+        /// </summary>
+        /// <param name="cardRegisterInfo"></param>
+        /// <returns></returns>
+        [HttpPost]
+        [ActionName("CancelRegistrationCard")]
+        public async Task<IHttpActionResult> CancelRegistrationCard(CardRegisterInfo cardRegisterInfo)
+        {
+            BaseDL bdl = new BaseDL();
+            var returnData = new object();
+            ReturnMessageInfo msgInfo = ErrorCheck(cardRegisterInfo);
+            if (msgInfo.Status == "Success")
+            {
+                NpgsqlParameter[] Sqlprms = new NpgsqlParameter[5];
+                Sqlprms[0] = new NpgsqlParameter("@SystemID", NpgsqlDbType.Varchar) { Value = cardRegisterInfo.SystemID };
+                Sqlprms[1] = new NpgsqlParameter("@PmsID", NpgsqlDbType.Varchar) { Value = cardRegisterInfo.PmsID };
+                Sqlprms[2] = new NpgsqlParameter("@PmsPassword", NpgsqlDbType.Varchar) { Value = cardRegisterInfo.PmsPassword };
+                Sqlprms[3] = new NpgsqlParameter("@HotelCode", NpgsqlDbType.Varchar) { Value = cardRegisterInfo.HotelCode };
+                Sqlprms[4] = new NpgsqlParameter("@MachineNo", NpgsqlDbType.Varchar) { Value = cardRegisterInfo.MachineNo };
+                string sql1 = "select systemdate,reservationno,roomno,flag,complete_flag from trn_guestinformation where systemid = @SystemID and pmsid = @PmsID and  PmsPassword= @pmspassword and hotel_code= @HotelCode and machineno=@MachineNo and flag=1 limit 1";
+                Tuple<string, ReturnMessageInfo> result1 = await bdl.SelectJson(sql1, Sqlprms);
+                DataTable dt = JsonConvert.DeserializeObject<DataTable>(result1.Item1);
+                msgInfo = result1.Item2;
+                if (dt.Rows.Count > 0)
+                {
+                    msgInfo = ErrorCheckForResponse(dt);
+                    if (msgInfo.Status == "Success")
+                    {
+                        int flag = Convert.ToInt32(dt.Rows[0]["flag"].ToString());
+                        int completeflag = Convert.ToInt32(dt.Rows[0]["complete_flag"].ToString());
+                        if (flag == 1 && completeflag == 0)
+                        {
+                            NpgsqlParameter[] para = new NpgsqlParameter[5];
+                            para[0] = new NpgsqlParameter("@SystemID", NpgsqlDbType.Varchar) { Value = cardRegisterInfo.SystemID };
+                            para[1] = new NpgsqlParameter("@PmsID", NpgsqlDbType.Varchar) { Value = cardRegisterInfo.PmsID };
+                            para[2] = new NpgsqlParameter("@PmsPassword", NpgsqlDbType.Varchar) { Value = cardRegisterInfo.PmsPassword };
+                            para[3] = new NpgsqlParameter("@HotelCode", NpgsqlDbType.Varchar) { Value = cardRegisterInfo.HotelCode };
+                            para[4] = new NpgsqlParameter("@MachineNo", NpgsqlDbType.Varchar) { Value = cardRegisterInfo.MachineNo };
+                            string sql2 = "Update trn_guestinformation set flag = 9 where systemid = @SystemID and pmsid = @PmsID and  PmsPassword= @pmspassword and hotel_code= @HotelCode and machineno=@MachineNo and flag=1 and complete_flag=0";
+                            msgInfo = await bdl.InsertUpdateDeleteData(sql2, para);
+                            //save success , update success and return getregisterdata
+                            if (msgInfo.Status == "Success")
+                            {
+                                returnData = new
+                                {
+                                    SystemDate = dt.Rows[0]["systemdate"].ToString(),
+                                    ReservationNo = dt.Rows[0]["reservationno"].ToString(),
+                                    RoomNo = dt.Rows[0]["roomno"].ToString(),
+                                    Status = msgInfo.Status,
+                                    FailureReason = "",
+                                    ErrorDescription = ""
+                                };
+                            }
+                        }
+                    }
+                    else
+                    {
+                        returnData = new
+                        {
+                            Status = msgInfo.Status,
+                            FailureReason = msgInfo.FailureReason,
+                            ErrorDescription = msgInfo.ErrorDescription
+                        };
+                    }
+                }
+                else
+                {
+                    if (msgInfo.Status != "Success")
+                    {
+                        returnData = new
+                        {
+                            Status = msgInfo.Status,
+                            FailureReason = msgInfo.FailureReason,
+                            ErrorDescription = msgInfo.ErrorDescription
+                        };
+                    }
+                    else
+                    {
+                        returnData = new
+                        {
+                            Status = "NotStart",
+                            FailureReason = "",
+                            ErrorDescription = ""
+                        };
+                    }
+                }
+                return Ok(returnData);
+            }
+            else
+            {
+                returnData = new
+                {
+                    Status = msgInfo.Status,
+                    FailureReason = msgInfo.FailureReason,
+                    ErrorDescription = msgInfo.ErrorDescription
+                };
+            }
+            return Ok(returnData);
         }
 
         public string CreateBase64String(string filename,string hotelCode)
@@ -354,115 +480,6 @@ namespace HotelKoKoMu_CardRegister.Controllers
                 dirPath = dirPath + "//" + fileName;
                 image.Save(dirPath);
             }
-        }
-
-        [HttpPost]
-        [ActionName("ValidateLogin")]
-        public async Task<IHttpActionResult> ValidateLogin(LoginInfo info)
-        {
-            BaseDL bdl = new BaseDL();
-            var loginStatus = new object();
-            NpgsqlParameter[] Sqlprms = new NpgsqlParameter[5];
-            Sqlprms[0] = new NpgsqlParameter("@SystemID", info.SystemID);
-            Sqlprms[1] = new NpgsqlParameter("@PmsID", info.PmsID);
-            Sqlprms[2] = new NpgsqlParameter("@PmsPassword", info.PmsPassword);
-            Sqlprms[3] = new NpgsqlParameter("@MachineNo", info.MachineNo);
-            Sqlprms[4] = new NpgsqlParameter("@HotelCode", info.HotelCode);
-            string sql_cmd = "select * from trn_guestinformation where systemid=@SystemID and pmsid=@PmsID and pmspassword=@PmsPassword and machineno=@MachineNo and hotel_code=@HotelCode";
-            DataTable dt = await bdl.SelectDataTable(sql_cmd, Sqlprms);
-            if (dt.Rows.Count == 0)
-                loginStatus = new { Result = 0 };//login failed;
-            else
-                loginStatus = new { Result = dt };
-            return Ok(loginStatus);
-        }
-
-        /// <summary>
-        /// cancel request 
-        /// </summary>
-        /// <param name="cardRegisterInfo"></param>
-        /// <returns></returns>
-        [HttpPost]
-        [ActionName("CancelRegistrationCard")]
-        public async Task<IHttpActionResult> CancelRegistrationCard(CardRegisterInfo cardRegisterInfo)
-        {
-            BaseDL bdl = new BaseDL();           
-            var returnData = new object();
-            ReturnMessageInfo msgInfo = ErrorCheck(cardRegisterInfo);
-            if (msgInfo.Status == "Success")
-            {
-                NpgsqlParameter[] Sqlprms = new NpgsqlParameter[5];
-                Sqlprms[0] = new NpgsqlParameter("@SystemID", NpgsqlDbType.Varchar) { Value = cardRegisterInfo.SystemID };
-                Sqlprms[1] = new NpgsqlParameter("@PmsID", NpgsqlDbType.Varchar) { Value = cardRegisterInfo.PmsID };
-                Sqlprms[2] = new NpgsqlParameter("@PmsPassword", NpgsqlDbType.Varchar) { Value = cardRegisterInfo.PmsPassword };
-                Sqlprms[3] = new NpgsqlParameter("@HotelCode", NpgsqlDbType.Varchar) { Value = cardRegisterInfo.HotelCode };
-                Sqlprms[4] = new NpgsqlParameter("@MachineNo", NpgsqlDbType.Varchar) { Value = cardRegisterInfo.MachineNo };
-                string sql1 = "select systemdate,reservationno,roomno,flag,complete_flag from trn_guestinformation where systemid = @SystemID and pmsid = @PmsID and  PmsPassword= @pmspassword and hotel_code= @HotelCode and machineno=@MachineNo and flag=1 limit 1";
-                Tuple<string, ReturnMessageInfo> result1 = await bdl.SelectJson(sql1, Sqlprms);
-                DataTable dt = JsonConvert.DeserializeObject<DataTable>(result1.Item1);
-                msgInfo = result1.Item2;
-                if (dt.Rows.Count > 0)
-                {
-                    int flag = Convert.ToInt32(dt.Rows[0]["flag"].ToString());
-                    int completeflag = Convert.ToInt32(dt.Rows[0]["complete_flag"].ToString());
-                    if (flag == 1 && completeflag == 0)
-                    {
-                        NpgsqlParameter[] para = new NpgsqlParameter[5];
-                        para[0] = new NpgsqlParameter("@SystemID", NpgsqlDbType.Varchar) { Value = cardRegisterInfo.SystemID };
-                        para[1] = new NpgsqlParameter("@PmsID", NpgsqlDbType.Varchar) { Value = cardRegisterInfo.PmsID };
-                        para[2] = new NpgsqlParameter("@PmsPassword", NpgsqlDbType.Varchar) { Value = cardRegisterInfo.PmsPassword };
-                        para[3] = new NpgsqlParameter("@HotelCode", NpgsqlDbType.Varchar) { Value = cardRegisterInfo.HotelCode };
-                        para[4] = new NpgsqlParameter("@MachineNo", NpgsqlDbType.Varchar) { Value = cardRegisterInfo.MachineNo };
-                        string sql2 = "Update trn_guestinformation set flag = 9 where systemid = @SystemID and pmsid = @PmsID and  PmsPassword= @pmspassword and hotel_code= @HotelCode and machineno=@MachineNo and flag=1 and complete_flag=0";
-                        msgInfo = await bdl.InsertUpdateDeleteData(sql2, para);
-                        //save success , update success and return getregisterdata
-                        if (msgInfo.Status == "Success")
-                        {
-                            returnData = new
-                            {
-                                SystemDate = dt.Rows[0]["systemdate"].ToString(),
-                                ReservationNo = dt.Rows[0]["reservationno"].ToString(),
-                                RoomNo = dt.Rows[0]["roomno"].ToString(),
-                                Status = msgInfo.Status,
-                                FailureReason = "",
-                                ErrorDescription = ""
-                            };
-                        }
-                    }
-                }
-                else
-                {
-                    if (msgInfo.Status != "Success")
-                    {                       
-                        returnData = new
-                        {
-                            Status = msgInfo.Status,
-                            FailureReason = msgInfo.FailureReason,
-                            ErrorDescription = msgInfo.ErrorDescription
-                        };
-                    }
-                    else
-                    {
-                        returnData = new
-                        {
-                            Status = "NotStart",
-                            FailureReason = "",
-                            ErrorDescription = ""
-                        };
-                    }
-                }
-                return Ok(returnData);
-            }
-            else
-            {
-                returnData = new
-                {
-                    Status = msgInfo.Status,
-                    FailureReason =msgInfo.FailureReason,
-                    ErrorDescription =msgInfo.ErrorDescription
-                };
-            }
-            return Ok(returnData);
         }
 
         [HttpPost]
@@ -534,6 +551,11 @@ namespace HotelKoKoMu_CardRegister.Controllers
             return msgInfo;
         }     
 
+        /// <summary>
+        /// check error for common request is null or exist
+        /// </summary>
+        /// <param name="cardRegisterInfo"></param>
+        /// <returns></returns>
         public ReturnMessageInfo ErrorCheck(CardRegisterInfo cardRegisterInfo)
         {
             ReturnMessageInfo msgInfo = new ReturnMessageInfo();
@@ -553,6 +575,26 @@ namespace HotelKoKoMu_CardRegister.Controllers
                 msgInfo.Status = "Error";
                 msgInfo.FailureReason = "1002";
                 msgInfo.ErrorDescription = "There is something wrong with Common Request and required items.";
+            }
+            return msgInfo;
+        }
+
+        
+        public ReturnMessageInfo ErrorCheckForResponse(DataTable dt)
+        {
+            ReturnMessageInfo msgInfo = new ReturnMessageInfo();
+            msgInfo.Status = "Success";
+            if (string.IsNullOrEmpty(dt.Rows[0]["systemdate"].ToString()))
+                msgInfo = DefineError("SystemDate");
+            else if(string.IsNullOrEmpty(dt.Rows[0]["reservationno"].ToString()))
+                msgInfo= DefineError("ReservationNo");
+            else if (string.IsNullOrEmpty(dt.Rows[0]["roomno"].ToString()))
+                msgInfo = DefineError("RoomNo");
+            else if (!CheckDate(dt.Rows[0]["systemdate"].ToString()))
+            {
+                msgInfo.Status = "Error";
+                msgInfo.FailureReason = "1006";
+                msgInfo.ErrorDescription = "Date check error.";
             }
             return msgInfo;
         }

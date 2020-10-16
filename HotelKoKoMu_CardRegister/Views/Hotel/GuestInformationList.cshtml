@@ -156,7 +156,7 @@
             else if (result.Status =="NotStart")
                 ShowAlert('info', 'Guest Information', 'Not Start');
             else
-                ShowAlert('error', 'Guest Information', result.Error);
+                ShowAlert('error', 'Guest Information', result.ErrorDescription);
         });
 
         function BindGuestInfo(result) {           

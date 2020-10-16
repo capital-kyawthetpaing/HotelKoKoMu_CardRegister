@@ -96,7 +96,6 @@
 @section Scripts{
     <script>
         $(document).ready(function () {
-
             //if select arrival date again greater than departure date
             $("#dtpArrivalFromDate").datepicker({
                 format: 'YYYY/MM/DD',
@@ -106,12 +105,13 @@
                     var todate = new Date($('#dtpArrivalToDate').val());
                     if (todate < fromdate) {
                         $("#dtpArrivalFromDate").val(moment(dateText).format('YYYY/MM/DD'));
-                        //ShowAlert("error", "Guest List", "ToDate must be greater than FromDate");
-                        ShowAlert("error","", "到着日(to) は 到着日(from) より遅ければなりません。");
+                        $("#dtpArrivalToDate").val("");
                     }
                     else
                         $("#dtpArrivalFromDate").val(moment(dateText).format('YYYY/MM/DD'));
+                   
                 }
+
             });
 
             //date compare check

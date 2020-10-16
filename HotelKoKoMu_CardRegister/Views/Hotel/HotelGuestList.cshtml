@@ -3,6 +3,7 @@
     ViewBag.Title = "HotelGuestList";
     Layout = "~/Views/Shared/_HotelSystemLayout.cshtml";
 }
+
 <link href="@Url.Content("~/Content/hotel.css")" rel="stylesheet" />
 
 <div class="row">
@@ -44,7 +45,7 @@
             <label>チェックイン部屋 :</label>
         </div>
         <div class="col-md-2 col-sm-4">
-            <input type="text" id="txtCheckinRoom" onkeypress="return isNumber(event)" />
+            <input type="text" id="txtCheckinRoom"/>
         </div>
     </div>
 </div>
@@ -100,7 +101,7 @@
             $("#dtpArrivalFromDate").datepicker({
                 format: 'YYYY/MM/DD',
                 todayHighlight: true,
-                onSelect: function (dateText, inst) {
+                onSelect: function (dateText, inst) {                  
                     var fromdate = new Date($('#dtpArrivalFromDate').val());
                     var todate = new Date($('#dtpArrivalToDate').val());
                     if (todate < fromdate) {
@@ -139,11 +140,7 @@
             });
 
             $("#btnClear").click(function () {
-                var currentDate = new Date();
-                $("#dtpArrivalFromDate").val(moment(currentDate).format('YYYY/MM/DD'));
-                $("#dtpArrivalToDate").val(moment(currentDate).format('YYYY/MM/DD'));
-                $("#txtCheckinRoom").val("");
-                $("#txtGuestName").val("");
+                window.location.reload();
             });
 
             //show image on table's row click event

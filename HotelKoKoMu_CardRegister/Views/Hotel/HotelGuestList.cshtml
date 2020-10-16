@@ -150,10 +150,8 @@
             $('body').delegate('#tblhotelguestlist tbody tr', 'click', function () {
                 var data = table.row(this).data();
                 if (data["imagedata"] != null) {
-                    //var imagePath = '/' + data["hotel_code"] + "/" + data["imagedata"];
                     var response = CalltoApiController('@Url.Action("showImage", "api/CardAPI/")', { fileName: data["imagedata"], HotelCode: data["hotel_code"] });
-                    $("#imgImage").attr('src', response);
-                    //$("#imgImage").attr('src', imagePath);
+                    $("#imgImage").attr('src', response);                   
                     $("#showImageModal").modal('show');
                 }
             });

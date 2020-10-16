@@ -1497,7 +1497,7 @@
             monthsShort: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
             today: 'Today',
             clear: 'Clear',
-            dateFormat: 'yyyy-mm-dd',
+            dateFormat: 'yyyy/mm/dd',
             timeFormat: 'hh:ii aa',
             firstDay: 0
         }

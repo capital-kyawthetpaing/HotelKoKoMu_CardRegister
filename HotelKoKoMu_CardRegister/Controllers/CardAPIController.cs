@@ -578,8 +578,7 @@ namespace HotelKoKoMu_CardRegister.Controllers
             }
             return msgInfo;
         }
-
-        
+                
         public ReturnMessageInfo ErrorCheckForResponse(DataTable dt)
         {
             ReturnMessageInfo msgInfo = new ReturnMessageInfo();

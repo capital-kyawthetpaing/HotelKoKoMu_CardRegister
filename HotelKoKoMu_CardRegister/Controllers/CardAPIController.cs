@@ -260,7 +260,7 @@ namespace HotelKoKoMu_CardRegister.Controllers
                 msgInfo = result.Item2;
                 if (dt.Rows.Count > 0)
                 {
-                    msgInfo = ErrorCheckForResponse(dt);
+                    msgInfo = ErrorCheckForResponse(dt,msgInfo.Status);
                     if(msgInfo.Status=="Success")
                     {
                         int flag = Convert.ToInt32(dt.Rows[0]["flag"].ToString());
@@ -275,29 +275,33 @@ namespace HotelKoKoMu_CardRegister.Controllers
                             param[4] = new NpgsqlParameter("@createddate", NpgsqlDbType.Date) { Value = Convert.ToDateTime(dt.Rows[0]["created_date"].ToString()) };
                             string sql1 = "Update trn_guestinformation set flag=2 where reservationno=@reservationno and roomno=@roomno and  systemdate=@systemdate and CAST(created_date as DATE)= CAST(@createddate AS DATE) and hotel_code=@hotelcode and flag=1 and complete_flag=1";
                             msgInfo = await bdl.InsertUpdateDeleteData(sql1, param);
-                            if (msgInfo.Status == "Success")
+                            if (!string.IsNullOrEmpty(msgInfo.Status))
                             {
-                                guestinfo.SystemDate = dt.Rows[0]["systemdate"].ToString();
-                                guestinfo.ReservationNo = dt.Rows[0]["reservationno"].ToString();
-                                guestinfo.RoomNo = dt.Rows[0]["roomno"].ToString();
-                                guestinfo.NameKanji = dt.Rows[0]["guestname_text"].ToString();
-                                guestinfo.NameKana = dt.Rows[0]["kananame_text"].ToString();
-                                guestinfo.ZipCode = dt.Rows[0]["zipcode_text"].ToString();
-                                guestinfo.Tel = dt.Rows[0]["tel_text"].ToString();
-                                guestinfo.Address1 = dt.Rows[0]["address1_text"].ToString();
-                                guestinfo.Address2 = dt.Rows[0]["address2_text"].ToString();
-                                guestinfo.Company = dt.Rows[0]["company_text"].ToString();
-                                guestinfo.Nationality = dt.Rows[0]["nationality_text"].ToString();
-                                guestinfo.PassportNo = dt.Rows[0]["passportno_text"].ToString();
-                                string filename = dt.Rows[0]["imagedata"].ToString();
-                                if (!String.IsNullOrWhiteSpace(filename) && filename != "")
-                                    guestinfo.ImageData = CreateBase64String(filename, dt.Rows[0]["hotel_code"].ToString());
-                                guestinfo.Status = msgInfo.Status;
-                                guestinfo.FailureReason = "";
-                                guestinfo.ErrorDescription = "";
-                                return Ok(guestinfo);
+                                if (msgInfo.Status == "Success")
+                                {
+                                    guestinfo.SystemDate = dt.Rows[0]["systemdate"].ToString();
+                                    guestinfo.ReservationNo = dt.Rows[0]["reservationno"].ToString();
+                                    guestinfo.RoomNo = dt.Rows[0]["roomno"].ToString();
+                                    guestinfo.NameKanji = dt.Rows[0]["guestname_text"].ToString();
+                                    guestinfo.NameKana = dt.Rows[0]["kananame_text"].ToString();
+                                    guestinfo.ZipCode = dt.Rows[0]["zipcode_text"].ToString();
+                                    guestinfo.Tel = dt.Rows[0]["tel_text"].ToString();
+                                    guestinfo.Address1 = dt.Rows[0]["address1_text"].ToString();
+                                    guestinfo.Address2 = dt.Rows[0]["address2_text"].ToString();
+                                    guestinfo.Company = dt.Rows[0]["company_text"].ToString();
+                                    guestinfo.Nationality = dt.Rows[0]["nationality_text"].ToString();
+                                    guestinfo.PassportNo = dt.Rows[0]["passportno_text"].ToString();
+                                    string filename = dt.Rows[0]["imagedata"].ToString();
+                                    if (!String.IsNullOrWhiteSpace(filename) && filename != "")
+                                        guestinfo.ImageData = CreateBase64String(filename, dt.Rows[0]["hotel_code"].ToString());
+                                    guestinfo.Status = msgInfo.Status;
+                                    guestinfo.FailureReason = "";
+                                    guestinfo.ErrorDescription = "";
+                                    return Ok(guestinfo);
+                                }
                             }
-
+                            else
+                                msgInfo = DefineError("Status");
                         }
                         else
                         {
@@ -354,7 +358,7 @@ namespace HotelKoKoMu_CardRegister.Controllers
                 msgInfo = result1.Item2;
                 if (dt.Rows.Count > 0)
                 {
-                    msgInfo = ErrorCheckForResponse(dt);
+                    msgInfo = ErrorCheckForResponse(dt,msgInfo.Status);
                     if (msgInfo.Status == "Success")
                     {
                         int flag = Convert.ToInt32(dt.Rows[0]["flag"].ToString());
@@ -368,20 +372,33 @@ namespace HotelKoKoMu_CardRegister.Controllers
                             para[3] = new NpgsqlParameter("@HotelCode", NpgsqlDbType.Varchar) { Value = cardRegisterInfo.HotelCode };
                             para[4] = new NpgsqlParameter("@MachineNo", NpgsqlDbType.Varchar) { Value = cardRegisterInfo.MachineNo };
                             string sql2 = "Update trn_guestinformation set flag = 9 where systemid = @SystemID and pmsid = @PmsID and  PmsPassword= @pmspassword and hotel_code= @HotelCode and machineno=@MachineNo and flag=1 and complete_flag=0";
-                            msgInfo = await bdl.InsertUpdateDeleteData(sql2, para);
-                            //save success , update success and return getregisterdata
-                            if (msgInfo.Status == "Success")
+                            msgInfo = await bdl.InsertUpdateDeleteData(sql2, para);         
+                            if(!string.IsNullOrEmpty(msgInfo.Status))
                             {
+                                if (msgInfo.Status == "Success")
+                                {
+                                    returnData = new
+                                    {
+                                        SystemDate = dt.Rows[0]["systemdate"].ToString(),
+                                        ReservationNo = dt.Rows[0]["reservationno"].ToString(),
+                                        RoomNo = dt.Rows[0]["roomno"].ToString(),
+                                        Status = msgInfo.Status,
+                                        FailureReason = "",
+                                        ErrorDescription = ""
+                                    };
+                                }
+                            }
+                            else
+                            {
+                                msgInfo = DefineError("Status");
                                 returnData = new
                                 {
-                                    SystemDate = dt.Rows[0]["systemdate"].ToString(),
-                                    ReservationNo = dt.Rows[0]["reservationno"].ToString(),
-                                    RoomNo = dt.Rows[0]["roomno"].ToString(),
                                     Status = msgInfo.Status,
-                                    FailureReason = "",
-                                    ErrorDescription = ""
+                                    FailureReason = msgInfo.FailureReason,
+                                    ErrorDescription = msgInfo.ErrorDescription
                                 };
                             }
+                            
                         }
                     }
                     else
@@ -583,11 +600,13 @@ namespace HotelKoKoMu_CardRegister.Controllers
             return msgInfo;
         }
                 
-        public ReturnMessageInfo ErrorCheckForResponse(DataTable dt)
+        public ReturnMessageInfo ErrorCheckForResponse(DataTable dt,string status)
         {
             ReturnMessageInfo msgInfo = new ReturnMessageInfo();
             msgInfo.Status = "Success";
-            if (string.IsNullOrEmpty(dt.Rows[0]["systemdate"].ToString()))
+            if (string.IsNullOrEmpty(status))
+                msgInfo = DefineError("Status");
+            else if (string.IsNullOrEmpty(dt.Rows[0]["systemdate"].ToString()))
                 msgInfo = DefineError("SystemDate");
             else if(string.IsNullOrEmpty(dt.Rows[0]["reservationno"].ToString()))
                 msgInfo= DefineError("ReservationNo");

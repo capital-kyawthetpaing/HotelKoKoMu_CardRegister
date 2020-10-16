@@ -42,3 +42,13 @@
 .datepicker {
     top: 200px;
 }
+ #tblhotelguestlist td {
+        text-align: center;
+        vertical-align: middle;
+    }
+        #tblhotelguestlist td pre {
+         
+            display: inline;
+            font-size: 1rem;
+            font-family: 'ヒラギノ角ゴ ProN W3', 'Hiragino Kaku Gothic ProN', "メイリオ", Meiryo, 'ＭＳ Ｐゴシック', 'MS PGothic', 'Helvetica Neue', Helvetica, Arial, Verdana, sans-serif;
+        }

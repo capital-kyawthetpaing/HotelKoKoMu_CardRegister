@@ -4,13 +4,7 @@
     Layout = "~/Views/Shared/_HotelSystemLayout.cshtml";
 }
 <link href="@Url.Content("~/Content/hotel.css")" rel="stylesheet" />
-<style>
-    #tblhotelguestlist td {
-        text-align: center;
-        vertical-align: middle;
-    }
 
-</style>
 <div class="row">
     <div class="col-md-12 form-inline">
         <div class="col-md-2 col-sm-4">
@@ -216,10 +210,10 @@
                 },
                     {
                      "targets":2,
-                      "data": "roomno",
+                        "data": "roomno",
                         "render": function (data) {
-                            return data;
-                          //return '<pre>' + data + '</pre>';
+                            //return data;
+                          return '<pre>' + data + '</pre>';
                       }
                     }
                 ]

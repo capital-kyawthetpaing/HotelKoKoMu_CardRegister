@@ -91,8 +91,10 @@ namespace HotelKoKoMu_CardRegister.Controllers
                 para[19] = new NpgsqlParameter("@createddate", NpgsqlDbType.Timestamp) { Value = DateTime.Now };
                 string sql = "insert into trn_guestinformation(created_date,systemid, pmsid, pmspassword, hotel_code, machineno, systemdate, reservationno, roomno, arrivaldate_hotel, departuredate_hotel, guestname_hotel, kananame_hotel, zipcode_hotel, tel_hotel, address1_hotel, address2_hotel, company_hotel, nationality_hotel, passportno_hotel,flag,complete_flag) " +
                    @"values(@createddate,@SystemID, @PmsID, @PmsPassword, @hotelcode, @MachineNo, @systemdate, @reservationno, @roomno, @arrDate, @deptDate, @guestName,@kanaName, @zipcode, @tel, @address1, @address2, @company, @nationality, @passport,'0','0')";
-                ReturnMessageInfo result = await bdl.InsertUpdateDeleteData(sql, para);                
-                return Ok(result);
+                ReturnMessageInfo result = await bdl.InsertUpdateDeleteData(sql, para);
+                if (string.IsNullOrEmpty(result.Status))
+                    msgInfo = DefineError("Status");
+                return Ok(msgInfo);
             }
             else
                 return Ok(msgInfo);

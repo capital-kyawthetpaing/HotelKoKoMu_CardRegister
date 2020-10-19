@@ -82,12 +82,12 @@
     </table>
 
     <div>
-        <input id="checkid1" type="checkbox" value="test" />
-        <label for="checkid1">Test data1</label><br/>
-        <input id="checkid2" type="checkbox" value="test" />
-        <label for="checkid2">Test data2</label><br/>
-        <input id="checkid3" type="checkbox" value="test" />
-        <label for="checkid3">Test data3</label>
+        <input id="check1" type="checkbox" value="test" />
+        <label id="checkid1"></label><br/>
+        <input id="check2" type="checkbox" value="test" />
+        <label id="checkid2"></label><br/>
+        <input id="check3" type="checkbox" value="test" />
+        <label id="checkid3"></label>
     </div>
 
     <table class="kokomuTable">
@@ -325,7 +325,26 @@
                      });
                  }
              });
+            //k
+            BindTextBox();
+            //k
         });
+
+        function BindTextBox() {
+            var  hotelinfo = { HotelCode: $("#lblhotelCode").text() };
+            var result = CalltoApiController('@Url.Action("getTextBoxData", "api/CardAPI/")', hotelinfo);
+            //var result = JSON.parse(data);
+            //$("#checkid1").val(result[0].hotel_text1);
+            //$("#checkid2").val(result[0].hotel_text2);
+            //$("#checkid3").val(result[0].hotel_text3);
+            if (result.Status == "Success") {
+                alert("go");
+                $("#checkid1").text(result.HotelText1);
+                $("#checkid2").text(result.HotelText2);
+                $("#checkid3").text(result.HotelText3);
+            }
+           
+        }
 
         var canvas = document.getElementById('csvRegister'),
             ctx = canvas.getContext('2d'),
@@ -547,7 +566,7 @@
             return canvas.toDataURL() === blank.toDataURL();
         }
 
-       
+
 
 
     </script>

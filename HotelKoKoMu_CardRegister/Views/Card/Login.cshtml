@@ -36,19 +36,17 @@
              });
         });
             function Login() {
-                //var result = CalltoApiController("/api/CardAPI/ValidateLogin", { SystemID: $("#SystemID").val(), PmsID: $("#PmsID").val(), PmsPassword: $("#PmsPassword").val(), MachineNo: $("#MachineNo").val(), HotelCode: $("#HotelCode").val() });
-                 var result = CalltoApiController('@Url.Action("ValidateLogin", "api/CardAPI/")', { SystemID: $("#SystemID").val(), PmsID: $("#PmsID").val(), PmsPassword: $("#PmsPassword").val(), MachineNo: $("#MachineNo").val(), HotelCode: $("#HotelCode").val() });
-                if (result["Result"] == 0) {
-                    ShowAlert("error",""," ログインに失敗しました。入力値を確認してください。");
-                    $("#SystemID").focus();
-                }
-                else {
-                    var resultObj = result["Result"];
-                    var cardInfo = resultObj[0].systemid + '_' + resultObj[0].pmsid + '_' + resultObj[0].pmspassword + '_' + resultObj[0].machineno + '_' + resultObj[0].hotel_code;
+                var response = CalltoApiController('@Url.Action("ValidateLogin", "api/CardAPI/")', { SystemID: $("#SystemID").val(), PmsID: $("#PmsID").val(), PmsPassword: $("#PmsPassword").val(), MachineNo: $("#MachineNo").val(), HotelCode: $("#HotelCode").val() });
+                if (response.Status == "Success") {                    
+                    var cardInfo = response.SystemID + '_' + response.PmsID + '_' + response.PmsPassword + '_' + response.MachineNo + '_' + response.HotelCode;
                     $.post('@Url.Action("CreateSession", "Card")',
                         { key: "CardInfo", value: cardInfo }, function (data) {
                             location.href = '@Url.Action("CardRegisterPage", "Card")';
                         });
+                }
+                else {
+                    ShowAlert("error", "", response.Result);
+                    $("#SystemID").focus();
                 }
         }
         </script>

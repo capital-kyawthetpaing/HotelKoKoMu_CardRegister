@@ -138,7 +138,6 @@ namespace HotelKoKoMu_CardRegister.Controllers
             return Ok(dt);
         }
 
-
         [HttpPost]
         [ActionName("CheckRoomNo")]
         public async Task<IHttpActionResult> CheckRoomNo(HotelInfo hotelInfo)
@@ -185,7 +184,6 @@ namespace HotelKoKoMu_CardRegister.Controllers
             return Ok(result);
         }
 
-      
         public DataTable GetRoomNo_Info(string hotelcode)
         {
             BaseDL bdl = new BaseDL();

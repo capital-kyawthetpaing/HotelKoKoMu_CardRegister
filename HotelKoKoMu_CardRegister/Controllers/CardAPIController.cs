@@ -68,6 +68,40 @@ namespace HotelKoKoMu_CardRegister.Controllers
             return Ok(loginStatus);
         }
 
+        //k
+        [HttpPost]
+        [ActionName("getTextBoxData")]
+        public async Task<IHttpActionResult> getTextBoxData(CardRegisterInfo cardRegisterInfo)
+        {
+            var returnData = new object();
+            ReturnMessageInfo msgInfo = new ReturnMessageInfo();
+            msgInfo.Status = "Success";
+            BaseDL bdl = new BaseDL();
+            if(msgInfo.Status== "Success")
+            {
+                NpgsqlParameter[] Sqlprms = new NpgsqlParameter[1];
+                Sqlprms[0] = new NpgsqlParameter("@HotelCode", cardRegisterInfo.HotelCode);
+                string sql = "select * from mst_hotel where hotel_code=@HotelCode";
+                Tuple<string, ReturnMessageInfo> result = await bdl.SelectJson(sql, Sqlprms);
+                DataTable dt = JsonConvert.DeserializeObject<DataTable>(result.Item1);
+                if (dt.Rows.Count > 0)
+                {
+                    returnData = new
+                    {
+                        HotelText1 = dt.Rows[0]["hotel_text1"].ToString(),
+                        HotelText2 = dt.Rows[0]["hotel_text2"].ToString(),
+                        HotelText3 = dt.Rows[0]["hotel_text3"].ToString(),
+                        Status = msgInfo.Status,
+                        FailureReason = "",
+                        ErrorDescription = ""
+                    };
+                }
+                //return Ok(returnData);
+            }
+            return Ok(returnData);
+        }
+        //k
+
         /// <summary>
         /// save guest information data  from hotel system
         /// </summary>

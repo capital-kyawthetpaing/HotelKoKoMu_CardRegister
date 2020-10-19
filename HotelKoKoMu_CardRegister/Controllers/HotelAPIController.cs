@@ -152,18 +152,15 @@ namespace HotelKoKoMu_CardRegister.Controllers
             DataTable dt = await bdl.SelectDataTable(cmdText, Sqlprms);
             if(dt.Rows.Count> 0)
             {
-                if (!String.IsNullOrWhiteSpace(dt.Rows[0]["hotel_roomno_count"].ToString()) && dt.Rows[0]["hotel_roomno_count"].ToString() != "")
+                if (!String.IsNullOrWhiteSpace(dt.Rows[0]["hotel_roomno_count"].ToString()))
                 {
                     roomno_count  = Convert.ToInt32(dt.Rows[0]["hotel_roomno_count"].ToString());
                     if (roomno_count >= result.Length)
                     {
-                        if (!String.IsNullOrWhiteSpace(dt.Rows[0]["roomno_fill_text"].ToString()))
+                        if (!string.IsNullOrEmpty(dt.Rows[0]["roomno_fill_text"].ToString()))
                         {
                             filltext = dt.Rows[0]["roomno_fill_text"].ToString();
                             result = result.PadLeft(Convert.ToInt32(roomno_count), Convert.ToChar(filltext));
-                        }
-                        else if (dt.Rows[0]["roomno_fill_text"].ToString() == " "){
-                            result = result.PadLeft(Convert.ToInt32(roomno_count), ' ');
                         }
                         else
                         {
@@ -177,10 +174,7 @@ namespace HotelKoKoMu_CardRegister.Controllers
                 } 
             }
             else
-            {
                 result = hotelInfo.RoomNo;
-            }
-
             return Ok(result);
         }
 

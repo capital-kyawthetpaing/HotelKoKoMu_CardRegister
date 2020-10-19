@@ -70,8 +70,8 @@ namespace HotelKoKoMu_CardRegister.Controllers
 
        
         [HttpPost]
-        [ActionName("getTextBoxData")]
-        public async Task<IHttpActionResult> getTextBoxData(CardRegisterInfo cardRegisterInfo)
+        [ActionName("getPolicyInformation")]
+        public async Task<IHttpActionResult> getPolicyInformation(CardRegisterInfo cardRegisterInfo)
         {
             var returnData = new object();
             ReturnMessageInfo msgInfo = new ReturnMessageInfo();           
@@ -80,7 +80,7 @@ namespace HotelKoKoMu_CardRegister.Controllers
             {
                 NpgsqlParameter[] Sqlprms = new NpgsqlParameter[1];
                 Sqlprms[0] = new NpgsqlParameter("@hotelcode", cardRegisterInfo.HotelCode);
-                string sql = "select hotel_text1, hotel_text2, hotel_text3 from mst_hotel where hotel_code = @hotelcode";
+                string sql = "select confirmation_message1, confirmation_message2, confirmation_message3 from mst_hotel where hotel_code = @hotelcode";
                 Tuple<string, ReturnMessageInfo> result = await bdl.SelectJson(sql, Sqlprms);
                 DataTable dt = JsonConvert.DeserializeObject<DataTable>(result.Item1);
                 if (dt.Rows.Count > 0)
@@ -88,9 +88,9 @@ namespace HotelKoKoMu_CardRegister.Controllers
                     msgInfo = result.Item2;
                     returnData = new
                     {
-                        HotelText1 = dt.Rows[0]["hotel_text1"].ToString(),
-                        HotelText2 = dt.Rows[0]["hotel_text2"].ToString(),
-                        HotelText3 = dt.Rows[0]["hotel_text3"].ToString(),
+                        HotelText1 = dt.Rows[0]["confirmation_message1"].ToString(),
+                        HotelText2 = dt.Rows[0]["confirmation_message2"].ToString(),
+                        HotelText3 = dt.Rows[0]["confirmation_message3"].ToString(),
                         Status = msgInfo.Status,
                         FailureReason = "",
                         ErrorDescription = ""
@@ -616,13 +616,7 @@ namespace HotelKoKoMu_CardRegister.Controllers
                 msgInfo.Status = "Error";
                 msgInfo.FailureReason = "1002";
                 msgInfo.ErrorDescription = "There is something wrong with Common Request and required items.";
-            }
-            //else if(CheckDuplicateKey(cardRegisterInfo.HotelCode,cardRegisterInfo.ReservationNo,cardRegisterInfo.RoomNo,cardRegisterInfo.SystemDate))
-            //{
-            //    msgInfo.Status = "Error";
-            //    msgInfo.FailureReason = "1003";
-            //    msgInfo.ErrorDescription = "Primary key is duplicate value";
-            //}
+            }            
             else if (CheckDuplicateKey(cardRegisterInfo.HotelCode, cardRegisterInfo.ReservationNo, cardRegisterInfo.RoomNo, cardRegisterInfo.SystemDate, cardRegisterInfo.ArriveDate, cardRegisterInfo.DepartureDate))
             {
                 msgInfo.Status = "Error";

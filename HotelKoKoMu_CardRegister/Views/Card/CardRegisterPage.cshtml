@@ -69,24 +69,23 @@
                     <label>@HotelKoKoMu_CardRegister.Resources.Resources.ArrivalDate</label>
                 </td>
                 <td class="td2" id="tdArrivalDate">
-                    @*<input id="dtpArrivalDate" name="lblDepartureDate" class="datepicker-here d-none" placeholder="yyyy-mm-dd" disabled />*@
                 </td>
                 <td class="td1">
                     <label>@HotelKoKoMu_CardRegister.Resources.Resources.DepartureDate</label>
                 </td>
                 <td class="td2" id="tdDepartureDate">
-                    @*<input id="dtpDepartureDate" name="lblDepartureDate" class="datepicker-here d-none" placeholder="yyyy-mm-dd" disabled />*@
+                  
                 </td>
             </tr>
         </tbody>
     </table>
 
     <div>
-        <input id="check1" type="checkbox" value="test" />
+        <input id="check1" type="checkbox" />
         <label id="checkid1"></label><br/>
-        <input id="check2" type="checkbox" value="test" />
+        <input id="check2" type="checkbox"/>
         <label id="checkid2"></label><br/>
-        <input id="check3" type="checkbox" value="test" />
+        <input id="check3" type="checkbox"/>
         <label id="checkid3"></label>
     </div>
 
@@ -325,20 +324,16 @@
                      });
                  }
              });
-            //k
+            
             BindTextBox();
-            //k
+           
         });
 
         function BindTextBox() {
             var  hotelinfo = { HotelCode: $("#lblhotelCode").text() };
             var result = CalltoApiController('@Url.Action("getTextBoxData", "api/CardAPI/")', hotelinfo);
-            //var result = JSON.parse(data);
-            //$("#checkid1").val(result[0].hotel_text1);
-            //$("#checkid2").val(result[0].hotel_text2);
-            //$("#checkid3").val(result[0].hotel_text3);
-            if (result.Status == "Success") {
-                alert("go");
+           
+            if (result.Status == "Success") {               
                 $("#checkid1").text(result.HotelText1);
                 $("#checkid2").text(result.HotelText2);
                 $("#checkid3").text(result.HotelText3);

@@ -68,24 +68,24 @@ namespace HotelKoKoMu_CardRegister.Controllers
             return Ok(loginStatus);
         }
 
-        //k
+       
         [HttpPost]
         [ActionName("getTextBoxData")]
         public async Task<IHttpActionResult> getTextBoxData(CardRegisterInfo cardRegisterInfo)
         {
             var returnData = new object();
-            ReturnMessageInfo msgInfo = new ReturnMessageInfo();
-            msgInfo.Status = "Success";
+            ReturnMessageInfo msgInfo = new ReturnMessageInfo();           
             BaseDL bdl = new BaseDL();
-            if(msgInfo.Status== "Success")
+            if (!string.IsNullOrEmpty(cardRegisterInfo.HotelCode))
             {
                 NpgsqlParameter[] Sqlprms = new NpgsqlParameter[1];
-                Sqlprms[0] = new NpgsqlParameter("@HotelCode", cardRegisterInfo.HotelCode);
-                string sql = "select * from mst_hotel where hotel_code=@HotelCode";
+                Sqlprms[0] = new NpgsqlParameter("@hotelcode", cardRegisterInfo.HotelCode);
+                string sql = "select hotel_text1, hotel_text2, hotel_text3 from mst_hotel where hotel_code = @hotelcode";
                 Tuple<string, ReturnMessageInfo> result = await bdl.SelectJson(sql, Sqlprms);
                 DataTable dt = JsonConvert.DeserializeObject<DataTable>(result.Item1);
                 if (dt.Rows.Count > 0)
                 {
+                    msgInfo = result.Item2;
                     returnData = new
                     {
                         HotelText1 = dt.Rows[0]["hotel_text1"].ToString(),
@@ -96,11 +96,19 @@ namespace HotelKoKoMu_CardRegister.Controllers
                         ErrorDescription = ""
                     };
                 }
-                //return Ok(returnData);
+            }
+            else
+            {
+                msgInfo = DefineError("HotelCode");
+                returnData = new
+                {                   
+                    Status = msgInfo.Status,
+                    FailureReason = msgInfo.FailureReason,
+                    ErrorDescription = msgInfo.ErrorDescription
+                };
             }
             return Ok(returnData);
-        }
-        //k
+        }        
 
         /// <summary>
         /// save guest information data  from hotel system

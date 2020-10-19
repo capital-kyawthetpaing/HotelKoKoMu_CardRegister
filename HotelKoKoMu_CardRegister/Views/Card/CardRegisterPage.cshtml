@@ -79,17 +79,10 @@
             </tr>
         </tbody>
     </table>
-
-    <div>
-        <input id="check1" type="checkbox" />
-        <label id="checkid1"></label><br/>
-        <input id="check2" type="checkbox"/>
-        <label id="checkid2"></label><br/>
-        <input id="check3" type="checkbox"/>
-        <label id="checkid3"></label>
+    <div id="divCheck">
+       
     </div>
-
-    <table class="kokomuTable">
+    <table class="kokomuTable rowspace">
         <tbody>
             <tr>
                 <td class="td1">
@@ -106,7 +99,7 @@
 <label class="d-none" id="lblRoomNo"></label>
 
 <div class="col-md-4 offset-md-4">
-    <button class="clsfinish" id="btnfinish">@HotelKoKoMu_CardRegister.Resources.Resources.Complete</button>
+    <button class="clsfinish" id="btnfinish" disabled>@HotelKoKoMu_CardRegister.Resources.Resources.Complete</button>
 </div>
 
 <div id="CardRegisterModal" class="modal fade" role="dialog">
@@ -155,8 +148,20 @@
         var GuestName, GuestNameHW, KanaName, KanaNameHW, ZipCode, ZipCodeHW, Tel, TelHW, Address1, AddressHW1, Address2, AddressHW2, Company, CompanyHW, Nationality, NationalityHW, Passport, PassportHW, Sign;
         var getCanvas, CardRegisterInfo, cardObj;
         $(document).ready(function () {
-
             CardRegisterInfo = { SystemID: $("#lblsystemid").text(), PmsID: $("#lblPmsId").text(), PmsPassword: $("#lblPmsPassword").text(), HotelCode: $("#lblhotelCode").text(), MachineNo: $("#lblmachineno").text() };
+
+            BindTextBox();
+
+            $(".clsCheck").change(function () {
+                var totalCount = $('.clsCheck').length;
+                var checkedCount = $('.clsCheck:checked').length;
+                if (totalCount == checkedCount)
+                    $("#btnfinish").prop("disabled", false);
+                else {                    
+                    $("#btnfinish").css("background-color", "yellow");
+                    $("#btnfinish").prop("disabled", true);
+                }
+            })
 
             intervalId = setInterval(function () {
                 if (intervalFlag == 0) {
@@ -325,20 +330,19 @@
                  }
              });
             
-            BindTextBox();
-           
         });
 
         function BindTextBox() {
             var  hotelinfo = { HotelCode: $("#lblhotelCode").text() };
-            var result = CalltoApiController('@Url.Action("getTextBoxData", "api/CardAPI/")', hotelinfo);
-           
-            if (result.Status == "Success") {               
-                $("#checkid1").text(result.HotelText1);
-                $("#checkid2").text(result.HotelText2);
-                $("#checkid3").text(result.HotelText3);
+            var result = CalltoApiController('@Url.Action("getTextBoxData", "api/CardAPI/")', CardRegisterInfo);
+            if (result.Status == "Success") {
+                var chk1 = "<input type='checkbox' class='clsCheck'> " + result.HotelText1+"<br>";
+                $("#divCheck").append(chk1);
+                var chk2 = "<input type='checkbox' class='clsCheck'> " + result.HotelText2 + "<br>";
+                $("#divCheck").append(chk2);
+                var chk3 = "<input type='checkbox' class='clsCheck'> " + result.HotelText3 + "<br>";
+                $("#divCheck").append(chk3);
             }
-           
         }
 
         var canvas = document.getElementById('csvRegister'),
@@ -549,7 +553,7 @@
             if ($("#imgSign").attr('src') != undefined)
                 flag = true;
             else
-                ShowAlert("error","サインをご記入ください。"," ");
+                ShowAlert("error", "","サインをご記入ください。");
 
             return flag;
         }
@@ -560,10 +564,6 @@
             blank.height = canvas.height;
             return canvas.toDataURL() === blank.toDataURL();
         }
-
-
-
-
     </script>
 }
 

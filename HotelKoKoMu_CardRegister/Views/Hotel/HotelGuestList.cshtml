@@ -102,16 +102,15 @@
                 format: 'YYYY/MM/DD',
                 todayHighlight: true,
                 autoclose: true,
-                onSelect: function (dateText, inst) {
+                onSelect: function (dateText, inst) {                  
                     if (dateText != "") {
                         $("#dtpArrivalFromDate").val(moment(dateText).format('YYYY/MM/DD'));
                         $("#dtpArrivalToDate").datepicker("destroy");
                         $("#dtpArrivalToDate").datepicker({ minDate: new Date(dateText) })
                         $("#dtpArrivalToDate").val(moment(dateText).format('YYYY/MM/DD'));
                     }
-                    else {
+                    else 
                         $("#dtpArrivalFromDate").val($("#dtpArrivalFromDate").val());
-                    }
                 }
             });
 
@@ -120,8 +119,9 @@
                 format: 'YYYY/MM/DD',
                 todayHighlight: true,
                 autoclose: true,
-                onSelect: function (dateText, inst) {                    
-                    $("#dtpArrivalToDate").val(moment(dateText).format('YYYY/MM/DD'));
+                onSelect: function (dateText, inst) {                   
+                    if (dateText != "")
+                        $("#dtpArrivalToDate").val(moment(dateText).format('YYYY/MM/DD'));
                 }
             });
 

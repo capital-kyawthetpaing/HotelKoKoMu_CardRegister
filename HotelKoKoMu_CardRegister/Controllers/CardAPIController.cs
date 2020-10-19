@@ -738,7 +738,6 @@ namespace HotelKoKoMu_CardRegister.Controllers
             BaseDL bdl = new BaseDL();
             bool status = true;
             var loginStatus = new object();
-
             NpgsqlParameter[] para = new NpgsqlParameter[1];
             para[0] = new NpgsqlParameter("@pmsid", loginInfo.PmsID);
             string sql = "select pmsid from mst_hotel where pmsid=@pmsid";

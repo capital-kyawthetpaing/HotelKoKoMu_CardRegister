@@ -3,7 +3,6 @@
     ViewBag.Title = "HotelGuestList";
     Layout = "~/Views/Shared/_HotelSystemLayout.cshtml";
 }
-
 <link href="@Url.Content("~/Content/hotel.css")" rel="stylesheet" />
 
 <div class="row">
@@ -109,7 +108,7 @@
                         $("#dtpArrivalToDate").datepicker({ minDate: new Date(dateText) })
                         $("#dtpArrivalToDate").val(moment(dateText).format('YYYY/MM/DD'));
                     }
-                    else 
+                    else
                         $("#dtpArrivalFromDate").val($("#dtpArrivalFromDate").val());
                 }
             });
@@ -119,6 +118,7 @@
                 format: 'YYYY/MM/DD',
                 todayHighlight: true,
                 autoclose: true,
+                minDate: new Date(),
                 onSelect: function (dateText, inst) {                   
                     if (dateText != "")
                         $("#dtpArrivalToDate").val(moment(dateText).format('YYYY/MM/DD'));

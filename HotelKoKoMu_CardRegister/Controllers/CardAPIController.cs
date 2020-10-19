@@ -68,24 +68,24 @@ namespace HotelKoKoMu_CardRegister.Controllers
             return Ok(loginStatus);
         }
 
-        //k
+       
         [HttpPost]
         [ActionName("getTextBoxData")]
         public async Task<IHttpActionResult> getTextBoxData(CardRegisterInfo cardRegisterInfo)
         {
             var returnData = new object();
-            ReturnMessageInfo msgInfo = new ReturnMessageInfo();
-            msgInfo.Status = "Success";
+            ReturnMessageInfo msgInfo = new ReturnMessageInfo();           
             BaseDL bdl = new BaseDL();
-            if(msgInfo.Status== "Success")
+            if (!string.IsNullOrEmpty(cardRegisterInfo.HotelCode))
             {
                 NpgsqlParameter[] Sqlprms = new NpgsqlParameter[1];
-                Sqlprms[0] = new NpgsqlParameter("@HotelCode", cardRegisterInfo.HotelCode);
-                string sql = "select * from mst_hotel where hotel_code=@HotelCode";
+                Sqlprms[0] = new NpgsqlParameter("@hotelcode", cardRegisterInfo.HotelCode);
+                string sql = "select hotel_text1, hotel_text2, hotel_text3 from mst_hotel where hotel_code = @hotelcode";
                 Tuple<string, ReturnMessageInfo> result = await bdl.SelectJson(sql, Sqlprms);
                 DataTable dt = JsonConvert.DeserializeObject<DataTable>(result.Item1);
                 if (dt.Rows.Count > 0)
                 {
+                    msgInfo = result.Item2;
                     returnData = new
                     {
                         HotelText1 = dt.Rows[0]["hotel_text1"].ToString(),
@@ -96,10 +96,19 @@ namespace HotelKoKoMu_CardRegister.Controllers
                         ErrorDescription = ""
                     };
                 }
-                //return Ok(returnData);
+            }
+            else
+            {
+                msgInfo = DefineError("HotelCode");
+                returnData = new
+                {                   
+                    Status = msgInfo.Status,
+                    FailureReason = msgInfo.FailureReason,
+                    ErrorDescription = msgInfo.ErrorDescription
+                };
             }
             return Ok(returnData);
-        }
+        }        
 
         /// <summary>
         /// save guest information data  from hotel system
@@ -709,30 +718,6 @@ namespace HotelKoKoMu_CardRegister.Controllers
                 return false;
            
         }
-
-        /// <summary>
-        /// check when primary key is duplicate or not
-        /// </summary>
-        /// <param name="hCode"></param>
-        /// <param name="reservNo"></param>
-        /// <param name="roomNo"></param>
-        /// <param name="systemDate"></param>
-        /// <returns></returns>
-        //public bool CheckDuplicateKey(string hCode,string reservNo,string roomNo,string systemDate)
-        //{
-        //    BaseDL bdl = new BaseDL();
-        //    NpgsqlParameter[] para = new NpgsqlParameter[4];
-        //    para[0] = new NpgsqlParameter("@hcode", hCode);
-        //    para[1] = new NpgsqlParameter("@reservNo", reservNo);
-        //    para[2] = new NpgsqlParameter("@roomNo", roomNo);
-        //    para[3] = new NpgsqlParameter("@systemDate", systemDate);
-        //    string sql = "select * from trn_guestinformation where hotel_code=@hcode and reservationno=@reservNo and roomno=@roomNo and systemdate=@systemDate";
-        //    DataTable dt = bdl.SelectDataTable_Info(sql, para);
-        //    if (dt.Rows.Count > 0)
-        //        return true;
-        //    else
-        //        return false;
-        //}
 
         /// <summary>
         /// check when primary key is duplicate or not

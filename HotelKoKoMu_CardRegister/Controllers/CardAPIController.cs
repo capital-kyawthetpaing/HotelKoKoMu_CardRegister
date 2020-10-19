@@ -27,6 +27,7 @@ namespace HotelKoKoMu_CardRegister.Controllers
 
     public class CardAPIController : ApiController
     {
+        
         #region 
         /// <summary>
         /// check login for e-card system
@@ -45,12 +46,13 @@ namespace HotelKoKoMu_CardRegister.Controllers
             Sqlprms[2] = new NpgsqlParameter("@PmsPassword", info.PmsPassword);
             Sqlprms[3] = new NpgsqlParameter("@MachineNo", info.MachineNo);
             Sqlprms[4] = new NpgsqlParameter("@HotelCode", info.HotelCode);
+
             string sql_cmd = "select * from trn_guestinformation where systemid=@SystemID and pmsid=@PmsID and pmspassword=@PmsPassword and machineno=@MachineNo and hotel_code=@HotelCode";
             DataTable dt = await bdl.SelectDataTable(sql_cmd, Sqlprms);
             if (dt.Rows.Count == 0)
-                loginStatus = new { Result = 0 };//login failed;
+                loginStatus = CheckExistLoginInfo(info);
             else
-                loginStatus = new { Result = dt };
+                loginStatus = dt;
             return Ok(loginStatus);
         }
 
@@ -459,7 +461,8 @@ namespace HotelKoKoMu_CardRegister.Controllers
                 {                    
                     image.Save(ms, image.RawFormat);
                     byte[] imageBytes = ms.ToArray();
-                    base64String = "data:image/png;base64," + Convert.ToBase64String(imageBytes);                   
+                    base64String = Convert.ToBase64String(imageBytes);
+                    //base64String = "data:image/png;base64," + Convert.ToBase64String(imageBytes);                   
                 }
             }
             return base64String;           
@@ -716,6 +719,73 @@ namespace HotelKoKoMu_CardRegister.Controllers
                 return dt;
             }
             return dt;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public object CheckExistLoginInfo(LoginInfo loginInfo)
+        {
+            AppConstants constInfo = new AppConstants();
+            BaseDL bdl = new BaseDL();
+            bool status = true;
+            var loginStatus = new object();
+            if(loginInfo.SystemID != constInfo.SystemID)
+            {
+                status = false;
+                loginStatus = new { Result = "Invalid SystemID" }; // invalid systemid
+            }
+            if(status==true)
+            {
+                NpgsqlParameter[] para = new NpgsqlParameter[1];
+                para[0] = new NpgsqlParameter("@pmsid", loginInfo.PmsID);
+                string sql = "select pmsid from mst_hotel where pmsid=@pmsid";
+                DataTable dtpmsid = bdl.SelectDataTable_Info(sql, para);
+                if (dtpmsid.Rows.Count == 0)
+                {
+                    status = false;
+                    loginStatus = new { Result = "Invalid PmsID" }; // invalid pmsid
+                }
+            }
+            if (status == true)
+            {
+                NpgsqlParameter[] para1 = new NpgsqlParameter[1];
+                para1[0] = new NpgsqlParameter("@pmspassword", loginInfo.PmsPassword);
+                string sql1 = "select pmspassword from mst_hotel where pmspassword=@pmspassword";
+                DataTable dt = bdl.SelectDataTable_Info(sql1, para1);
+                if (dt.Rows.Count == 0)
+                {
+                    status = false;
+                    loginStatus = new { Result = "Invalid PmsPassword" }; // invalid pmspassword
+                }
+            }
+            if(status==true)
+            {
+                NpgsqlParameter[] para2 = new NpgsqlParameter[1];
+                para2[0] = new NpgsqlParameter("@hotelcode", loginInfo.HotelCode);
+                string sql2 = "select hotel_code from mst_hotel where hotel_code=@hotelcode";
+                DataTable dt = bdl.SelectDataTable_Info(sql2, para2);
+                if (dt.Rows.Count == 0)
+                {
+                    status = false;
+                    loginStatus = new { Result = "Invalid Hotel Code" }; // invalid pmspassword
+                }
+            }
+            if (status == true)
+            {
+                NpgsqlParameter[] para3 = new NpgsqlParameter[2];
+                para3[0] = new NpgsqlParameter("@hotelcode", loginInfo.HotelCode);
+                para3[1] = new NpgsqlParameter("@machineno", loginInfo.MachineNo);
+                string sql3 = "select machineno from mst_hotel where hotel_code=@hotelcode and machineno=machineno";
+                DataTable dt = bdl.SelectDataTable_Info(sql3, para3);
+                if (dt.Rows.Count == 0)
+                {
+                    status = false;
+                    loginStatus = new { Result = "Invalid MachineNo" }; // invalid machine no
+                }
+            }
+            return loginStatus;
         }
 
         #endregion

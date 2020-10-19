@@ -102,18 +102,17 @@
                 format: 'YYYY/MM/DD',
                 todayHighlight: true,
                 autoclose: true,
-                onSelect: function (dateText, inst) {                    
-                    var fromdate = new Date($('#dtpArrivalFromDate').val());
-                    var todate = new Date($('#dtpArrivalToDate').val());
-                    if (todate < fromdate) {
+                onSelect: function (dateText, inst) {
+                    if (dateText != "") {
                         $("#dtpArrivalFromDate").val(moment(dateText).format('YYYY/MM/DD'));
-                        $("#dtpArrivalToDate").val("");
+                        $("#dtpArrivalToDate").datepicker("destroy");
+                        $("#dtpArrivalToDate").datepicker({ minDate: new Date(dateText) })
+                        $("#dtpArrivalToDate").val(moment(dateText).format('YYYY/MM/DD'));
                     }
-                    else
-                        $("#dtpArrivalFromDate").val(moment(dateText).format('YYYY/MM/DD'));
-                   
+                    else {
+                        $("#dtpArrivalFromDate").val($("#dtpArrivalFromDate").val());
+                    }
                 }
-
             });
 
             //date compare check
@@ -121,21 +120,62 @@
                 format: 'YYYY/MM/DD',
                 todayHighlight: true,
                 autoclose: true,
-                onSelect: function (dateText, inst) {
-                    var fromdate = new Date($('#dtpArrivalFromDate').val());
-                    var todate = new Date($('#dtpArrivalToDate').val());
-                    if (todate < fromdate)
-                        ShowAlert("error","","到着日(to) は 到着日(from) より遅ければなりません。");
-                    else
-                        $("#dtpArrivalToDate").val(moment(dateText).format('YYYY/MM/DD'));
+                onSelect: function (dateText, inst) {                    
+                    $("#dtpArrivalToDate").val(moment(dateText).format('YYYY/MM/DD'));
                 }
             });
+
+            ////if select arrival date again greater than departure date
+            //$("#dtpArrivalFromDate").datepicker({
+            //    format: 'YYYY/MM/DD',
+            //    //todayHighlight: true,
+            //    //minDate: new Date(),
+            //    autoclose: true,
+            //    onSelect: function (dateText, inst) {
+            //        if (dateText != "") {
+            //            $("#dtpArrivalFromDate").val(moment(dateText).format('YYYY/MM/DD'));
+            //            $("#dtpArrivalToDate").datepicker("destroy");
+            //            $("#dtpArrivalToDate").datepicker({ minDate: new Date(dateText) })
+            //            $("#dtpArrivalToDate").val(moment(dateText).format('YYYY/MM/DD'));
+            //        }
+            //        else {
+            //            $("#dtpArrivalFromDate").val($("#dtpArrivalFromDate").val());
+            //        }
+
+            //        // $('#dtpArrivalToDate').datepicker('minDate', moment(dateText).format('YYYY/MM/DD'));      
+            //        //var fromdate = new Date($('#dtpArrivalFromDate').val());
+            //        //var todate = new Date($('#dtpArrivalToDate').val());
+            //        //if (todate < fromdate) {
+            //        //    $("#dtpArrivalFromDate").val(moment(dateText).format('YYYY/MM/DD'));
+            //        //    $("#dtpArrivalToDate").val("");
+            //        //}
+            //        //else
+            //        //    $("#dtpArrivalFromDate").val(moment(dateText).format('YYYY/MM/DD'));
+
+            //    }
+
+            //});
+
+            ////date compare check
+            //$("#dtpArrivalToDate").datepicker({
+            //    format: 'YYYY/MM/DD',
+            //    //todayHighlight: true,
+            //    autoclose: true,
+            //    onSelect: function (dateText, inst) {
+            //        //var fromdate = new Date($('#dtpArrivalFromDate').val());
+            //        //var todate = new Date($('#dtpArrivalToDate').val());
+            //        //if (todate < fromdate)
+
+            //        //    ShowAlert("error","","到着日(to) は 到着日(from) より遅ければなりません。");
+            //        //else
+            //        $("#dtpArrivalToDate").val(moment(dateText).format('YYYY/MM/DD'));
+            //    }
+            //});
 
             var currentDate = new Date();
             //set current date into arrival date
             $("#dtpArrivalFromDate").val(moment(currentDate).format('YYYY/MM/DD'));
             $("#dtpArrivalToDate").val(moment(currentDate).format('YYYY/MM/DD'));
-
 
             $("#btnSearch").click(function () {
                 SearchData();

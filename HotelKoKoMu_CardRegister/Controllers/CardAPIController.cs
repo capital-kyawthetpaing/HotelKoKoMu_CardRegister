@@ -100,7 +100,6 @@ namespace HotelKoKoMu_CardRegister.Controllers
             }
             return Ok(returnData);
         }
-        //k
 
         /// <summary>
         /// save guest information data  from hotel system

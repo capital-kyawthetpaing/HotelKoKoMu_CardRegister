@@ -608,8 +608,14 @@ namespace HotelKoKoMu_CardRegister.Controllers
                 msgInfo.Status = "Error";
                 msgInfo.FailureReason = "1002";
                 msgInfo.ErrorDescription = "There is something wrong with Common Request and required items.";
-            }                   
-            else if(CheckDuplicateKey(cardRegisterInfo.HotelCode,cardRegisterInfo.ReservationNo,cardRegisterInfo.RoomNo,cardRegisterInfo.SystemDate))
+            }
+            //else if(CheckDuplicateKey(cardRegisterInfo.HotelCode,cardRegisterInfo.ReservationNo,cardRegisterInfo.RoomNo,cardRegisterInfo.SystemDate))
+            //{
+            //    msgInfo.Status = "Error";
+            //    msgInfo.FailureReason = "1003";
+            //    msgInfo.ErrorDescription = "Primary key is duplicate value";
+            //}
+            else if (CheckDuplicateKey(cardRegisterInfo.HotelCode, cardRegisterInfo.ReservationNo, cardRegisterInfo.RoomNo, cardRegisterInfo.SystemDate, cardRegisterInfo.ArriveDate, cardRegisterInfo.DepartureDate))
             {
                 msgInfo.Status = "Error";
                 msgInfo.FailureReason = "1003";
@@ -705,15 +711,66 @@ namespace HotelKoKoMu_CardRegister.Controllers
         /// <param name="roomNo"></param>
         /// <param name="systemDate"></param>
         /// <returns></returns>
-        public bool CheckDuplicateKey(string hCode,string reservNo,string roomNo,string systemDate)
+        //public bool CheckDuplicateKey(string hCode,string reservNo,string roomNo,string systemDate)
+        //{
+        //    BaseDL bdl = new BaseDL();
+        //    NpgsqlParameter[] para = new NpgsqlParameter[4];
+        //    para[0] = new NpgsqlParameter("@hcode", hCode);
+        //    para[1] = new NpgsqlParameter("@reservNo", reservNo);
+        //    para[2] = new NpgsqlParameter("@roomNo", roomNo);
+        //    para[3] = new NpgsqlParameter("@systemDate", systemDate);
+        //    string sql = "select * from trn_guestinformation where hotel_code=@hcode and reservationno=@reservNo and roomno=@roomNo and systemdate=@systemDate";
+        //    DataTable dt = bdl.SelectDataTable_Info(sql, para);
+        //    if (dt.Rows.Count > 0)
+        //        return true;
+        //    else
+        //        return false;
+        //}
+
+        /// <summary>
+        /// check when primary key is duplicate or not
+        /// </summary>
+        /// <param name="hCode"></param>
+        /// <param name="reservNo"></param>
+        /// <param name="roomNo"></param>
+        /// <param name="systemDate"></param>
+        /// <returns></returns>
+        public bool CheckDuplicateKey(string hCode, string reservNo, string roomNo, string systemDate, string arrivaldate, string departuredate)
+        {
+            if (!CheckRoomNo(roomNo, arrivaldate, departuredate))
+            {
+                BaseDL bdl = new BaseDL();
+                NpgsqlParameter[] para = new NpgsqlParameter[3];
+                para[0] = new NpgsqlParameter("@hcode", hCode);
+                para[1] = new NpgsqlParameter("@reservNo", reservNo);
+                para[2] = new NpgsqlParameter("@systemDate", systemDate);
+                string sql = "select * from trn_guestinformation where hotel_code =@hcode and reservationno =@reservNo  and systemdate =@systemDate";
+                DataTable dt = bdl.SelectDataTable_Info(sql, para);
+                if (dt.Rows.Count > 0)
+                    return true;
+                else
+                    return false;
+            }
+            else
+                return true;
+        }
+
+        /// <summary>
+        /// check when roomno is duplicate or not within processing date
+        /// </summary>
+        /// <param name="roomNo"></param>
+        /// <param name="arrivaldate"></param>
+        /// <param name="departuredate"></param>
+        /// <returns></returns>
+        public bool CheckRoomNo(string roomNo, string arrivaldate, string departuredate)
         {
             BaseDL bdl = new BaseDL();
-            NpgsqlParameter[] para = new NpgsqlParameter[4];
-            para[0] = new NpgsqlParameter("@hcode", hCode);
-            para[1] = new NpgsqlParameter("@reservNo", reservNo);
-            para[2] = new NpgsqlParameter("@roomNo", roomNo);
-            para[3] = new NpgsqlParameter("@systemDate", systemDate);
-            string sql = "select * from trn_guestinformation where hotel_code=@hcode and reservationno=@reservNo and roomno=@roomNo and systemdate=@systemDate";
+            NpgsqlParameter[] para = new NpgsqlParameter[3];
+
+            para[0] = new NpgsqlParameter("@roomNo", roomNo);
+            para[1] = new NpgsqlParameter("@arrivaldate", arrivaldate);
+            para[2] = new NpgsqlParameter("@departuredate", departuredate);
+            string sql = "select * from trn_guestinformation where  roomno =@roomNo and arrivaldate_hotel=@arrivaldate and departuredate_hotel = @departuredate";
             DataTable dt = bdl.SelectDataTable_Info(sql, para);
             if (dt.Rows.Count > 0)
                 return true;

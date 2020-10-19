@@ -602,7 +602,7 @@ namespace HotelKoKoMu_CardRegister.Controllers
                 msgInfo.FailureReason = "1006";
                 msgInfo.ErrorDescription = "Date check error.";
             }
-            else if(!CheckExistForCommonRequest(cardRegisterInfo.PmsID,cardRegisterInfo.PmsPassword,cardRegisterInfo.HotelCode,cardRegisterInfo.MachineNo))
+            else if(!CheckExistForCommonRequest(cardRegisterInfo.SystemID,cardRegisterInfo.PmsID,cardRegisterInfo.PmsPassword,cardRegisterInfo.HotelCode,cardRegisterInfo.MachineNo))
             {
                 msgInfo.Status = "Error";
                 msgInfo.FailureReason = "1002";
@@ -642,7 +642,7 @@ namespace HotelKoKoMu_CardRegister.Controllers
                 msgInfo = DefineError("HotelCode");
             else if (string.IsNullOrEmpty(cardRegisterInfo.MachineNo))
                 msgInfo = DefineError("MachineNo");
-            else if (!CheckExistForCommonRequest(cardRegisterInfo.PmsID, cardRegisterInfo.PmsPassword, cardRegisterInfo.HotelCode, cardRegisterInfo.MachineNo))
+            else if (!CheckExistForCommonRequest(cardRegisterInfo.SystemID,cardRegisterInfo.PmsID, cardRegisterInfo.PmsPassword, cardRegisterInfo.HotelCode, cardRegisterInfo.MachineNo))
             {
                 msgInfo.Status = "Error";
                 msgInfo.FailureReason = "1002";
@@ -686,20 +686,28 @@ namespace HotelKoKoMu_CardRegister.Controllers
             return msgInfo;
         }
 
-        public bool CheckExistForCommonRequest(string pmsid,string pmspassword,string hotelcode,string machineno)
+        public bool CheckExistForCommonRequest(string systemid,string pmsid,string pmspassword,string hotelcode,string machineno)
         {
             BaseDL bdl = new BaseDL();
-            NpgsqlParameter[] para = new NpgsqlParameter[4];
-            para[0] = new NpgsqlParameter("@pmsid", pmsid);
-            para[1] = new NpgsqlParameter("@pmspassword", pmspassword);
-            para[2] = new NpgsqlParameter("@hotelcode", hotelcode);
-            para[3] = new NpgsqlParameter("@machineno", machineno);
-            string sql = "select * from mst_hotel h inner join mst_hotelmachine hm on h.hotel_code=hm.hotel_code where pmsid=@pmsid and pmspassword=@pmspassword and h.hotel_code=@hotelcode and hm.machineno=@machineno";
-            DataTable dt = bdl.SelectDataTable_Info(sql, para);
-            if (dt.Rows.Count > 0)
-                return true;
+            AppConstants constantinfo = new AppConstants();
+
+            if (constantinfo.SystemID == systemid)
+            {
+                NpgsqlParameter[] para = new NpgsqlParameter[4];
+                para[0] = new NpgsqlParameter("@pmsid", pmsid);
+                para[1] = new NpgsqlParameter("@pmspassword", pmspassword);
+                para[2] = new NpgsqlParameter("@hotelcode", hotelcode);
+                para[3] = new NpgsqlParameter("@machineno", machineno);
+                string sql = "select * from mst_hotel h inner join mst_hotelmachine hm on h.hotel_code=hm.hotel_code where pmsid=@pmsid and pmspassword=@pmspassword and h.hotel_code=@hotelcode and hm.machineno=@machineno";
+                DataTable dt = bdl.SelectDataTable_Info(sql, para);
+                if (dt.Rows.Count > 0)
+                    return true;
+                else
+                    return false;
+            }
             else
                 return false;
+           
         }
 
         /// <summary>

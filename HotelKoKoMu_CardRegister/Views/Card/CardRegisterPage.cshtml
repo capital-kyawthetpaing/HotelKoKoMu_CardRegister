@@ -150,7 +150,8 @@
         $(document).ready(function () {
             CardRegisterInfo = { SystemID: $("#lblsystemid").text(), PmsID: $("#lblPmsId").text(), PmsPassword: $("#lblPmsPassword").text(), HotelCode: $("#lblhotelCode").text(), MachineNo: $("#lblmachineno").text() };
 
-            BindTextBox();
+            //show hotel's policy information
+            BindPolicyInformation();
 
             $(".clsCheck").change(function () {
                 var totalCount = $('.clsCheck').length;
@@ -334,15 +335,15 @@
             
         });
 
-        function BindTextBox() {
+        function BindPolicyInformation() {
             var  hotelinfo = { HotelCode: $("#lblhotelCode").text() };
-            var result = CalltoApiController('@Url.Action("getTextBoxData", "api/CardAPI/")', CardRegisterInfo);
+            var result = CalltoApiController('@Url.Action("getPolicyInformation", "api/CardAPI/")', CardRegisterInfo);
             if (result.Status == "Success") {
-                var chk1 = "<input type='checkbox' class='clsCheck'> " + result.HotelText1+"<br>";
+                var chk1 = "<input type='checkbox' class='clsCheck'> <span>" + result.HotelText1+"</span><br>";
                 $("#divCheck").append(chk1);
-                var chk2 = "<input type='checkbox' class='clsCheck'> " + result.HotelText2 + "<br>";
+                var chk2 = "<input type='checkbox' class='clsCheck'> <span>" + result.HotelText2 + "</span><br>";
                 $("#divCheck").append(chk2);
-                var chk3 = "<input type='checkbox' class='clsCheck'> " + result.HotelText3 + "<br>";
+                var chk3 = "<input type='checkbox' class='clsCheck'> <span>" + result.HotelText3 + "</span><br>";
                 $("#divCheck").append(chk3);
             }
         }

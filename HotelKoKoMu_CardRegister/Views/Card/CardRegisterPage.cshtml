@@ -284,9 +284,7 @@
 
              //save guest information
              $("#btnfinish").click(function () {
-
-                 if (CheckValidation()) {
-                     //get kokomu table as image
+                    //get kokomu table as image
                      var element = $("#divkokomuTable");
                      html2canvas(element, {
                          //allowTaint: true,
@@ -354,6 +352,8 @@
                                              $(this).html('');
                                          }
                                      });
+
+                                     $('input[type=checkbox]').prop('checked', false);
                                      intervalFlag = 0;
                                  });
                              }
@@ -362,7 +362,6 @@
                              }
                          }
                      });
-                 }
              });
 
         });

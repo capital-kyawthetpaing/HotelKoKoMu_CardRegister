@@ -194,17 +194,8 @@
                 }
                 else {
                     $("#PolicyInfoModal").modal('hide');
-                }
-                //var totalCount = $('.clsCheck').length;
-                //var checkedCount = $('.clsCheck:checked').length;
-                //if (totalCount == checkedCount) {
-                //    $("#btnfinish").css("background-color", "#d74715");
-                //    $("#btnfinish").prop("disabled", false);
-                //}
-                //else {
-                //    $("#btnfinish").css("background-color", "#808080");
-                //    $("#btnfinish").prop("disabled", true);
-                //}
+                }  
+                CheckValidation();
             })
 
             intervalId = setInterval(function () {
@@ -538,6 +529,7 @@
                     $("#tdSign").html('');
                     $('#tdSign').append(CreateImageControl(canvas.toDataURL(), "imgSign"));
                 }
+                CheckValidation();
             }
             ClearData();
             $('#CardRegisterModal').modal('hide');
@@ -599,13 +591,16 @@
         }
 
         function CheckValidation() {
-            var flag = false;
-            if ($("#imgSign").attr('src') != undefined) {
-                flag = true;
+            var totalCount = $('.clsCheck').length;
+            var checkedCount = $('.clsCheck:checked').length;
+            if (totalCount == checkedCount && $("#imgSign").attr('src') != undefined) {
+                $("#btnfinish").css("background-color", "#d74715");
+                $("#btnfinish").prop("disabled", false);
             }
-            else
-                ShowAlert("error", "", "サインをご記入ください。");
-            return flag;
+            else {
+                $("#btnfinish").css("background-color", "#808080");
+                $("#btnfinish").prop("disabled", true);
+            }
         }
 
         function isCanvasBlank(canvas) {

@@ -560,8 +560,9 @@ namespace HotelKoKoMu_CardRegister.Controllers
         [HttpPost]
         [ActionName("showImage")]
         public IHttpActionResult showImage(ImageInfo imageInfo)
-        {            
-            return Ok(CreateBase64String(imageInfo.fileName,imageInfo.HotelCode));
+        {
+            string base64String = "data:image/png;base64," + CreateBase64String(imageInfo.fileName, imageInfo.HotelCode);
+            return Ok(base64String);
         }
 
         /// <summary>

@@ -182,22 +182,10 @@
            //show hotel's policy information
            BindPolicyInformation();
 
-            $(".clsCheck").change(function () {
-                if ($(this).prop("checked") == true) {
-                    if ($(this).attr("id") == "chkPolicy1")
-                        $("#lblPolicyInfo").text($("#lblPolicy1").text());
-                    else if ($(this).attr("id") == "chkPolicy2")
-                        $("#lblPolicyInfo").text($("#lblPolicy2").text());
-                    else
-                        $("#lblPolicyInfo").text($("#lblPolicy3").text());
-                    $("#PolicyInfoModal").modal('show');
-                }
-                else {
-                    $("#PolicyInfoModal").modal('hide');
-                }  
+            $(".clsCheck").change(function () {               
                 CheckValidation();
             })
-
+           
             intervalId = setInterval(function () {
                 if (intervalFlag == 0) {
                     SearchCardRegisterData();
@@ -289,7 +277,6 @@
                      html2canvas(element, {
                          //allowTaint: true,
                          onrendered: function (canvas) {
-
                              $('.kokomuTable tr td').each(function () {
                                  if ($(this).find("label").attr("id") == "lblGuestName")
                                      GuestName = $("#lblGuestName").text();
@@ -352,7 +339,6 @@
                                              $(this).html('');
                                          }
                                      });
-
                                      $('input[type=checkbox]').prop('checked', false);
                                      intervalFlag = 0;
                                  });
@@ -363,7 +349,6 @@
                          }
                      });
              });
-
         });
 
 
@@ -371,15 +356,15 @@
             var result = CalltoApiController('@Url.Action("getPolicyInformation", "api/CardAPI/")', { HotelCode: $("#lblhotelCode").text() });
             if (result.Status == "Success") {
                 if (result.HotelText1 != "") {
-                    var chk1 = "<input type='checkbox' class='clsCheck' id='chkPolicy1'> <label class='clsPolicy' id='lblPolicy1'>" + result.HotelText1 + "</label><br>";
+                    var chk1 = "<input type='checkbox' class='clsCheck'> <label class='clsPolicy' onclick='ShowPolicyInfo(this)'>" + result.HotelText1 + "</label><br>";
                     $("#divCheck").append(chk1);
                 }
                 if (result.HotelText2 != "") {
-                    var chk2 = "<input type='checkbox' class='clsCheck' id='chkPolicy2'> <label class='clsPolicy' id='lblPolicy2'>" + result.HotelText2 + "</label><br>";
+                    var chk2 = "<input type='checkbox' class='clsCheck'> <label class='clsPolicy' onclick='ShowPolicyInfo(this)'>" + result.HotelText2 + "</label><br>";
                     $("#divCheck").append(chk2);
                 }
                 if (result.HotelText3 != "") {
-                    var chk3 = "<input type='checkbox' class='clsCheck' id='chkPolicy3'> <label class='clsPolicy' id='lblPolicy3'>" + result.HotelText3 + "</label><br>";
+                    var chk3 = "<input type='checkbox' class='clsCheck'> <label class='clsPolicy'  onclick='ShowPolicyInfo(this)'>" + result.HotelText3 + "</label><br>";
                     $("#divCheck").append(chk3);
                 }
             }
@@ -607,6 +592,11 @@
             blank.width = canvas.width;
             blank.height = canvas.height;
             return canvas.toDataURL() === blank.toDataURL();
+        }
+
+        function ShowPolicyInfo(ele) {            
+            $("#lblPolicyInfo").text($(ele).text());
+            $("#PolicyInfoModal").modal('show');
         }
     </script>
 }

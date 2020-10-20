@@ -9,6 +9,15 @@
     .modal-footer {
         display: inline-block !important;
     }
+
+    .clsPolicy {
+        text-overflow: ellipsis;
+        display: inline-block;
+        overflow: hidden;
+        width: 95%;
+        white-space: nowrap;
+        vertical-align: middle;
+    }
 </style>
 
 <div id="divkokomuTable">
@@ -68,19 +77,15 @@
                 <td class="td1" style="border-right:hidden;">
                     <label>@HotelKoKoMu_CardRegister.Resources.Resources.ArrivalDate</label>
                 </td>
-                <td class="td2" id="tdArrivalDate">
-                </td>
+                <td class="td2" id="tdArrivalDate"></td>
                 <td class="td1">
                     <label>@HotelKoKoMu_CardRegister.Resources.Resources.DepartureDate</label>
                 </td>
-                <td class="td2" id="tdDepartureDate">
-                  
-                </td>
+                <td class="td2" id="tdDepartureDate"></td>
             </tr>
         </tbody>
     </table>
     <div id="divCheck">
-       
     </div>
     <table class="kokomuTable rowspace">
         <tbody>
@@ -140,6 +145,30 @@
     </div>
 </div>
 
+
+<div id="PolicyInfoModal" class="modal fade" role="dialog" style="margin-top:270px;">
+    <div class="modal-dialog modal-xl">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header" style="background-color:#1b5696;color:white;">
+                <h4 class="modal-title">Terms and Condition</h4>
+            </div>
+            <div class="modal-body">
+                <label id="lblPolicyInfo">
+
+                </label>
+            </div>
+            <div class="modal-footer">
+                <div class="row">                   
+                    <div class="col-md-2 offset-md-5">
+                        <button class="clsCancel" data-dismiss="modal" aria-hidden="true">@HotelKoKoMu_CardRegister.Resources.Resources.Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 @section Scripts
 {
     <script type="text/javascript">
@@ -150,17 +179,29 @@
         $(document).ready(function () {
             CardRegisterInfo = { SystemID: $("#lblsystemid").text(), PmsID: $("#lblPmsId").text(), PmsPassword: $("#lblPmsPassword").text(), HotelCode: $("#lblhotelCode").text(), MachineNo: $("#lblmachineno").text() };
 
-            //show hotel's policy information
-            BindPolicyInformation();
+           //show hotel's policy information
+           BindPolicyInformation();
 
             $(".clsCheck").change(function () {
+                if ($(this).prop("checked") == true) {
+                    if ($(this).attr("id") == "chkPolicy1")
+                        $("#lblPolicyInfo").text($("#lblPolicy1").text());
+                    else if ($(this).attr("id") == "chkPolicy2")
+                        $("#lblPolicyInfo").text($("#lblPolicy2").text());
+                    else
+                        $("#lblPolicyInfo").text($("#lblPolicy3").text());
+                    $("#PolicyInfoModal").modal('show');
+                }
+                else {
+                    $("#PolicyInfoModal").modal('hide');
+                }
                 var totalCount = $('.clsCheck').length;
                 var checkedCount = $('.clsCheck:checked').length;
                 if (totalCount == checkedCount) {
                     $("#btnfinish").css("background-color", "#d74715");
                     $("#btnfinish").prop("disabled", false);
-                } 
-                else {                    
+                }
+                else {
                     $("#btnfinish").css("background-color", "#808080");
                     $("#btnfinish").prop("disabled", true);
                 }
@@ -332,24 +373,25 @@
                      });
                  }
              });
-            
+
         });
 
+
         function BindPolicyInformation() {
-
-            var aa = "Help protect your website and its users with clear and fair website terms and conditions. These terms and conditions for a website set out key issues such as acceptable use, privacy, cookies, registration and passwords, intellectual property, links to other sites, termination and disclaimers of responsibility. Terms and conditions are used and necessary to protect a website owner from liability of a user relying on the information or the goods provided from the site then suffering a loss.Making your own terms and conditions for your website is hard, not impossible, to do.It can take a few hours to few days for a person with no legal background to make.But worry no more; we are here to help you out.All you need to do is fill up the blank spaces and then you will receive an email with your personalized terms and conditions.";
-            var  hotelinfo = { HotelCode: $("#lblhotelCode").text() };
-            var result = CalltoApiController('@Url.Action("getPolicyInformation", "api/CardAPI/")', CardRegisterInfo);
+            var result = CalltoApiController('@Url.Action("getPolicyInformation", "api/CardAPI/")', { HotelCode: $("#lblhotelCode").text() });
             if (result.Status == "Success") {
-                var chk1 = "<input type='checkbox' class='clsCheck'> <span style='display:flex;white-space: nowrap;overflow: hidden;text-overflow: ellipsis;'>" + aa + "</span><br>";
-                $("#divCheck").append(chk1);
-
-                //var chk1 = "<input type='checkbox' class='clsCheck'> <span style='white-space: nowrap;overflow: hidden;text-overflow: ellipsis;'>" + result.HotelText1+"</span><br>";
-                //$("#divCheck").append(chk1);
-                var chk2 = "<input type='checkbox' class='clsCheck'> <span>" + result.HotelText2 + "</span><br>";
-                $("#divCheck").append(chk2);
-                var chk3 = "<input type='checkbox' class='clsCheck'> <span>" + result.HotelText3 + "</span><br>";
-                $("#divCheck").append(chk3);
+                if (result.HotelText1 != "") {
+                    var chk1 = "<input type='checkbox' class='clsCheck' id='chkPolicy1'> <label class='clsPolicy' id='lblPolicy1'>" + result.HotelText1 + "</label><br>";
+                    $("#divCheck").append(chk1);
+                }
+                if (result.HotelText2 != "") {
+                    var chk2 = "<input type='checkbox' class='clsCheck' id='chkPolicy2'> <label class='clsPolicy' id='lblPolicy2'>" + result.HotelText2 + "</label><br>";
+                    $("#divCheck").append(chk2);
+                }
+                if (result.HotelText3 != "") {
+                    var chk3 = "<input type='checkbox' class='clsCheck' id='chkPolicy3'> <label class='clsPolicy' id='lblPolicy3'>" + result.HotelText3 + "</label><br>";
+                    $("#divCheck").append(chk3);
+                }
             }
         }
 

@@ -285,12 +285,15 @@
 
          //auto complete zero fill in checkin roomno
         $('#txtCheckinRoom').focusout(function () {
-             Hotelinfo = { RoomNo: $('#txtCheckinRoom').val(), HotelNo: $('#lblhotelcode').text() };
-            var result = CalltoApiController('@Url.Action("CheckRoomNo", "api/HotelAPI/")', Hotelinfo);
+            if ($('#txtCheckinRoom').val() != "") {
+                Hotelinfo = { RoomNo: $('#txtCheckinRoom').val(), HotelNo: $('#lblhotelcode').text() };
+                var result = CalltoApiController('@Url.Action("CheckRoomNo", "api/HotelAPI/")', Hotelinfo);
                 if (result != 'Error')
                     $('#txtCheckinRoom').val(result);
                 else
                     ShowAlert("error", "", "RoomNo count is too much!")
+            }
+
         });
 
     </script>

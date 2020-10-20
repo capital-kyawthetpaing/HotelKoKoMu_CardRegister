@@ -88,9 +88,9 @@ namespace HotelKoKoMu_CardRegister.Controllers
                     msgInfo = result.Item2;
                     returnData = new
                     {
-                        HotelText1 = dt.Rows[0]["confirmation_message1"].ToString(),
-                        HotelText2 = dt.Rows[0]["confirmation_message2"].ToString(),
-                        HotelText3 = dt.Rows[0]["confirmation_message3"].ToString(),
+                        HotelText1 = string.IsNullOrEmpty(dt.Rows[0]["confirmation_message1"].ToString())?"": dt.Rows[0]["confirmation_message1"].ToString(),
+                        HotelText2 = string.IsNullOrEmpty(dt.Rows[0]["confirmation_message2"].ToString())?"": dt.Rows[0]["confirmation_message2"].ToString(),
+                        HotelText3 = string.IsNullOrEmpty(dt.Rows[0]["confirmation_message3"].ToString())?"": dt.Rows[0]["confirmation_message3"].ToString(),
                         Status = msgInfo.Status,
                         FailureReason = "",
                         ErrorDescription = ""

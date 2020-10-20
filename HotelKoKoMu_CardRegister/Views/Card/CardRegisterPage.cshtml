@@ -380,15 +380,15 @@
         function BindPolicyInformation() {
             var result = CalltoApiController('@Url.Action("getPolicyInformation", "api/CardAPI/")', { HotelCode: $("#lblhotelCode").text() });
             if (result.Status == "Success") {
-                if (result.HotelText1 != "" || result.HotelText1 != null) {
+                if (result.HotelText1 != "") {
                     var chk1 = "<input type='checkbox' class='clsCheck' id='chkPolicy1'> <label class='clsPolicy' id='lblPolicy1'>" + result.HotelText1 + "</label><br>";
                     $("#divCheck").append(chk1);
                 }
-                if (result.HotelText2 != "" || result.HotelText2 != null) {
+                if (result.HotelText2 != "") {
                     var chk2 = "<input type='checkbox' class='clsCheck' id='chkPolicy2'> <label class='clsPolicy' id='lblPolicy2'>" + result.HotelText2 + "</label><br>";
                     $("#divCheck").append(chk2);
                 }
-                if (result.HotelText2 != "" || result.HotelText2 != null) {
+                if (result.HotelText3 != "") {
                     var chk3 = "<input type='checkbox' class='clsCheck' id='chkPolicy3'> <label class='clsPolicy' id='lblPolicy3'>" + result.HotelText3 + "</label><br>";
                     $("#divCheck").append(chk3);
                 }

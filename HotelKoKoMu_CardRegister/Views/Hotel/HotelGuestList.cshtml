@@ -101,7 +101,7 @@
                 format: 'YYYY/MM/DD',
                 todayHighlight: true,
                 autoclose: true,
-                onSelect: function (dateText, inst) {                  
+                onSelect: function (dateText, inst) {
                     if (dateText != "") {
                         $("#dtpArrivalFromDate").val(moment(dateText).format('YYYY/MM/DD'));
                         $("#dtpArrivalToDate").datepicker("destroy");
@@ -119,7 +119,7 @@
                 todayHighlight: true,
                 autoclose: true,
                 minDate: new Date(),
-                onSelect: function (dateText, inst) {                   
+                onSelect: function (dateText, inst) {
                     if (dateText != "")
                         $("#dtpArrivalToDate").val(moment(dateText).format('YYYY/MM/DD'));
                 }
@@ -142,7 +142,7 @@
             //            $("#dtpArrivalFromDate").val($("#dtpArrivalFromDate").val());
             //        }
 
-            //        // $('#dtpArrivalToDate').datepicker('minDate', moment(dateText).format('YYYY/MM/DD'));      
+            //        // $('#dtpArrivalToDate').datepicker('minDate', moment(dateText).format('YYYY/MM/DD'));
             //        //var fromdate = new Date($('#dtpArrivalFromDate').val());
             //        //var todate = new Date($('#dtpArrivalToDate').val());
             //        //if (todate < fromdate) {
@@ -190,7 +190,7 @@
                 var data = table.row(this).data();
                 if (data["imagedata"] != null) {
                     var response = CalltoApiController('@Url.Action("showImage", "api/CardAPI/")', { fileName: data["imagedata"], HotelCode: data["hotel_code"] });
-                    $("#imgImage").attr('src', response);                   
+                    $("#imgImage").attr('src', response);
                     $("#showImageModal").modal('show');
                 }
             });
@@ -271,7 +271,7 @@
 
 
         //auto complete zero fill in checkin roomno
-        $('#txtCheckinRoom').on('keydown', function (e) {
+        @*$('#txtCheckinRoom').on('keydown', function (e) {
             if (e.keyCode == 13 || e.keyCode == 9) {
                 Hotelinfo = { RoomNo: $('#txtCheckinRoom').val(), HotelNo: $('#lblhotelcode').text() };
                 var result = CalltoApiController('@Url.Action("CheckRoomNo", "api/HotelAPI/")', Hotelinfo);
@@ -280,6 +280,20 @@
                 else
                     ShowError(" RoomNo is not match!");
             }
+        });*@
+
+
+         //auto complete zero fill in checkin roomno
+        $('#txtCheckinRoom').focusout(function () {
+            if ($('#txtCheckinRoom').val() != "") {
+                Hotelinfo = { RoomNo: $('#txtCheckinRoom').val(), HotelNo: $('#lblhotelcode').text() };
+                var result = CalltoApiController('@Url.Action("CheckRoomNo", "api/HotelAPI/")', Hotelinfo);
+                if (result != 'Error')
+                    $('#txtCheckinRoom').val(result);
+                else
+                    ShowAlert("error", "", "RoomNo count is too much!")
+            }
+
         });
 
     </script>

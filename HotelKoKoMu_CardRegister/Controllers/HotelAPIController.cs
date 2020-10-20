@@ -161,7 +161,7 @@ namespace HotelKoKoMu_CardRegister.Controllers
                 if (!String.IsNullOrWhiteSpace(dt.Rows[0]["hotel_roomno_count"].ToString()))
                 {
                     roomno_count  = Convert.ToInt32(dt.Rows[0]["hotel_roomno_count"].ToString());
-                    if (roomno_count >= result.Length)
+                    if (result.Length <= roomno_count)
                     {
                         if (!string.IsNullOrEmpty(dt.Rows[0]["roomno_fill_text"].ToString()))
                         {

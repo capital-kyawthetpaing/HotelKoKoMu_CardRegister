@@ -215,7 +215,7 @@
                     HotelCode: $("#lblhotelcode").text()
                  }
             var result = CalltoApiController('@Url.Action("searchGuestData", "api/HotelAPI/")', guestinfo);
-            BindGuestTable(result["Result"]);
+            BindGuestTable(result);
         }
 
         function BindGuestTable(response) {
@@ -290,8 +290,10 @@
                 var result = CalltoApiController('@Url.Action("CheckRoomNo", "api/HotelAPI/")', Hotelinfo);
                 if (result != 'Error')
                     $('#txtCheckinRoom').val(result);
-                else
-                    ShowAlert("error", "", "RoomNo count is too much!")
+                else {
+                    $('#txtCheckinRoom').val("");
+                    ShowAlert("error", "", "RoomNo count is too much!");
+                }
             }
 
         });

@@ -289,7 +289,6 @@
                      html2canvas(element, {
                          //allowTaint: true,
                          onrendered: function (canvas) {
-
                              $('.kokomuTable tr td').each(function () {
                                  if ($(this).find("label").attr("id") == "lblGuestName")
                                      GuestName = $("#lblGuestName").text();
@@ -352,7 +351,6 @@
                                              $(this).html('');
                                          }
                                      });
-
                                      $('input[type=checkbox]').prop('checked', false);
                                      intervalFlag = 0;
                                  });
@@ -363,7 +361,6 @@
                          }
                      });
              });
-
         });
 
 

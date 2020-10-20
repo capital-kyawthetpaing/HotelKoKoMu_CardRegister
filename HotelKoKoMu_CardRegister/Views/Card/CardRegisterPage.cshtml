@@ -195,16 +195,16 @@
                 else {
                     $("#PolicyInfoModal").modal('hide');
                 }
-                var totalCount = $('.clsCheck').length;
-                var checkedCount = $('.clsCheck:checked').length;
-                if (totalCount == checkedCount) {
-                    $("#btnfinish").css("background-color", "#d74715");
-                    $("#btnfinish").prop("disabled", false);
-                }
-                else {
-                    $("#btnfinish").css("background-color", "#808080");
-                    $("#btnfinish").prop("disabled", true);
-                }
+                //var totalCount = $('.clsCheck').length;
+                //var checkedCount = $('.clsCheck:checked').length;
+                //if (totalCount == checkedCount) {
+                //    $("#btnfinish").css("background-color", "#d74715");
+                //    $("#btnfinish").prop("disabled", false);
+                //}
+                //else {
+                //    $("#btnfinish").css("background-color", "#808080");
+                //    $("#btnfinish").prop("disabled", true);
+                //}
             })
 
             intervalId = setInterval(function () {
@@ -600,11 +600,11 @@
 
         function CheckValidation() {
             var flag = false;
-            if ($("#imgSign").attr('src') != undefined)
+            if ($("#imgSign").attr('src') != undefined) {
                 flag = true;
+            }
             else
-                ShowAlert("error", "","サインをご記入ください。");
-
+                ShowAlert("error", "", "サインをご記入ください。");
             return flag;
         }
 

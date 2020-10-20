@@ -111,7 +111,7 @@ namespace HotelKoKoMu_CardRegister.Controllers
                         condition += " and (guestname_hotel like '%" + searchGuestInfo.GuestName + "%' or kananame_hotel like '%" + searchGuestInfo.GuestName + "%')";
 
                     string sql_cmd = "select arrivaldate_hotel,departuredate_hotel,Case when roomno_fill_text isnull then roomno else lpad(roomno,hotel_roomno_count,roomno_fill_text) end as roomno,";
-                    sql_cmd += " guestname_text,kananame_text,trim(concat_ws(',', address1_text, address2_text),',') as address,h.hotel_code,imagedata from trn_guestinformation guest inner join mst_hotel h";
+                    sql_cmd += " guestname_text,kananame_text,trim(concat_ws(' ', address1_text, address2_text),' ') as address,h.hotel_code,imagedata from trn_guestinformation guest inner join mst_hotel h";
                     sql_cmd += " on guest.hotel_code=h.hotel_code where complete_flag=1" + condition + " order by arrivaldate_hotel,roomno,kananame_text";
                     DataTable dt = await bdl.SelectDataTable(sql_cmd, Sqlprms);
                     if (dt.Rows.Count == 0)

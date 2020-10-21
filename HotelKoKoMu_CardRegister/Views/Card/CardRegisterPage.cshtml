@@ -18,6 +18,10 @@
         white-space: nowrap;
         vertical-align: middle;
     }
+    /*.clsPolicyInfo {
+        font-size: 26px;
+        font-family: 'ヒラギノ角ゴ ProN W3', 'Hiragino Kaku Gothic ProN', "メイリオ", Meiryo, 'ＭＳ Ｐゴシック', 'MS PGothic', 'Helvetica Neue', Helvetica, Arial, Verdana, sans-serif;
+    }*/
 </style>
 
 <div id="divkokomuTable">
@@ -145,8 +149,7 @@
     </div>
 </div>
 
-
-<div id="PolicyInfoModal" class="modal fade" role="dialog" style="margin-top:270px;">
+<div id="PolicyInfoModal" class="modal fade" role="dialog" style="margin-top:200px;">
     <div class="modal-dialog modal-xl">
         <!-- Modal content-->
         <div class="modal-content">
@@ -154,7 +157,7 @@
                 <h4 class="modal-title">Terms and Condition</h4>
             </div>
             <div class="modal-body">
-                <label id="lblPolicyInfo">
+                <label id="lblPolicyInfo" class="clsPolicyInfo" style="font-weight:200;">
 
                 </label>
             </div>
@@ -182,16 +185,26 @@
            //show hotel's policy information
            BindPolicyInformation();
 
-            $(".clsCheck").change(function () {               
+            $(".clsCheck").change(function () {
                 CheckValidation();
             })
-           
-            intervalId = setInterval(function () {
+
+            //intervalId = setInterval(function () {
+            //    if (intervalFlag == 0) {
+            //        SearchCardRegisterData();
+            //    }
+            //    else {
+            //        clearInterval();
+            //    }
+            //}, 3000);
+
+             intervalId = setInterval(function () {
                 if (intervalFlag == 0) {
                     SearchCardRegisterData();
                 }
                 else {
-                    clearInterval();
+                    checkCancelRegistration();
+                   // clearInterval();
                 }
             }, 3000);
 
@@ -350,7 +363,6 @@
                      });
              });
         });
-
 
         function BindPolicyInformation() {
             var result = CalltoApiController('@Url.Action("getPolicyInformation", "api/CardAPI/")', { HotelCode: $("#lblhotelCode").text() });
@@ -572,6 +584,7 @@
                 $("#tdArrivalDate").append(CreateLabelControl(moment(result.ArriveDate).format("YYYY/MM/DD"), "lblArrivalDate"));
             if (!(result.DepartureDate == null || result.DepartureDate == ""))
                 $("#tdDepartureDate").append(CreateLabelControl(moment(result.DepartureDate).format("YYYY/MM/DD"), "lblDepartureDate"));
+            checkCancelRegistration();
         }
 
         function CheckValidation() {
@@ -594,9 +607,21 @@
             return canvas.toDataURL() === blank.toDataURL();
         }
 
-        function ShowPolicyInfo(ele) {            
+        function ShowPolicyInfo(ele) {
             $("#lblPolicyInfo").text($(ele).text());
             $("#PolicyInfoModal").modal('show');
+        }
+
+        function checkCancelRegistration() {            
+            var result = CalltoApiController('@Url.Action("checkCancelRegistration", "api/CardAPI/")', CardRegisterInfo);
+            if (result == true) {
+                intervalFlag = 0;
+                $('.kokomuTable tr td').each(function () {
+                    if ($(this).attr("id") != undefined) {
+                        $(this).html('');
+                    }
+                });
+            }           
         }
     </script>
 }

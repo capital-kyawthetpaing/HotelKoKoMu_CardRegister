@@ -865,6 +865,27 @@ namespace HotelKoKoMu_CardRegister.Controllers
             return loginStatus;
         }
 
+        [HttpPost]
+        [ActionName("checkCancelRegistration")]
+        public IHttpActionResult checkCancelRegistration(CardRegisterInfo cardRegisterInfo)
+        {
+            BaseDL bdl = new BaseDL();
+            bool flag = false;
+            NpgsqlParameter[] para = new NpgsqlParameter[5];
+            para[0] = new NpgsqlParameter("@systemid", NpgsqlDbType.Varchar) { Value = cardRegisterInfo.SystemID };
+            para[1] = new NpgsqlParameter("@pmsid", NpgsqlDbType.Varchar) { Value = cardRegisterInfo.PmsID };
+            para[2] = new NpgsqlParameter("@pmspassword", NpgsqlDbType.Varchar) { Value = cardRegisterInfo.PmsPassword };
+            para[3] = new NpgsqlParameter("@hotelcode", NpgsqlDbType.Varchar) { Value = cardRegisterInfo.HotelCode };
+            para[4] = new NpgsqlParameter("@machineno", NpgsqlDbType.Varchar) { Value = cardRegisterInfo.MachineNo };
+            string sql = "Select flag from trn_guestinformation where pmsid=@pmsid and systemid=@systemid and  pmspassword=@pmspassword and machineno=@machineno and hotel_code=@hotelcode order by created_date desc limit 1";
+            DataTable dt = bdl.SelectDataTable_Info(sql, para);
+            if (dt.Rows.Count > 0)
+            {
+                if (dt.Rows[0]["flag"].ToString() == "9")
+                    flag = true;
+            }
+            return Ok(flag);
+        }
         #endregion
     }
 }

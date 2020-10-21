@@ -18,37 +18,6 @@
         white-space: nowrap;
         vertical-align: middle;
     }
-
-    /*.modal {
-        position: fixed;
-        z-index: 999;
-        height: 100%;
-        width: 100%;
-        top: 0;
-        background-color: Black;
-        filter: alpha(opacity=60);
-        opacity: 0.6;
-        -moz-opacity: 0.8;
-        display: none;
-    }
-
-    .center {
-        z-index: 1000;
-        margin: 50px auto;
-        padding: 10px;
-        width: 130px;
-        background-color: White;
-        border-radius: 10px;
-        filter: alpha(opacity=100);
-        opacity: 1;
-        -moz-opacity: 1;
-    }
-
-    .centerimg {
-        height: 128px;
-        width: 128px;
-    }*/
-
 </style>
 
 <div id="divkokomuTable">
@@ -648,6 +617,7 @@
         function checkCancelRegistration() {
             var result = CalltoApiController('@Url.Action("checkCancelRegistration", "api/CardAPI/")', CardRegisterInfo);
             if (result == true) {
+                $("#divLoading").show();
                 intervalFlag = 0;
                 $('.kokomuTable tr td').each(function () {
                     if ($(this).attr("id") != undefined) {

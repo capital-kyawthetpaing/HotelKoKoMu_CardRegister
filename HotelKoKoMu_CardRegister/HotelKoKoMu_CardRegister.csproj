@@ -214,6 +214,7 @@
     <Content Include="images\dd_arrow.gif" />
     <Content Include="images\en.png" />
     <Content Include="images\jp.png" />
+    <Content Include="images\loader.gif" />
     <Content Include="images\logo.jpg" />
     <Content Include="images\logo1.jpg" />
     <Content Include="images\logo2.jpg" />

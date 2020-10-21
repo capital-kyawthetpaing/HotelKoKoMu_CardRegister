@@ -18,10 +18,37 @@
         white-space: nowrap;
         vertical-align: middle;
     }
-    /*.clsPolicyInfo {
-        font-size: 26px;
-        font-family: 'ヒラギノ角ゴ ProN W3', 'Hiragino Kaku Gothic ProN', "メイリオ", Meiryo, 'ＭＳ Ｐゴシック', 'MS PGothic', 'Helvetica Neue', Helvetica, Arial, Verdana, sans-serif;
+
+    /*.modal {
+        position: fixed;
+        z-index: 999;
+        height: 100%;
+        width: 100%;
+        top: 0;
+        background-color: Black;
+        filter: alpha(opacity=60);
+        opacity: 0.6;
+        -moz-opacity: 0.8;
+        display: none;
+    }
+
+    .center {
+        z-index: 1000;
+        margin: 50px auto;
+        padding: 10px;
+        width: 130px;
+        background-color: White;
+        border-radius: 10px;
+        filter: alpha(opacity=100);
+        opacity: 1;
+        -moz-opacity: 1;
+    }
+
+    .centerimg {
+        height: 128px;
+        width: 128px;
     }*/
+
 </style>
 
 <div id="divkokomuTable">
@@ -162,7 +189,7 @@
                 </label>
             </div>
             <div class="modal-footer">
-                <div class="row">                   
+                <div class="row">
                     <div class="col-md-2 offset-md-5">
                         <button class="clsCancel" data-dismiss="modal" aria-hidden="true">Close</button>
                     </div>
@@ -172,6 +199,16 @@
     </div>
 </div>
 
+<div id="divLoading" style="display: none; width: 100%; height: 100%; position: fixed; z-index: 10000; top: 0px; left: 0px; right: 0px; bottom: 0px; margin: auto;">
+    <div style="width: 340px; height: 200px; text-align: center; position: fixed; top: 0px; left: 0px; right: 0px; bottom: 0px; margin: auto; z-index: 10; color: rgb(255, 255, 255);">
+        <div>
+            <img src="~/images/loader.gif" style="max-width: 100%;max-height: 100%;display: block;margin-left: auto;margin-right: auto;"/>
+        </div>
+        <div class="loader-text" style="display: block; font-size: 24px; font-weight: 300;">&nbsp;Welcome! Please Wait...</div>
+    </div>
+    <div style="background: rgb(0, 0, 0); opacity: 0.6; width: 100%; height: 100%; position: absolute; top: 0px;"></div>
+</div>
+ 
 @section Scripts
 {
     <script type="text/javascript">
@@ -182,23 +219,16 @@
         $(document).ready(function () {
             CardRegisterInfo = { SystemID: $("#lblsystemid").text(), PmsID: $("#lblPmsId").text(), PmsPassword: $("#lblPmsPassword").text(), HotelCode: $("#lblhotelCode").text(), MachineNo: $("#lblmachineno").text() };
 
+           $("#divLoading").show();
+
            //show hotel's policy information
            BindPolicyInformation();
 
             $(".clsCheck").change(function () {
                 CheckValidation();
-            })
+            });
 
-            //intervalId = setInterval(function () {
-            //    if (intervalFlag == 0) {
-            //        SearchCardRegisterData();
-            //    }
-            //    else {
-            //        clearInterval();
-            //    }
-            //}, 3000);
-
-            intervalId = setInterval(function () {                
+            intervalId = setInterval(function () {
                 if (intervalFlag == 0) {
                     SearchCardRegisterData();
                 }
@@ -346,6 +376,8 @@
                                      confirmButtonText: 'OK',
                                      timer: 60000
                                  }).then((result) => {
+                                     $("#btnfinish").prop("disabled", true);
+                                     $("#btnfinish").css("background-color", "#808080");
                                      $('.kokomuTable tr td').each(function () {
                                          if ($(this).attr("id") != undefined) {
                                              $(this).html('');
@@ -353,6 +385,7 @@
                                      });
                                      $('input[type=checkbox]').prop('checked', false);
                                      intervalFlag = 0;
+                                     $("#divLoading").show();
                                  });
                              }
                              else {
@@ -552,6 +585,7 @@
         function SearchCardRegisterData() {
             var result = CalltoApiController('@Url.Action("getRequestForRegistrationCard", "api/CardAPI/")', CardRegisterInfo);
             if (result.Status == "Success") {
+                $("#divLoading").hide();
                 intervalFlag = 1;
                 BindCardInformation(result);
             }
@@ -611,7 +645,7 @@
             $("#PolicyInfoModal").modal('show');
         }
 
-        function checkCancelRegistration() {            
+        function checkCancelRegistration() {
             var result = CalltoApiController('@Url.Action("checkCancelRegistration", "api/CardAPI/")', CardRegisterInfo);
             if (result == true) {
                 intervalFlag = 0;
@@ -620,7 +654,7 @@
                         $(this).html('');
                     }
                 });
-            }           
+            }
         }
     </script>
 }

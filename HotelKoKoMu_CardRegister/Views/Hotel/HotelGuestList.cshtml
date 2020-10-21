@@ -104,9 +104,9 @@
                 onSelect: function (dateText, inst) {
                     if (dateText != "") {
                         $("#dtpArrivalFromDate").val(moment(dateText).format('YYYY/MM/DD'));
-                        $("#dtpArrivalToDate").datepicker("destroy");
-                        $("#dtpArrivalToDate").datepicker({ minDate: new Date(dateText) })
-                        $("#dtpArrivalToDate").val(moment(dateText).format('YYYY/MM/DD'));
+                        var toDate = $("#dtpArrivalToDate").val();                        
+                        $("#dtpArrivalToDate").datepicker({ minDate: new Date(dateText) });
+                        $("#dtpArrivalToDate").val(toDate);
                     }
                     else
                         $("#dtpArrivalFromDate").val($("#dtpArrivalFromDate").val());
@@ -178,7 +178,12 @@
             $("#dtpArrivalToDate").val(moment(currentDate).format('YYYY/MM/DD'));
 
             $("#btnSearch").click(function () {
-                SearchData();
+                var fromdate = new Date($('#dtpArrivalFromDate').val());
+                var todate = new Date($('#dtpArrivalToDate').val());
+                if (todate < fromdate) 
+                    ShowAlert("error", "", "到着日の指定は開始日≦終了日で指定してください");
+                else
+                    SearchData();
             });
 
             $("#btnClear").click(function () {
@@ -256,33 +261,8 @@
                 ]
             });
         }
-
-        //"John Doe's iPhone6".match(/([\s]+)/g).length
-        //number only
-        //function isNumber(evt) {
-        //    evt = (evt) ? evt : window.event;
-        //    var charCode = (evt.which) ? evt.which : evt.keyCode;
-        //    if (charCode > 31 && (charCode < 48 || charCode > 57)) {
-        //        return false;
-        //    }
-        //    return true;
-        //}
-
-
+        
         //auto complete zero fill in checkin roomno
-        @*$('#txtCheckinRoom').on('keydown', function (e) {
-            if (e.keyCode == 13 || e.keyCode == 9) {
-                Hotelinfo = { RoomNo: $('#txtCheckinRoom').val(), HotelNo: $('#lblhotelcode').text() };
-                var result = CalltoApiController('@Url.Action("CheckRoomNo", "api/HotelAPI/")', Hotelinfo);
-                if (result != 'Error')
-                    $('#txtCheckinRoom').val(result);
-                else
-                    ShowError(" RoomNo is not match!");
-            }
-        });*@
-
-
-         //auto complete zero fill in checkin roomno
         $('#txtCheckinRoom').focusout(function () {
             if ($('#txtCheckinRoom').val() != "") {
                 Hotelinfo = { RoomNo: $('#txtCheckinRoom').val(), HotelNo: $('#lblhotelcode').text() };

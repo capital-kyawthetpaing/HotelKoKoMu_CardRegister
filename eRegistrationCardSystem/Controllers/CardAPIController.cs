@@ -26,8 +26,7 @@ namespace eRegistrationCardSystem.Controllers
 {
 
     public class CardAPIController : ApiController
-    {
-        
+    {        
         #region 
         /// <summary>
         /// check login for e-card system

@@ -1,0 +1,636 @@
+﻿@using e-RegistrationCardSystem.Models;
+@model e-RegistrationCardSystem.Models.CardRegisterInfo
+@{
+    ViewBag.Title = "CardRegisterPage";
+    Layout = "~/Views/Shared/_CardRegisterLayout.cshtml";
+    var lang = HttpContext.Current.Request.Cookies["culture"].Value;
+}
+<style>
+    .modal-footer {
+        display: inline-block !important;
+    }
+
+    .clsPolicy {
+        text-overflow: ellipsis;
+        display: inline-block;
+        overflow: hidden;
+        width: 95%;
+        white-space: nowrap;
+        vertical-align: middle;
+    }
+</style>
+
+<div id="divkokomuTable">
+    <table class="table-bordered kokomuTable">
+        <tbody>
+            <tr>
+                <td class="td1">
+                    <label>@e-RegistrationCardSystem.Resources.Resources.GuestName</label>
+                </td>
+                <td class="td2" id="tdGuestName"></td>
+                <td class="td1">
+                    <label>@e-RegistrationCardSystem.Resources.Resources.KanaName</label>
+                </td>
+                <td class="td2" id="tdKanaName"></td>
+            </tr>
+            <tr>
+                <td class="td1">
+                    <label>@e-RegistrationCardSystem.Resources.Resources.ZipCode</label>
+                </td>
+                <td class="td2" id="tdZipCode"></td>
+                <td class="td1">
+                    <label>@e-RegistrationCardSystem.Resources.Resources.Tel</label>
+                </td>
+                <td class="td2" id="tdTel"></td>
+            </tr>
+            <tr>
+                <td rowspan="2">
+                    <label>@e-RegistrationCardSystem.Resources.Resources.Address</label>
+                </td>
+                <td colspan="3" id="tdAddress1"></td>
+            </tr>
+            <tr>
+                <td colspan="3" id="tdAddress2"></td>
+            </tr>
+            <tr>
+                <td class="td1">
+                    <label>@e-RegistrationCardSystem.Resources.Resources.Company</label>
+                </td>
+                <td colspan="3" id="tdCompany"></td>
+            </tr>
+            <tr>
+                <td class="td1">
+                    <label>@e-RegistrationCardSystem.Resources.Resources.Nationality</label>
+                </td>
+                <td class="td2" id="tdNationality"></td>
+                <td class="td1">
+                    <label>@e-RegistrationCardSystem.Resources.Resources.Passport</label>
+                </td>
+                <td class="td2" id="tdPassport"></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <table class="kokomuTable rowspace">
+        <tbody>
+            <tr>
+                <td class="td1" style="border-right:hidden;">
+                    <label>@e-RegistrationCardSystem.Resources.Resources.ArrivalDate</label>
+                </td>
+                <td class="td2" id="tdArrivalDate"></td>
+                <td class="td1">
+                    <label>@e-RegistrationCardSystem.Resources.Resources.DepartureDate</label>
+                </td>
+                <td class="td2" id="tdDepartureDate"></td>
+            </tr>
+        </tbody>
+    </table>
+    <div id="divCheck">
+    </div>
+    <table class="kokomuTable rowspace">
+        <tbody>
+            <tr>
+                <td class="td1">
+                    <label>@e-RegistrationCardSystem.Resources.Resources.Sign</label>
+                </td>
+
+                <td colspan="3" id="tdSign"></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<label class="d-none" id="lblSystemDate"></label>
+<label class="d-none" id="lblReservationNo"></label>
+<label class="d-none" id="lblRoomNo"></label>
+
+<div class="col-md-4 offset-md-4">
+    <button class="clsfinish" id="btnfinish" disabled>@e-RegistrationCardSystem.Resources.Resources.Complete</button>
+</div>
+
+<div id="CardRegisterModal" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-xl">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header" style="background-color:#1b5696;color:white;">
+                <h4 class="modal-title">Guest Information</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12" id="divCanvas">
+                        <label id="lblcanvas"></label><br />
+                        <canvas id="csvRegister" width="760" height="130"></canvas>
+                    </div>
+                </div>
+                <div class="row d-none" id="divName">
+                    <div class="col-md-12">
+                        <label id="lbltext"></label><br />
+                        <textarea id="txtRegister" rows="5"></textarea>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="row" style="display:flex;">
+                    <div class="col-md-8" style="display:flex;">
+                        <button class="clsClear" id="btnClear">@e-RegistrationCardSystem.Resources.Resources.Clear</button>
+                        <button class="clsConfirm" id="btnConfirm">@e-RegistrationCardSystem.Resources.Resources.Confirm</button>
+                        <button class="clsInputKeyboard" id="btnInputKeyboard">@e-RegistrationCardSystem.Resources.Resources.Insertkeyboard</button>
+                    </div>
+                    <div class="col-md-2 offset-md-2">
+                        <button class="clsCancel" id="btnCancel">@e-RegistrationCardSystem.Resources.Resources.Cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<div id="PolicyInfoModal" class="modal fade" role="dialog" style="margin-top:200px;">
+    <div class="modal-dialog modal-xl">
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header" style="background-color:#1b5696;color:white;">
+                <h4 class="modal-title">Terms and Condition</h4>
+            </div>
+            <div class="modal-body">
+                <label id="lblPolicyInfo" class="clsPolicyInfo" style="font-size:22px;">
+
+                </label>
+            </div>
+            <div class="modal-footer">
+                <div class="row">
+                    <div class="col-md-2 offset-md-5">
+                        <button class="clsCancel" data-dismiss="modal" aria-hidden="true">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="divLoading" style="display: none; width: 100%; height: 100%; position: fixed; z-index: 10000; top: 0px; left: 0px; right: 0px; bottom: 0px; margin: auto;">
+    <div style="width: 340px; height: 200px; text-align: center; position: fixed; top: 0px; left: 0px; right: 0px; bottom: 0px; margin: auto; z-index: 10; color: rgb(255, 255, 255);">
+        <div>
+            <img src="~/images/loader.gif" style="max-width: 100%;max-height: 100%;display: block;margin-left: auto;margin-right: auto;" />
+        </div>
+        <div class="loader-text" style="display: block; font-size: 24px; font-weight: 300;">&nbsp;いらっしゃいませ。しばらくお待ちください</div>
+    </div>
+    <div style="background: rgb(0, 0, 0); opacity: 0.6; width: 100%; height: 100%; position: absolute; top: 0px;"></div>
+</div>
+
+@section Scripts
+{
+    <script type="text/javascript">
+        var commonName = '';
+        var intervalId,intervalFlag=0;
+        var GuestName, GuestNameHW, KanaName, KanaNameHW, ZipCode, ZipCodeHW, Tel, TelHW, Address1, AddressHW1, Address2, AddressHW2, Company, CompanyHW, Nationality, NationalityHW, Passport, PassportHW, Sign;
+        var getCanvas, CardRegisterInfo, cardObj;
+        $(document).ready(function () {
+            CardRegisterInfo = { SystemID: $("#lblsystemid").text(), PmsID: $("#lblPmsId").text(), PmsPassword: $("#lblPmsPassword").text(), HotelCode: $("#lblhotelCode").text(), MachineNo: $("#lblmachineno").text() };
+
+           $("#divLoading").show();
+
+           //show hotel's policy information
+           BindPolicyInformation();
+
+            $(".clsCheck").change(function () {
+                CheckValidation();
+            });
+
+            intervalId = setInterval(function () {
+                if (intervalFlag == 0) {
+                    SearchCardRegisterData();
+                }
+                else {
+                    checkCancelRegistration();
+                }
+            }, 3000);
+
+            $("#btnInputKeyboard").click(function () {
+                $("#divCanvas").addClass('d-none');
+                $("#divName").removeClass('d-none');
+                $("#txtRegister").focus();
+            });
+
+            $("#btnClear").click(function () {
+                ClearData();
+            });
+
+            $("#btnConfirm").click(function () {
+                ConfirmData();
+            });
+
+            $(".kokomuTable td").click(function () {
+                $("#btnInputKeyboard").removeClass('d-none');
+                commonName = $(this).attr("id");
+                if (commonName == "tdGuestName") {
+                    $("#lblcanvas").text('@e-RegistrationCardSystem.Resources.Resources.GuestName_Kanji');
+                    $("#lbltext").text('@e-RegistrationCardSystem.Resources.Resources.GuestName_Kanji');
+                    //ModalShow();
+                }
+                else if (commonName == "tdKanaName") {
+                    if ('@lang' == "Ja") {
+                        $("#lblcanvas").text('@e-RegistrationCardSystem.Resources.Resources.GuestName_Kana');
+                        $("#lbltext").text('@e-RegistrationCardSystem.Resources.Resources.GuestName_Kana');
+                    // ModalShow();
+                    }
+                }
+                else if (commonName == "tdZipCode") {
+                    $("#lblcanvas").text('@e-RegistrationCardSystem.Resources.Resources.ZipCode');
+                    $("#lbltext").text('@e-RegistrationCardSystem.Resources.Resources.ZipCode');
+                   // ModalShow();
+                }
+                else if (commonName == "tdTel") {
+                    $("#lblcanvas").text('@e-RegistrationCardSystem.Resources.Resources.Tel');
+                    $("#lbltext").text('@e-RegistrationCardSystem.Resources.Resources.Tel');
+                    //ModalShow();
+                }
+                else if (commonName == "tdAddress1") {
+                    $("#lblcanvas").text('@e-RegistrationCardSystem.Resources.Resources.Address1');
+                    $("#lbltext").text('@e-RegistrationCardSystem.Resources.Resources.Address1');
+                   // ModalShow();
+                }
+                else if (commonName == "tdAddress2") {
+                    $("#lblcanvas").text('@e-RegistrationCardSystem.Resources.Resources.Address2');
+                    $("#lbltext").text('@e-RegistrationCardSystem.Resources.Resources.Address2');
+                   // ModalShow();
+                }
+                else if (commonName == "tdCompany") {
+                    $("#lblcanvas").text('@e-RegistrationCardSystem.Resources.Resources.Company');
+                    $("#lbltext").text('@e-RegistrationCardSystem.Resources.Resources.Company');
+                   // ModalShow();
+                }
+                else if (commonName == "tdNationality") {
+                    $("#lblcanvas").text('@e-RegistrationCardSystem.Resources.Resources.Nationality');
+                    $("#lbltext").text('@e-RegistrationCardSystem.Resources.Resources.Nationality');
+                    //ModalShow();
+                }
+                else if (commonName == "tdPassport") {
+                    $("#lblcanvas").text('@e-RegistrationCardSystem.Resources.Resources.PassportNo');
+                    $("#lbltext").text('@e-RegistrationCardSystem.Resources.Resources.PassportNo');
+                    //ModalShow();
+                }
+                else if (commonName == "tdSign") {
+                    $("#btnInputKeyboard").addClass('d-none');
+                    $("#lblcanvas").text('@e-RegistrationCardSystem.Resources.Resources.Sign');
+                    ModalShow();
+                }
+            });
+
+            $("#btnCancel").click(function () {
+                $('#CardRegisterModal').modal('hide');
+            });
+
+             //save guest information
+             $("#btnfinish").click(function () {
+                    //get kokomu table as image
+                     var element = $("#divkokomuTable");
+                     html2canvas(element, {
+                         //allowTaint: true,
+                         onrendered: function (canvas) {
+                             $('.kokomuTable tr td').each(function () {
+                                 if ($(this).find("label").attr("id") == "lblGuestName")
+                                     GuestName = $("#lblGuestName").text();
+                                 else
+                                     GuestNameHW = $("#imgGuestName").attr('src');
+
+                                 if ($(this).find("label").attr("id") == "lblKanaName")
+                                     KanaName = $("#lblKanaName").text();
+                                 else
+                                     KanaNameHW = $("#imgKanaName").attr('src');
+
+                                 if ($(this).find("label").attr("id") == "lblZipCode")
+                                     ZipCode = $("#lblZipCode").text();
+                                 else
+                                     ZipCodeHW = $("#imgZipCode").attr('src');
+
+                                 if ($(this).find("label").attr("id") == "lblTel")
+                                     Tel = $("#lblTel").text();
+                                 else
+                                     TelHW = $("#imgTel").attr('src');
+
+                                 if ($(this).find("label").attr("id") == "lblAddress1")
+                                     Address1 = $("#lblAddress1").text();
+                                 else
+                                     AddressHW1 = $("#imgAddress1").attr('src');
+
+                                 if ($(this).find("label").attr("id") == "lblAddress2")
+                                     Address2 = $("#lblAddress2").text();
+                                 else
+                                     AddressHW2 = $("#imgAddress2").attr('src');
+
+                                 if ($(this).find("label").attr("id") == "lblCompany")
+                                     Company = $("#lblCompany").text();
+                                 else
+                                     CompanyHW = $("#imgCompany").attr('src');
+
+                                 if ($(this).find("label").attr("id") == "lblNationality")
+                                     Nationality = $("#lblNationality").text();
+                                 else
+                                     NationalityHW = $("#imgNationality").attr('src');
+
+                                 if ($(this).find("label").attr("id") == "lblPassport")
+                                     Passport = $("#lblPassport").text();
+                                 else
+                                     PassportHW = $("#imgPassport").attr('src');
+                             });
+                             var guestInfo = { SystemID:$("#lblsystemid").text(), PmsID: $("#lblPmsId").text(), PmsPassword: $("#lblPmsPassword").text(), HotelCode: $("#lblhotelCode").text(), MachineNo: $("#lblmachineno").text(), ReservationNo: $("#lblReservationNo").text(), RoomNo: $("#lblRoomNo").text(), SystemDate: $("#lblSystemDate").text(), NameKanji: GuestName, NameKana: KanaName,ZipCode: ZipCode, Tel: Tel,Address1: Address1, Address2: Address2, Company: Company, Nationality: Nationality, PassportNo: Passport, Sign: $("#imgSign").attr('src'), ImageData: canvas.toDataURL("image/jpg") };
+
+                             var response = CalltoApiController('@Url.Action("setRegistrationCard", "api/CardAPI/")', guestInfo);
+                             if (response.Status == "Success") {
+                                 Swal.fire({
+                                     title: ' ありがとうございました。',
+                                     icon: 'success',
+                                     confirmButtonColor: '#3085d6',
+                                     confirmButtonText: 'OK',
+                                     timer: 60000
+                                 }).then((result) => {
+                                     $("#btnfinish").prop("disabled", true);
+                                     $("#btnfinish").css("background-color", "#808080");
+                                     $('.kokomuTable tr td').each(function () {
+                                         if ($(this).attr("id") != undefined) {
+                                             $(this).html('');
+                                         }
+                                     });
+                                     $('input[type=checkbox]').prop('checked', false);
+                                     intervalFlag = 0;
+                                     $("#divLoading").show();
+                                 });
+                             }
+                             else {
+                                 ShowAlert("error", "", response.FailureReason + "" + response.ErrorDescription);
+                             }
+                         }
+                     });
+             });
+        });
+
+        function BindPolicyInformation() {
+            var result = CalltoApiController('@Url.Action("getPolicyInformation", "api/CardAPI/")', { HotelCode: $("#lblhotelCode").text() });
+            if (result.Status == "Success") {
+                if (result.HotelText1 != "") {
+                    var chk1 = "<input type='checkbox' class='clsCheck'> <label class='clsPolicy' onclick='ShowPolicyInfo(this)'>" + result.HotelText1 + "</label><br>";
+                    $("#divCheck").append(chk1);
+                }
+                if (result.HotelText2 != "") {
+                    var chk2 = "<input type='checkbox' class='clsCheck'> <label class='clsPolicy' onclick='ShowPolicyInfo(this)'>" + result.HotelText2 + "</label><br>";
+                    $("#divCheck").append(chk2);
+                }
+                if (result.HotelText3 != "") {
+                    var chk3 = "<input type='checkbox' class='clsCheck'> <label class='clsPolicy'  onclick='ShowPolicyInfo(this)'>" + result.HotelText3 + "</label><br>";
+                    $("#divCheck").append(chk3);
+                }
+            }
+        }
+
+        var canvas = document.getElementById('csvRegister'),
+            ctx = canvas.getContext('2d'),
+            moveflg = 0,
+            Xpoint,
+            Ypoint;
+
+        //初期値（サイズ、色、アルファ値）の決定
+        var defSize = 7,
+            defColor = "#555";
+
+        // キャンバスを白色に塗る
+        ctx.fillStyle = 'rgb(255,255,255)';
+
+        // Event handler to resize the canvas when the document view is changed
+        window.addEventListener('resize', resizeCanvas, false);
+
+        // PC対応
+        canvas.addEventListener('mousedown', startPoint, false);
+        canvas.addEventListener('mousemove', movePoint, false);
+        canvas.addEventListener('mouseup', endPoint, false);
+
+        // スマホ対応
+        canvas.addEventListener('touchstart', startPoint, false);
+        canvas.addEventListener('touchmove', movePoint, false);
+        canvas.addEventListener('touchend', endPoint, false);
+
+        function startPoint(e) {
+            e.preventDefault();
+            ctx.beginPath();
+            Xpoint = e.layerX;
+            Ypoint = e.layerY;
+            ctx.moveTo(Xpoint, Ypoint);
+        }
+
+        //resize canvas based on screen layout
+        function resizeCanvas() {
+            var modalWidth = $(".modal-dialog").css('max-width');
+            canvas.width = parseInt(modalWidth.replace('px', '')) - 35;
+        }
+
+        resizeCanvas();
+
+        function movePoint(e) {
+            if (e.buttons === 1 || e.witch === 1 || e.type == 'touchmove') {
+                Xpoint = e.layerX;
+                Ypoint = e.layerY;
+                moveflg = 1;
+                ctx.lineTo(Xpoint, Ypoint);
+                ctx.lineCap = "round";
+                ctx.lineWidth = defSize;
+                ctx.strokeStyle = defColor;
+                ctx.stroke();
+            }
+        }
+
+        function endPoint(e) {
+            if (moveflg === 0) {
+                ctx.lineTo(Xpoint - 1, Ypoint - 1);
+                ctx.lineCap = "round";
+                ctx.lineWidth = defSize;
+                ctx.strokeStyle = defColor;
+                ctx.stroke();
+            }
+            moveflg = 0;
+        }
+
+        function ModalShow() {
+           $("#divCanvas").removeClass('d-none');
+           $("#divName").addClass('d-none');
+           $('#CardRegisterModal').modal('show');
+        }
+
+        function ConfirmData() {
+            if (commonName == "tdGuestName") {
+                $("#tdGuestName").html('');
+                if ($("#txtRegister").val() != "")
+                    $('#tdGuestName').append(CreateLabelControl($("#txtRegister").val(), "lblGuestName"));
+                else
+                    $('#tdGuestName').append(CreateImageControl(canvas.toDataURL(), "imgGuestName"));
+            }
+            else if (commonName == "tdKanaName") {
+                $("#tdKanaName").html('');
+                if ($("#txtRegister").val() != "")
+                    $('#tdKanaName').append(CreateLabelControl($("#txtRegister").val(), "lblKanaName"));
+                else
+                    $('#tdKanaName').append(CreateImageControl(canvas.toDataURL(), "imgKanaName"));
+            }
+            else if (commonName == "tdZipCode") {
+                $("#tdZipCode").html('');
+                if ($("#txtRegister").val() != "")
+                    $('#tdZipCode').append(CreateLabelControl($("#txtRegister").val(), "lblZipCode"));
+                else
+                    $('#tdZipCode').append(CreateImageControl(canvas.toDataURL(), "imgZipCode"));
+            }
+            else if (commonName == "tdTel") {
+                $("#tdTel").html('');
+                if ($("#txtRegister").val() != "")
+                    $('#tdTel').append(CreateLabelControl($("#txtRegister").val(), "lblTel"));
+                else
+                    $('#tdTel').append(CreateImageControl(canvas.toDataURL(), "imgTel"));
+            }
+            else if (commonName == "tdAddress1") {
+                $("#tdAddress1").html('');
+                if ($("#txtRegister").val() != "")
+                    $('#tdAddress1').append(CreateLabelControl($("#txtRegister").val(), "lblAddress1"));
+                else
+                    $('#tdAddress1').append(CreateImageControl(canvas.toDataURL(), "imgAddress1"));
+            }
+            else if (commonName == "tdAddress2") {
+                $("#tdAddress2").html('');
+                if ($("#txtRegister").val() != "")
+                    $('#tdAddress2').append(CreateLabelControl($("#txtRegister").val(), "lblAddress2"));
+                else
+                    $('#tdAddress2').append(CreateImageControl(canvas.toDataURL(), "imgAddress2"));
+            }
+            else if (commonName == "tdCompany") {
+                $("#tdCompany").html('');
+                if ($("#txtRegister").val() != "")
+                    $('#tdCompany').append(CreateLabelControl($("#txtRegister").val(), "lblCompany"));
+                else
+                    $('#tdCompany').append(CreateImageControl(canvas.toDataURL(), "imgCompany"));
+            }
+            else if (commonName == "tdNationality") {
+                $("#tdNationality").html('');
+                if ($("#txtRegister").val() != "")
+                    $('#tdNationality').append(CreateLabelControl($("#txtRegister").val(), "lblNationality"));
+                else
+                    $('#tdNationality').append(CreateImageControl(canvas.toDataURL(), "imgNationality"));
+            }
+            else if (commonName == "tdPassport") {
+                $("#tdPassport").html('');
+                if ($("#txtRegister").val() != "")
+                    $('#tdPassport').append(CreateLabelControl($("#txtRegister").val(), "lblPassport"));
+                else
+                    $('#tdPassport').append(CreateImageControl(canvas.toDataURL(), "imgPassport"));
+            }
+
+            else if (commonName == "tdSign") {
+                if (!isCanvasBlank(document.getElementById('csvRegister')))
+                {
+                    $("#tdSign").html('');
+                    $('#tdSign').append(CreateImageControl(canvas.toDataURL(), "imgSign"));
+                }
+                CheckValidation();
+            }
+            ClearData();
+            $('#CardRegisterModal').modal('hide');
+        }
+
+        // for creating label control
+        function CreateLabelControl(commonVal, commonID) {
+            if (commonVal != "")
+                return '<label id="' + commonID + '">' + commonVal + '</label>';
+        }
+
+        //for creating image control
+        function CreateImageControl(commonImg, commonID) {
+            if (commonImg!="")
+                return '<div id="img-box"><img id="' + commonID + '" src="' + commonImg + '" style="width:100%;height:30px;"></div>';
+        }
+
+        //clear data in canvas and textarea
+        function ClearData() {
+            $("#txtRegister").val('');
+            ctx.clearRect(0, 0, ctx.canvas.clientWidth, ctx.canvas.clientHeight);
+            ctx.fillStyle = 'rgb(255,255,255)';
+        }
+
+        function SearchCardRegisterData() {
+            var result = CalltoApiController('@Url.Action("getRequestForRegistrationCard", "api/CardAPI/")', CardRegisterInfo);
+            if (result.Status == "Success") {
+                $("#divLoading").hide();
+                intervalFlag = 1;
+                BindCardInformation(result);
+            }
+        }
+
+        function BindCardInformation(result) {
+            $("#lblSystemDate").text(result.SystemDate);
+            $("#lblReservationNo").text(result.ReservationNo);
+            $("#lblRoomNo").text(result.RoomNo);
+            if (result.NameKanji != null)
+                $('#tdGuestName').append(CreateLabelControl(result.NameKanji, "lblGuestName"));
+            if (result.NameKana != null)
+                $('#tdKanaName').append(CreateLabelControl(result.NameKana, "lblKanaName"));
+            if (result.ZipCode != null)
+                $('#tdZipCode').append(CreateLabelControl(result.ZipCode, "lblZipCode"));
+            if (result.Tel != null)
+                $('#tdTel').append(CreateLabelControl(result.Tel, "lblTel"));
+            if (result.Address1 != null)
+                $('#tdAddress1').append(CreateLabelControl(result.Address1, "lblAddress1"));
+            if (result.Address2 != null)
+                $('#tdAddress2').append(CreateLabelControl(result.Address2, "lblAddress2"));
+            if (result.Company != null)
+                $('#tdCompany').append(CreateLabelControl(result.Company, "lblCompany"));
+            if (result.Nationality != null)
+                $('#tdNationality').append(CreateLabelControl(result.Nationality, "lblNationality"));
+            if (result.PassportNo != null)
+                $('#tdPassport').append(CreateLabelControl(result.PassportNo, "lblPassport"));
+            if (result.ArriveDate != "")
+                $("#tdArrivalDate").append(CreateLabelControl(moment(result.ArriveDate).format("YYYY/MM/DD"), "lblArrivalDate"));
+            if (!(result.DepartureDate == null || result.DepartureDate == ""))
+                $("#tdDepartureDate").append(CreateLabelControl(moment(result.DepartureDate).format("YYYY/MM/DD"), "lblDepartureDate"));
+            checkCancelRegistration();
+        }
+
+        function CheckValidation() {
+            var totalCount = $('.clsCheck').length;
+            var checkedCount = $('.clsCheck:checked').length;
+            if (totalCount == checkedCount && $("#imgSign").attr('src') != undefined) {
+                $("#btnfinish").css("background-color", "#d74715");
+                $("#btnfinish").prop("disabled", false);
+            }
+            else {
+                $("#btnfinish").css("background-color", "#808080");
+                $("#btnfinish").prop("disabled", true);
+            }
+        }
+
+        function isCanvasBlank(canvas) {
+            var blank = document.createElement('canvas');
+            blank.width = canvas.width;
+            blank.height = canvas.height;
+            return canvas.toDataURL() === blank.toDataURL();
+        }
+
+        function ShowPolicyInfo(ele) {
+            $("#lblPolicyInfo").text($(ele).text());
+            $("#PolicyInfoModal").modal('show');
+        }
+
+        function checkCancelRegistration() {
+            var result = CalltoApiController('@Url.Action("checkCancelRegistration", "api/CardAPI/")', CardRegisterInfo);
+            if (result == true) {
+                $("#divLoading").show();
+                intervalFlag = 0;
+                $('.kokomuTable tr td').each(function () {
+                    if ($(this).attr("id") != undefined) {
+                        $(this).html('');
+                    }
+                });
+            }
+        }
+    </script>
+}
+
+
+
+
+
+

@@ -1,0 +1,85 @@
+﻿@{
+    var lang = HttpContext.Current.Request.Cookies["culture"].Value;
+    string obj = Session["CardInfo"].ToString();
+    string pmsid = string.Empty;
+    string pmspassword = string.Empty;
+    string systemid = string.Empty;
+    string hotelcode = string.Empty;
+    string machineno = string.Empty;
+    if (obj != null)
+    {
+        systemid = obj.Split('_')[0];
+        pmsid = obj.Split('_')[1];
+        pmspassword = obj.Split('_')[2];
+        machineno = obj.Split('_')[3];
+        hotelcode = obj.Split('_')[4];
+    }
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Styles.Render("~/Content/css")
+</head>
+<body>
+    <div class="container" style="margin-top:10px;">
+
+        <div class="card" style="margin-bottom:5px;border:none!important;">
+            <div class="card-body" style="margin:0px;padding:0px;">
+                <div class="row">
+                    <div class="col-lg-4 col-md-4 col-sm-12 offset-lg-8 offset-md-8" style="display:flex;">
+                        <label class="col-lg-5 col-md-5 col-sm-5">Select Language:</label>
+                        <div class="col-lg-7 col-md-7 col-sm-7" style="margin-right:0px;padding-right:0px;">
+                            <select id="MultiLanguage" style="padding-right:0px;width:100%;">
+                                @foreach (var i in e-RegistrationCardSystem.MultiLanguages.AvailableLanguages)
+                                {
+                                    <option value="@i.LanguageCultureName" data-image="../images/@i.ImageIcon">@i.LanguageFullName</option>
+                                }
+                            </select>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card">
+            <h5 class="card-header text-center" id="hoteltitle" style="margin-top: 15px;border-radius: unset; background-color: #1b5696">
+                
+            </h5>
+            <div class="card-body">
+                <label id="lblPmsId" class="d-none">@pmsid</label>
+                <label id="lblPmsPassword" class="d-none">@pmspassword</label>
+                <label id="lblmachineno" class="d-none">@machineno</label>                
+                <label id="lblsystemid" class="d-none">@systemid</label>
+                <label id="lblhotelCode" class="d-none">@hotelcode</label>
+                @RenderBody()
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+@RenderSection("scripts", required: false)
+@RenderSection("styles", required: false)
+<script>
+    $(document).ready(function () {       
+        var HotelObj = { HotelNo: '@hotelcode' };
+        var result = CalltoApiController('@Url.Action("getHotelInformation", "api/HotelAPI/")', HotelObj);       
+        if (result != "") {
+            var hotelInfo = '<img src="data:image/png;base64,' + result[0].logo_data + '" class="imgcss" style="width:60px; height:40px;"> ' + result[0].hotel_name;               
+            $("#hoteltitle").append(hotelInfo);
+        }
+        $("#MultiLanguage").msDropdown();
+        $("#MultiLanguage").val('@lang').trigger('change');
+        $("#MultiLanguage").change(function () {
+            if ($(this).val() != "") {
+                $.post('@Url.Action("ChangeLanguage", "Card")', { key: "lang", value: $(this).val() }, function (data) {
+                    window.location.reload();
+                 });
+            }
+        })
+    })
+</script>

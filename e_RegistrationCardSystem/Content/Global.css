@@ -28,15 +28,6 @@ table {
     height: 45px;
 }
 
-/*.kokomuTable td input {
-    width: 100%;
-    height: 40px;
-    padding: 0px;
-    margin: 0px;
-    border: none;
-    padding-left: 3px;
-}*/
-
 .kokomuTable td label {
     width: 100%;
     text-align: center;

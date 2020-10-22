@@ -17,6 +17,7 @@ table {
 }
 
 .kokomuTable td {
+    vertical-align: middle;
     border: 1px solid black;
     padding: 0px;
     margin: 0px;
@@ -27,14 +28,14 @@ table {
     height: 45px;
 }
 
-.kokomuTable td input {
+/*.kokomuTable td input {
     width: 100%;
     height: 40px;
     padding: 0px;
     margin: 0px;
     border: none;
     padding-left: 3px;
-}
+}*/
 
 .kokomuTable td label {
     width: 100%;

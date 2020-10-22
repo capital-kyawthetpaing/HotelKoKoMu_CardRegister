@@ -17,8 +17,8 @@ table {
 }
 
 .kokomuTable td {
+    text-align:center;
     vertical-align: middle;
-    border: 1px solid black;
     padding: 0px;
     margin: 0px;
     border: 2px solid black;
@@ -30,7 +30,6 @@ table {
 
 .kokomuTable td label {
     width: 100%;
-    text-align: center;
     margin: 0px;
 }
 
@@ -41,10 +40,12 @@ textarea {
 
 .td1 {
     width: 15%;
+    vertical-align :middle;
 }
 
 .td2 {
     width: 35%;
+    vertical-align: middle;
 }
 
 

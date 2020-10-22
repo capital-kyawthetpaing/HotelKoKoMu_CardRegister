@@ -58,52 +58,6 @@ namespace eRegistrationCardSystem.Controllers
             return Ok(loginStatus);
         }
 
-        //[HttpPost]
-        //[ActionName("searchGuestData")]
-        //public async Task<IHttpActionResult> searchGuestData(SearchGuestInfo searchGuestInfo)
-        //{
-        //    var Status = new object();
-        //    int roomno_count = 0;
-        //    string filltext = string.Empty;
-        //    DataTable dtinfo = GetRoomNo_Info(searchGuestInfo.HotelCode);
-        //    if (dtinfo.Rows.Count > 0)
-        //    {
-        //        roomno_count = Convert.ToInt32(dtinfo.Rows[0]["hotel_roomno_count"].ToString());
-        //        filltext = dtinfo.Rows[0]["roomno_fill_text"].ToString();
-
-        //        if (roomno_count >= searchGuestInfo.RoomNo.Length)
-        //        {
-        //            BaseDL bdl = new BaseDL();
-        //            NpgsqlParameter[] Sqlprms = new NpgsqlParameter[0];
-        //            string condition = string.Empty;
-
-        //            condition = " and h.hotel_code='" + searchGuestInfo.HotelCode + "'";
-        //            if (!(searchGuestInfo.ArrivalFromDate == DateTime.MinValue && searchGuestInfo.ArrivalToDate == DateTime.MinValue))
-        //                condition += " and Cast(arrivaldate_hotel as Date) between Cast('" + searchGuestInfo.ArrivalFromDate + "' as Date) and Cast('" + searchGuestInfo.ArrivalToDate + "' as Date)";
-
-        //            if (!string.IsNullOrEmpty(searchGuestInfo.RoomNo))
-        //                condition += " and lpad(roomno, " + roomno_count + ",'" + filltext + "')='" + searchGuestInfo.RoomNo + "'";
-
-        //            if (!string.IsNullOrEmpty(searchGuestInfo.GuestName))
-        //                condition += " and (guestname_hotel like '%" + searchGuestInfo.GuestName + "%' or kananame_hotel like '%" + searchGuestInfo.GuestName + "%')";
-
-        //            string sql_cmd = "select arrivaldate_hotel,departuredate_hotel,Case when roomno_fill_text isnull then roomno else lpad(roomno,hotel_roomno_count,roomno_fill_text) end as roomno,";
-        //            sql_cmd += " guestname_text,kananame_text,trim(concat_ws(' ', address1_text, address2_text),' ') as address,h.hotel_code,imagedata from trn_guestinformation guest inner join mst_hotel h";
-        //            sql_cmd += " on guest.hotel_code=h.hotel_code where complete_flag=1" + condition + " order by arrivaldate_hotel,roomno,kananame_text";
-        //            DataTable dt = await bdl.SelectDataTable(sql_cmd, Sqlprms);
-        //            if (dt.Rows.Count == 0)
-        //                Status = new { Result = 1 };//no data search
-        //            else
-        //                Status = new { Result = dt };
-        //        }
-        //    }
-        //    else
-        //    {
-        //        Status = new { Result = 0 };//roomno count is less.
-        //    }
-        //    return Ok(Status);
-        //}
-
         [HttpPost]
         [ActionName("searchGuestData")]
         public async Task<IHttpActionResult> searchGuestData(SearchGuestInfo searchGuestInfo)

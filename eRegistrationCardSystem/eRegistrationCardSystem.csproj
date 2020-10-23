@@ -216,8 +216,6 @@
     <Content Include="images\jp.png" />
     <Content Include="images\loader.gif" />
     <Content Include="images\logo.jpg" />
-    <Content Include="images\logo1.jpg" />
-    <Content Include="images\logo2.jpg" />
     <Content Include="images\title-bg.gif" />
     <Content Include="Scripts\bootstrap-datetimepicker.js" />
     <Content Include="Scripts\bootstrap-datetimepicker.min.js" />

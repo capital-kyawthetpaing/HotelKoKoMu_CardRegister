@@ -66,8 +66,7 @@ namespace eRegistrationCardSystem.Controllers
                 loginStatus = new { Status = "Error", Result ="SystemID is invalid" };
             return Ok(loginStatus);
         }
-
-       
+               
         [HttpPost]
         [ActionName("getPolicyInformation")]
         public async Task<IHttpActionResult> getPolicyInformation(CardRegisterInfo cardRegisterInfo)

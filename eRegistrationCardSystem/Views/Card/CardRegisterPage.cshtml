@@ -25,27 +25,27 @@
         <tbody>
             <tr>
                 <td class="td1">
-                    <label>@eRegistrationCardSystem.Resources.Resources.GuestName</label>
+                    <label style="vertical-align:middle;">@eRegistrationCardSystem.Resources.Resources.GuestName</label>
                 </td>
                 <td class="td2" id="tdGuestName"></td>
                 <td class="td1">
-                    <label>@eRegistrationCardSystem.Resources.Resources.KanaName</label>
+                    <label style="vertical-align:middle;">@eRegistrationCardSystem.Resources.Resources.KanaName</label>
                 </td>
                 <td class="td2" id="tdKanaName"></td>
             </tr>
             <tr>
                 <td class="td1">
-                    <label>@eRegistrationCardSystem.Resources.Resources.ZipCode</label>
+                    <label style="vertical-align:middle;">@eRegistrationCardSystem.Resources.Resources.ZipCode</label>
                 </td>
                 <td class="td2" id="tdZipCode"></td>
                 <td class="td1">
-                    <label>@eRegistrationCardSystem.Resources.Resources.Tel</label>
+                    <label style="vertical-align:middle;">@eRegistrationCardSystem.Resources.Resources.Tel</label>
                 </td>
                 <td class="td2" id="tdTel"></td>
             </tr>
             <tr>
                 <td rowspan="2">
-                    <label>@eRegistrationCardSystem.Resources.Resources.Address</label>
+                    <label style="vertical-align:middle;">@eRegistrationCardSystem.Resources.Resources.Address</label>
                 </td>
                 <td colspan="3" id="tdAddress1"></td>
             </tr>
@@ -54,17 +54,17 @@
             </tr>
             <tr>
                 <td class="td1">
-                    <label>@eRegistrationCardSystem.Resources.Resources.Company</label>
+                    <label style="vertical-align:middle;">@eRegistrationCardSystem.Resources.Resources.Company</label>
                 </td>
                 <td colspan="3" id="tdCompany"></td>
             </tr>
             <tr>
                 <td class="td1">
-                    <label>@eRegistrationCardSystem.Resources.Resources.Nationality</label>
+                    <label style="vertical-align:middle;">@eRegistrationCardSystem.Resources.Resources.Nationality</label>
                 </td>
                 <td class="td2" id="tdNationality"></td>
                 <td class="td1">
-                    <label>@eRegistrationCardSystem.Resources.Resources.Passport</label>
+                    <label style="vertical-align:middle;">@eRegistrationCardSystem.Resources.Resources.Passport</label>
                 </td>
                 <td class="td2" id="tdPassport"></td>
             </tr>
@@ -74,12 +74,12 @@
     <table class="kokomuTable rowspace">
         <tbody>
             <tr>
-                <td class="td1" style="border-right:hidden;">
-                    <label>@eRegistrationCardSystem.Resources.Resources.ArrivalDate</label>
+                <td class="td1">
+                    <label style="vertical-align:middle;">@eRegistrationCardSystem.Resources.Resources.ArrivalDate</label>
                 </td>
                 <td class="td2" id="tdArrivalDate"></td>
                 <td class="td1">
-                    <label>@eRegistrationCardSystem.Resources.Resources.DepartureDate</label>
+                    <label style="vertical-align:middle;">@eRegistrationCardSystem.Resources.Resources.DepartureDate</label>
                 </td>
                 <td class="td2" id="tdDepartureDate"></td>
             </tr>
@@ -91,7 +91,7 @@
         <tbody>
             <tr>
                 <td class="td1">
-                    <label>@eRegistrationCardSystem.Resources.Resources.Sign</label>
+                    <label style="vertical-align:middle;">@eRegistrationCardSystem.Resources.Resources.Sign</label>
                 </td>
 
                 <td colspan="3" id="tdSign"></td>
@@ -535,7 +535,7 @@
         // for creating label control
         function CreateLabelControl(commonVal, commonID) {
             if (commonVal != "")
-                return '<label id="' + commonID + '">' + commonVal + '</label>';
+                return '<label id="' + commonID + '" style="vertical-align:middle;">' + commonVal + '</label>';
         }
 
         //for creating image control

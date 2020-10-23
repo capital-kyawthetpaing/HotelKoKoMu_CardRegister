@@ -808,13 +808,13 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>52973</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:52973/</IISUrl>
+          <IISUrl>http://localhost:52974/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>
           </CustomServerUrl>
           <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
-          <servers defaultServer="SelfHostServer">
+          <servers defaultServer="">
             <server name="SelfHostServer" exePath="" cmdArgs="" url="http://localhost:52973/" workingDir="" />
           </servers>
         </WebProjectProperties>

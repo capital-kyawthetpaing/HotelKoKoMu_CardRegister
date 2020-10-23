@@ -16,7 +16,7 @@ namespace eRegistrationCardSystem.Models
             {
                 filterContext.Result = new RedirectResult("~/Card/Login");
                 return;
-            }
+            }            
             base.OnActionExecuting(filterContext);
         }       
     }

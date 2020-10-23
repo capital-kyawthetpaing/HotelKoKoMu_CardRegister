@@ -6,18 +6,19 @@ using System.Web;
 using System.Web.Helpers;
 using System.Web.Mvc;
 using eRegistrationCardSystem.Models;
-
+using eRegistrationCardSystem.ContextDB;
+using System.Data;
+using Npgsql;
+using System.Threading.Tasks;
 
 namespace eRegistrationCardSystem.Controllers
 {
 
     public class CardController : MultiLanguageController
     {
-       //[SessionExpireFilter]
+        [SessionExpireFilter]
         public ActionResult CardRegisterPage()
         {
-            if (Session["CardInfo"] == null)            
-                return RedirectToAction("Login", "Card");            
             return View();
         }
 
@@ -29,14 +30,13 @@ namespace eRegistrationCardSystem.Controllers
         }
 
         public ActionResult Login()
-        {
+        {            
             return View();
         }
-
         [HttpPost]
         public ActionResult CreateSession(string key, string value)
         {
-            Session[key] = value;
+            Session[key] = value;            
             return this.Json(new { success = true });
         }
     }

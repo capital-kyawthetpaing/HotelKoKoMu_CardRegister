@@ -379,6 +379,12 @@
                     var chk3 = "<input type='checkbox' class='clsCheck'> <label class='clsPolicy'  onclick='ShowPolicyInfo(this)'>" + result.HotelText3 + "</label><br>";
                     $("#divCheck").append(chk3);
                 }
+                if (result.HotelText1_Check != "")
+                    var check1 = result.HotelText1_Check;
+                if (result.HotelText2_Check != "")
+                    var check2 = result.HotelText2_Check;
+                if (result.HotelText3_Check != "")
+                    var check3 = result.HotelText3_Check;
             }
         }
 
@@ -600,6 +606,32 @@
                 $("#btnfinish").prop("disabled", true);
             }
         }
+
+
+        @*function CheckValidation() {
+
+            var result = CalltoApiController('@Url.Action("getPolicyInformation", "api/CardAPI/")', { HotelCode: $("#lblhotelCode").text() });
+            if (result.Status == "Success") {
+                if (result.HotelText1_Check != "")
+                    var check1 = result.HotelText1_Check; alert(check1);
+                if (result.HotelText2_Check != "")
+                    var check2 = result.HotelText2_Check; alert(check2);
+                if (result.HotelText3_Check != "")
+                    var check3 = result.HotelText3_Check; alert(check3);
+            }
+            var check = ''; var flag1 = false; var flag2 = false; var flag3 = false;
+            var check = document.getElementsByClassName("clsCheck");
+            var i;
+            for (i = 0; i < check.length; i++) {
+                if (check[i].checked == true) {
+                    var check_value = check[i].value;
+                    alert(check_value);
+                }
+            }
+
+        }*@
+
+
 
         function isCanvasBlank(canvas) {
             var blank = document.createElement('canvas');

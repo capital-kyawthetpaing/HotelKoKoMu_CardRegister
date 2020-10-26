@@ -84,7 +84,7 @@ namespace eRegistrationCardSystem.Controllers
             {
                 NpgsqlParameter[] Sqlprms = new NpgsqlParameter[1];
                 Sqlprms[0] = new NpgsqlParameter("@hotelcode", cardRegisterInfo.HotelCode);
-                string sql = "select confirmation_message1, confirmation_message2, confirmation_message3 from mst_hotel where hotel_code = @hotelcode";
+                string sql = "select confirmation_message1, confirmation_message2, confirmation_message3,confirmation_message1_check,confirmation_message2_check,confirmation_message3_check from mst_hotel where hotel_code = @hotelcode";
                 Tuple<string, ReturnMessageInfo> result = await bdl.SelectJson(sql, Sqlprms);
                 DataTable dt = JsonConvert.DeserializeObject<DataTable>(result.Item1);
                 if (dt.Rows.Count > 0)
@@ -95,6 +95,11 @@ namespace eRegistrationCardSystem.Controllers
                         HotelText1 = string.IsNullOrEmpty(dt.Rows[0]["confirmation_message1"].ToString())?"": dt.Rows[0]["confirmation_message1"].ToString(),
                         HotelText2 = string.IsNullOrEmpty(dt.Rows[0]["confirmation_message2"].ToString())?"": dt.Rows[0]["confirmation_message2"].ToString(),
                         HotelText3 = string.IsNullOrEmpty(dt.Rows[0]["confirmation_message3"].ToString())?"": dt.Rows[0]["confirmation_message3"].ToString(),
+
+                        HotelText1_Check = string.IsNullOrEmpty(dt.Rows[0]["confirmation_message1_check"].ToString()) ? "" : dt.Rows[0]["confirmation_message1_check"].ToString(),
+                        HotelText2_Check = string.IsNullOrEmpty(dt.Rows[0]["confirmation_message2_check"].ToString()) ? "" : dt.Rows[0]["confirmation_message2_check"].ToString(),
+                        HotelText3_Check = string.IsNullOrEmpty(dt.Rows[0]["confirmation_message3_check"].ToString()) ? "" : dt.Rows[0]["confirmation_message3_check"].ToString(),
+
                         Status = msgInfo.Status,
                         FailureReason = "",
                         ErrorDescription = ""

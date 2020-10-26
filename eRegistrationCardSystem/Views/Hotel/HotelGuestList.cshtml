@@ -125,52 +125,13 @@
                 }
             });
 
-            ////if select arrival date again greater than departure date
-            //$("#dtpArrivalFromDate").datepicker({
-            //    format: 'YYYY/MM/DD',
-            //    //todayHighlight: true,
-            //    //minDate: new Date(),
-            //    autoclose: true,
-            //    onSelect: function (dateText, inst) {
-            //        if (dateText != "") {
-            //            $("#dtpArrivalFromDate").val(moment(dateText).format('YYYY/MM/DD'));
-            //            $("#dtpArrivalToDate").datepicker("destroy");
-            //            $("#dtpArrivalToDate").datepicker({ minDate: new Date(dateText) })
-            //            $("#dtpArrivalToDate").val(moment(dateText).format('YYYY/MM/DD'));
-            //        }
-            //        else {
-            //            $("#dtpArrivalFromDate").val($("#dtpArrivalFromDate").val());
-            //        }
+            $("#fromdate").click(function () {
+                $("#dtpArrivalFromDate").focus();
+            });
 
-            //        // $('#dtpArrivalToDate').datepicker('minDate', moment(dateText).format('YYYY/MM/DD'));
-            //        //var fromdate = new Date($('#dtpArrivalFromDate').val());
-            //        //var todate = new Date($('#dtpArrivalToDate').val());
-            //        //if (todate < fromdate) {
-            //        //    $("#dtpArrivalFromDate").val(moment(dateText).format('YYYY/MM/DD'));
-            //        //    $("#dtpArrivalToDate").val("");
-            //        //}
-            //        //else
-            //        //    $("#dtpArrivalFromDate").val(moment(dateText).format('YYYY/MM/DD'));
-
-            //    }
-
-            //});
-
-            ////date compare check
-            //$("#dtpArrivalToDate").datepicker({
-            //    format: 'YYYY/MM/DD',
-            //    //todayHighlight: true,
-            //    autoclose: true,
-            //    onSelect: function (dateText, inst) {
-            //        //var fromdate = new Date($('#dtpArrivalFromDate').val());
-            //        //var todate = new Date($('#dtpArrivalToDate').val());
-            //        //if (todate < fromdate)
-
-            //        //    ShowAlert("error","","到着日(to) は 到着日(from) より遅ければなりません。");
-            //        //else
-            //        $("#dtpArrivalToDate").val(moment(dateText).format('YYYY/MM/DD'));
-            //    }
-            //});
+            $("#todate").click(function () {
+                $("#dtpArrivalToDate").focus();
+            });
 
             var currentDate = new Date();
             //set current date into arrival date
@@ -200,15 +161,7 @@
                 }
             });
 
-            $("#fromdate").click(function () {
-                $("#dtpArrivalFromDate").val(moment($("#dtpArrivalFromDate").val()).format('YYYY/MM/DD'));
-                $("#dtpArrivalFromDate").focus();
-            });
-
-            $("#todate").click(function () {
-                $("#dtpArrivalToDate").val(moment($("#dtpArrivalToDate").val()).format('YYYY/MM/DD'));
-                $("#dtpArrivalToDate").focus();
-            });
+          
         });
 
         function SearchData() {
@@ -237,7 +190,7 @@
                 data: response,
                 "columns": [
                     { "data": "arrivaldate_hotel", "width": "10%"},
-                    { "data": "departure_date", "width": "10%"},
+                    { "data": "departuredate_hotel", "width": "10%"},
                     { "data": "roomno", "width": "11%"},
                     { "data": "guestname_text", "width": "17%"},
                     { "data": "kananame_text", "width": "17%"},

@@ -20,7 +20,7 @@ namespace eRegistrationCardSystem.Controllers
             }
             else
             {
-                var userLanguage = MultiLanguages.AvailableLanguages[1].LanguageCultureName;
+                var userLanguage = MultiLanguages.AvailableLanguages[0].LanguageCultureName;
                 lang = userLanguage;
 
                 #region comment

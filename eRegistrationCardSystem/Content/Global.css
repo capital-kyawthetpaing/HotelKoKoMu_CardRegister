@@ -16,9 +16,15 @@ table {
     width: 100%;
 }
 
+/*.kokomuTable td {*/
+   /* text-align:center;*/
+   /* vertical-align: middle;*/
+    /*padding: 0px;
+    margin: 0px;
+    border: 2px solid black;
+}*/
+
 .kokomuTable td {
-    text-align:center;
-    vertical-align: middle;
     padding: 0px;
     margin: 0px;
     border: 2px solid black;
@@ -31,7 +37,13 @@ table {
 .kokomuTable td label {
     width: 100%;
     margin: 0px;
+    padding:0px;
 }
+
+/*.kokomuTable td label {
+    width: 100%;
+    margin: 0px;
+}*/
 
 textarea {
     width: 100%;

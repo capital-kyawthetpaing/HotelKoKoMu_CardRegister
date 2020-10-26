@@ -149,7 +149,7 @@
         <!-- Modal content-->
         <div class="modal-content">
             <div class="modal-header" style="background-color:#1b5696;color:white;">
-                <h4 class="modal-title">Terms and Condition</h4>
+                <h4 class="modal-title">確認メッセージ</h4>
             </div>
             <div class="modal-body">
                 <label id="lblPolicyInfo" class="clsPolicyInfo" style="font-size:22px;">
@@ -159,7 +159,7 @@
             <div class="modal-footer">
                 <div class="row">
                     <div class="col-md-2 offset-md-5">
-                        <button class="clsCancel" data-dismiss="modal" aria-hidden="true">Close</button>
+                        <button class="clsCancel" data-dismiss="modal" aria-hidden="true">閉じる</button>
                     </div>
                 </div>
             </div>
@@ -379,6 +379,12 @@
                     var chk3 = "<input type='checkbox' class='clsCheck'> <label class='clsPolicy'  onclick='ShowPolicyInfo(this)'>" + result.HotelText3 + "</label><br>";
                     $("#divCheck").append(chk3);
                 }
+                if (result.HotelText1_Check != "")
+                    var check1 = result.HotelText1_Check;
+                if (result.HotelText2_Check != "")
+                    var check2 = result.HotelText2_Check;
+                if (result.HotelText3_Check != "")
+                    var check3 = result.HotelText3_Check;
             }
         }
 
@@ -589,9 +595,9 @@
         }
 
         function CheckValidation() {
-            var totalCount = $('.clsCheck').length;
-            var checkedCount = $('.clsCheck:checked').length;
-            if (totalCount == checkedCount && $("#imgSign").attr('src') != undefined) {
+            //var totalCount = $('.clsCheck').length;
+            //var checkedCount = $('.clsCheck:checked').length;
+            if (totalCount1 == checkedCount1 && $("#imgSign").attr('src') != undefined) {
                 $("#btnfinish").css("background-color", "#d74715");
                 $("#btnfinish").prop("disabled", false);
             }
@@ -600,6 +606,32 @@
                 $("#btnfinish").prop("disabled", true);
             }
         }
+
+
+        @*function CheckValidation() {
+
+            var result = CalltoApiController('@Url.Action("getPolicyInformation", "api/CardAPI/")', { HotelCode: $("#lblhotelCode").text() });
+            if (result.Status == "Success") {
+                if (result.HotelText1_Check != "")
+                    var check1 = result.HotelText1_Check; alert(check1);
+                if (result.HotelText2_Check != "")
+                    var check2 = result.HotelText2_Check; alert(check2);
+                if (result.HotelText3_Check != "")
+                    var check3 = result.HotelText3_Check; alert(check3);
+            }
+            var check = ''; var flag1 = false; var flag2 = false; var flag3 = false;
+            var check = document.getElementsByClassName("clsCheck");
+            var i;
+            for (i = 0; i < check.length; i++) {
+                if (check[i].checked == true) {
+                    var check_value = check[i].value;
+                    alert(check_value);
+                }
+            }
+
+        }*@
+
+
 
         function isCanvasBlank(canvas) {
             var blank = document.createElement('canvas');

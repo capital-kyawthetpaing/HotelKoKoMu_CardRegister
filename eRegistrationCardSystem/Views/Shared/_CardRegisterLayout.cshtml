@@ -69,7 +69,7 @@
         var HotelObj = { HotelNo: '@hotelcode' };
         var result = CalltoApiController('@Url.Action("getHotelInformation", "api/HotelAPI/")', HotelObj);       
         if (result != "") {
-            var hotelInfo = '<img src="data:image/png;base64,' + result[0].logo_data + '" class="imgcss" style="width:60px; height:40px;"> ' + result[0].hotel_name;               
+            var hotelInfo = '<img src="data:image/png;base64,' + result[0].logo_data + '" class="imgcss" style="width:40px; height:40px;"> ' +'&nbsp;&nbsp;&nbsp;'+ result[0].hotel_name;               
             $("#hoteltitle").append(hotelInfo);
         }
         $("#MultiLanguage").msDropdown();

@@ -20,18 +20,18 @@
     }       
 </style>
 
-<div id="divkokomuTable">
+<div id="divkokomuTable" style="background-color:white;">
     <table class="table-bordered kokomuTable">
         <tbody>
             <tr>
-                <td class="td1">
-                    <label style="vertical-align:middle;">@eRegistrationCardSystem.Resources.Resources.GuestName</label>
+                <td class="td1" style="text-align:center;vertical-align:middle;">                 
+                    <label >@eRegistrationCardSystem.Resources.Resources.GuestName</label>
                 </td>
-                <td class="td2" id="tdGuestName"></td>
-                <td class="td1">
-                    <label style="vertical-align:middle;">@eRegistrationCardSystem.Resources.Resources.KanaName</label>
-                </td>
-                <td class="td2" id="tdKanaName"></td>
+                <td class="td2" id="tdGuestName" style="text-align:center;vertical-align:text-bottom;"></td>
+                <td class="td1" style="text-align:center;vertical-align:middle;">
+                    <label >@eRegistrationCardSystem.Resources.Resources.KanaName</label>
+                </td> 
+                <td class="td2" id="tdKanaName" style="text-align:center;vertical-align:text-bottom;"></td>
             </tr>
             <tr>
                 <td class="td1">
@@ -150,7 +150,7 @@
         <!-- Modal content-->
         <div class="modal-content">
             <div class="modal-header" style="background-color:#1b5696;color:white;">
-                <h4 class="modal-title">Terms and Condition</h4>
+                <h4 class="modal-title">確認メッセージ</h4>
             </div>
             <div class="modal-body">
                 <label id="lblPolicyInfo" class="clsPolicyInfo" style="font-size:22px;">
@@ -160,7 +160,7 @@
             <div class="modal-footer">
                 <div class="row">
                     <div class="col-md-2 offset-md-5">
-                        <button class="clsCancel" data-dismiss="modal" aria-hidden="true">Close</button>
+                        <button class="clsCancel" data-dismiss="modal" aria-hidden="true">閉じる</button>
                     </div>
                 </div>
             </div>
@@ -535,7 +535,7 @@
         // for creating label control
         function CreateLabelControl(commonVal, commonID) {
             if (commonVal != "")
-                return '<label id="' + commonID + '" style="vertical-align:middle;">' + commonVal + '</label>';
+                return '<label id="' + commonID + '" style="text-align:center;">' + commonVal + '</label>';
         }
 
         //for creating image control
@@ -614,7 +614,7 @@
             $("#PolicyInfoModal").modal('show');
         }
 
-        function checkCancelRegistration() {
+        @*function checkCancelRegistration() {
             var result = CalltoApiController('@Url.Action("checkCancelRegistration", "api/CardAPI/")', CardRegisterInfo);
             if (result == true) {
                 $("#divLoading").show();
@@ -625,7 +625,23 @@
                     }
                 });
             }
-        }
+        }*@
+
+        function checkCancelRegistration() {
+                    var result = CalltoApiController('@Url.Action("checkCancelRegistration", "api/CardAPI/")', CardRegisterInfo);
+                    if (result == true) {
+                            $("#divLoading").show();
+                            intervalFlag = 0;
+                            $('.kokomuTable tr td').each(function () {
+                    if ($(this).attr("id") != undefined) {
+                            $(this).html('');
+                            $("#PolicyInfoModal").modal('hide');
+                            $('#CardRegisterModal').modal('hide');
+                            $('.clsCheck').prop('checked', false);
+                            }
+                        });
+                      }
+            }
     </script>
 }
 

@@ -200,13 +200,20 @@
                 }
             });
 
+            //$("#fromdate").click(function () {
+            //    $("#dtpArrivalFromDate").val(moment($("#dtpArrivalFromDate").val()).format('YYYY/MM/DD'));
+            //    $("#dtpArrivalFromDate").focus();
+            //});
+
+            //$("#todate").click(function () {
+            //    $("#dtpArrivalToDate").val(moment($("#dtpArrivalToDate").val()).format('YYYY/MM/DD'));
+            //    $("#dtpArrivalToDate").focus();
+            //});
             $("#fromdate").click(function () {
-                $("#dtpArrivalFromDate").val(moment($("#dtpArrivalFromDate").val()).format('YYYY/MM/DD'));
                 $("#dtpArrivalFromDate").focus();
             });
 
             $("#todate").click(function () {
-                $("#dtpArrivalToDate").val(moment($("#dtpArrivalToDate").val()).format('YYYY/MM/DD'));
                 $("#dtpArrivalToDate").focus();
             });
         });
@@ -237,7 +244,7 @@
                 data: response,
                 "columns": [
                     { "data": "arrivaldate_hotel", "width": "10%"},
-                    { "data": "departure_date", "width": "10%"},
+                    { "data": "departuredate_hotel", "width": "10%" },
                     { "data": "roomno", "width": "11%"},
                     { "data": "guestname_text", "width": "17%"},
                     { "data": "kananame_text", "width": "17%"},

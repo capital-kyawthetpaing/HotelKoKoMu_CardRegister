@@ -149,7 +149,7 @@
         <!-- Modal content-->
         <div class="modal-content">
             <div class="modal-header" style="background-color:#1b5696;color:white;">
-                <h4 class="modal-title">Terms and Condition</h4>
+                <h4 class="modal-title">確認メッセージ</h4>
             </div>
             <div class="modal-body">
                 <label id="lblPolicyInfo" class="clsPolicyInfo" style="font-size:22px;">
@@ -159,7 +159,7 @@
             <div class="modal-footer">
                 <div class="row">
                     <div class="col-md-2 offset-md-5">
-                        <button class="clsCancel" data-dismiss="modal" aria-hidden="true">Close</button>
+                        <button class="clsCancel" data-dismiss="modal" aria-hidden="true">閉じる</button>
                     </div>
                 </div>
             </div>
@@ -595,9 +595,9 @@
         }
 
         function CheckValidation() {
-            var totalCount = $('.clsCheck').length;
-            var checkedCount = $('.clsCheck:checked').length;
-            if (totalCount == checkedCount && $("#imgSign").attr('src') != undefined) {
+            //var totalCount = $('.clsCheck').length;
+            //var checkedCount = $('.clsCheck:checked').length;
+            if (totalCount1 == checkedCount1 && $("#imgSign").attr('src') != undefined) {
                 $("#btnfinish").css("background-color", "#d74715");
                 $("#btnfinish").prop("disabled", false);
             }

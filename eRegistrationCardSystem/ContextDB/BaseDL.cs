@@ -13,13 +13,15 @@ using System.Net.WebSockets;
 using System.Data.SqlClient;
 using System.Runtime.Remoting.Messaging;
 using eRegistrationCardSystem.Models;
+using NLog;
+using NLog.Config;
 
 namespace eRegistrationCardSystem.ContextDB
 {
     public class BaseDL
     {
-        string conStr = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
-       
+        public readonly Logger Logger = NLog.LogManager.GetCurrentClassLogger();
+        string conStr = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;        
         public async Task<DataTable> SelectDataTable(string sSQL, NpgsqlParameter[] param)
         {
             DataTable dt = new DataTable
@@ -41,16 +43,19 @@ namespace eRegistrationCardSystem.ContextDB
                     newCon.Open();
                     await Task.Run(() => adapt.Fill(dt));                    
                     newCon.Close();
+                    Logger.WithProperty("path", HttpContext.Current.Request.Path).Info("Success");
                 }
             }
             catch(NpgsqlException ex)
             {
+                Logger.WithProperty("path", HttpContext.Current.Request.Path).Error(ex.Message);
                 string msg = ex.ErrorCode + ex.Message;
             }
             return dt;
         }
         public async Task<ReturnMessageInfo> InsertUpdateDeleteData(string sSQL, params NpgsqlParameter[] para)
         {
+
             ReturnMessageInfo msgInfo = new ReturnMessageInfo();
             try
             {
@@ -64,21 +69,24 @@ namespace eRegistrationCardSystem.ContextDB
                 cmd.Connection.Open();
                 await cmd.ExecuteNonQueryAsync();
                 cmd.Connection.Close();
+                Logger.WithProperty("path", HttpContext.Current.Request.Path).Info("Success");
                 msgInfo.Status = "Success";
                 msgInfo.FailureReason = "";
                 msgInfo.ErrorDescription = "";
                 return msgInfo;
             }
-            catch(PostgresException ex)
+            catch (PostgresException ex)
             {
+                Logger.WithProperty("path", HttpContext.Current.Request.Path).Error(ex.Message);
                 string msg = ex.Message;
                 msgInfo.Status = "Error";
                 msgInfo.FailureReason = "1005";
                 msgInfo.ErrorDescription = "Database error.";
                 return msgInfo;
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
+                Logger.WithProperty("path", HttpContext.Current.Request.Path).Error(ex.Message);
                 string msg = ex.Message;
                 msgInfo.Status = "Error";
                 msgInfo.FailureReason = "1004";
@@ -127,6 +135,7 @@ namespace eRegistrationCardSystem.ContextDB
                     newCon.Open();
                     await Task.Run(() => adapt.Fill(dt));                   
                     newCon.Close();
+                    Logger.WithProperty("path", HttpContext.Current.Request.Path).Info("Success");
                     msgInfo.Status = "Success";
                     msgInfo.FailureReason = "";
                     msgInfo.ErrorDescription = "";
@@ -134,6 +143,7 @@ namespace eRegistrationCardSystem.ContextDB
             }
             catch (PostgresException ex)
             {
+                Logger.WithProperty("path", HttpContext.Current.Request.Path).Error(ex.Message);
                 string msg = ex.Message;
                 msgInfo.Status = "Error";
                 msgInfo.FailureReason = "1005";
@@ -141,6 +151,7 @@ namespace eRegistrationCardSystem.ContextDB
             }
             catch (Exception ex)
             {
+                Logger.WithProperty("path", HttpContext.Current.Request.Path).Error(ex.Message);
                 string msg = ex.Message;
                 msgInfo.Status = "Error";
                 msgInfo.FailureReason = "1004";
@@ -175,10 +186,12 @@ namespace eRegistrationCardSystem.ContextDB
                     newCon.Open();
                     adapt.Fill(dt);
                     newCon.Close();
+                    Logger.WithProperty("path", HttpContext.Current.Request.Path).Info("Success");
                 }
             }
             catch (NpgsqlException ex)
             {
+                Logger.WithProperty("path", HttpContext.Current.Request.Path).Error(ex.Message);
                 string msg =ex.ErrorCode+"/"+ ex.Message;
             }
             return dt;

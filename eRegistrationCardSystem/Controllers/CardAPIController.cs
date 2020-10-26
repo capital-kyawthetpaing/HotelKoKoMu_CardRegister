@@ -21,12 +21,13 @@ using Newtonsoft.Json;
 using System.Globalization;
 using System.Web.Configuration;
 using System.Web.UI.WebControls;
+using NLog;
 
 namespace eRegistrationCardSystem.Controllers
-{
-
+{   
     public class CardAPIController : ApiController
     {
+        public readonly Logger Logger = NLog.LogManager.GetCurrentClassLogger();
         #region 
         /// <summary>
         /// check login for e-card system
@@ -37,37 +38,39 @@ namespace eRegistrationCardSystem.Controllers
         [ActionName("ValidateLogin")]
         public async Task<IHttpActionResult> ValidateLogin(LoginInfo info)
         {
-                var loginStatus = new object();            
-                BaseDL bdl = new BaseDL();
-                AppConstants constInfo = new AppConstants();               
-                NpgsqlParameter[] Sqlprms = new NpgsqlParameter[4];
-                Sqlprms[0] = new NpgsqlParameter("@PmsID", info.PmsID);
-                Sqlprms[1] = new NpgsqlParameter("@PmsPassword", info.PmsPassword);
-                Sqlprms[2] = new NpgsqlParameter("@MachineNo", info.MachineNo);
-                Sqlprms[3] = new NpgsqlParameter("@HotelCode", info.HotelCode);
+            var loginStatus = new object();
+            BaseDL bdl = new BaseDL();
+            AppConstants constInfo = new AppConstants();
+            NpgsqlParameter[] Sqlprms = new NpgsqlParameter[4];
+            Sqlprms[0] = new NpgsqlParameter("@PmsID", info.PmsID);
+            Sqlprms[1] = new NpgsqlParameter("@PmsPassword", info.PmsPassword);
+            Sqlprms[2] = new NpgsqlParameter("@MachineNo", info.MachineNo);
+            Sqlprms[3] = new NpgsqlParameter("@HotelCode", info.HotelCode);
 
-                if (info.SystemID == constInfo.SystemID)
-                {
-                    string sql_cmd = "select pmsid,pmspassword,h.hotel_code,machineno from mst_hotel h inner join mst_hotelmachine hm on h.hotel_code=hm.hotel_code where pmsid=@PmsID and pmspassword=@PmsPassword and machineno=@MachineNo and h.hotel_code=@HotelCode";
-                    DataTable dt = await bdl.SelectDataTable(sql_cmd, Sqlprms);
-                    if (dt.Rows.Count == 0)
-                        loginStatus = CheckExistLoginInfo(info);
-                    else
-                    {
-                        loginStatus = new
-                        {
-                            Status = "Success",
-                            SystemID = constInfo.SystemID,
-                            PmsID = dt.Rows[0]["pmsid"].ToString(),
-                            PmsPassword = dt.Rows[0]["pmspassword"].ToString(),
-                            HotelCode = dt.Rows[0]["hotel_code"].ToString(),
-                            MachineNo = dt.Rows[0]["machineno"].ToString()
-                        };                        
-                    }
-                }
+            if (info.SystemID == constInfo.SystemID)
+            {
+                string sql_cmd = "select pmsid,pmspassword,h.hotel_code,machineno from mst_hotel h inner join mst_hotelmachine hm on h.hotel_code=hm.hotel_code where pmsid=@PmsID and pmspassword=@PmsPassword and machineno=@MachineNo and h.hotel_code=@HotelCode";
+                DataTable dt = await bdl.SelectDataTable(sql_cmd, Sqlprms);
+                if (dt.Rows.Count == 0)
+                    loginStatus = CheckExistLoginInfo(info);
                 else
-                    loginStatus = new { Status = "Error", Result = "SystemID is invalid" };           
-            return Ok(loginStatus);
+                {
+                    loginStatus = new
+                    {
+                        Status = "Success",
+                        SystemID = constInfo.SystemID,
+                        PmsID = dt.Rows[0]["pmsid"].ToString(),
+                        PmsPassword = dt.Rows[0]["pmspassword"].ToString(),
+                        HotelCode = dt.Rows[0]["hotel_code"].ToString(),
+                        MachineNo = dt.Rows[0]["machineno"].ToString()
+                    };
+                }
+            }
+            else
+            {
+                loginStatus = new { Status = "Error", Result = "SystemID is invalid" };
+            }  
+            return Ok(loginStatus);   
         }
                
         [HttpPost]
@@ -150,7 +153,7 @@ namespace eRegistrationCardSystem.Controllers
                    @"values(@createddate,@SystemID, @PmsID, @PmsPassword, @hotelcode, @MachineNo, @systemdate, @reservationno, @roomno, @arrDate, @deptDate, @guestName,@kanaName, @zipcode, @tel, @address1, @address2, @company, @nationality, @passport,'0','0')";
                 msgInfo = await bdl.InsertUpdateDeleteData(sql, para);
                 if (string.IsNullOrEmpty(msgInfo.Status))
-                    msgInfo = DefineError("Status");
+                    msgInfo = DefineError("Status");                
                 return Ok(msgInfo);
             }
             else

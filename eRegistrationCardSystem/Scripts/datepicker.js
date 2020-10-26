@@ -1477,29 +1477,29 @@
     
     $.fn.datepicker.language = {
         ru: {
-            //days: ["日曜日", "月曜日", "火曜日", "水曜日", "木曜日", "金曜日", "土曜日"],
-            //daysShort: ["日", "月", "火", "水", "木", "金", "土"],
-            //daysMin: ["日", "月", "火", "水", "木", "金", "土"],
-            //months: ["1月", "2月", "3月", "4月", "5月", "6月",
-            //    "7月", "8月", "9月", "10月", "11月", "12月"],
-            //monthsShort: ["1月", "2月", "3月", "4月", "5月", "6月",
-            //    "7月", "8月", "9月", "10月", "11月", "12月"],
-            //today: "今日",
-            //clear: '',
-            //dateFormat: 'yyyy-mm-dd',
-            //timeFormat: 'hh:ii',
-            //firstDay: 0
-
-            days: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
-            daysShort: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
-            daysMin: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'],
-            months: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
-            monthsShort: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
-            today: 'Today',
-            clear: 'Clear',
-            dateFormat: 'yyyy/mm/dd',
-            timeFormat: 'hh:ii aa',
+            days: ["日曜日", "月曜日", "火曜日", "水曜日", "木曜日", "金曜日", "土曜日"],
+            daysShort: ["日", "月", "火", "水", "木", "金", "土"],
+            daysMin: ["日", "月", "火", "水", "木", "金", "土"],
+            months: ["1月", "2月", "3月", "4月", "5月", "6月",
+                "7月", "8月", "9月", "10月", "11月", "12月"],
+            monthsShort: ["1月", "2月", "3月", "4月", "5月", "6月",
+                "7月", "8月", "9月", "10月", "11月", "12月"],
+            today: "今日",
+            clear: '',
+            dateFormat: 'yyyy-mm-dd',
+            timeFormat: 'hh:ii',
             firstDay: 0
+
+            //days: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+            //daysShort: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'],
+            //daysMin: ['Su', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'],
+            //months: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+            //monthsShort: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+            //today: 'Today',
+            //clear: 'Clear',
+            //dateFormat: 'yyyy/mm/dd',
+            //timeFormat: 'hh:ii aa',
+            //firstDay: 0
         }
     };
 

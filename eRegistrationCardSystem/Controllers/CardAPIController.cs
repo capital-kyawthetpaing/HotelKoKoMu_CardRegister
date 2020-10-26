@@ -84,7 +84,7 @@ namespace eRegistrationCardSystem.Controllers
             {
                 NpgsqlParameter[] Sqlprms = new NpgsqlParameter[1];
                 Sqlprms[0] = new NpgsqlParameter("@hotelcode", cardRegisterInfo.HotelCode);
-                string sql = "select confirmation_message1, confirmation_message2, confirmation_message3,confirmation_message1_check,confirmation_message2_check,confirmation_message3_check from mst_hotel where hotel_code = @hotelcode";
+                string sql = "select confirmation_message1, confirmation_message2, confirmation_message3 from mst_hotel where hotel_code = @hotelcode";
                 Tuple<string, ReturnMessageInfo> result = await bdl.SelectJson(sql, Sqlprms);
                 DataTable dt = JsonConvert.DeserializeObject<DataTable>(result.Item1);
                 if (dt.Rows.Count > 0)

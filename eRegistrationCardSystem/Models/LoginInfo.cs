@@ -15,4 +15,9 @@ namespace eRegistrationCardSystem.Models
         public string UserCode { get; set; }
         public string Password { get; set; }
     }
+
+    public class ExistLoginInfo
+    {
+        public List<LoginInfo> lststayLogin { get; set; }
+    }
 }

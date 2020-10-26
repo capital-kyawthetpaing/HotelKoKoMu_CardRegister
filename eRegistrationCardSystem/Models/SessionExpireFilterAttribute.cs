@@ -9,9 +9,9 @@ namespace eRegistrationCardSystem.Models
     [AttributeUsage(AttributeTargets.Method, Inherited = true, AllowMultiple = false)]
     public class SessionExpireFilterAttribute: ActionFilterAttribute
     {
+        private static List<LoginInfo> loginUserList = new List<LoginInfo>();
         public override void OnActionExecuting(ActionExecutingContext filterContext)
         {
-            HttpContext ctx = HttpContext.Current;
             if (HttpContext.Current.Session["CardInfo"] == null)
             {
                 filterContext.Result = new RedirectResult("~/Card/Login");

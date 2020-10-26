@@ -27,7 +27,7 @@ namespace eRegistrationCardSystem.Controllers
         [ActionName("ValidateLogin")]
         public async Task<IHttpActionResult> ValidateLogin(LoginInfo info)
         {
-            var loginStatus = new object();
+                var loginStatus = new object();
                 BaseDL bdl = new BaseDL();
                 AppConstants constInfo = new AppConstants();
                 NpgsqlParameter[] Sqlprms = new NpgsqlParameter[4];

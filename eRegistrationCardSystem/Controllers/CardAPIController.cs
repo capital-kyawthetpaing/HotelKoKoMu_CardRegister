@@ -27,7 +27,7 @@ namespace eRegistrationCardSystem.Controllers
         [ActionName("ValidateLogin")]
         public async Task<IHttpActionResult> ValidateLogin(LoginInfo info)
         {
-            var loginStatus = new object();
+                var loginStatus = new object();
                 BaseDL bdl = new BaseDL();
                 AppConstants constInfo = new AppConstants();
                 NpgsqlParameter[] Sqlprms = new NpgsqlParameter[4];
@@ -81,6 +81,7 @@ namespace eRegistrationCardSystem.Controllers
                         HotelText1 = string.IsNullOrEmpty(dt.Rows[0]["confirmation_message1"].ToString())?"": dt.Rows[0]["confirmation_message1"].ToString(),
                         HotelText2 = string.IsNullOrEmpty(dt.Rows[0]["confirmation_message2"].ToString())?"": dt.Rows[0]["confirmation_message2"].ToString(),
                         HotelText3 = string.IsNullOrEmpty(dt.Rows[0]["confirmation_message3"].ToString())?"": dt.Rows[0]["confirmation_message3"].ToString(),
+
                         Status = msgInfo.Status,
                         FailureReason = "",
                         ErrorDescription = ""

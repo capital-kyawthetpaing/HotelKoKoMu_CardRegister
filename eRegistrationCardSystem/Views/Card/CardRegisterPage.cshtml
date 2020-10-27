@@ -180,7 +180,7 @@
 @section Scripts
 {
     <script type="text/javascript">
-        var commonName = '';
+        var commonName = ''; var checkcount = 0;
         var intervalId,intervalFlag=0;
         var GuestName, GuestNameHW, KanaName, KanaNameHW, ZipCode, ZipCodeHW, Tel, TelHW, Address1, AddressHW1, Address2, AddressHW2, Company, CompanyHW, Nationality, NationalityHW, Passport, PassportHW, Sign;
         var getCanvas, CardRegisterInfo, cardObj;
@@ -368,15 +368,21 @@
             var result = CalltoApiController('@Url.Action("getPolicyInformation", "api/CardAPI/")', { HotelCode: $("#lblhotelCode").text() });
             if (result.Status == "Success") {
                 if (result.HotelText1 != "") {
-                    var chk1 = "<input type='checkbox' class='clsCheck'> <label class='clsPolicy' onclick='ShowPolicyInfo(this)'>" + result.HotelText1 + "</label><br>";
+                    if (result.HotelText1_Check == "1")
+                        checkcount = checkcount + 1;
+                    var chk1 = "<input type='checkbox' value='"+ result.HotelText1_Check+"' class='clsCheck'> <label class='clsPolicy' onclick='ShowPolicyInfo(this)'>" + result.HotelText1 + "</label><br>";
                     $("#divCheck").append(chk1);
                 }
                 if (result.HotelText2 != "") {
-                    var chk2 = "<input type='checkbox' class='clsCheck'> <label class='clsPolicy' onclick='ShowPolicyInfo(this)'>" + result.HotelText2 + "</label><br>";
+                    if (result.HotelText2_Check == "1")
+                        checkcount = checkcount + 1;
+                    var chk2 = "<input type='checkbox' value='" + result.HotelText2_Check +"' class='clsCheck'> <label class='clsPolicy' onclick='ShowPolicyInfo(this)'>" + result.HotelText2 + "</label><br>";
                     $("#divCheck").append(chk2);
                 }
                 if (result.HotelText3 != "") {
-                    var chk3 = "<input type='checkbox' class='clsCheck'> <label class='clsPolicy'  onclick='ShowPolicyInfo(this)'>" + result.HotelText3 + "</label><br>";
+                    if (result.HotelText3_Check == "1")
+                        checkcount = checkcount + 1;
+                    var chk3 = "<input type='checkbox' value='" + result.HotelText3_Check +"' class='clsCheck'> <label class='clsPolicy'  onclick='ShowPolicyInfo(this)'>" + result.HotelText3 + "</label><br>";
                     $("#divCheck").append(chk3);
                 }
             }
@@ -588,10 +594,30 @@
             checkCancelRegistration();
         }
 
+        //function CheckValidation() {
+        //    var totalCount = $('.clsCheck').length;
+        //    var checkedCount = $('.clsCheck:checked').length;
+        //    if (totalCount == checkedCount && $("#imgSign").attr('src') != undefined) {
+        //        $("#btnfinish").css("background-color", "#d74715");
+        //        $("#btnfinish").prop("disabled", false);
+        //    }
+        //    else {
+        //        $("#btnfinish").css("background-color", "#808080");
+        //        $("#btnfinish").prop("disabled", true);
+        //    }
+        //}
+
+
         function CheckValidation() {
-            var totalCount = $('.clsCheck').length;
-            var checkedCount = $('.clsCheck:checked').length;
-            if (totalCount == checkedCount && $("#imgSign").attr('src') != undefined) {
+            var check = document.getElementsByClassName("clsCheck");
+            var i; c_count = 0;
+            for (i = 0; i < check.length; i++) {
+                if (check[i].checked == true) {
+                    if (check[i].value == "1")
+                        c_count = c_count + 1;
+                }
+            }
+            if (checkcount == c_count && $("#imgSign").attr('src') != undefined) {
                 $("#btnfinish").css("background-color", "#d74715");
                 $("#btnfinish").prop("disabled", false);
             }
@@ -600,30 +626,6 @@
                 $("#btnfinish").prop("disabled", true);
             }
         }
-
-
-        @*function CheckValidation() {
-
-            var result = CalltoApiController('@Url.Action("getPolicyInformation", "api/CardAPI/")', { HotelCode: $("#lblhotelCode").text() });
-            if (result.Status == "Success") {
-                if (result.HotelText1_Check != "")
-                    var check1 = result.HotelText1_Check; alert(check1);
-                if (result.HotelText2_Check != "")
-                    var check2 = result.HotelText2_Check; alert(check2);
-                if (result.HotelText3_Check != "")
-                    var check3 = result.HotelText3_Check; alert(check3);
-            }
-            var check = ''; var flag1 = false; var flag2 = false; var flag3 = false;
-            var check = document.getElementsByClassName("clsCheck");
-            var i;
-            for (i = 0; i < check.length; i++) {
-                if (check[i].checked == true) {
-                    var check_value = check[i].value;
-                    alert(check_value);
-                }
-            }
-
-        }*@
 
 
 

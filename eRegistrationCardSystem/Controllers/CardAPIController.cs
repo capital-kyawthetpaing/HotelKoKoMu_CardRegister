@@ -39,32 +39,22 @@ namespace eRegistrationCardSystem.Controllers
             Sqlprms[3] = new NpgsqlParameter("@HotelCode", info.HotelCode);
             if (info.SystemID == constInfo.SystemID)
             {
-                if (!checkUserStayedLogin(info))
-                {
-                    string sql_cmd = "select pmsid,pmspassword,h.hotel_code,machineno from mst_hotel h inner join mst_hotelmachine hm on h.hotel_code=hm.hotel_code where pmsid=@PmsID and pmspassword=@PmsPassword and machineno=@MachineNo and h.hotel_code=@HotelCode";
-                    DataTable dt = await bdl.SelectDataTable(sql_cmd, Sqlprms);
-                    if (dt.Rows.Count == 0)
-                        loginStatus = CheckExistLoginInfo(info);
-                    else
-                    {
-                        NpgsqlParameter[] Sqlprms1 = new NpgsqlParameter[2];
-                        Sqlprms1[0] = new NpgsqlParameter("@machineno", info.MachineNo);
-                        Sqlprms1[1] = new NpgsqlParameter("@hotelcode", info.HotelCode);
-                        string sql_cmd1 = "update mst_hotelmachine set loginflag=1 where hotel_code=@hotelcode and machineno=@machineno";
-                        ReturnMessageInfo msgInfo = await bdl.InsertUpdateDeleteData(sql_cmd1, Sqlprms1);
-                        loginStatus = new
-                        {
-                            Status = "Success",
-                            SystemID = constInfo.SystemID,
-                            PmsID = dt.Rows[0]["pmsid"].ToString(),
-                            PmsPassword = dt.Rows[0]["pmspassword"].ToString(),
-                            HotelCode = dt.Rows[0]["hotel_code"].ToString(),
-                            MachineNo = dt.Rows[0]["machineno"].ToString()
-                        };
-                    }
-                }
+                string sql_cmd = "select pmsid,pmspassword,h.hotel_code,machineno from mst_hotel h inner join mst_hotelmachine hm on h.hotel_code=hm.hotel_code where pmsid=@PmsID and pmspassword=@PmsPassword and machineno=@MachineNo and h.hotel_code=@HotelCode";
+                DataTable dt = await bdl.SelectDataTable(sql_cmd, Sqlprms);
+                if (dt.Rows.Count == 0)
+                    loginStatus = CheckExistLoginInfo(info);
                 else
-                    loginStatus = new { Status = "Error", Result = "User is logged in from another device"};
+                {
+                    loginStatus = new
+                    {
+                        Status = "Success",
+                        SystemID = constInfo.SystemID,
+                        PmsID = dt.Rows[0]["pmsid"].ToString(),
+                        PmsPassword = dt.Rows[0]["pmspassword"].ToString(),
+                        HotelCode = dt.Rows[0]["hotel_code"].ToString(),
+                        MachineNo = dt.Rows[0]["machineno"].ToString()
+                    };
+                }
             }
             else
                 loginStatus = new { Status = "Error", Result = "SystemID is invalid" };
@@ -73,7 +63,6 @@ namespace eRegistrationCardSystem.Controllers
                
         [HttpPost]
         [ActionName("getPolicyInformation")]
-
         public async Task<IHttpActionResult> getPolicyInformation(CardRegisterInfo cardRegisterInfo)
         {
             var returnData = new object();
@@ -859,25 +848,25 @@ namespace eRegistrationCardSystem.Controllers
             return Ok(flag);
         }
 
-        public bool checkUserStayedLogin(LoginInfo loginInfo)
-        {
-            bool flag = false;
-            BaseDL bdl = new BaseDL();
-            AppConstants constantinfo = new AppConstants();
-            NpgsqlParameter[] para = new NpgsqlParameter[4];            
-            para[0] = new NpgsqlParameter("@pmsid", NpgsqlDbType.Varchar) { Value = loginInfo.PmsID };
-            para[1] = new NpgsqlParameter("@pmspassword", NpgsqlDbType.Varchar) { Value = loginInfo.PmsPassword };
-            para[2] = new NpgsqlParameter("@hotelcode", NpgsqlDbType.Varchar) { Value = loginInfo.HotelCode };
-            para[3] = new NpgsqlParameter("@machineno", NpgsqlDbType.Varchar) { Value = loginInfo.MachineNo };
-            string sql = "Select loginflag from mst_hotel h inner join mst_hotelmachine hm on h.hotel_code=hm.hotel_code where pmsid=@pmsid and  pmspassword=@pmspassword and machineno=@machineno and h.hotel_code=@hotelcode";
-            DataTable dt = bdl.SelectDataTable_Info(sql, para);
-            if (dt.Rows.Count > 0)
-            {
-                if (dt.Rows[0]["loginflag"].ToString() == "1")
-                    flag = true;
-            }            
-            return flag;
-        }
+        //public bool checkUserStayedLogin(LoginInfo loginInfo)
+        //{
+        //    bool flag = false;
+        //    BaseDL bdl = new BaseDL();
+        //    AppConstants constantinfo = new AppConstants();
+        //    NpgsqlParameter[] para = new NpgsqlParameter[4];            
+        //    para[0] = new NpgsqlParameter("@pmsid", NpgsqlDbType.Varchar) { Value = loginInfo.PmsID };
+        //    para[1] = new NpgsqlParameter("@pmspassword", NpgsqlDbType.Varchar) { Value = loginInfo.PmsPassword };
+        //    para[2] = new NpgsqlParameter("@hotelcode", NpgsqlDbType.Varchar) { Value = loginInfo.HotelCode };
+        //    para[3] = new NpgsqlParameter("@machineno", NpgsqlDbType.Varchar) { Value = loginInfo.MachineNo };
+        //    string sql = "Select loginflag from mst_hotel h inner join mst_hotelmachine hm on h.hotel_code=hm.hotel_code where pmsid=@pmsid and  pmspassword=@pmspassword and machineno=@machineno and h.hotel_code=@hotelcode";
+        //    DataTable dt = bdl.SelectDataTable_Info(sql, para);
+        //    if (dt.Rows.Count > 0)
+        //    {
+        //        if (dt.Rows[0]["loginflag"].ToString() == "1")
+        //            flag = true;
+        //    }            
+        //    return flag;
+        //}
         #endregion
     }
 }

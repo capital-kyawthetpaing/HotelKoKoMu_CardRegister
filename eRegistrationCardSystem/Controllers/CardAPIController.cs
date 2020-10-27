@@ -70,63 +70,20 @@ namespace eRegistrationCardSystem.Controllers
                 loginStatus = new { Status = "Error", Result = "SystemID is invalid" };
             return Ok(loginStatus);
         }
-
-
-        ///// <summary>
-        ///// check login for e-card system
-        ///// </summary>
-        ///// <param name = "info" ></ param >
-        ///// < returns ></ returns >
-        //[HttpPost]
-        //[ActionName("ValidateLogin")]
-        //public async Task<IHttpActionResult> ValidateLogin(LoginInfo info)
-        //{            
-        //    var loginStatus = new object();
-        //    BaseDL bdl = new BaseDL();
-        //    AppConstants constInfo = new AppConstants();
-        //    NpgsqlParameter[] Sqlprms = new NpgsqlParameter[4];
-        //    Sqlprms[0] = new NpgsqlParameter("@PmsID", info.PmsID);
-        //    Sqlprms[1] = new NpgsqlParameter("@PmsPassword", info.PmsPassword);
-        //    Sqlprms[2] = new NpgsqlParameter("@MachineNo", info.MachineNo);
-        //    Sqlprms[3] = new NpgsqlParameter("@HotelCode", info.HotelCode);
-        //    if (info.SystemID == constInfo.SystemID)
-        //    {
-        //        string sql_cmd = "select pmsid,pmspassword,h.hotel_code,machineno from mst_hotel h inner join mst_hotelmachine hm on h.hotel_code=hm.hotel_code where pmsid=@PmsID and pmspassword=@PmsPassword and machineno=@MachineNo and h.hotel_code=@HotelCode";
-        //        DataTable dt = await bdl.SelectDataTable(sql_cmd, Sqlprms);
-        //        if (dt.Rows.Count == 0)
-        //            loginStatus = CheckExistLoginInfo(info);
-        //        else
-        //        {
-        //            string sql_cmd1 = "update mst_hotelmachine set loginflag=1 where hotel_code=@hotelcode and machineno=@machineno";
-        //            DataTable dt = await bdl.SelectDataTable(sql_cmd, Sqlprms);
-        //            loginStatus = new
-        //            {
-        //                Status = "Success",
-        //                SystemID = constInfo.SystemID,
-        //                PmsID = dt.Rows[0]["pmsid"].ToString(),
-        //                PmsPassword = dt.Rows[0]["pmspassword"].ToString(),
-        //                HotelCode = dt.Rows[0]["hotel_code"].ToString(),
-        //                MachineNo = dt.Rows[0]["machineno"].ToString()
-        //            };
-        //        }
-        //    }
-        //    else
-        //        loginStatus = new { Status = "Error", Result = "SystemID is invalid" };
-        //    return Ok(loginStatus);
-        //}
-
+               
         [HttpPost]
         [ActionName("getPolicyInformation")]
+
         public async Task<IHttpActionResult> getPolicyInformation(CardRegisterInfo cardRegisterInfo)
         {
             var returnData = new object();
-            ReturnMessageInfo msgInfo = new ReturnMessageInfo();           
+            ReturnMessageInfo msgInfo = new ReturnMessageInfo();
             BaseDL bdl = new BaseDL();
             if (!string.IsNullOrEmpty(cardRegisterInfo.HotelCode))
             {
                 NpgsqlParameter[] Sqlprms = new NpgsqlParameter[1];
                 Sqlprms[0] = new NpgsqlParameter("@hotelcode", cardRegisterInfo.HotelCode);
-                string sql = "select confirmation_message1, confirmation_message2, confirmation_message3 from mst_hotel where hotel_code = @hotelcode";
+                string sql = "select confirmation_message1, confirmation_message2, confirmation_message3,confirmation_message1_check,confirmation_message2_check,confirmation_message3_check from mst_hotel where hotel_code = @hotelcode";
                 Tuple<string, ReturnMessageInfo> result = await bdl.SelectJson(sql, Sqlprms);
                 DataTable dt = JsonConvert.DeserializeObject<DataTable>(result.Item1);
                 if (dt.Rows.Count > 0)
@@ -134,9 +91,13 @@ namespace eRegistrationCardSystem.Controllers
                     msgInfo = result.Item2;
                     returnData = new
                     {
-                        HotelText1 = string.IsNullOrEmpty(dt.Rows[0]["confirmation_message1"].ToString())?"": dt.Rows[0]["confirmation_message1"].ToString(),
-                        HotelText2 = string.IsNullOrEmpty(dt.Rows[0]["confirmation_message2"].ToString())?"": dt.Rows[0]["confirmation_message2"].ToString(),
-                        HotelText3 = string.IsNullOrEmpty(dt.Rows[0]["confirmation_message3"].ToString())?"": dt.Rows[0]["confirmation_message3"].ToString(),
+                        HotelText1 = string.IsNullOrEmpty(dt.Rows[0]["confirmation_message1"].ToString()) ? "" : dt.Rows[0]["confirmation_message1"].ToString(),
+                        HotelText2 = string.IsNullOrEmpty(dt.Rows[0]["confirmation_message2"].ToString()) ? "" : dt.Rows[0]["confirmation_message2"].ToString(),
+                        HotelText3 = string.IsNullOrEmpty(dt.Rows[0]["confirmation_message3"].ToString()) ? "" : dt.Rows[0]["confirmation_message3"].ToString(),
+
+                        HotelText1_Check = string.IsNullOrEmpty(dt.Rows[0]["confirmation_message1_check"].ToString()) ? "" : dt.Rows[0]["confirmation_message1_check"].ToString(),
+                        HotelText2_Check = string.IsNullOrEmpty(dt.Rows[0]["confirmation_message2_check"].ToString()) ? "" : dt.Rows[0]["confirmation_message2_check"].ToString(),
+                        HotelText3_Check = string.IsNullOrEmpty(dt.Rows[0]["confirmation_message3_check"].ToString()) ? "" : dt.Rows[0]["confirmation_message3_check"].ToString(),
 
                         Status = msgInfo.Status,
                         FailureReason = "",
@@ -148,14 +109,14 @@ namespace eRegistrationCardSystem.Controllers
             {
                 msgInfo = DefineError("HotelCode");
                 returnData = new
-                {                   
+                {
                     Status = msgInfo.Status,
                     FailureReason = msgInfo.FailureReason,
                     ErrorDescription = msgInfo.ErrorDescription
                 };
             }
             return Ok(returnData);
-        }        
+        }
 
         /// <summary>
         /// save guest information data  from hotel system

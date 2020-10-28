@@ -67,11 +67,6 @@
                 </td>
                 <td class="td2" id="tdPassport"></td>
             </tr>
-        </tbody>
-    </table>
-
-    <table class="kokomuTable rowspace">
-        <tbody>
             <tr>
                 <td class="td1">
                     <label>@eRegistrationCardSystem.Resources.Resources.ArrivalDate</label>
@@ -84,12 +79,27 @@
             </tr>
         </tbody>
     </table>
+
+    @*<table class="kokomuTable rowspace">
+        <tbody>
+            <tr>
+                <td class="td1">
+                    <label>@eRegistrationCardSystem.Resources.Resources.ArrivalDate</label>
+                </td>
+                <td class="td2" id="tdArrivalDate"></td>
+                <td class="td1">
+                    <label>@eRegistrationCardSystem.Resources.Resources.DepartureDate</label>
+                </td>
+                <td class="td2" id="tdDepartureDate"></td>
+            </tr>
+        </tbody>
+    </table>*@
     <div id="divCheck">
     </div>
     <table class="kokomuTable rowspace">
         <tbody>
             <tr>
-                <td class="td1">
+                <td class="td1" style="height:130px;">
                     <label>@eRegistrationCardSystem.Resources.Resources.Sign</label>
                 </td>
 
@@ -546,7 +556,7 @@
         //for creating image control
         function CreateImageControl(commonImg, commonID) {
             if (commonImg!="")
-                return '<div id="img-box"><img id="' + commonID + '" src="' + commonImg + '" style="max-width:100%;max-height:40px;"></div>';
+                return '<div id="img-box"><img id="' + commonID + '" src="' + commonImg + '" style="min-height:130px;max-width:100%;max-height:130px;"></div>';
         }
 
         //clear data in canvas and textarea

@@ -32,6 +32,7 @@ namespace eRegistrationCardSystem.Controllers
         {            
             return View();
         }
+
         [HttpPost]
         public ActionResult CreateSession(string key, string value)
         {

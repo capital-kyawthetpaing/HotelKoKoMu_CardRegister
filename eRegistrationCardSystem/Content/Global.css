@@ -17,13 +17,13 @@ table {
     width: 100%;
 }
 
-.kokomuTable td {
+/*.kokomuTable td {
     text-align:center;
     vertical-align: middle;
     padding: 0px;
     margin: 0px;
     border: 2px solid black;
-}
+}*/
 
 .kokomuTable td {
     padding: 0px;

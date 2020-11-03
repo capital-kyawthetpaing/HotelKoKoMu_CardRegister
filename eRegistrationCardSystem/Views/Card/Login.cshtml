@@ -31,16 +31,17 @@
 @section Scripts{
     <script>
         $(document).ready(function () {
+          
             $("#btnlogin").click(function () {
                 Login();
              });
         });
 
-        function Login() {
+        @*function Login() {
           var response = CalltoApiController('@Url.Action("ValidateLogin", "api/CardApi/")', { SystemID: $("#SystemID").val(), PmsID: $("#PmsID").val(), PmsPassword: $("#PmsPassword").val(), MachineNo: $("#MachineNo").val(), HotelCode: $("#HotelCode").val() });
                 if (response.Status == "Success") {
                     var cardInfo = response.SystemID + '_' + response.PmsID + '_' + response.PmsPassword + '_' + response.MachineNo + '_' + response.HotelCode;
-                     
+
                     $.post('@Url.Action("CreateSession", "Card")',
                         { key: "CardInfo", value: cardInfo }, function (data) {
                             location.href = '@Url.Action("CardRegisterPage", "Card")';
@@ -49,7 +50,22 @@
                 else {
                     ShowAlert("error", "", response.Result);
                     $("#SystemID").focus();
-                }      
+                }
+        }*@
+
+         function Login() {
+          var response = CalltoApiController('@Url.Action("ValidateLogin", "api/CardApi/")', { SystemID: $("#SystemID").val(), PmsID: $("#PmsID").val(), PmsPassword: $("#PmsPassword").val(), MachineNo: $("#MachineNo").val(), HotelCode: $("#HotelCode").val() });
+                if (response.Status == "Success") {
+                    var cardInfo = response.SystemID + '_' + response.PmsID + '_' + response.PmsPassword + '_' + response.MachineNo + '_' + response.HotelCode;
+                    $.post('@Url.Action("CreateSession", "Card")',
+                        { key: "CardInfo", value: cardInfo }, function (data) {
+                            location.href = '@Url.Action("CardRegisterPage", "Card")';
+                        });
+                }
+                else {
+                    ShowAlert("error", "", response.Result);
+                    $("#SystemID").focus();
+                }
         }
     </script>
 }

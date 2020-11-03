@@ -26,7 +26,7 @@
     @Styles.Render("~/Content/css")
    
 </head>
-<body>
+<body onbeforeunload="return handleBrowserCloseButton();">
     <div class="container">
 
         <div class="card" style="margin-bottom:5px;border:none!important;">
@@ -48,7 +48,6 @@
         </div>
 
         <div class="card">
-            @*<h5 class="card-header text-center" id="hoteltitle" style="margin-top: 15px;border-radius: unset; background-color: #1b5696">*@
             <h5 class="card-header text-center" id="hoteltitle" style="margin-top: 15px;border-radius: unset; background-color: #1b5696">
             </h5>
             <div class="card-body">
@@ -65,12 +64,19 @@
 </html>
 @RenderSection("scripts", required: false)
 @RenderSection("styles", required: false)
-<script>
-    $(document).ready(function () {       
+<script type="text/javascript">
+
+    //prevent browser close event
+    function handleBrowserCloseButton() {       
+        return 'Do you really want to leave this page';
+    }
+
+    $(document).ready(function () {
+
         var HotelObj = { HotelNo: '@hotelcode' };
-        var result = CalltoApiController('@Url.Action("getHotelInformation", "api/HotelAPI/")', HotelObj);       
+        var result = CalltoApiController('@Url.Action("getHotelInformation", "api/HotelAPI/")', HotelObj);
         if (result != "") {
-            var hotelInfo = '<img src="data:image/png;base64,' + result[0].logo_data + '" class="imgcss" style="min-width:50px;min-height:50px;max-width:50px;max-height:50px;">&nbsp; ' + result[0].hotel_name;               
+            var hotelInfo = '<img src="data:image/png;base64,' + result[0].logo_data + '" class="imgcss" style="min-width:50px;min-height:50px;max-width:50px;max-height:50px;">&nbsp; ' + result[0].hotel_name;
             $("#hoteltitle").append(hotelInfo);
         }
         $("#MultiLanguage").msDropdown();
@@ -82,14 +88,16 @@
                 });
             }
         });
-    })
 
-    
+        setInterval(function () {
+            setLoginTime();
+        }, 300000);
 
-    //window.addEventListener('beforeunload', function (e) {
-    //    // Cancel the event
-    //    e.preventDefault(); // If you prevent default behavior in Mozilla Firefox prompt will always be shown
-    //    // Chrome requires returnValue to be set
-    //    e.returnValue = '';
-    //});
+    });
+       
+    function setLoginTime() {
+        if ($("#lblhotelCode").text() != "" && $("#lblmachineno").text()!="") {
+            var result = CalltoApiController('@Url.Action("setLoginTime", "api/CardAPI/")', { HotelCode: $("#lblhotelCode").text(), MachineNo: $("#lblmachineno").text() });
+        }
+    }
 </script>

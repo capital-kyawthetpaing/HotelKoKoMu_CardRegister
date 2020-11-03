@@ -8,7 +8,7 @@
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 </head>
-<body>
+<body onbeforeunload="return handleWindowClose();">
     <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
@@ -50,3 +50,12 @@
     @RenderSection("scripts", required: false)
 </body>
 </html>
+
+<script type="text/javascript">
+
+    window.unload = function (e) {
+        alert("aa");
+        // check condition
+        return 'Dialog text here.';
+    };
+</script>

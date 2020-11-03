@@ -10,6 +10,7 @@ using eRegistrationCardSystem.ContextDB;
 using System.Data;
 using Npgsql;
 using System.Threading.Tasks;
+using NpgsqlTypes;
 
 namespace eRegistrationCardSystem.Controllers
 {

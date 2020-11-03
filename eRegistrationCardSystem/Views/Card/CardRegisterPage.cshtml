@@ -178,8 +178,10 @@
         var intervalId,intervalFlag=0;
         var GuestName, GuestNameHW, KanaName, KanaNameHW, ZipCode, ZipCodeHW, Tel, TelHW, Address1, AddressHW1, Address2, AddressHW2, Company, CompanyHW, Nationality, NationalityHW, Passport, PassportHW, Sign;
         var getCanvas, CardRegisterInfo, cardObj;
+       // var guestInfo;
         $(document).ready(function () {
-            CardRegisterInfo = { SystemID: $("#lblsystemid").text(), PmsID: $("#lblPmsId").text(), PmsPassword: $("#lblPmsPassword").text(), HotelCode: $("#lblhotelCode").text(), MachineNo: $("#lblmachineno").text() };
+
+           CardRegisterInfo = { SystemID: $("#lblsystemid").text(), PmsID: $("#lblPmsId").text(), PmsPassword: $("#lblPmsPassword").text(), HotelCode: $("#lblhotelCode").text(), MachineNo: $("#lblmachineno").text() };
 
            $("#divLoading").show();
 
@@ -275,7 +277,8 @@
             });
 
              //save guest information
-             $("#btnfinish").click(function () {
+            $("#btnfinish").click(function () {
+                //sessionStorage.removeItem("GuestInfo");
                     //get kokomu table as image
                      var element = $("#divkokomuTable");
                      html2canvas(element, {
@@ -551,13 +554,31 @@
         }
 
         function SearchCardRegisterData() {
-            var result = CalltoApiController('@Url.Action("getRequestForRegistrationCard", "api/CardAPI/")', CardRegisterInfo);
-            if (result.Status == "Success") {
+             var result = CalltoApiController('@Url.Action("getRequestForRegistrationCard", "api/CardAPI/")', CardRegisterInfo);
+                if (result.Status == "Success") {                   
+                    $("#divLoading").hide();
+                    intervalFlag = 1;
+                    BindCardInformation(result);
+                }
+        }
+
+        @*function SearchCardRegisterData() {
+            var obj = sessionStorage.getItem("GuestInfo");
+            if (obj == null) {
+                var result = CalltoApiController('@Url.Action("getRequestForRegistrationCard", "api/CardAPI/")', CardRegisterInfo);
+                if (result.Status == "Success") {
+                    sessionStorage.setItem("GuestInfo", JSON.stringify(result));
+                    $("#divLoading").hide();
+                    intervalFlag = 1;
+                    BindCardInformation(result);
+                }
+            }
+            else {
                 $("#divLoading").hide();
                 intervalFlag = 1;
-                BindCardInformation(result);
+                BindCardInformation(JSON.parse(obj));
             }
-        }
+        }*@
 
         function BindCardInformation(result) {
             $("#lblSystemDate").text(result.SystemDate);
@@ -587,20 +608,6 @@
                 $("#tdDepartureDate").append(CreateLabelControl(moment(result.DepartureDate).format("YYYY/MM/DD"), "lblDepartureDate"));
             checkCancelRegistration();
         }
-
-        //function CheckValidation() {
-        //    var totalCount = $('.clsCheck').length;
-        //    var checkedCount = $('.clsCheck:checked').length;
-        //    if (totalCount == checkedCount && $("#imgSign").attr('src') != undefined) {
-        //        $("#btnfinish").css("background-color", "#d74715");
-        //        $("#btnfinish").prop("disabled", false);
-        //    }
-        //    else {
-        //        $("#btnfinish").css("background-color", "#808080");
-        //        $("#btnfinish").prop("disabled", true);
-        //    }
-        //}
-
 
         function CheckValidation() {
             var check = document.getElementsByClassName("clsCheck");

@@ -761,6 +761,7 @@
     <Content Include="Views\Hotel\HotelGuestList.cshtml" />
     <Content Include="Vendor\DataTables\Buttons-1.6.4\css\common.scss" />
     <Content Include="Vendor\DataTables\Buttons-1.6.4\css\mixins.scss" />
+    <Content Include="Views\Home\Test.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

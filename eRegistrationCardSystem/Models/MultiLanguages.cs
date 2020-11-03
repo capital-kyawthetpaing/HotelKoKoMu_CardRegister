@@ -24,7 +24,7 @@ namespace eRegistrationCardSystem
         }
         public static string GetDefaultLanguage()
         {
-            return AvailableLanguages[1].LanguageCultureName;
+            return AvailableLanguages[0].LanguageCultureName;
         }
         public void SetLanguage(string lang)
         {

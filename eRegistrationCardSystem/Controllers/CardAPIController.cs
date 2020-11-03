@@ -11,8 +11,6 @@ using System.Threading.Tasks;
 using System.IO;
 using Newtonsoft.Json;
 using System.Web.Configuration;
-using System.Collections.Generic;
-using System.Runtime.Remoting.Messaging;
 
 namespace eRegistrationCardSystem.Controllers
 {
@@ -30,34 +28,41 @@ namespace eRegistrationCardSystem.Controllers
         public async Task<IHttpActionResult> ValidateLogin(LoginInfo info)
         {
             var loginStatus = new object();
-            BaseDL bdl = new BaseDL();
-            AppConstants constInfo = new AppConstants();
-            NpgsqlParameter[] Sqlprms = new NpgsqlParameter[4];
-            Sqlprms[0] = new NpgsqlParameter("@PmsID", info.PmsID);
-            Sqlprms[1] = new NpgsqlParameter("@PmsPassword", info.PmsPassword);
-            Sqlprms[2] = new NpgsqlParameter("@MachineNo", info.MachineNo);
-            Sqlprms[3] = new NpgsqlParameter("@HotelCode", info.HotelCode);
-            if (info.SystemID == constInfo.SystemID)
-            {
-                string sql_cmd = "select pmsid,pmspassword,h.hotel_code,machineno from mst_hotel h inner join mst_hotelmachine hm on h.hotel_code=hm.hotel_code where pmsid=@PmsID and pmspassword=@PmsPassword and machineno=@MachineNo and h.hotel_code=@HotelCode";
-                DataTable dt = await bdl.SelectDataTable(sql_cmd, Sqlprms);
-                if (dt.Rows.Count == 0)
-                    loginStatus = CheckExistLoginInfo(info);
-                else
+            if (!checkStayLogin(info.HotelCode, info.MachineNo))
+            {               
+                BaseDL bdl = new BaseDL();
+                AppConstants constInfo = new AppConstants();
+                NpgsqlParameter[] Sqlprms = new NpgsqlParameter[4];
+                Sqlprms[0] = new NpgsqlParameter("@PmsID", info.PmsID);
+                Sqlprms[1] = new NpgsqlParameter("@PmsPassword", info.PmsPassword);
+                Sqlprms[2] = new NpgsqlParameter("@MachineNo", info.MachineNo);
+                Sqlprms[3] = new NpgsqlParameter("@HotelCode", info.HotelCode);
+                if (info.SystemID == constInfo.SystemID)
                 {
-                    loginStatus = new
+                    string sql_cmd = "select pmsid,pmspassword,h.hotel_code,machineno from mst_hotel h inner join mst_hotelmachine hm on h.hotel_code=hm.hotel_code where pmsid=@PmsID and pmspassword=@PmsPassword and machineno=@MachineNo and h.hotel_code=@HotelCode";
+                    DataTable dt = await bdl.SelectDataTable(sql_cmd, Sqlprms);
+                    if (dt.Rows.Count == 0)
+                        loginStatus = CheckExistLoginInfo(info);
+                    else
                     {
-                        Status = "Success",
-                        SystemID = constInfo.SystemID,
-                        PmsID = dt.Rows[0]["pmsid"].ToString(),
-                        PmsPassword = dt.Rows[0]["pmspassword"].ToString(),
-                        HotelCode = dt.Rows[0]["hotel_code"].ToString(),
-                        MachineNo = dt.Rows[0]["machineno"].ToString()
-                    };
+                         await setLoginTime(info);
+                        loginStatus = new
+                        {
+                            Status = "Success",
+                            SystemID = constInfo.SystemID,
+                            PmsID = dt.Rows[0]["pmsid"].ToString(),
+                            PmsPassword = dt.Rows[0]["pmspassword"].ToString(),
+                            HotelCode = dt.Rows[0]["hotel_code"].ToString(),
+                            MachineNo = dt.Rows[0]["machineno"].ToString()
+                        };
+                    }
                 }
+                else
+                    loginStatus = new { Status = "Error", Result = "SystemID is invalid" };
+                return Ok(loginStatus);
             }
             else
-                loginStatus = new { Status = "Error", Result = "SystemID is invalid" };
+                loginStatus = new { Status = "Error", Result = "Another device is stayed logged in" };
             return Ok(loginStatus);
         }
                
@@ -153,11 +158,96 @@ namespace eRegistrationCardSystem.Controllers
                 return Ok(msgInfo);
         }
 
-        /// <summary>
-        /// get registration card data from hotel system
-        /// </summary>
-        /// <param name="cardRegisterInfo"></param>
-        /// <returns></returns>
+        ///// <summary>
+        ///// get registration card data from hotel system
+        ///// </summary>
+        ///// <param name="cardRegisterInfo"></param>
+        ///// <returns></returns>
+        //[HttpPost]
+        //[ActionName("getRequestForRegistrationCard")]
+        //public async Task<IHttpActionResult> getRequestForRegistrationCard(CardRegisterInfo cardRegisterInfo)
+        //{
+        //    var cardRegistrationObj = new object();
+        //    ReturnMessageInfo msginfo = new ReturnMessageInfo();
+        //    BaseDL bdl = new BaseDL();
+        //    NpgsqlParameter[] Sqlprms = new NpgsqlParameter[5];
+        //    Sqlprms[0] = new NpgsqlParameter("@systemid", NpgsqlDbType.Varchar) { Value = cardRegisterInfo.SystemID };
+        //    Sqlprms[1] = new NpgsqlParameter("@pmsid", NpgsqlDbType.Varchar) { Value = cardRegisterInfo.PmsID };
+        //    Sqlprms[2] = new NpgsqlParameter("@pmspassword", NpgsqlDbType.Varchar) { Value = cardRegisterInfo.PmsPassword };
+        //    Sqlprms[3] = new NpgsqlParameter("@hotelcode", NpgsqlDbType.Varchar) { Value = cardRegisterInfo.HotelCode };
+        //    Sqlprms[4] = new NpgsqlParameter("@machineno", NpgsqlDbType.Varchar) { Value = cardRegisterInfo.MachineNo };
+        //    string sql = "Select systemdate,reservationno, roomno, guestname_hotel, kananame_hotel, zipcode_hotel, tel_hotel, address1_hotel, address2_hotel, company_hotel, nationality_hotel, passportno_hotel,arrivaldate_hotel,departuredate_hotel from trn_guestinformation";
+        //    sql += " where pmsid=@pmsid and systemid=@systemid and  pmspassword=@pmspassword and machineno=@machineno and hotel_code=@hotelcode and flag=0 and complete_flag=0 order by created_date limit 1";
+        //    Tuple<string, ReturnMessageInfo> result1 = await bdl.SelectJson(sql,Sqlprms);
+        //    DataTable dt = JsonConvert.DeserializeObject<DataTable>(result1.Item1);
+        //    if (dt.Rows.Count > 0)
+        //    {
+        //        NpgsqlParameter[] para = new NpgsqlParameter[5];
+        //        para[0] = new NpgsqlParameter("@systemid", NpgsqlDbType.Varchar) { Value = cardRegisterInfo.SystemID };
+        //        para[1] = new NpgsqlParameter("@pmsid", NpgsqlDbType.Varchar) { Value = cardRegisterInfo.PmsID };
+        //        para[2] = new NpgsqlParameter("@pmspassword", NpgsqlDbType.Varchar) { Value = cardRegisterInfo.PmsPassword };
+        //        para[3] = new NpgsqlParameter("@hotelcode", NpgsqlDbType.Varchar) { Value = cardRegisterInfo.HotelCode };
+        //        para[4] = new NpgsqlParameter("@machineno", NpgsqlDbType.Varchar) { Value = cardRegisterInfo.MachineNo };
+        //        string cmdText = "update trn_guestinformation set flag = 1 where flag = 0 and complete_flag=0 and  systemid=@systemid and  pmsid=@pmsid and  pmspassword=@pmspassword and  machineno=@machineno and hotel_code=@hotelcode ";
+        //        msginfo = await bdl.InsertUpdateDeleteData(cmdText, para);
+        //        if (msginfo.Status == "Success")
+        //        {
+        //            cardRegistrationObj = new
+        //            {
+        //                Status = "Success",
+        //                FailureReason = "",
+        //                ErrorDescription = "",
+        //                SystemDate = dt.Rows[0]["systemdate"].ToString(),
+        //                ReservationNo = dt.Rows[0]["reservationno"].ToString(),
+        //                RoomNo = dt.Rows[0]["roomno"].ToString(),
+        //                ArriveDate = dt.Rows[0]["arrivaldate_hotel"].ToString(),
+        //                DepartureDate = dt.Rows[0]["departuredate_hotel"].ToString(),
+        //                NameKanji = dt.Rows[0]["guestname_hotel"].ToString(),
+        //                NameKana = dt.Rows[0]["kananame_hotel"].ToString(),
+        //                ZipCode = dt.Rows[0]["zipcode_hotel"].ToString(),
+        //                Tel = dt.Rows[0]["tel_hotel"].ToString(),
+        //                Address1 = dt.Rows[0]["address1_hotel"].ToString(),
+        //                Address2 = dt.Rows[0]["address2_hotel"].ToString(),
+        //                Company = dt.Rows[0]["company_hotel"].ToString(),
+        //                Nationality = dt.Rows[0]["nationality_hotel"].ToString(),
+        //                PassportNo = dt.Rows[0]["passportno_hotel"].ToString()
+        //            };                   
+        //        }
+        //        else
+        //        {
+        //            cardRegistrationObj = new
+        //            {
+        //                Status = msginfo.Status,
+        //                FailureReason = msginfo.FailureReason,
+        //                ErrorDescription = msginfo.ErrorDescription
+        //            };
+        //        }
+        //    }
+        //    else
+        //    {
+        //        msginfo = result1.Item2;
+        //        if (msginfo.Status == "Success")
+        //        {
+        //            cardRegistrationObj = new
+        //            {
+        //                Status = "NotData",
+        //                FailureReason = "",
+        //                ErrorDescription = ""
+        //            };
+        //        }
+        //        else
+        //        {
+        //            cardRegistrationObj = new
+        //            {
+        //                Status = msginfo.Status,
+        //                FailureReason = msginfo.FailureReason,
+        //                ErrorDescription = msginfo.ErrorDescription
+        //            };
+        //        }
+        //    }
+        //    return Ok(cardRegistrationObj);
+        //}
+
         [HttpPost]
         [ActionName("getRequestForRegistrationCard")]
         public async Task<IHttpActionResult> getRequestForRegistrationCard(CardRegisterInfo cardRegisterInfo)
@@ -172,8 +262,8 @@ namespace eRegistrationCardSystem.Controllers
             Sqlprms[3] = new NpgsqlParameter("@hotelcode", NpgsqlDbType.Varchar) { Value = cardRegisterInfo.HotelCode };
             Sqlprms[4] = new NpgsqlParameter("@machineno", NpgsqlDbType.Varchar) { Value = cardRegisterInfo.MachineNo };
             string sql = "Select systemdate,reservationno, roomno, guestname_hotel, kananame_hotel, zipcode_hotel, tel_hotel, address1_hotel, address2_hotel, company_hotel, nationality_hotel, passportno_hotel,arrivaldate_hotel,departuredate_hotel from trn_guestinformation";
-            sql += " where pmsid=@pmsid and systemid=@systemid and  pmspassword=@pmspassword and machineno=@machineno and hotel_code=@hotelcode and flag=0 and complete_flag=0 order by created_date limit 1";
-            Tuple<string, ReturnMessageInfo> result1 = await bdl.SelectJson(sql,Sqlprms);
+            sql += " where pmsid=@pmsid and systemid=@systemid and  pmspassword=@pmspassword and machineno=@machineno and hotel_code=@hotelcode and (flag=0 or flag=1) and complete_flag=0 order by created_date limit 1";
+            Tuple<string, ReturnMessageInfo> result1 = await bdl.SelectJson(sql, Sqlprms);
             DataTable dt = JsonConvert.DeserializeObject<DataTable>(result1.Item1);
             if (dt.Rows.Count > 0)
             {
@@ -206,7 +296,7 @@ namespace eRegistrationCardSystem.Controllers
                         Company = dt.Rows[0]["company_hotel"].ToString(),
                         Nationality = dt.Rows[0]["nationality_hotel"].ToString(),
                         PassportNo = dt.Rows[0]["passportno_hotel"].ToString()
-                    };                   
+                    };
                 }
                 else
                 {
@@ -643,8 +733,7 @@ namespace eRegistrationCardSystem.Controllers
                 msgInfo.ErrorDescription = "There is something wrong with Common Request and required items.";
             }
             return msgInfo;
-        }
-                
+        }                
         public ReturnMessageInfo ErrorCheckForResponse(DataTable dt,string status)
         {
             ReturnMessageInfo msgInfo = new ReturnMessageInfo();
@@ -826,7 +915,7 @@ namespace eRegistrationCardSystem.Controllers
             return loginStatus;
         }
 
-        [HttpPost]
+        [System.Web.Http.HttpPost]
         [ActionName("checkCancelRegistration")]
         public IHttpActionResult checkCancelRegistration(CardRegisterInfo cardRegisterInfo)
         {
@@ -848,25 +937,49 @@ namespace eRegistrationCardSystem.Controllers
             return Ok(flag);
         }
 
-        //public bool checkUserStayedLogin(LoginInfo loginInfo)
-        //{
-        //    bool flag = false;
-        //    BaseDL bdl = new BaseDL();
-        //    AppConstants constantinfo = new AppConstants();
-        //    NpgsqlParameter[] para = new NpgsqlParameter[4];            
-        //    para[0] = new NpgsqlParameter("@pmsid", NpgsqlDbType.Varchar) { Value = loginInfo.PmsID };
-        //    para[1] = new NpgsqlParameter("@pmspassword", NpgsqlDbType.Varchar) { Value = loginInfo.PmsPassword };
-        //    para[2] = new NpgsqlParameter("@hotelcode", NpgsqlDbType.Varchar) { Value = loginInfo.HotelCode };
-        //    para[3] = new NpgsqlParameter("@machineno", NpgsqlDbType.Varchar) { Value = loginInfo.MachineNo };
-        //    string sql = "Select loginflag from mst_hotel h inner join mst_hotelmachine hm on h.hotel_code=hm.hotel_code where pmsid=@pmsid and  pmspassword=@pmspassword and machineno=@machineno and h.hotel_code=@hotelcode";
-        //    DataTable dt = bdl.SelectDataTable_Info(sql, para);
-        //    if (dt.Rows.Count > 0)
-        //    {
-        //        if (dt.Rows[0]["loginflag"].ToString() == "1")
-        //            flag = true;
-        //    }            
-        //    return flag;
-        //}
+        [HttpPost]
+        [ActionName("setLoginTime")]
+        public async Task<IHttpActionResult> setLoginTime(LoginInfo loginInfo)
+        {
+            ReturnMessageInfo msgInfo = new ReturnMessageInfo();
+            BaseDL bdl = new BaseDL();
+            NpgsqlParameter[] para = new NpgsqlParameter[3];
+            para[0] = new NpgsqlParameter("@hotelcode", NpgsqlDbType.Varchar) { Value = loginInfo.HotelCode };
+            para[1] = new NpgsqlParameter("@machineno", NpgsqlDbType.Varchar) { Value = loginInfo.MachineNo };
+            para[2] = new NpgsqlParameter("@logindate", NpgsqlDbType.Timestamp) { Value = DateTime.Now };
+            string sql = "update mst_hotelmachine set logindate=@logindate where hotel_code=@hotelcode and machineno=@machineno";
+            msgInfo = await bdl.InsertUpdateDeleteData(sql, para);
+            return Ok(msgInfo);
+        }
+
+        public bool checkStayLogin(string hotelcode,string machineno)
+        {
+            DataTable dt = new DataTable();
+            bool flag = false;            
+            BaseDL bdl = new BaseDL();
+            NpgsqlParameter[] para = new NpgsqlParameter[2];
+            para[0] = new NpgsqlParameter("@hotelcode", NpgsqlDbType.Varchar) { Value = hotelcode };
+            para[1] = new NpgsqlParameter("@machineno", NpgsqlDbType.Varchar) { Value = machineno};
+            string sql = "select logindate from mst_hotelmachine where hotel_code=@hotelcode and machineno=@machineno";
+            dt = bdl.SelectDataTable_Info(sql, para);
+            if(dt.Rows.Count>0)
+            {
+                if (!string.IsNullOrEmpty(dt.Rows[0]["logindate"].ToString()))
+                {
+                    DateTime currentDate = DateTime.Now;
+                    DateTime loginDate = Convert.ToDateTime(dt.Rows[0]["logindate"].ToString());
+                    TimeSpan ts = currentDate - loginDate;
+                    double totalmins = ts.TotalMinutes;
+                    if (totalmins > 5)
+                        flag = false;
+                    else
+                        flag = true;
+                }
+                else
+                    flag = false;
+            }
+            return flag;
+        }
         #endregion
     }
 }

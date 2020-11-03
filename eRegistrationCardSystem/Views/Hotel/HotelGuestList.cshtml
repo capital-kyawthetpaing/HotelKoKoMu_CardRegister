@@ -140,7 +140,7 @@
             $("#dtpArrivalToDate").val(moment(currentDate).format('YYYY/MM/DD'));
 
             $("#btnSearch").click(function () {
-                var fromdate = new Date($('#dtpArrivalFromDate').val()); 
+                var fromdate = new Date($('#dtpArrivalFromDate').val());
                 var todate = new Date($('#dtpArrivalToDate').val());
                 if (todate < fromdate) 
                     ShowAlert("error", "", "到着日の指定は開始日≦終了日で指定してください");
@@ -161,6 +161,8 @@
                     $("#showImageModal").modal('show');
                 }
             });
+
+          
         });
 
         function SearchData() {

@@ -4,18 +4,22 @@
 }
 <style>
     .kokomuTable td {
+        line-height: 1px;
         text-align: center;
-        vertical-align: middle;
+        vertical-align: central;
+        padding-bottom: 5px; /*
+        vertical-align: top;
         padding: 0px;
         margin: 0px;
-        border: 2px solid black;
+        border: 1px solid black;*/
     }
 
         .kokomuTable td label {
             width: 100%;
-            margin: 0px;
+            line-height: 0px;
+            /* margin: 0px;
             padding: 0px;
-            vertical-align: middle;
+            vertical-align: top;*/
         }             
 
 </style>
@@ -35,15 +39,25 @@
         <table class="table-bordered kokomuTable">
             <tbody>
                 <tr>
+            <td class="td1">
+                <label>Guest Name</label>
+            </td>
+            <td class="td2" id="tdGuestName">Ohnmar Kyi</td>
+            <td class="td1">
+                <label>KanaName</label>
+            </td>
+            <td class="td2" id="tdKanaName">Ohnmar Kyi</td>
+        </tr>
+                @*<tr>
                     <td class="td1">
-                        <label>Guest Name</label>
+                        Guest Name
                     </td>
                     <td class="td2" id="tdGuestName">Ohnmar Kyi</td>
                     <td class="td1">
-                        <label>KanaName</label>
+                        KanaName
                     </td>
                     <td class="td2" id="tdKanaName">Ohnmar Kyi</td>
-                </tr>
+                </tr>*@
                 <tr>
                     <td class="td1">
                         <label>ZipCode</label>

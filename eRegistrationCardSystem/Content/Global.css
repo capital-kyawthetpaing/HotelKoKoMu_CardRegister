@@ -17,8 +17,8 @@ table {
     width: 100%;
 }
 
-.kokomuTable td {/*
-    text-align:center;*/
+.kokomuTable td {
+    text-align:center;
     padding: 0px;
     margin: 0px;
     border: 2px solid black;

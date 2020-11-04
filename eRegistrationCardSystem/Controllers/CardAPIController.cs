@@ -45,7 +45,7 @@ namespace eRegistrationCardSystem.Controllers
                         loginStatus = CheckExistLoginInfo(info);
                     else
                     {
-                         await setLoginTime(info);
+                         await seteCardLoginTime(info);
                         loginStatus = new
                         {
                             Status = "Success",
@@ -915,7 +915,7 @@ namespace eRegistrationCardSystem.Controllers
             return loginStatus;
         }
 
-        [System.Web.Http.HttpPost]
+        [HttpPost]
         [ActionName("checkCancelRegistration")]
         public IHttpActionResult checkCancelRegistration(CardRegisterInfo cardRegisterInfo)
         {
@@ -937,9 +937,17 @@ namespace eRegistrationCardSystem.Controllers
             return Ok(flag);
         }
 
+       
         [HttpPost]
         [ActionName("setLoginTime")]
         public async Task<IHttpActionResult> setLoginTime(LoginInfo loginInfo)
+        {
+            ReturnMessageInfo msgInfo = new ReturnMessageInfo();
+            msgInfo = await seteCardLoginTime(loginInfo);           
+            return Ok(msgInfo);
+        }
+
+        public async Task<ReturnMessageInfo> seteCardLoginTime(LoginInfo loginInfo)
         {
             ReturnMessageInfo msgInfo = new ReturnMessageInfo();
             BaseDL bdl = new BaseDL();
@@ -949,7 +957,7 @@ namespace eRegistrationCardSystem.Controllers
             para[2] = new NpgsqlParameter("@logindate", NpgsqlDbType.Timestamp) { Value = DateTime.Now };
             string sql = "update mst_hotelmachine set logindate=@logindate where hotel_code=@hotelcode and machineno=@machineno";
             msgInfo = await bdl.InsertUpdateDeleteData(sql, para);
-            return Ok(msgInfo);
+            return msgInfo;
         }
 
         public bool checkStayLogin(string hotelcode,string machineno)
@@ -970,7 +978,7 @@ namespace eRegistrationCardSystem.Controllers
                     DateTime loginDate = Convert.ToDateTime(dt.Rows[0]["logindate"].ToString());
                     TimeSpan ts = currentDate - loginDate;
                     double totalmins = ts.TotalMinutes;
-                    if (totalmins > 5)
+                    if (totalmins > 1)
                         flag = false;
                     else
                         flag = true;
@@ -980,6 +988,22 @@ namespace eRegistrationCardSystem.Controllers
             }
             return flag;
         }
+
+        //[HttpPost]
+        //[ActionName("resetLoginTime")]
+        //public async Task<IHttpActionResult> resetLoginTime(LoginInfo loginInfo)
+        //{
+        //    ReturnMessageInfo msgInfo = new ReturnMessageInfo();
+        //    BaseDL bdl = new BaseDL();
+        //    NpgsqlParameter[] para = new NpgsqlParameter[3];
+        //    para[0] = new NpgsqlParameter("@hotelcode", NpgsqlDbType.Varchar) { Value = loginInfo.HotelCode };
+        //    para[1] = new NpgsqlParameter("@machineno", NpgsqlDbType.Varchar) { Value = loginInfo.MachineNo };
+        //    para[2] = new NpgsqlParameter("@logindate", NpgsqlDbType.Timestamp) { Value = DBNull.Value};
+        //    string sql = "update mst_hotelmachine set logindate=@logindate where hotel_code=@hotelcode and machineno=@machineno";
+        //    msgInfo = await bdl.InsertUpdateDeleteData(sql, para);
+        //    return Ok(msgInfo);
+        //}
+       
         #endregion
     }
 }

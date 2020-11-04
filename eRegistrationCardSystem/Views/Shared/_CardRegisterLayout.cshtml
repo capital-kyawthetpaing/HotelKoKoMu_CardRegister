@@ -26,7 +26,7 @@
     @Styles.Render("~/Content/css")
    
 </head>
-<body onbeforeunload="return handleBrowserCloseButton();">
+<body @*onbeforeunload="return handleBrowserCloseButton();"*@>
     <div class="container">
 
         <div class="card" style="margin-bottom:5px;border:none!important;">
@@ -65,11 +65,25 @@
 @RenderSection("scripts", required: false)
 @RenderSection("styles", required: false)
 <script type="text/javascript">
+    window.onbeforeunload = mySession;
+    function mySession(e) {
+        $.ajax({
+            url: "/api/CardAPI/resetLoginTime",
+            async: false,
+            type: "GET"
+            //data: {
+            //     HotelCode: $("#lblhotelCode").text(), MachineNo: $("#lblmachineno").text()
+            //}
+        });
+        return "WhatEverMessageYouFeelLike";
+    }
+
 
     //prevent browser close event
-    function handleBrowserCloseButton() {       
-        return 'Do you really want to leave this page';
-    }
+    //function handleBrowserCloseButton() {
+    //    resetLoginTime();
+    //    return 'Do you really want to leave this page';
+    //}
 
     $(document).ready(function () {
 
@@ -91,13 +105,28 @@
 
         setInterval(function () {
             setLoginTime();
-        }, 300000);
-
+        }, 100000);
     });
-       
+
     function setLoginTime() {
-        if ($("#lblhotelCode").text() != "" && $("#lblmachineno").text()!="") {
-            var result = CalltoApiController('@Url.Action("setLoginTime", "api/CardAPI/")', { HotelCode: $("#lblhotelCode").text(), MachineNo: $("#lblmachineno").text() });
-        }
+
+        $.ajax({
+            url: "/Card/CheckSessionExpire",
+            async: false,
+            type: "GET",
+            success: function (data) {
+                if (data == false) {
+                    var result = CalltoApiController('@Url.Action("setLoginTime", "api/CardAPI/")', { HotelCode: $("#lblhotelCode").text(), MachineNo: $("#lblmachineno").text() });
+                }
+                else {
+                    window.location.href = "/Card/Login";
+                }
+            }
+        });
+    }
+
+    function resetLoginTime() {
+
+        var result = CalltoApiController('@Url.Action("resetLoginTime", "api/CardAPI/")', { HotelCode: $("#lblhotelCode").text(), MachineNo: $("#lblmachineno").text() });
     }
 </script>

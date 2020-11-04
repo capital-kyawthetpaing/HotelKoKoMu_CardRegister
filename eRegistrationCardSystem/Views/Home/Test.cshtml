@@ -1,11 +1,12 @@
 ﻿
 @{
     ViewBag.Title = "Test";
+    Layout = null;
 }
 <style>
-    .kokomuTable td {
+  /*  .kokomuTable td {
         text-align: center;
-        vertical-align: middle;
+        vertical-align: top;
         padding: 0px;
         margin: 0px;
         border: 2px solid black;
@@ -15,8 +16,8 @@
             width: 100%;
             margin: 0px;
             padding: 0px;
-            vertical-align: middle;
-        }             
+            vertical-align: top;
+        }     */        
 
 </style>
 
@@ -32,17 +33,19 @@
 </head>
 <body>
     <div id="divkokomuTable" style="background-color:white;">
-        <table class="table-bordered kokomuTable">
+        <table @*class="table-bordered kokomuTable"*@ border="1" style="width:100%;">
             <tbody>
                 <tr>
-                    <td class="td1">
-                        <label>Guest Name</label>
+                    <td class="td1" style="vertical-align:top;margin-top:0px;padding-top:0px;">
+                        Guest Name
+                        @*<label style="vertical-align:top;margin-top:0px;padding-top:0px;">Guest Name</label>*@
                     </td>
-                    <td class="td2" id="tdGuestName">Ohnmar Kyi</td>
+                    <td class="td2" id="tdGuestName" style="vertical-align:top;margin-top:0px;padding-top:0px;">Ohnmar Kyi</td>
                     <td class="td1">
-                        <label>KanaName</label>
+                        KanaName
+                        @*<label style="vertical-align:top;margin-top:0px;padding-top:0px;" >KanaName</label>*@
                     </td>
-                    <td class="td2" id="tdKanaName">Ohnmar Kyi</td>
+                    <td class="td2" id="tdKanaName" style="vertical-align:top;margin-top:0px;padding-top:0px;">Ohnmar Kyi</td>
                 </tr>
                 <tr>
                     <td class="td1">

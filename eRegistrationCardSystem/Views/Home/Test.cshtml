@@ -3,25 +3,19 @@
     ViewBag.Title = "Test";
 }
 <style>
-    .kokomuTable td {
-        line-height: 1px;
+    /*.kokomuTable td {
         text-align: center;
-        vertical-align: central;
-        padding-bottom: 5px; 
-        /*
-        vertical-align: top;
         padding: 0px;
         margin: 0px;
-        border: 1px solid black;*/
+        border: 2px solid black;
     }
-
         .kokomuTable td label {
-            width: 100%;
-            line-height: 0px;
-            /* margin: 0px;
-            padding: 0px;
-            vertical-align: top;*/
-        }             
+            width: 100%;*/
+         /*   margin:unset;*/
+            /*line-height: 2px;*/
+          /*  padding: 0px;*/
+            /*display:inline-block;
+        }*/
 
 </style>
 
@@ -36,8 +30,8 @@
         <script src="https://files.codepedia.info/files/uploads/iScripts/html2canvas.js"></script>*@
 </head>
 <body>
-    <div id="divkokomuTable" style="background-color:white;">
-        <table class="table-bordered kokomuTable">
+    <div id="divkokomuTable" style="background-color: white;">
+        <table class="kokomuTable">
             <tbody>
                 <tr>
             <td class="td1">
@@ -64,7 +58,7 @@
                         <label>ZipCode</label>
                     </td>
                     <td class="td2" id="tdZipCode">
-                        11111
+                        <label>11111</label>
                     </td>
                     <td class="td1">
                         <label>Tel</label>
@@ -102,7 +96,7 @@
                     </td>
                     <td class="td2" id="tdArrivalDate"></td>
                     <td class="td1">
-                        <label>DepartureDate</label>
+                        <label>DepartureDate</label> 
                     </td>
                     <td class="td2" id="tdDepartureDate"></td>
                 </tr>

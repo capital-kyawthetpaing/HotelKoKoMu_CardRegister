@@ -188,6 +188,7 @@
     <Compile Include="Models\ReturnMessageInfo.cs" />
     <Compile Include="Models\SearchGuestInfo.cs" />
     <Compile Include="Models\SessionExpireFilterAttribute.cs" />
+    <Compile Include="Models\LocsAuthorizeAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Resources\Resources.Designer.cs">
       <AutoGen>True</AutoGen>

@@ -45,6 +45,7 @@ namespace eRegistrationCardSystem.Controllers
                         loginStatus = CheckExistLoginInfo(info);
                     else
                     {
+                        info.SessionFlag = false;
                          await seteCardLoginTime(info);
                         loginStatus = new
                         {
@@ -954,7 +955,10 @@ namespace eRegistrationCardSystem.Controllers
             NpgsqlParameter[] para = new NpgsqlParameter[3];
             para[0] = new NpgsqlParameter("@hotelcode", NpgsqlDbType.Varchar) { Value = loginInfo.HotelCode };
             para[1] = new NpgsqlParameter("@machineno", NpgsqlDbType.Varchar) { Value = loginInfo.MachineNo };
-            para[2] = new NpgsqlParameter("@logindate", NpgsqlDbType.Timestamp) { Value = DateTime.Now };
+            if(loginInfo.SessionFlag==false)
+                para[2] = new NpgsqlParameter("@logindate", NpgsqlDbType.Timestamp) { Value = DateTime.Now };
+            else
+                para[2] = new NpgsqlParameter("@logindate", NpgsqlDbType.Timestamp) { Value = DateTime.Now.AddMinutes(2) };
             string sql = "update mst_hotelmachine set logindate=@logindate where hotel_code=@hotelcode and machineno=@machineno";
             msgInfo = await bdl.InsertUpdateDeleteData(sql, para);
             return msgInfo;
@@ -989,21 +993,20 @@ namespace eRegistrationCardSystem.Controllers
             return flag;
         }
 
-        //[HttpPost]
-        //[ActionName("resetLoginTime")]
-        //public async Task<IHttpActionResult> resetLoginTime(LoginInfo loginInfo)
-        //{
-        //    ReturnMessageInfo msgInfo = new ReturnMessageInfo();
-        //    BaseDL bdl = new BaseDL();
-        //    NpgsqlParameter[] para = new NpgsqlParameter[3];
-        //    para[0] = new NpgsqlParameter("@hotelcode", NpgsqlDbType.Varchar) { Value = loginInfo.HotelCode };
-        //    para[1] = new NpgsqlParameter("@machineno", NpgsqlDbType.Varchar) { Value = loginInfo.MachineNo };
-        //    para[2] = new NpgsqlParameter("@logindate", NpgsqlDbType.Timestamp) { Value = DBNull.Value};
-        //    string sql = "update mst_hotelmachine set logindate=@logindate where hotel_code=@hotelcode and machineno=@machineno";
-        //    msgInfo = await bdl.InsertUpdateDeleteData(sql, para);
-        //    return Ok(msgInfo);
-        //}
-       
+        [HttpPost]
+        [ActionName("resetLoginTime")]
+        public async Task<IHttpActionResult> resetLoginTime(LoginInfo loginInfo)
+        {
+            ReturnMessageInfo msgInfo = new ReturnMessageInfo();
+            BaseDL bdl = new BaseDL();
+            NpgsqlParameter[] para = new NpgsqlParameter[3];
+            para[0] = new NpgsqlParameter("@hotelcode", NpgsqlDbType.Varchar) { Value = loginInfo.HotelCode };
+            para[1] = new NpgsqlParameter("@machineno", NpgsqlDbType.Varchar) { Value = loginInfo.MachineNo };
+            para[2] = new NpgsqlParameter("@logindate", NpgsqlDbType.Timestamp) { Value = DBNull.Value };
+            string sql = "update mst_hotelmachine set logindate=@logindate where hotel_code=@hotelcode and machineno=@machineno";
+            msgInfo = await bdl.InsertUpdateDeleteData(sql, para);
+            return Ok(msgInfo);
+        }
         #endregion
     }
 }

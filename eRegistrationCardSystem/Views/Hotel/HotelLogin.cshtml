@@ -56,13 +56,15 @@
     <script>
         $(document).ready(function () {
             $("#btnlogin").click(function () {
-                var response = CalltoApiController('@Url.Action("checkLogin", "api/HotelAPI/")', { HotelCode: $("#HotelNo").val(), UserCode: $("#UserID").val(), Password: $("#Password").val() });
+                var response = CalltoApiController('@Url.Action("checkLogin", "api/HotelAPI/")', { HotelCode: $("#HotelNo").val(), UserCode: $("#UserID").val(), Password: $("#Password").val() });               
                 if (response["Result"] == 0)
                     ShowAlert("error","", "ホテルコードが間違っています.");
                 else if (response["Result"] == 1)
                     ShowAlert("error","","ユーザーコードが間違っています.")
                 else if (response["Result"] == 2)
-                    ShowAlert("error","","パスワードが間違っています.");
+                    ShowAlert("error", "", "パスワードが間違っています.");
+                else if (response["Result"] == 3)
+                    ShowAlert("error", "", "Another device is stayed logged in");
                 else {
                     var resultObj = response["Result"];
                     var LoginInfo = resultObj[0].hotel_code + '_' + resultObj[0].usercode + '_' + resultObj[0].username;

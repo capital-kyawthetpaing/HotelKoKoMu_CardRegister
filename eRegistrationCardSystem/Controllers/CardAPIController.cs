@@ -27,9 +27,7 @@ namespace eRegistrationCardSystem.Controllers
         [ActionName("ValidateLogin")]
         public async Task<IHttpActionResult> ValidateLogin(LoginInfo info)
         {
-            var loginStatus = new object();
-            if (!checkStayLogin(info.HotelCode, info.MachineNo))
-            {               
+                var loginStatus = new object();
                 BaseDL bdl = new BaseDL();
                 AppConstants constInfo = new AppConstants();
                 NpgsqlParameter[] Sqlprms = new NpgsqlParameter[4];
@@ -45,26 +43,27 @@ namespace eRegistrationCardSystem.Controllers
                         loginStatus = CheckExistLoginInfo(info);
                     else
                     {
-                        info.SessionFlag = false;
-                         await seteCardLoginTime(info);
-                        loginStatus = new
+                        if (!checkStayLogin(info.HotelCode, info.MachineNo))
                         {
-                            Status = "Success",
-                            SystemID = constInfo.SystemID,
-                            PmsID = dt.Rows[0]["pmsid"].ToString(),
-                            PmsPassword = dt.Rows[0]["pmspassword"].ToString(),
-                            HotelCode = dt.Rows[0]["hotel_code"].ToString(),
-                            MachineNo = dt.Rows[0]["machineno"].ToString()
-                        };
+                            info.SessionFlag = false;
+                            await seteCardLoginTime(info);
+                            loginStatus = new
+                            {
+                                Status = "Success",
+                                SystemID = constInfo.SystemID,
+                                PmsID = dt.Rows[0]["pmsid"].ToString(),
+                                PmsPassword = dt.Rows[0]["pmspassword"].ToString(),
+                                HotelCode = dt.Rows[0]["hotel_code"].ToString(),
+                                MachineNo = dt.Rows[0]["machineno"].ToString()
+                            };
+                        }
+                        else
+                            loginStatus = new { Status = "Error", Result = "Another device is stayed logged in" };
                     }
                 }
                 else
                     loginStatus = new { Status = "Error", Result = "SystemID is invalid" };
                 return Ok(loginStatus);
-            }
-            else
-                loginStatus = new { Status = "Error", Result = "Another device is stayed logged in" };
-            return Ok(loginStatus);
         }
                
         [HttpPost]

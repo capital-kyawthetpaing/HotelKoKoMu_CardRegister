@@ -5,10 +5,13 @@
     Layout = "~/Views/Shared/_CardRegisterLayout.cshtml";
     var lang = HttpContext.Current.Request.Cookies["culture"].Value;
 }
+<link href="@Url.Content("~/Content/dd.css")" rel="stylesheet" />
+<script src="@Url.Content("~/Scripts/jquery.dd.js")"></script>
 <style>
     .modal-footer {
         display: inline-block !important;
     }
+
     .clsPolicy {
         text-overflow: ellipsis;
         display: inline-block;
@@ -16,7 +19,7 @@
         width: 95%;
         white-space: nowrap;
         vertical-align: middle;
-    }       
+    }
 </style>
 
 <div id="divkokomuTable" style="background-color:white;">
@@ -24,11 +27,11 @@
         <tbody>
             <tr>
                 <td class="td1">
-                    <label >@eRegistrationCardSystem.Resources.Resources.GuestName</label>
+                    <label>@eRegistrationCardSystem.Resources.Resources.GuestName</label>
                 </td>
                 <td class="td2" id="tdGuestName"></td>
                 <td class="td1">
-                    <label >@eRegistrationCardSystem.Resources.Resources.KanaName</label>
+                    <label>@eRegistrationCardSystem.Resources.Resources.KanaName</label>
                 </td>
                 <td class="td2" id="tdKanaName"></td>
             </tr>
@@ -555,7 +558,7 @@
 
         function SearchCardRegisterData() {
              var result = CalltoApiController('@Url.Action("getRequestForRegistrationCard", "api/CardAPI/")', CardRegisterInfo);
-                if (result.Status == "Success") {                   
+                if (result.Status == "Success") {
                     $("#divLoading").hide();
                     intervalFlag = 1;
                     BindCardInformation(result);

@@ -21,9 +21,9 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>@ViewBag.Title</title>
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
-    @Styles.Render("~/Content/css")
+    @Scripts.Render(@Url.Action("~/bundles/jquery"))
+    @Scripts.Render(@Url.Action("~/bundles/bootstrap"))
+    @Styles.Render(@Url.Action("~/Content/css"))
    
 </head>
 <body>
@@ -83,25 +83,26 @@
             }
         });
 
-        setInterval(function () {
-            setLoginTime();
-        }, 60000);
-
         //setInterval(function () {
         //    setLoginTime();
-        //}, 3000);
+        //}, 60000);
+
+        setInterval(function () {
+            setLoginTime();
+        }, 3000);
     });
 
 
     function setLoginTime() {
         $.ajax({
-            url: "/Card/CheckSessionExpire",
+             url: "@Url.Action("CheckSessionExpire", "Card")",
             async: false,
             type: "GET",
-            success: function (data) {     
+            success: function (data) {
                 var result = CalltoApiController('@Url.Action("setLoginTime", "api/CardAPI/")', { HotelCode: $("#lblhotelCode").text(), MachineNo: $("#lblmachineno").text(), SessionFlag: data });
                 if (data == true) {
-                    window.location.href = "/Card/Login";
+                    //window.location.href = "/Card/Login";
+                    window.location.href = "@Url.Action("Login", "Card")";
                 }
             }
         });

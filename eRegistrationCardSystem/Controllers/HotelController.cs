@@ -8,12 +8,9 @@ using eRegistrationCardSystem.ContextDB;
 using Npgsql;
 using System.Data;
 using System.Configuration;
-using System.Web.Http;
 using Newtonsoft.Json;
 using System.IO;
-using HttpPostAttribute = System.Web.Mvc.HttpPostAttribute;
-using ActionNameAttribute = System.Web.Mvc.ActionNameAttribute;
-using System.Web.Http.Results;
+
 
 namespace eRegistrationCardSystem.Controllers
 {
@@ -43,6 +40,22 @@ namespace eRegistrationCardSystem.Controllers
             if (Session["HotelLoginInfo"] == null)
                 return RedirectToAction("HotelLogin", "Hotel");
             return View();
+        }
+
+        [HttpPost]
+        public ActionResult CreateSession(string key, string value)
+        {
+            Session[key] = value;
+            return this.Json(new { success = true });
+        }
+
+        [HttpGet]
+        public JsonResult CheckSessionExpire()
+        {
+            bool flag = false;
+            if (Session["HotelLoginInfo"] == null)
+                flag = true;
+            return Json(flag, JsonRequestBehavior.AllowGet);
         }
     }
 }

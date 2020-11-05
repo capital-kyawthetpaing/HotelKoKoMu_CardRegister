@@ -16,7 +16,7 @@
 table {
     width: 100%;
 }
-
+/*
 .kokomuTable td {
     text-align:center;
     padding: 0px;
@@ -30,11 +30,11 @@ table {
 .kokomuTable td label {
     width: 100%;
     margin: 0px;
-    padding:0px;/*
-    vertical-align:top;*/
+    padding:0px;
+    vertical-align:top;
 }
 
-/*.kokomuTable td label {
+.kokomuTable td label {
     width: 100%;
     margin: 0px;
 }*/

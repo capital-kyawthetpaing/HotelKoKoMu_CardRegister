@@ -1,28 +1,37 @@
 ﻿
 @{
     ViewBag.Title = "Test";
+    //Layout = null;
 }
 <style>
-    .kokomuTable td {
+    /*.kokomuTable td {
         line-height: 1px;
         text-align: center;
         vertical-align: central;
-        padding-bottom: 5px; 
+        padding-bottom: 5px;*/ 
         /*
         vertical-align: top;
         padding: 0px; 
         margin: 0px;
         border: 1px solid black;*/
-    }
+    /*}*/
 
-        .kokomuTable td label {
+        /*.kokomuTable td label {
             width: 100%;
-            line-height: 0px;
+            line-height: 0px;*/
             /* margin: 0px;
             padding: 0px;
             vertical-align: top;*/
-        }             
+        /*}*/
+        td{
+            padding:15px;
+            text-align:center;
+        }
 
+        label{
+            text-align:center;
+            margin:0px;
+        }
 </style>
 
 <!DOCTYPE html>
@@ -37,75 +46,89 @@
 </head>
 <body>
     <div id="divkokomuTable" style="background-color:white;">
-        <table class="table-bordered kokomuTable">
+        <table class="table-bordered">
             <tbody>
                 <tr>
-            <td class="td1">
-                <label>Guest Name</label>
-            </td>
-            <td class="td2" id="tdGuestName">Ohnmar Kyi</td>
-            <td class="td1">
-                <label>KanaName</label>
-            </td>
-            <td class="td2" id="tdKanaName">Ohnmar Kyi</td>
-        </tr>
+                    <td>
+                        <label>Guest Name</label>
+                    </td>
+                    <td id="tdGuestName"><label>Ohnmar Kyi</label></td>
+                    <td>                                                                                           
+                        <label>KanaName</label>
+                    </td>
+                    <td id="tdKanaName"><label>Guest Name</label></td>
+                </tr>
+
+                @*<div id="divkokomuTable" style="background-color:white;">
+                    <table class="table-bordered kokomuTable">
+                        <tbody>
+                        <tr style="height: 45px;padding:0px;margin:0px;">
+                        <td class="td1" style="vertical-align:middle;padding:0px;margin:0px;">
+                            <label style="margin:0px;">Guest Name</label>
+                        </td>
+                        <td class="td2" id="tdGuestName" style="vertical-align:middle;padding:0px;margin:0px;"><label style="margin:0px;">Ohnmar Kyi</label></td>
+                        <td class="td1" style="vertical-align:middle;padding:0px;margin:0px;">
+                            <label style="margin:0px;">KanaName</label>
+                        </td>
+                        <td class="td2" id="tdKanaName" style="vertical-align:middle;padding:0px;margin:0px;"><label style="margin:0px;">Guest Name</label></td>
+                    </tr>*@
                 @*<tr>
-                    <td class="td1">
-                        Guest Name
-                    </td>
-                    <td class="td2" id="tdGuestName">Ohnmar Kyi</td>
-                    <td class="td1">
-                        KanaName
-                    </td>
-                    <td class="td2" id="tdKanaName">Ohnmar Kyi</td>
-                </tr>*@
-                <tr>
-                    <td class="td1">
-                        <label>ZipCode</label>
-                    </td>
-                    <td class="td2" id="tdZipCode">
-                        11111
-                    </td>
-                    <td class="td1">
-                        <label>Tel</label>
-                    </td>
-                    <td class="td2" id="tdTel">09787750235</td>
-                </tr>
-                <tr>
-                    <td rowspan="2">
-                        <label>Address</label>
-                    </td>
-                    <td colspan="3" id="tdAddress1">Lanmadaw</td>
-                </tr>
-                <tr>
-                    <td colspan="3" id="tdAddress2"></td>
-                </tr>
-                <tr>
-                    <td class="td1">
-                        <label>Company</label>
-                    </td>
-                    <td colspan="3" id="tdCompany">CKM</td>
-                </tr>
-                <tr>
-                    <td class="td1">
-                        <label>Nationality</label>
-                    </td>
-                    <td class="td2" id="tdNationality">Myanmar</td>
-                    <td class="td1">
-                        <label>Passport</label>
-                    </td>
-                    <td class="td2" id="tdPassport">1111</td>
-                </tr>
-                <tr>
-                    <td class="td1">
-                        <label>ArrivalDate</label>
-                    </td>
-                    <td class="td2" id="tdArrivalDate"></td>
-                    <td class="td1">
-                        <label>DepartureDate</label>
-                    </td>
-                    <td class="td2" id="tdDepartureDate"></td>
-                </tr>
+                        <td class="td1">
+                            Guest Name
+                        </td>
+                        <td class="td2" id="tdGuestName">Ohnmar Kyi</td>
+                        <td class="td1">
+                            KanaName
+                        </td>
+                        <td class="td2" id="tdKanaName">Ohnmar Kyi</td>
+                    </tr>*@
+                @*<tr>
+                        <td class="td1">
+                            <label>ZipCode</label>
+                        </td>
+                        <td class="td2" id="tdZipCode">
+                            11111
+                        </td>
+                        <td class="td1">
+                            <label>Tel</label>
+                        </td>
+                        <td class="td2" id="tdTel">09787750235</td>
+                    </tr>
+                    <tr>
+                        <td rowspan="2">
+                            <label>Address</label>
+                        </td>
+                        <td colspan="3" id="tdAddress1">Lanmadaw</td>
+                    </tr>
+                    <tr>
+                        <td colspan="3" id="tdAddress2"></td>
+                    </tr>
+                    <tr>
+                        <td class="td1">
+                            <label>Company</label>
+                        </td>
+                        <td colspan="3" id="tdCompany">CKM</td>
+                    </tr>
+                    <tr>
+                        <td class="td1">
+                            <label>Nationality</label>
+                        </td>
+                        <td class="td2" id="tdNationality">Myanmar</td>
+                        <td class="td1">
+                            <label>Passport</label>
+                        </td>
+                        <td class="td2" id="tdPassport">1111</td>
+                    </tr>
+                    <tr>
+                        <td class="td1">
+                            <label>ArrivalDate</label>
+                        </td>
+                        <td class="td2" id="tdArrivalDate"></td>
+                        <td class="td1">
+                            <label>DepartureDate</label>
+                        </td>
+                        <td class="td2" id="tdDepartureDate"></td>
+                    </tr>*@
             </tbody>
         </table>
     </div>

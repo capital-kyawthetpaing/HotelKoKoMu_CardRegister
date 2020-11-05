@@ -37,18 +37,18 @@ namespace eRegistrationCardSystem.Controllers
         [HttpPost]
         public ActionResult CreateSession(string key, string value)
         {
-            Session[key] = value;
-            HttpContext.Session[key] = value;
+            Session[key] = value;          
             return this.Json(new { success = true });
         }
 
         [HttpGet]
         public JsonResult CheckSessionExpire()
         {
-            bool flag = true;
-            if (Session["CardInfo"] != null)
-                flag = false;
+            bool flag = false;
+            if (Session["CardInfo"] == null)
+                flag = true;
             return Json(flag, JsonRequestBehavior.AllowGet);
         }
+
     }
 }

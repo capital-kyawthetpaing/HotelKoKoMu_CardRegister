@@ -562,24 +562,6 @@
                 }
         }
 
-        @*function SearchCardRegisterData() {
-            var obj = sessionStorage.getItem("GuestInfo");
-            if (obj == null) {
-                var result = CalltoApiController('@Url.Action("getRequestForRegistrationCard", "api/CardAPI/")', CardRegisterInfo);
-                if (result.Status == "Success") {
-                    sessionStorage.setItem("GuestInfo", JSON.stringify(result));
-                    $("#divLoading").hide();
-                    intervalFlag = 1;
-                    BindCardInformation(result);
-                }
-            }
-            else {
-                $("#divLoading").hide();
-                intervalFlag = 1;
-                BindCardInformation(JSON.parse(obj));
-            }
-        }*@
-
         function BindCardInformation(result) {
             $("#lblSystemDate").text(result.SystemDate);
             $("#lblReservationNo").text(result.ReservationNo);

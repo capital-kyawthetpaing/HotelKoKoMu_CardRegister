@@ -14,10 +14,7 @@ namespace eRegistrationCardSystem.Models
         public string HotelCode { get; set; }
         public string UserCode { get; set; }
         public string Password { get; set; }
+        public bool SessionFlag { get; set; }
     }
 
-    public class ExistLoginInfo
-    {
-        public List<LoginInfo> lststayLogin { get; set; }
-    }
 }

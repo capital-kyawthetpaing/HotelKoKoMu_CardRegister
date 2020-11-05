@@ -51,12 +51,9 @@
             $("#hoteltitle").append(hotelInfo);
         }
 
-
         setInterval(function () {
             setLoginTime();
         }, 60000);
-
-
     })
 
 
@@ -66,9 +63,8 @@
             async: false,
             type: "GET",
             success: function (data) {
-                var result = CalltoApiController('@Url.Action("setLoginTime", "api/HotelAPI/")', { HotelCode: $("#lblhotelCode").text(), UserCode: $("#lblusercode").text(), SessionFlag: data });
+                var result = CalltoApiController('@Url.Action("setLoginTime", "api/HotelAPI/")', { HotelCode: $("#lblhotelcode").text(), UserCode: $("#lblusercode").text(), SessionFlag: data });
                 if (data == true) {
-                    //window.location.href = "/Card/Login";
                     window.location.href = "@Url.Action("HotelLogin", "Hotel")";
                 }
             }

@@ -182,7 +182,6 @@ namespace eRegistrationCardSystem.Controllers
             return dt;
         }
 
-
         [HttpPost]
         [ActionName("setLoginTime")]
         public async Task<IHttpActionResult> setLoginTime(LoginInfo loginInfo)

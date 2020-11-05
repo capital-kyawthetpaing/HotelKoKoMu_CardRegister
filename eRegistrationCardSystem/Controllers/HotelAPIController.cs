@@ -68,7 +68,7 @@ namespace eRegistrationCardSystem.Controllers
                 }
             }
             else
-                loginStatus = new { Status = "Error", Result = "Another device is stayed logged in" };
+                loginStatus = new { Result = 3};
             return Ok(loginStatus);
         }
 

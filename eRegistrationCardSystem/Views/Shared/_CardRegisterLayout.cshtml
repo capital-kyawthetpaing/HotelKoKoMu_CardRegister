@@ -101,7 +101,6 @@
             success: function (data) {
                 var result = CalltoApiController('@Url.Action("setLoginTime", "api/CardAPI/")', { HotelCode: $("#lblhotelCode").text(), MachineNo: $("#lblmachineno").text(), SessionFlag: data });
                 if (data == true) {
-                    //window.location.href = "/Card/Login";
                     window.location.href = "@Url.Action("Login", "Card")";
                 }
             }

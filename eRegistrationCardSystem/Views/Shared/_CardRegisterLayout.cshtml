@@ -21,9 +21,9 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>@ViewBag.Title</title>
-    @Scripts.Render(@Url.Action("~/bundles/jquery"))
-    @Scripts.Render(@Url.Action("~/bundles/bootstrap"))
-    @Styles.Render(@Url.Action("~/Content/css"))
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @Styles.Render("~/Content/css")
    
 </head>
 <body>
@@ -83,13 +83,13 @@
             }
         });
 
-        //setInterval(function () {
-        //    setLoginTime();
-        //}, 60000);
-
         setInterval(function () {
             setLoginTime();
-        }, 3000);
+        }, 60000);
+
+        //setInterval(function () {
+        //    setLoginTime();
+        //}, 3000);
     });
 
 

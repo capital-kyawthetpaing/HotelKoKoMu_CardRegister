@@ -50,5 +50,7 @@ namespace eRegistrationCardSystem.Controllers
             return Json(flag, JsonRequestBehavior.AllowGet);
         }
 
+        
+
     }
 }

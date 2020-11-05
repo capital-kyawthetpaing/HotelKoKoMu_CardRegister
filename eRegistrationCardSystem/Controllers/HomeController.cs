@@ -31,5 +31,9 @@ namespace eRegistrationCardSystem.Controllers
             return View();
         }
 
+        public ActionResult Test2()
+        {
+            return View();
+        }
     }
 }

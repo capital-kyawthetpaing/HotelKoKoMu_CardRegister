@@ -180,8 +180,7 @@
         var commonName = ''; var checkcount = 0;
         var intervalId,intervalFlag=0;
         var GuestName, GuestNameHW, KanaName, KanaNameHW, ZipCode, ZipCodeHW, Tel, TelHW, Address1, AddressHW1, Address2, AddressHW2, Company, CompanyHW, Nationality, NationalityHW, Passport, PassportHW, Sign;
-        var getCanvas, CardRegisterInfo, cardObj;
-       // var guestInfo;
+        var getCanvas, CardRegisterInfo, cardObj;       
         $(document).ready(function () {
 
            CardRegisterInfo = { SystemID: $("#lblsystemid").text(), PmsID: $("#lblPmsId").text(), PmsPassword: $("#lblPmsPassword").text(), HotelCode: $("#lblhotelCode").text(), MachineNo: $("#lblmachineno").text() };
@@ -280,12 +279,10 @@
             });
 
              //save guest information
-            $("#btnfinish").click(function () {
-                //sessionStorage.removeItem("GuestInfo");
+            $("#btnfinish").click(function () {                
                     //get kokomu table as image
                      var element = $("#divkokomuTable");
-                     html2canvas(element, {
-                         //allowTaint: true,
+                     html2canvas(element, {                        
                          onrendered: function (canvas) {
                              $('.kokomuTable tr td').each(function () {
                                  if ($(this).find("label").attr("id") == "lblGuestName")
@@ -427,7 +424,6 @@
             var modalWidth = $(".modal-dialog").css('max-width');
             canvas.width = parseInt(modalWidth.replace('px', '')) - 35;
         }
-
         resizeCanvas();
 
         function movePoint(e) {

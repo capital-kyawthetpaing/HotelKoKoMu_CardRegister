@@ -1,163 +1,167 @@
 ﻿
 @{
     ViewBag.Title = "Test";
-   // Layout = null;
+   
 }
+
 <style>
-    /*.kokomuTable td {
-        line-height: 1px;
-        text-align: center;
-        vertical-align: central;
-        padding-bottom: 5px;*/ 
-        /*
-        vertical-align: top;
-        padding: 0px; 
-        margin: 0px;
-        border: 1px solid black;*/
-    /*}*/
-
-        /*.kokomuTable td label {
-            width: 100%;
-            line-height: 0px;*/
-            /* margin: 0px;
-            padding: 0px;
-            vertical-align: top;*/
-        /*}*/
     td {
-     
+        height: 45px;
+        text-align: center;
     }
-
-    label {
-       
-        margin: 0px;
-        bottom:23px;
+    label{
+        margin:0px;
     }
 </style>
 
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="utf-8" />
-    <title></title>   
-    <script src="~/Scripts/jquery-3.5.1.min.js"></script>
-    <script src="~/Scripts/html2canvas.js"></script>
-    @*<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-        <script src="https://files.codepedia.info/files/uploads/iScripts/html2canvas.js"></script>*@
-</head>
-<body>
-    <div id="divkokomuTable" style="background-color:white;">
-        <table class="table-bordered">
-            <tbody>
-                <tr style="height:45px;">
-                    <td style="vertical-align:middle;">
-                        <label>Guest Name</label>
-                    </td>
-                    <td id="tdGuestName" style="vertical-align:middle"><label>Ohnmar Kyi</label></td>
-                    <td style="vertical-align:middle;">                                                                                           
-                        <label>KanaName</label>
-                    </td>
-                    <td id="tdKanaName" style="vertical-align:middle;"><label>Guest Name</label></td>
-                </tr>
+<div id="divkokomuTable" style="background-color:white;">
+    <table class="table-bordered kokomuTable">
 
-                @*<div id="divkokomuTable" style="background-color:white;">
-                    <table class="table-bordered kokomuTable">
-                        <tbody>
-                        <tr style="height: 45px;padding:0px;margin:0px;">
-                        <td class="td1" style="vertical-align:middle;padding:0px;margin:0px;">
-                            <label style="margin:0px;">Guest Name</label>
-                        </td>
-                        <td class="td2" id="tdGuestName" style="vertical-align:middle;padding:0px;margin:0px;"><label style="margin:0px;">Ohnmar Kyi</label></td>
-                        <td class="td1" style="vertical-align:middle;padding:0px;margin:0px;">
-                            <label style="margin:0px;">KanaName</label>
-                        </td>
-                        <td class="td2" id="tdKanaName" style="vertical-align:middle;padding:0px;margin:0px;"><label style="margin:0px;">Guest Name</label></td>
-                    </tr>*@
-                @*<tr>
-                        <td class="td1">
-                            Guest Name
-                        </td>
-                        <td class="td2" id="tdGuestName">Ohnmar Kyi</td>
-                        <td class="td1">
-                            KanaName
-                        </td>
-                        <td class="td2" id="tdKanaName">Ohnmar Kyi</td>
-                    </tr>*@
-                @*<tr>
-                        <td class="td1">
-                            <label>ZipCode</label>
-                        </td>
-                        <td class="td2" id="tdZipCode">
-                            11111
-                        </td>
-                        <td class="td1">
-                            <label>Tel</label>
-                        </td>
-                        <td class="td2" id="tdTel">09787750235</td>
-                    </tr>
-                    <tr>
-                        <td rowspan="2">
-                            <label>Address</label>
-                        </td>
-                        <td colspan="3" id="tdAddress1">Lanmadaw</td>
-                    </tr>
-                    <tr>
-                        <td colspan="3" id="tdAddress2"></td>
-                    </tr>
-                    <tr>
-                        <td class="td1">
-                            <label>Company</label>
-                        </td>
-                        <td colspan="3" id="tdCompany">CKM</td>
-                    </tr>
-                    <tr>
-                        <td class="td1">
-                            <label>Nationality</label>
-                        </td>
-                        <td class="td2" id="tdNationality">Myanmar</td>
-                        <td class="td1">
-                            <label>Passport</label>
-                        </td>
-                        <td class="td2" id="tdPassport">1111</td>
-                    </tr>
-                    <tr>
-                        <td class="td1">
-                            <label>ArrivalDate</label>
-                        </td>
-                        <td class="td2" id="tdArrivalDate"></td>
-                        <td class="td1">
-                            <label>DepartureDate</label>
-                        </td>
-                        <td class="td2" id="tdDepartureDate"></td>
-                    </tr>*@
-            </tbody>
-        </table>
-    </div>
 
-    <a id="btn-Convert-Html2Image" href="#">Download</a>
-    <br />
-    <div id="previewImage" style="display: none;">
-    </div>
+        <tbody>
+            <tr>
+                <td>
+                    <label>GuestName</label>
+                </td>
+                <td><label>Aung Aung</label></td>
+                <td>
+                    <label>KanaName</label>
+                </td>
+                <td><label>Aung Aung</label></td>
+            </tr>
+            <tr>
+                <td>
+                    <label>ZipCode</label>
+                </td>
+                <td><label>1111</label></td>
+                <td>
+                    <label>Tel</label>
+                </td>
+                <td><label>3453453453</label></td>
+            </tr>
+            @*<tr>
+                <td rowspan="2">
+                    <label>Address</label>
+                </td>
+                <td colspan="3" id="tdAddress1">yangon</td>
+            </tr>
+            <tr>
+                <td colspan="3" id="tdAddress2">lanmadaw</td>
+            </tr>
+            <tr>
+                <td class="td1">
+                    <label>Company</label>
+                </td>
+                <td colspan="3" id="tdCompany">Test</td>
+            </tr>
+            <tr>
+                <td class="td1">
+                    <label>Nationality</label>
+                </td>
+                <td class="td2" id="tdNationality">Test</td>
+                <td class="td1">
+                    <label>Passport</label>
+                </td>
+                <td class="td2" id="tdPassport">11111</td>
+            </tr>
+            <tr>
+                <td class="td1">
+                    <label>ArrivalDate</label>
+                </td>
+                <td class="td2" id="tdArrivalDate">12-11-2020</td>
+                <td class="td1">
+                    <label>DepartureDate</label>
+                </td>
+                <td class="td2" id="tdDepartureDate">12-11-2020</td>
+            </tr>*@
+        </tbody>
 
-    <script>
-        $(document).ready(function () {
-            var element = $("#divkokomuTable"); // global variable
-            var getCanvas; // global variable
+        <!--<tbody>
+        <tr>
+            <td class="td1">
+                <label>GuestName</label>
+            </td>
+            <td class="td2" id="tdGuestName"><label>Aung Aung</label></td>
+            <td class="td1">
+                <label>KanaName</label>
+            </td>
+            <td class="td2" id="tdKanaName"><label>Aung Aung</label></td>
+        </tr>
+        <tr>
+            <td class="td1">
+                <label>ZipCode</label>
+            </td>
+            <td class="td2" id="tdZipCode"><label>1111</label></td>
+            <td class="td1">
+                <label>Tel</label>
+            </td>
+            <td class="td2" id="tdTel"><label>3453453453</label></td>
+        </tr>-->
+        @*<tr>
+            <td rowspan="2">
+                <label>Address</label>
+            </td>
+            <td colspan="3" id="tdAddress1">yangon</td>
+        </tr>
+        <tr>
+            <td colspan="3" id="tdAddress2">lanmadaw</td>
+        </tr>
+        <tr>
+            <td class="td1">
+                <label>Company</label>
+            </td>
+            <td colspan="3" id="tdCompany">Test</td>
+        </tr>
+        <tr>
+            <td class="td1">
+                <label>Nationality</label>
+            </td>
+            <td class="td2" id="tdNationality">Test</td>
+            <td class="td1">
+                <label>Passport</label>
+            </td>
+            <td class="td2" id="tdPassport">11111</td>
+        </tr>
+        <tr>
+            <td class="td1">
+                <label>ArrivalDate</label>
+            </td>
+            <td class="td2" id="tdArrivalDate">12-11-2020</td>
+            <td class="td1">
+                <label>DepartureDate</label>
+            </td>
+            <td class="td2" id="tdDepartureDate">12-11-2020</td>
+        </tr>*@
+        <!--</tbody>-->
+    </table>
+</div>
 
-            html2canvas(element, {
-                onrendered: function (canvas) {
+<a id="btn-Convert-Html2Image" href="#">Download</a>
+<br />
+<div id="previewImage" style="display: none;">
+</div>
 
-                    $("#previewImage").append(canvas);
-                    getCanvas = canvas;
-                }
-            });
+<script src="~/Scripts/jquery-3.5.1.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
+<script type="text/javascript">
+   
+    $(document).ready(function () {
+        var element = $("#divkokomuTable"); // global variable
+        var getCanvas; // global variable
 
-            $("#btn-Convert-Html2Image").on('click', function () {
-                var imgageData = getCanvas.toDataURL("image/png");
-                var newData = imgageData.replace(/^data:image\/png/, "data:application/octet-stream");
-                $("#btn-Convert-Html2Image").attr("download", "your_pic_name.png").attr("href", newData);
-            });
+        html2canvas(element, {
+            onrendered: function (canvas) {
+
+                $("#previewImage").append(canvas);
+                getCanvas = canvas;
+            }
         });
 
-    </script>
-</body>
-</html>
+        $("#btn-Convert-Html2Image").on('click', function () {
+            var imgageData = getCanvas.toDataURL("image/png");
+            var newData = imgageData.replace(/^data:image\/png/, "data:application/octet-stream");
+            $("#btn-Convert-Html2Image").attr("download", "your_pic_name.png").attr("href", newData);
+        });
+    });
+
+</script>

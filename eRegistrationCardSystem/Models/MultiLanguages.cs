@@ -18,19 +18,20 @@ namespace eRegistrationCardSystem
             },
 
         };
-        public static bool IsLanguageAvailable(string lang)
-        {
-            return AvailableLanguages.Where(a => a.LanguageCultureName.Equals(lang)).FirstOrDefault() != null ? true : false;
-        }
+        //public static bool IsLanguageAvailable(string lang)
+        //{
+        //    return AvailableLanguages.Where(a => a.LanguageCultureName.Equals(lang)).FirstOrDefault() != null ? true : false;
+        //}
         public static string GetDefaultLanguage()
         {
-            return AvailableLanguages[0].LanguageCultureName;
+            return AvailableLanguages[1].LanguageCultureName;
         }
         public void SetLanguage(string lang)
         {
             try
             {
-                if (!IsLanguageAvailable(lang)) lang = GetDefaultLanguage();
+                lang = GetDefaultLanguage();
+                //if (!IsLanguageAvailable(lang)) lang = GetDefaultLanguage();
                 var cultureInfo = new CultureInfo(lang);
                 Thread.CurrentThread.CurrentUICulture = cultureInfo;
                 Thread.CurrentThread.CurrentCulture = CultureInfo.CreateSpecificCulture(cultureInfo.Name);

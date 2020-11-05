@@ -955,10 +955,10 @@ namespace eRegistrationCardSystem.Controllers
             NpgsqlParameter[] para = new NpgsqlParameter[3];
             para[0] = new NpgsqlParameter("@hotelcode", NpgsqlDbType.Varchar) { Value = loginInfo.HotelCode };
             para[1] = new NpgsqlParameter("@machineno", NpgsqlDbType.Varchar) { Value = loginInfo.MachineNo };
-            if(loginInfo.SessionFlag==false)
+            if (loginInfo.SessionFlag == false)
                 para[2] = new NpgsqlParameter("@logindate", NpgsqlDbType.Timestamp) { Value = DateTime.Now };
             else
-                para[2] = new NpgsqlParameter("@logindate", NpgsqlDbType.Timestamp) { Value = DateTime.Now.AddMinutes(2) };
+                para[2] = new NpgsqlParameter("@logindate", NpgsqlDbType.Timestamp) { Value = DateTime.Now.AddMinutes(-2) };
             string sql = "update mst_hotelmachine set logindate=@logindate where hotel_code=@hotelcode and machineno=@machineno";
             msgInfo = await bdl.InsertUpdateDeleteData(sql, para);
             return msgInfo;

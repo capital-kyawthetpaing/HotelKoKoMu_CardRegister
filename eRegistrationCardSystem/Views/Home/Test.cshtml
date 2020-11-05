@@ -1,7 +1,7 @@
 ﻿
 @{
     ViewBag.Title = "Test";
-    //Layout = null;
+   // Layout = null;
 }
 <style>
     /*.kokomuTable td {
@@ -23,15 +23,15 @@
             padding: 0px;
             vertical-align: top;*/
         /*}*/
-        td{
-            padding:15px;
-            text-align:center;
-        }
+    td {
+     
+    }
 
-        label{
-            text-align:center;
-            margin:0px;
-        }
+    label {
+       
+        margin: 0px;
+        bottom:23px;
+    }
 </style>
 
 <!DOCTYPE html>
@@ -48,15 +48,15 @@
     <div id="divkokomuTable" style="background-color:white;">
         <table class="table-bordered">
             <tbody>
-                <tr>
-                    <td>
+                <tr style="height:45px;">
+                    <td style="vertical-align:middle;">
                         <label>Guest Name</label>
                     </td>
-                    <td id="tdGuestName"><label>Ohnmar Kyi</label></td>
-                    <td>                                                                                           
+                    <td id="tdGuestName" style="vertical-align:middle"><label>Ohnmar Kyi</label></td>
+                    <td style="vertical-align:middle;">                                                                                           
                         <label>KanaName</label>
                     </td>
-                    <td id="tdKanaName"><label>Guest Name</label></td>
+                    <td id="tdKanaName" style="vertical-align:middle;"><label>Guest Name</label></td>
                 </tr>
 
                 @*<div id="divkokomuTable" style="background-color:white;">
@@ -145,6 +145,7 @@
 
             html2canvas(element, {
                 onrendered: function (canvas) {
+
                     $("#previewImage").append(canvas);
                     getCanvas = canvas;
                 }

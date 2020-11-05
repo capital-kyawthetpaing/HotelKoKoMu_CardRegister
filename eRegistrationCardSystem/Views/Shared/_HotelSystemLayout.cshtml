@@ -50,5 +50,29 @@
             var hotelInfo = '<img src="data:image/png;base64,' + result[0].logo_data + '" class="imgcss text-left" style="min-width:50px;min-height:50px;max-width:50px;max-height:50px;">&nbsp;<label>' + result[0].hotel_name + '</label><span class="text-right;" style="float:right;font-size:medium;">@username</span>';
             $("#hoteltitle").append(hotelInfo);
         }
+
+
+        setInterval(function () {
+            setLoginTime();
+        }, 60000);
+
+
     })
+
+
+      function setLoginTime() {
+        $.ajax({
+             url: "@Url.Action("CheckSessionExpire", "Hotel")",
+            async: false,
+            type: "GET",
+            success: function (data) {
+                var result = CalltoApiController('@Url.Action("setLoginTime", "api/HotelAPI/")', { HotelCode: $("#lblhotelCode").text(), UserCode: $("#lblusercode").text(), SessionFlag: data });
+                if (data == true) {
+                    //window.location.href = "/Card/Login";
+                    window.location.href = "@Url.Action("HotelLogin", "Hotel")";
+                }
+            }
+        });
+    }
+
 </script>

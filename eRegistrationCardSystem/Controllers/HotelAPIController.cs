@@ -28,11 +28,8 @@ namespace eRegistrationCardSystem.Controllers
         [ActionName("checkLogin")]
         public async Task<IHttpActionResult> checkLogin(LoginInfo loginInfo)
         {
-            var loginStatus = new object();
-            if (!checkStayLogin(loginInfo.HotelCode, loginInfo.UserCode))
-            {
-                BaseDL bdl = new BaseDL();
-                
+            var loginStatus = new object();           
+                BaseDL bdl = new BaseDL();                
                 NpgsqlParameter[] para = new NpgsqlParameter[3];
                 para[0] = new NpgsqlParameter("@hotelcode", loginInfo.HotelCode);
                 para[1] = new NpgsqlParameter("@usercode", loginInfo.UserCode);
@@ -61,14 +58,17 @@ namespace eRegistrationCardSystem.Controllers
                 }
                 else
                 {
-                    loginInfo.SessionFlag = false;
-                    await setHotelLoginTime(loginInfo);
-                    loginStatus = new { Result = dt };
-                    return Ok(loginStatus);
+                    if (!checkStayLogin(loginInfo.HotelCode, loginInfo.UserCode))
+                    {
+                        loginInfo.SessionFlag = false;
+                        await setHotelLoginTime(loginInfo);
+                        loginStatus = new { Result = dt };
+                        return Ok(loginStatus);
+                    }            
+                    else
+                        loginStatus = new { Result = 3 };
                 }
-            }
-            else
-                loginStatus = new { Result = 3};
+            
             return Ok(loginStatus);
         }
 

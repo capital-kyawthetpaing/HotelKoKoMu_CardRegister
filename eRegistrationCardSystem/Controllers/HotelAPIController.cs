@@ -62,7 +62,7 @@ namespace eRegistrationCardSystem.Controllers
                 else
                 {
                     loginInfo.SessionFlag = false;
-                    await seteCardLoginTime(loginInfo);
+                    await setHotelLoginTime(loginInfo);
                     loginStatus = new { Result = dt };
                     return Ok(loginStatus);
                 }
@@ -182,17 +182,16 @@ namespace eRegistrationCardSystem.Controllers
             return dt;
         }
 
-
         [HttpPost]
         [ActionName("setLoginTime")]
         public async Task<IHttpActionResult> setLoginTime(LoginInfo loginInfo)
         {
             ReturnMessageInfo msgInfo = new ReturnMessageInfo();
-            msgInfo = await seteCardLoginTime(loginInfo);
+            msgInfo = await setHotelLoginTime(loginInfo);
             return Ok(msgInfo);
         }
 
-        public async Task<ReturnMessageInfo> seteCardLoginTime(LoginInfo loginInfo)
+        public async Task<ReturnMessageInfo> setHotelLoginTime(LoginInfo loginInfo)
         {
             ReturnMessageInfo msgInfo = new ReturnMessageInfo();
             BaseDL bdl = new BaseDL();

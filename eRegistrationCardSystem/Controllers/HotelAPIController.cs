@@ -28,38 +28,48 @@ namespace eRegistrationCardSystem.Controllers
         [ActionName("checkLogin")]
         public async Task<IHttpActionResult> checkLogin(LoginInfo loginInfo)
         {
-            BaseDL bdl = new BaseDL();
             var loginStatus = new object();
-            NpgsqlParameter[] para = new NpgsqlParameter[3];
-            para[0] = new NpgsqlParameter("@hotelcode", loginInfo.HotelCode);
-            para[1] = new NpgsqlParameter("@usercode", loginInfo.UserCode);
-            para[2] = new NpgsqlParameter("@password", loginInfo.Password);
-            string sql1 = "select hotel_code,usercode,username from mst_hoteluser where hotel_code = @hotelcode and usercode=@usercode and password=@password and status='1'";
-            DataTable dt = await bdl.SelectDataTable(sql1, para);
-            if (dt.Rows.Count == 0)
+            if (!checkStayLogin(loginInfo.HotelCode, loginInfo.UserCode))
             {
-                NpgsqlParameter[] para1 = new NpgsqlParameter[1];
-                para1[0] = new NpgsqlParameter("@hotelcode", loginInfo.HotelCode);
-                string sql2 = "select hotel_code from mst_hotel where hotel_code = @hotelcode";
-                DataTable dthotelcode = await bdl.SelectDataTable(sql2, para1);
-                if (dthotelcode.Rows.Count == 0)
-                    loginStatus = new { Result = 0 }; //invalid hotel code
+                BaseDL bdl = new BaseDL();
+                
+                NpgsqlParameter[] para = new NpgsqlParameter[3];
+                para[0] = new NpgsqlParameter("@hotelcode", loginInfo.HotelCode);
+                para[1] = new NpgsqlParameter("@usercode", loginInfo.UserCode);
+                para[2] = new NpgsqlParameter("@password", loginInfo.Password);
+                string sql1 = "select hotel_code,usercode,username from mst_hoteluser where hotel_code = @hotelcode and usercode=@usercode and password=@password and status='1'";
+                DataTable dt = await bdl.SelectDataTable(sql1, para);
+                if (dt.Rows.Count == 0)
+                {
+                    NpgsqlParameter[] para1 = new NpgsqlParameter[1];
+                    para1[0] = new NpgsqlParameter("@hotelcode", loginInfo.HotelCode);
+                    string sql2 = "select hotel_code from mst_hotel where hotel_code = @hotelcode";
+                    DataTable dthotelcode = await bdl.SelectDataTable(sql2, para1);
+                    if (dthotelcode.Rows.Count == 0)
+                        loginStatus = new { Result = 0 }; //invalid hotel code
+                    else
+                    {
+                        NpgsqlParameter[] para2 = new NpgsqlParameter[1];
+                        para2[0] = new NpgsqlParameter("@usercode", loginInfo.UserCode);
+                        string sql3 = "select usercode from mst_hoteluser where usercode=@usercode";
+                        DataTable dtusercode = await bdl.SelectDataTable(sql3, para2);
+                        if (dtusercode.Rows.Count == 0)
+                            loginStatus = new { Result = 1 }; // invalid user code
+                        else
+                            loginStatus = new { Result = 2 }; // invalid  password               
+                    }
+                }
                 else
                 {
-                    NpgsqlParameter[] para2 = new NpgsqlParameter[1];
-                    para2[0] = new NpgsqlParameter("@usercode", loginInfo.UserCode);
-                    string sql3 = "select usercode from mst_hoteluser where usercode=@usercode";
-                    DataTable dtusercode = await bdl.SelectDataTable(sql3, para2);
-                    if (dtusercode.Rows.Count == 0)
-                        loginStatus = new { Result = 1 }; // invalid user code
-                    else
-                        loginStatus = new { Result = 2 }; // invalid  password               
+                    loginInfo.SessionFlag = false;
+                    await seteCardLoginTime(loginInfo);
+                    loginStatus = new { Result = dt };
+                    return Ok(loginStatus);
                 }
             }
             else
-                loginStatus = new { Result = dt };
+                loginStatus = new { Status = "Error", Result = "Another device is stayed logged in" };
             return Ok(loginStatus);
-
         }
 
         [HttpPost]
@@ -170,6 +180,62 @@ namespace eRegistrationCardSystem.Controllers
                 return dt;
             }
             return dt;
+        }
+
+
+        [HttpPost]
+        [ActionName("setLoginTime")]
+        public async Task<IHttpActionResult> setLoginTime(LoginInfo loginInfo)
+        {
+            ReturnMessageInfo msgInfo = new ReturnMessageInfo();
+            msgInfo = await seteCardLoginTime(loginInfo);
+            return Ok(msgInfo);
+        }
+
+        public async Task<ReturnMessageInfo> seteCardLoginTime(LoginInfo loginInfo)
+        {
+            ReturnMessageInfo msgInfo = new ReturnMessageInfo();
+            BaseDL bdl = new BaseDL();
+            NpgsqlParameter[] para = new NpgsqlParameter[3];
+            para[0] = new NpgsqlParameter("@hotelcode", NpgsqlDbType.Varchar) { Value = loginInfo.HotelCode };
+            para[1] = new NpgsqlParameter("@usercode", NpgsqlDbType.Varchar) { Value = loginInfo.UserCode };
+            if (loginInfo.SessionFlag == false)
+                para[2] = new NpgsqlParameter("@logindate", NpgsqlDbType.Timestamp) { Value = DateTime.Now };
+            else
+                para[2] = new NpgsqlParameter("@logindate", NpgsqlDbType.Timestamp) { Value = DateTime.Now.AddMinutes(-2) };
+            string sql = "update mst_hoteluser set logindate=@logindate where hotel_code=@hotelcode and usercode=@usercode";
+            msgInfo = await bdl.InsertUpdateDeleteData(sql, para);
+            return msgInfo;
+        }
+
+
+        public bool checkStayLogin(string hotelcode, string usercode)
+        {
+            DataTable dt = new DataTable();
+            bool flag = false;
+            BaseDL bdl = new BaseDL();
+            NpgsqlParameter[] para = new NpgsqlParameter[2];
+            para[0] = new NpgsqlParameter("@hotelcode", NpgsqlDbType.Varchar) { Value = hotelcode };
+            para[1] = new NpgsqlParameter("@usercode", NpgsqlDbType.Varchar) { Value = usercode };
+            string sql = "select logindate from mst_hoteluser where hotel_code=@hotelcode and usercode=@usercode";
+            dt = bdl.SelectDataTable_Info(sql, para);
+            if (dt.Rows.Count > 0)
+            {
+                if (!string.IsNullOrEmpty(dt.Rows[0]["logindate"].ToString()))
+                {
+                    DateTime currentDate = DateTime.Now;
+                    DateTime loginDate = Convert.ToDateTime(dt.Rows[0]["logindate"].ToString());
+                    TimeSpan ts = currentDate - loginDate;
+                    double totalmins = ts.TotalMinutes;
+                    if (totalmins > 1)
+                        flag = false;
+                    else
+                        flag = true;
+                }
+                else
+                    flag = false;
+            }
+            return flag;
         }
     }
 }

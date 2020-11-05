@@ -66,7 +66,7 @@
                 else {
                     var resultObj = response["Result"];
                     var LoginInfo = resultObj[0].hotel_code + '_' + resultObj[0].usercode + '_' + resultObj[0].username;
-                    $.post('@Url.Action("CreateSession", "Card")',
+                    $.post('@Url.Action("CreateSession", "Hotel")',
                         { key: "HotelLoginInfo", value: LoginInfo }, function (data) {
 
                             location.href = '@Url.Action("HotelGuestList", "Hotel")';

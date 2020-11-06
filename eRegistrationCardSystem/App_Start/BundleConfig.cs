@@ -31,7 +31,7 @@ namespace eRegistrationCardSystem
                       ));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
-                      //"~/Content/bootstrap.css",
+                      "~/Content/bootstrap.css",
                       "~/Content/site.css",
                       "~/Content/dd.css",
                       "~/Content/Global.css",

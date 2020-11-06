@@ -1,6 +1,6 @@
 ﻿body {
     margin-top:0px;
-    font-family: 'ヒラギノ角ゴ ProN W3', 'Hiragino Kaku Gothic ProN', "メイリオ", Meiryo, 'ＭＳ Ｐゴシック', 'MS PGothic', 'Helvetica Neue', Helvetica, Arial, Verdana, sans-serif;
+   /* font-family: 'ヒラギノ角ゴ ProN W3', 'Hiragino Kaku Gothic ProN', "メイリオ", Meiryo, 'ＭＳ Ｐゴシック', 'MS PGothic', 'Helvetica Neue', Helvetica, Arial, Verdana, sans-serif;*/
 }
 
 .card {
@@ -13,16 +13,17 @@
     font-weight: bold;
 }
 
+
 table {
     width: 100%;
 }
 
-.kokomuTable td {
-    text-align:center;
+.kokomuTable td {   
     padding: 0px;
     margin: 0px;
     border: 2px solid black;
 }
+
 .kokomuTable tr {
     height: 45px;
 }
@@ -30,14 +31,15 @@ table {
 .kokomuTable td label {
     width: 100%;
     margin: 0px;
-    padding:0px;/*
-    vertical-align:top;*/
+    padding: 0px;
+    text-align: center;
+    vertical-align: middle;
 }
 
-/*.kokomuTable td label {
+.kokomuTable td label {
     width: 100%;
     margin: 0px;
-}*/
+}
 
 textarea {
     width: 100%;
@@ -46,10 +48,12 @@ textarea {
 
 .td1 {
     width: 15%;
+    vertical-align:middle;
 }
 
 .td2 {
     width: 35%;
+    vertical-align:middle;
 }
 .rowspace {
     border-collapse: separate;

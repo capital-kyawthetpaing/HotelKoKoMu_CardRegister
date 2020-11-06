@@ -23,8 +23,6 @@ namespace eRegistrationCardSystem
                       "~/Scripts/bootstrap.js",
                       "~/Scripts/jquery.dd.js",
                       "~/Scripts/Common.js",
-                      //"~/Scripts/datepicker.js",
-                      //"~/Scripts/datepicker.en.js",
                       "~/Scripts/SweetAlert2.js",
                       "~/Scripts/moment.js",
                       "~/Scripts/html2canvas.js",                      

@@ -18,10 +18,10 @@ namespace eRegistrationCardSystem
             },
 
         };
-        //public static bool IsLanguageAvailable(string lang)
-        //{
-        //    return AvailableLanguages.Where(a => a.LanguageCultureName.Equals(lang)).FirstOrDefault() != null ? true : false;
-        //}
+        public static bool IsLanguageAvailable(string lang)
+        {
+            return AvailableLanguages.Where(a => a.LanguageCultureName.Equals(lang)).FirstOrDefault() != null ? true : false;
+        }
         public static string GetDefaultLanguage()
         {
             return AvailableLanguages[1].LanguageCultureName;
@@ -30,8 +30,8 @@ namespace eRegistrationCardSystem
         {
             try
             {
-                lang = GetDefaultLanguage();
-                //if (!IsLanguageAvailable(lang)) lang = GetDefaultLanguage();
+                //lang = GetDefaultLanguage();
+                if (!IsLanguageAvailable(lang)) lang = GetDefaultLanguage();
                 var cultureInfo = new CultureInfo(lang);
                 Thread.CurrentThread.CurrentUICulture = cultureInfo;
                 Thread.CurrentThread.CurrentCulture = CultureInfo.CreateSpecificCulture(cultureInfo.Name);

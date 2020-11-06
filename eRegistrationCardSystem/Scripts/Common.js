@@ -149,13 +149,6 @@ function ShowAlert(iconName,titleMsg,errorMsg) {
         icon: iconName,
         text: titleMsg,
         title: errorMsg,
+        width:530
     });
 }
-
-//function SetThousandSeparator(ctrl_id) { //function to add commas to textboxes
-//var obj=$("#"+ctrl_id);
-//var cleave = new Cleave(obj, {
-//    numeral: true,
-//    numeralThousandsGroupStyle: 'thousand'
-//    });
-//}

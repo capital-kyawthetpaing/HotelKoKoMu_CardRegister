@@ -11,7 +11,7 @@ namespace eRegistrationCardSystem
     {
         public static List<Languages> AvailableLanguages = new List<Languages> {
             new Languages {
-                LanguageFullName = "Japanese", LanguageCultureName = "Ja",ImageIcon="jp.png"
+                LanguageFullName = "Japanese", LanguageCultureName = "ja",ImageIcon="jp.png"
             },
             new Languages {
                 LanguageFullName = "English", LanguageCultureName = "en",ImageIcon="en.png"

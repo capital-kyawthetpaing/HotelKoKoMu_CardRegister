@@ -22,6 +22,8 @@ table {
     padding: 0px;
     margin: 0px;
     border: 2px solid black;
+    vertical-align:middle;
+    text-align:center;
 }
 
 .kokomuTable tr {
@@ -29,17 +31,13 @@ table {
 }
 
 .kokomuTable td label {
-    width: 100%;
-    margin: 0px;
-    padding: 0px;
-    text-align: center;
-    vertical-align: middle;
+    margin-bottom:5px;
 }
 
-.kokomuTable td label {
+/*.kokomuTable td label {
     width: 100%;
     margin: 0px;
-}
+}*/
 
 textarea {
     width: 100%;
@@ -117,6 +115,15 @@ canvas {
 
 swal-wide {
     width: 850px !important;
+}
+
+#canvas-container {
+    width: 100%;
+    text-align: center;
+}
+
+canvas {
+    display: inline;
 }
 
 

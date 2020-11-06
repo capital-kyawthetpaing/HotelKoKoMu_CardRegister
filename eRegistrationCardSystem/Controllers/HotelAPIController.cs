@@ -46,9 +46,10 @@ namespace eRegistrationCardSystem.Controllers
                         loginStatus = new { Result = 0 }; //invalid hotel code
                     else
                     {
-                        NpgsqlParameter[] para2 = new NpgsqlParameter[1];
-                        para2[0] = new NpgsqlParameter("@usercode", loginInfo.UserCode);
-                        string sql3 = "select usercode from mst_hoteluser where usercode=@usercode";
+                        NpgsqlParameter[] para2 = new NpgsqlParameter[2];
+                        para2[0] = new NpgsqlParameter("@hotelcode", loginInfo.HotelCode);
+                        para2[1] = new NpgsqlParameter("@usercode", loginInfo.UserCode);
+                        string sql3 = "select usercode from mst_hoteluser where hotel_code=@hotelcode and usercode=@usercode";
                         DataTable dtusercode = await bdl.SelectDataTable(sql3, para2);
                         if (dtusercode.Rows.Count == 0)
                             loginStatus = new { Result = 1 }; // invalid user code

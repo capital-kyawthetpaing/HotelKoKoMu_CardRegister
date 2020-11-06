@@ -64,7 +64,7 @@
                 else if (response["Result"] == 2)
                     ShowAlert("error", "", "パスワードが間違っています.");
                 else if (response["Result"] == 3)
-                    ShowAlert("error", "", "Another device is stayed logged in");
+                    ShowAlert("error", "", "他のデバイスにログインしています");
                 else {
                     var resultObj = response["Result"];
                     var LoginInfo = resultObj[0].hotel_code + '_' + resultObj[0].usercode + '_' + resultObj[0].username;

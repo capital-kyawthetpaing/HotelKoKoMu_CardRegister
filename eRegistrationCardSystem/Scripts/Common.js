@@ -144,11 +144,12 @@ function isNumberKey(evt) {
 }
 
 //show error message based on result
-function ShowAlert(iconName,titleMsg,errorMsg) {
+function ShowAlert(iconName, titleMsg, errorMsg) {
     swal.fire({
         icon: iconName,
         text: titleMsg,
         title: errorMsg,
+        width: 530
     });
 }
 

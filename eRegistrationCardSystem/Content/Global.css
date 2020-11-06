@@ -111,4 +111,8 @@ canvas {
     border: 2px solid #000;
 }
 
+swal-wide {
+    width: 850px !important;
+}
+
 

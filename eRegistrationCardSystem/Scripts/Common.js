@@ -144,11 +144,19 @@ function isNumberKey(evt) {
 }
 
 //show error message based on result
-function ShowAlert(iconName,titleMsg,errorMsg) {
+function ShowAlert(iconName, titleMsg, errorMsg) {
     swal.fire({
         icon: iconName,
         text: titleMsg,
         title: errorMsg,
-        width:530
+        width: 530
     });
 }
+
+//function SetThousandSeparator(ctrl_id) { //function to add commas to textboxes
+//var obj=$("#"+ctrl_id);
+//var cleave = new Cleave(obj, {
+//    numeral: true,
+//    numeralThousandsGroupStyle: 'thousand'
+//    });
+//}

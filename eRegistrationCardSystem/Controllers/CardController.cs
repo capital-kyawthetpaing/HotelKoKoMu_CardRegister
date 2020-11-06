@@ -30,7 +30,8 @@ namespace eRegistrationCardSystem.Controllers
         }
 
         public ActionResult Login()
-        {            
+        {
+            new MultiLanguages().SetLanguage("ja");
             return View();
         }
 

@@ -95,7 +95,7 @@
 
     function setLoginTime() {
         $.ajax({
-             url: "@Url.Action("CheckSessionExpire", "Card")",
+            url: "@Url.Action("CheckSessionExpire", "Card")",
             async: false,
             type: "GET",
             success: function (data) {

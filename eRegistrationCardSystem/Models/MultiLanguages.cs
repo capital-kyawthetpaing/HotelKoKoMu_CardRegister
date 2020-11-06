@@ -30,7 +30,6 @@ namespace eRegistrationCardSystem
         {
             try
             {
-                //lang = GetDefaultLanguage();
                 if (!IsLanguageAvailable(lang)) lang = GetDefaultLanguage();
                 var cultureInfo = new CultureInfo(lang);
                 Thread.CurrentThread.CurrentUICulture = cultureInfo;

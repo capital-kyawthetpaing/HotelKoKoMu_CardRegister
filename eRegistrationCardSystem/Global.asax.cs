@@ -3,6 +3,9 @@ using NpgsqlTypes;
 using System;
 using System.Configuration;
 using System.Data;
+using System.Globalization;
+using System.Threading;
+using System.Web;
 using System.Web.Http;
 using System.Web.Mvc;
 using System.Web.Optimization;
@@ -22,6 +25,7 @@ namespace eRegistrationCardSystem
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+            System.Globalization.CultureInfo.DefaultThreadCurrentCulture = new System.Globalization.CultureInfo("Ja");
         }
         
         //protected void Application_PostAuthorizeRequest()

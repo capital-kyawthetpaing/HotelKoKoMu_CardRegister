@@ -13,6 +13,7 @@ namespace eRegistrationCardSystem
             new Languages {
                 LanguageFullName = "Japanese", LanguageCultureName = "ja",ImageIcon="jp.png"
             },
+
             new Languages {
                 LanguageFullName = "English", LanguageCultureName = "en",ImageIcon="en.png"
             },

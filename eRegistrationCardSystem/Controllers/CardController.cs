@@ -14,26 +14,34 @@ using NpgsqlTypes;
 
 namespace eRegistrationCardSystem.Controllers
 {
-    public class CardController : MultiLanguageController
+    public class CardController : Controller
     {
         [SessionExpireFilter]
+        [LanguageFilter]
         public ActionResult CardRegisterPage()
         {
             return View();
         }
 
-        //for MultiLanguageChange
-        public ActionResult ChangeLanguage(string key, string value)
+        [HttpPost]
+        public JsonResult SelectLanguage(string SelectedLanguage)
         {
-            new MultiLanguages().SetLanguage(value);
-            return this.Json(new { success = true });
+            HttpCookie LangCookie = new HttpCookie("LangCookie");
+            LangCookie.Value = SelectedLanguage;
+            LangCookie.Expires = DateTime.Now.AddYears(1);
+            HttpContext.Response.Cookies.Add(LangCookie);            
+            return Json(true, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult Login()
         {
-            new MultiLanguages().SetLanguage("ja");
+            HttpCookie LangCookie = new HttpCookie("LangCookie");
+            LangCookie.Value = "ja-JP";
+            LangCookie.Expires = DateTime.Now.AddYears(1);
+            HttpContext.Response.Cookies.Add(LangCookie);
             return View();
         }
+
 
         [HttpPost]
         public ActionResult CreateSession(string key, string value)

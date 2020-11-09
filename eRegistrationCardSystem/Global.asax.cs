@@ -25,40 +25,8 @@ namespace eRegistrationCardSystem
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
-            System.Globalization.CultureInfo.DefaultThreadCurrentCulture = new System.Globalization.CultureInfo("Ja");
         }
-        
-        //protected void Application_PostAuthorizeRequest()
-        //{
-        //    System.Web.HttpContext.Current.SetSessionStateBehavior(System.Web.SessionState.SessionStateBehavior.Required);
-        //}
 
-        //protected void Session_End(object sender, EventArgs e)
-        //{
-        //    string cardInfo = Session["CardInfo"].ToString();
-        //   if (cardInfo != null)
-        //    {
-        //        try
-        //        {
-        //            NpgsqlParameter[] para = new NpgsqlParameter[3];
-        //            para[0] = new NpgsqlParameter("@hotelcode", NpgsqlDbType.Varchar) { Value = cardInfo.Split('_')[4] };
-        //            para[1] = new NpgsqlParameter("@machineno", NpgsqlDbType.Varchar) { Value = cardInfo.Split('_')[3] };
-        //            para[2] = new NpgsqlParameter("@logindate", NpgsqlDbType.Timestamp) { Value = DBNull.Value };
-        //            var newCon = new NpgsqlConnection(conStr);
-        //            NpgsqlCommand cmd = new NpgsqlCommand("update mst_hotelmachine set logindate=@logindate where hotel_code=@hotelcode and machineno=@machineno", newCon)
-        //            {
-        //                CommandType = CommandType.Text
-        //            };
-        //            cmd.Parameters.AddRange(para);
-        //            cmd.Connection.Open();
-        //            cmd.ExecuteNonQuery();
-        //            cmd.Connection.Close();
-        //        }
-        //        catch (Exception ex)
-        //        {
-        //            string msg = ex.Message;
-        //        }
-        //    }
-        //}
+        
     }
 }

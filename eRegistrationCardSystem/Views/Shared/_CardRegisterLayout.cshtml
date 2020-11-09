@@ -1,5 +1,14 @@
 ﻿@{
-    var lang = HttpContext.Current.Request.Cookies["culture"].Value;
+    var check_val= HttpContext.Current.Request.Cookies["LangCookie"];
+    string lang=string.Empty;
+    if (check_val==null)
+    {
+        lang = "ja-JP";
+    }
+    else
+    {
+        lang = HttpContext.Current.Request.Cookies["LangCookie"].Value;
+    }
     string obj = Session["CardInfo"].ToString();
     string pmsid = string.Empty;
     string pmspassword = string.Empty;
@@ -24,19 +33,18 @@
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @Styles.Render("~/Content/css")
-   
 </head>
 <body>
     <div class="container">
 
         <div class="card" style="margin-bottom:5px;border:none!important;">
             <div class="card-body" style="margin:0px;padding:0px;">
-                <div class="row" @*style="display:none;"*@>
+                <div class="row">
                     <div class="col-lg-4 col-md-4 col-sm-12 offset-lg-8 offset-md-8" style="display:flex;">
                         <label class="col-lg-5 col-md-5 col-sm-5">Select Language:</label>
                         <div class="col-lg-7 col-md-7 col-sm-7" style="margin-right:0px;padding-right:0px;">
                             <select id="MultiLanguage" style="padding-right:0px;width:100%;">
-                                @foreach (var i in eRegistrationCardSystem.MultiLanguages.AvailableLanguages)
+                                @foreach (var i in eRegistrationCardSystem.Models.MultiLanguages.AvailableLanguages)
                                 {
                                     <option value="@i.LanguageCultureName" data-image="../images/@i.ImageIcon">@i.LanguageFullName</option>
                                 }
@@ -48,12 +56,11 @@
         </div>
 
         <div class="card">
-            <h5 class="card-header text-center" id="hoteltitle" style="margin-top: 15px;border-radius: unset; background-color: #1b5696">
-            </h5>
+            <h5 class="card-header text-center" id="hoteltitle" style="margin-top: 15px;border-radius: unset; background-color: #1b5696"></h5>
             <div class="card-body">
                 <label id="lblPmsId" class="d-none">@pmsid</label>
                 <label id="lblPmsPassword" class="d-none">@pmspassword</label>
-                <label id="lblmachineno" class="d-none">@machineno</label>                
+                <label id="lblmachineno" class="d-none">@machineno</label>
                 <label id="lblsystemid" class="d-none">@systemid</label>
                 <label id="lblhotelCode" class="d-none">@hotelcode</label>
                 @RenderBody()
@@ -67,35 +74,34 @@
 <script type="text/javascript">
     $(document).ready(function () {
 
-        var HotelObj = { HotelNo: '@hotelcode' };
+         var HotelObj = { HotelNo: '@hotelcode' };
         var result = CalltoApiController('@Url.Action("getHotelInformation", "api/HotelAPI/")', HotelObj);
         if (result != "") {
             var hotelInfo = '<img src="data:image/png;base64,' + result[0].logo_data + '" class="imgcss" style="min-width:50px;min-height:50px;max-width:50px;max-height:50px;">&nbsp; ' + result[0].hotel_name;
             $("#hoteltitle").append(hotelInfo);
         }
+
         $("#MultiLanguage").msDropdown();
-        $("#MultiLanguage").val('@lang').trigger('change');
+         $("#MultiLanguage").val('@lang').trigger('change');
         $("#MultiLanguage").change(function () {
-            if ($(this).val() != "") {
-                $.post('@Url.Action("ChangeLanguage", "Card")', { key: "lang", value: $(this).val() }, function (data) {
+             if ($(this).val() != "") {
+                 $.post('@Url.Action("SelectLanguage", "Card")', { SelectedLanguage: $(this).val() }, function (data) {
                     window.location.reload();
                 });
             }
         });
-
         setInterval(function () {
             setLoginTime();
-        }, 60000); 
+        }, 60000);
 
         //setInterval(function () {
         //    setLoginTime();
         //}, 3000);
     });
 
-
     function setLoginTime() {
         $.ajax({
-             url: "@Url.Action("CheckSessionExpire", "Card")",
+            url: "@Url.Action("CheckSessionExpire", "Card")",
             async: false,
             type: "GET",
             success: function (data) {
@@ -106,8 +112,5 @@
             }
         });
     }
-
-    @*function resetLoginTime() {
-        var result = CalltoApiController('@Url.Action("resetLoginTime", "api/CardAPI/")', { HotelCode: $("#lblhotelCode").text(), MachineNo: $("#lblmachineno").text() });
-    }*@
 </script>
+

@@ -3,8 +3,9 @@
 @{
     ViewBag.Title = "CardRegisterPage";
     Layout = "~/Views/Shared/_CardRegisterLayout.cshtml";
-    var lang = HttpContext.Current.Request.Cookies["culture"].Value;
+    var lang = HttpContext.Current.Request.Cookies["LangCookie"].Value;
 }
+
 <link href="@Url.Content("~/Content/dd.css")" rel="stylesheet" />
 <script src="@Url.Content("~/Scripts/jquery.dd.js")"></script>
 <style>
@@ -180,8 +181,9 @@
         var commonName = ''; var checkcount = 0;
         var intervalId,intervalFlag=0;
         var GuestName, GuestNameHW, KanaName, KanaNameHW, ZipCode, ZipCodeHW, Tel, TelHW, Address1, AddressHW1, Address2, AddressHW2, Company, CompanyHW, Nationality, NationalityHW, Passport, PassportHW, Sign;
-        var getCanvas, CardRegisterInfo, cardObj;       
+        var getCanvas, CardRegisterInfo, cardObj;
         $(document).ready(function () {
+
            CardRegisterInfo = { SystemID: $("#lblsystemid").text(), PmsID: $("#lblPmsId").text(), PmsPassword: $("#lblPmsPassword").text(), HotelCode: $("#lblhotelCode").text(), MachineNo: $("#lblmachineno").text() };
            $("#divLoading").show();
 
@@ -277,86 +279,92 @@
             });
 
              //save guest information
-            $("#btnfinish").click(function () {                
+            $("#btnfinish").click(function () {
+
+                if (!checkSessionExpire()) {
                     //get kokomu table as image
-                     var element = $("#divkokomuTable");
-                     html2canvas(element, {                        
-                         onrendered: function (canvas) {
-                             $('.kokomuTable tr td').each(function () {
-                                 if ($(this).find("label").attr("id") == "lblGuestName")
-                                     GuestName = $("#lblGuestName").text();
-                                 else
-                                     GuestNameHW = $("#imgGuestName").attr('src');
+                    var element = $("#divkokomuTable");
+                    html2canvas(element, {
+                        onrendered: function (canvas) {
+                            $('.kokomuTable tr td').each(function () {
+                                if ($(this).find("label").attr("id") == "lblGuestName")
+                                    GuestName = $("#lblGuestName").text();
+                                else
+                                    GuestNameHW = $("#imgGuestName").attr('src');
 
-                                 if ($(this).find("label").attr("id") == "lblKanaName")
-                                     KanaName = $("#lblKanaName").text();
-                                 else
-                                     KanaNameHW = $("#imgKanaName").attr('src');
+                                if ($(this).find("label").attr("id") == "lblKanaName")
+                                    KanaName = $("#lblKanaName").text();
+                                else
+                                    KanaNameHW = $("#imgKanaName").attr('src');
 
-                                 if ($(this).find("label").attr("id") == "lblZipCode")
-                                     ZipCode = $("#lblZipCode").text();
-                                 else
-                                     ZipCodeHW = $("#imgZipCode").attr('src');
+                                if ($(this).find("label").attr("id") == "lblZipCode")
+                                    ZipCode = $("#lblZipCode").text();
+                                else
+                                    ZipCodeHW = $("#imgZipCode").attr('src');
 
-                                 if ($(this).find("label").attr("id") == "lblTel")
-                                     Tel = $("#lblTel").text();
-                                 else
-                                     TelHW = $("#imgTel").attr('src');
+                                if ($(this).find("label").attr("id") == "lblTel")
+                                    Tel = $("#lblTel").text();
+                                else
+                                    TelHW = $("#imgTel").attr('src');
 
-                                 if ($(this).find("label").attr("id") == "lblAddress1")
-                                     Address1 = $("#lblAddress1").text();
-                                 else
-                                     AddressHW1 = $("#imgAddress1").attr('src');
+                                if ($(this).find("label").attr("id") == "lblAddress1")
+                                    Address1 = $("#lblAddress1").text();
+                                else
+                                    AddressHW1 = $("#imgAddress1").attr('src');
 
-                                 if ($(this).find("label").attr("id") == "lblAddress2")
-                                     Address2 = $("#lblAddress2").text();
-                                 else
-                                     AddressHW2 = $("#imgAddress2").attr('src');
+                                if ($(this).find("label").attr("id") == "lblAddress2")
+                                    Address2 = $("#lblAddress2").text();
+                                else
+                                    AddressHW2 = $("#imgAddress2").attr('src');
 
-                                 if ($(this).find("label").attr("id") == "lblCompany")
-                                     Company = $("#lblCompany").text();
-                                 else
-                                     CompanyHW = $("#imgCompany").attr('src');
+                                if ($(this).find("label").attr("id") == "lblCompany")
+                                    Company = $("#lblCompany").text();
+                                else
+                                    CompanyHW = $("#imgCompany").attr('src');
 
-                                 if ($(this).find("label").attr("id") == "lblNationality")
-                                     Nationality = $("#lblNationality").text();
-                                 else
-                                     NationalityHW = $("#imgNationality").attr('src');
+                                if ($(this).find("label").attr("id") == "lblNationality")
+                                    Nationality = $("#lblNationality").text();
+                                else
+                                    NationalityHW = $("#imgNationality").attr('src');
 
-                                 if ($(this).find("label").attr("id") == "lblPassport")
-                                     Passport = $("#lblPassport").text();
-                                 else
-                                     PassportHW = $("#imgPassport").attr('src');
-                             });
-                             var guestInfo = { SystemID:$("#lblsystemid").text(), PmsID: $("#lblPmsId").text(), PmsPassword: $("#lblPmsPassword").text(), HotelCode: $("#lblhotelCode").text(), MachineNo: $("#lblmachineno").text(), ReservationNo: $("#lblReservationNo").text(), RoomNo: $("#lblRoomNo").text(), SystemDate: $("#lblSystemDate").text(), NameKanji: GuestName, NameKana: KanaName,ZipCode: ZipCode, Tel: Tel,Address1: Address1, Address2: Address2, Company: Company, Nationality: Nationality, PassportNo: Passport, Sign: $("#imgSign").attr('src'), ImageData: canvas.toDataURL("image/jpg") };
+                                if ($(this).find("label").attr("id") == "lblPassport")
+                                    Passport = $("#lblPassport").text();
+                                else
+                                    PassportHW = $("#imgPassport").attr('src');
+                            });
+                            var guestInfo = { SystemID: $("#lblsystemid").text(), PmsID: $("#lblPmsId").text(), PmsPassword: $("#lblPmsPassword").text(), HotelCode: $("#lblhotelCode").text(), MachineNo: $("#lblmachineno").text(), ReservationNo: $("#lblReservationNo").text(), RoomNo: $("#lblRoomNo").text(), SystemDate: $("#lblSystemDate").text(), NameKanji: GuestName, NameKana: KanaName, ZipCode: ZipCode, Tel: Tel, Address1: Address1, Address2: Address2, Company: Company, Nationality: Nationality, PassportNo: Passport, Sign: $("#imgSign").attr('src'), ImageData: canvas.toDataURL("image/jpg") };
+                            var response = CalltoApiController('@Url.Action("setRegistrationCard", "api/CardAPI/")', guestInfo);
 
-                             var response = CalltoApiController('@Url.Action("setRegistrationCard", "api/CardAPI/")', guestInfo);
-                             if (response.Status == "Success") {
-                                 Swal.fire({
-                                     title: ' ありがとうございました。',
-                                     icon: 'success',
-                                     width: 530,
-                                     confirmButtonColor: '#3085d6',
-                                     confirmButtonText: 'OK',
-                                     timer: 60000
-                                 }).then((result) => {
-                                     $("#btnfinish").prop("disabled", true);
-                                     $("#btnfinish").css("background-color", "#808080");
-                                     $('.kokomuTable tr td').each(function () {
-                                         if ($(this).attr("id") != undefined) {
-                                             $(this).html('');
-                                         }
-                                     });
-                                     $('input[type=checkbox]').prop('checked', false);
-                                     intervalFlag = 0;
-                                     $("#divLoading").show();
-                                 });
-                             }
-                             else {
-                                 ShowAlert("error", "", response.FailureReason + "" + response.ErrorDescription);
-                             }
-                         }
-                     });
+                            if (response.Status == "Success") {
+                                Swal.fire({
+                                    title: ' ありがとうございました。',
+                                    icon: 'success',
+                                    width: 530,
+                                    confirmButtonColor: '#3085d6',
+                                    confirmButtonText: 'OK',
+                                    timer: 60000
+                                }).then((result) => {
+                                    $("#btnfinish").prop("disabled", true);
+                                    $("#btnfinish").css("background-color", "#808080");
+                                    $('.kokomuTable tr td').each(function () {
+                                        if ($(this).attr("id") != undefined) {
+                                            $(this).html('');
+                                        }
+                                    });
+                                    $('input[type=checkbox]').prop('checked', false);
+                                    intervalFlag = 0;
+                                    $("#divLoading").show();
+                                });
+                            }
+                            else {
+                                ShowAlert("error", "", response.FailureReason + "" + response.ErrorDescription);
+                            }
+                        }
+                    });
+                }
+                else {
+                    window.location.href = "@Url.Action("Login", "Card")";
+                }
              });
         });
 
@@ -552,12 +560,17 @@
         }
 
         function SearchCardRegisterData() {
-             var result = CalltoApiController('@Url.Action("getRequestForRegistrationCard", "api/CardAPI/")', CardRegisterInfo);
+            if (!checkSessionExpire()) {
+                var result = CalltoApiController('@Url.Action("getRequestForRegistrationCard", "api/CardAPI/")', CardRegisterInfo);
                 if (result.Status == "Success") {
                     $("#divLoading").hide();
                     intervalFlag = 1;
                     BindCardInformation(result);
                 }
+            }
+            else {
+                 window.location.href = "@Url.Action("Login", "Card")";
+            }
         }
 
         function BindCardInformation(result) {
@@ -635,8 +648,27 @@
                 });
             }
         }
+
+        function checkSessionExpire() {
+            var restult;
+            $.ajax({
+                url:"@Url.Action("CheckSessionExpire", "Card")",
+                async: false,
+                type: "GET",
+                success: function (data) {
+                    result = data;
+                }
+            });
+            return result;
+        }
+
     </script>
 }
+
+
+
+
+
 
 
 

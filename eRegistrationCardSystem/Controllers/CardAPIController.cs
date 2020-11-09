@@ -158,96 +158,6 @@ namespace eRegistrationCardSystem.Controllers
                 return Ok(msgInfo);
         }
 
-        ///// <summary>
-        ///// get registration card data from hotel system
-        ///// </summary>
-        ///// <param name="cardRegisterInfo"></param>
-        ///// <returns></returns>
-        //[HttpPost]
-        //[ActionName("getRequestForRegistrationCard")]
-        //public async Task<IHttpActionResult> getRequestForRegistrationCard(CardRegisterInfo cardRegisterInfo)
-        //{
-        //    var cardRegistrationObj = new object();
-        //    ReturnMessageInfo msginfo = new ReturnMessageInfo();
-        //    BaseDL bdl = new BaseDL();
-        //    NpgsqlParameter[] Sqlprms = new NpgsqlParameter[5];
-        //    Sqlprms[0] = new NpgsqlParameter("@systemid", NpgsqlDbType.Varchar) { Value = cardRegisterInfo.SystemID };
-        //    Sqlprms[1] = new NpgsqlParameter("@pmsid", NpgsqlDbType.Varchar) { Value = cardRegisterInfo.PmsID };
-        //    Sqlprms[2] = new NpgsqlParameter("@pmspassword", NpgsqlDbType.Varchar) { Value = cardRegisterInfo.PmsPassword };
-        //    Sqlprms[3] = new NpgsqlParameter("@hotelcode", NpgsqlDbType.Varchar) { Value = cardRegisterInfo.HotelCode };
-        //    Sqlprms[4] = new NpgsqlParameter("@machineno", NpgsqlDbType.Varchar) { Value = cardRegisterInfo.MachineNo };
-        //    string sql = "Select systemdate,reservationno, roomno, guestname_hotel, kananame_hotel, zipcode_hotel, tel_hotel, address1_hotel, address2_hotel, company_hotel, nationality_hotel, passportno_hotel,arrivaldate_hotel,departuredate_hotel from trn_guestinformation";
-        //    sql += " where pmsid=@pmsid and systemid=@systemid and  pmspassword=@pmspassword and machineno=@machineno and hotel_code=@hotelcode and flag=0 and complete_flag=0 order by created_date limit 1";
-        //    Tuple<string, ReturnMessageInfo> result1 = await bdl.SelectJson(sql,Sqlprms);
-        //    DataTable dt = JsonConvert.DeserializeObject<DataTable>(result1.Item1);
-        //    if (dt.Rows.Count > 0)
-        //    {
-        //        NpgsqlParameter[] para = new NpgsqlParameter[5];
-        //        para[0] = new NpgsqlParameter("@systemid", NpgsqlDbType.Varchar) { Value = cardRegisterInfo.SystemID };
-        //        para[1] = new NpgsqlParameter("@pmsid", NpgsqlDbType.Varchar) { Value = cardRegisterInfo.PmsID };
-        //        para[2] = new NpgsqlParameter("@pmspassword", NpgsqlDbType.Varchar) { Value = cardRegisterInfo.PmsPassword };
-        //        para[3] = new NpgsqlParameter("@hotelcode", NpgsqlDbType.Varchar) { Value = cardRegisterInfo.HotelCode };
-        //        para[4] = new NpgsqlParameter("@machineno", NpgsqlDbType.Varchar) { Value = cardRegisterInfo.MachineNo };
-        //        string cmdText = "update trn_guestinformation set flag = 1 where flag = 0 and complete_flag=0 and  systemid=@systemid and  pmsid=@pmsid and  pmspassword=@pmspassword and  machineno=@machineno and hotel_code=@hotelcode ";
-        //        msginfo = await bdl.InsertUpdateDeleteData(cmdText, para);
-        //        if (msginfo.Status == "Success")
-        //        {
-        //            cardRegistrationObj = new
-        //            {
-        //                Status = "Success",
-        //                FailureReason = "",
-        //                ErrorDescription = "",
-        //                SystemDate = dt.Rows[0]["systemdate"].ToString(),
-        //                ReservationNo = dt.Rows[0]["reservationno"].ToString(),
-        //                RoomNo = dt.Rows[0]["roomno"].ToString(),
-        //                ArriveDate = dt.Rows[0]["arrivaldate_hotel"].ToString(),
-        //                DepartureDate = dt.Rows[0]["departuredate_hotel"].ToString(),
-        //                NameKanji = dt.Rows[0]["guestname_hotel"].ToString(),
-        //                NameKana = dt.Rows[0]["kananame_hotel"].ToString(),
-        //                ZipCode = dt.Rows[0]["zipcode_hotel"].ToString(),
-        //                Tel = dt.Rows[0]["tel_hotel"].ToString(),
-        //                Address1 = dt.Rows[0]["address1_hotel"].ToString(),
-        //                Address2 = dt.Rows[0]["address2_hotel"].ToString(),
-        //                Company = dt.Rows[0]["company_hotel"].ToString(),
-        //                Nationality = dt.Rows[0]["nationality_hotel"].ToString(),
-        //                PassportNo = dt.Rows[0]["passportno_hotel"].ToString()
-        //            };                   
-        //        }
-        //        else
-        //        {
-        //            cardRegistrationObj = new
-        //            {
-        //                Status = msginfo.Status,
-        //                FailureReason = msginfo.FailureReason,
-        //                ErrorDescription = msginfo.ErrorDescription
-        //            };
-        //        }
-        //    }
-        //    else
-        //    {
-        //        msginfo = result1.Item2;
-        //        if (msginfo.Status == "Success")
-        //        {
-        //            cardRegistrationObj = new
-        //            {
-        //                Status = "NotData",
-        //                FailureReason = "",
-        //                ErrorDescription = ""
-        //            };
-        //        }
-        //        else
-        //        {
-        //            cardRegistrationObj = new
-        //            {
-        //                Status = msginfo.Status,
-        //                FailureReason = msginfo.FailureReason,
-        //                ErrorDescription = msginfo.ErrorDescription
-        //            };
-        //        }
-        //    }
-        //    return Ok(cardRegistrationObj);
-        //}
-
         [HttpPost]
         [ActionName("getRequestForRegistrationCard")]
         public async Task<IHttpActionResult> getRequestForRegistrationCard(CardRegisterInfo cardRegisterInfo)
@@ -343,7 +253,7 @@ namespace eRegistrationCardSystem.Controllers
         public async Task<IHttpActionResult> setRegistrationCard(CardRegisterInfo cardRegisterInfo)
         {
             BaseDL bdl = new BaseDL();
-            string culture = HttpContext.Current.Request.Cookies["culture"].Value;
+            string culture = HttpContext.Current.Request.Cookies["LangCookie"].Value;
             DataTable dt = Get_CreatetedDate(cardRegisterInfo);
             cardRegisterInfo.CreatedDate = Convert.ToDateTime(dt.Rows[0]["created_date"].ToString());
             NpgsqlParameter[] Sqlprms = new NpgsqlParameter[20];
@@ -366,22 +276,22 @@ namespace eRegistrationCardSystem.Controllers
             Sqlprms[12] = new NpgsqlParameter("@hotelcode", cardRegisterInfo.HotelCode);
             Sqlprms[13] = new NpgsqlParameter("@reservationno", cardRegisterInfo.ReservationNo);
             Sqlprms[14] = new NpgsqlParameter("@roomno", cardRegisterInfo.RoomNo);
-            Sqlprms[15] = new NpgsqlParameter("@systemdate", cardRegisterInfo.SystemDate);            
+            Sqlprms[15] = new NpgsqlParameter("@systemdate", cardRegisterInfo.SystemDate);
             Sqlprms[16] = new NpgsqlParameter("@pmsid", cardRegisterInfo.PmsID);
             Sqlprms[17] = new NpgsqlParameter("@pmspassword", cardRegisterInfo.PmsPassword);
             Sqlprms[18] = new NpgsqlParameter("@machineno", cardRegisterInfo.MachineNo);
             Sqlprms[19] = new NpgsqlParameter("@systemid", cardRegisterInfo.SystemID);
-           
+
             string sql = "update trn_guestinformation set guestname_text=@guestName,kananame_text=@kanaName,zipcode_text=@zipcode,tel_text=@tel,";
             sql += " address1_text=@address1,address2_text=@address2,company_text=@company,nationality_text=@nationality,passportno_text=@passport,complete_flag=1,";
             sql += " updator=@updator,updated_date=@updateddate,imagedata=@filename where pmsid=@pmsid and";
             sql += " pmspassword=@pmspassword and  machineno=@machineno and  systemid=@systemid and  hotel_code=@hotelcode and flag=1 and complete_flag=0";
-            ReturnMessageInfo msgInfo = await bdl.InsertUpdateDeleteData(sql,Sqlprms);
-            if(msgInfo.Status=="Success")
-                SaveImage(cardRegisterInfo.ImageData, cardRegisterInfo.HotelCode, fileName);           
+            ReturnMessageInfo msgInfo = await bdl.InsertUpdateDeleteData(sql, Sqlprms);
+            if (msgInfo.Status == "Success")
+                SaveImage(cardRegisterInfo.ImageData, cardRegisterInfo.HotelCode, fileName);
             return Ok(msgInfo);
         }
-
+      
         [HttpPost]
         [ActionName("getRegistrationCardData")]
         public async Task<IHttpActionResult> getRegistrationCardData(CardRegisterInfo cardRegisterInfo)
@@ -941,9 +851,9 @@ namespace eRegistrationCardSystem.Controllers
         [HttpPost]
         [ActionName("setLoginTime")]
         public async Task<IHttpActionResult> setLoginTime(LoginInfo loginInfo)
-        {
+        {             
             ReturnMessageInfo msgInfo = new ReturnMessageInfo();
-            msgInfo = await seteCardLoginTime(loginInfo);           
+            msgInfo = await seteCardLoginTime(loginInfo);
             return Ok(msgInfo);
         }
 

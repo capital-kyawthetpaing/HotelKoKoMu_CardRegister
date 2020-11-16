@@ -81,7 +81,7 @@ namespace eRegistrationCardSystem.ContextDB
                 string msg = ex.Message;
                 msgInfo.Status = "Error";
                 msgInfo.FailureReason = "1005";
-                msgInfo.ErrorDescription = "Database error.";
+                msgInfo.ErrorDescription = "データベースエラー";
                 return msgInfo;
             }
             catch (Exception ex)
@@ -90,7 +90,7 @@ namespace eRegistrationCardSystem.ContextDB
                 string msg = ex.Message;
                 msgInfo.Status = "Error";
                 msgInfo.FailureReason = "1004";
-                msgInfo.ErrorDescription = "Database connection error.";
+                msgInfo.ErrorDescription = "データベース接続エラー";
                 return msgInfo;
             }
         }
@@ -147,7 +147,7 @@ namespace eRegistrationCardSystem.ContextDB
                 string msg = ex.Message;
                 msgInfo.Status = "Error";
                 msgInfo.FailureReason = "1005";
-                msgInfo.ErrorDescription = "Database error.";                
+                msgInfo.ErrorDescription = "データベースエラー";                
             }
             catch (Exception ex)
             {
@@ -155,7 +155,7 @@ namespace eRegistrationCardSystem.ContextDB
                 string msg = ex.Message;
                 msgInfo.Status = "Error";
                 msgInfo.FailureReason = "1004";
-                msgInfo.ErrorDescription = "Database connection error.";
+                msgInfo.ErrorDescription = "データベース接続エラー";
             }
             return new Tuple<string, ReturnMessageInfo>(DataTableToJSONWithJSONNet(dt), msgInfo);
         }

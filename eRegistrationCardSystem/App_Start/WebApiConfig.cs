@@ -12,12 +12,10 @@ namespace eRegistrationCardSystem
     {
         public static void Register(HttpConfiguration config)
         {
-
             var cors = new EnableCorsAttribute("*", "*", "*");
             config.EnableCors(cors);
 
             config.MapHttpAttributeRoutes();
-
             config.Routes.MapHttpRoute(
                 name: "DefaultApi",
                 routeTemplate: "api/{controller}/{action}/{id}",
@@ -26,7 +24,6 @@ namespace eRegistrationCardSystem
 
             var appXmlType = config.Formatters.XmlFormatter.SupportedMediaTypes.FirstOrDefault(t => t.MediaType == "application/xml");
             config.Formatters.XmlFormatter.SupportedMediaTypes.Remove(appXmlType);
-
         }
     }
 }

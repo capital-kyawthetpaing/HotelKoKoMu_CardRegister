@@ -62,7 +62,7 @@ namespace eRegistrationCardSystem.Controllers
                     }
                 }
                 else
-                    loginStatus = new { Status = "Error", Result = "SystemID is invalid" };
+                    loginStatus = new { Status = "Error", Result = "SystemID 無効" };
                 return Ok(loginStatus);
         }
                
@@ -151,7 +151,7 @@ namespace eRegistrationCardSystem.Controllers
                    @"values(@createddate,@SystemID, @PmsID, @PmsPassword, @hotelcode, @MachineNo, @systemdate, @reservationno, @roomno, @arrDate, @deptDate, @guestName,@kanaName, @zipcode, @tel, @address1, @address2, @company, @nationality, @passport,'0','0')";
                 msgInfo = await bdl.InsertUpdateDeleteData(sql, para);
                 if (string.IsNullOrEmpty(msgInfo.Status))
-                    msgInfo = DefineError("Status");                
+                    msgInfo = DefineError("(Status)");                
                 return Ok(msgInfo);
             }
             else
@@ -356,7 +356,7 @@ namespace eRegistrationCardSystem.Controllers
                                 }
                             }
                             else
-                                msgInfo = DefineError("Status");
+                                msgInfo = DefineError("(Status)");
                         }
                         else
                         {
@@ -443,7 +443,7 @@ namespace eRegistrationCardSystem.Controllers
                         }
                         else
                         {
-                            msgInfo = DefineError("Status");
+                            msgInfo = DefineError("(Status)");
                             returnData = new
                             {
                                 Status = msgInfo.Status,
@@ -571,48 +571,48 @@ namespace eRegistrationCardSystem.Controllers
             ReturnMessageInfo msgInfo = new ReturnMessageInfo();
             msgInfo.Status = "Success";
             if (string.IsNullOrEmpty(cardRegisterInfo.SystemID))
-                msgInfo = DefineError("SystemID");
+                msgInfo = DefineError("(SystemID)");
             else if (string.IsNullOrEmpty(cardRegisterInfo.PmsID))
-                msgInfo = DefineError("PmsID");
+                msgInfo = DefineError("(PmsID)");
             else if (string.IsNullOrEmpty(cardRegisterInfo.PmsPassword))
-                msgInfo = DefineError("PmsPassword");
+                msgInfo = DefineError("(PmsPassword)");
             else if (string.IsNullOrEmpty(cardRegisterInfo.HotelCode))
-                msgInfo = DefineError("HotelCode");
+                msgInfo = DefineError("(HotelCode)");
             else if (string.IsNullOrEmpty(cardRegisterInfo.MachineNo))
-                msgInfo = DefineError("MachineNo");
+                msgInfo = DefineError("(MachineNo)");
             else if (string.IsNullOrEmpty(cardRegisterInfo.SystemDate))
-                msgInfo = DefineError("SystemDate");
+                msgInfo = DefineError("(SystemDate)");
             else if (string.IsNullOrEmpty(cardRegisterInfo.ReservationNo))
-                msgInfo = DefineError("ReservationNo");
+                msgInfo = DefineError("(ReservationNo)");
             else if (string.IsNullOrEmpty(cardRegisterInfo.RoomNo))
-                msgInfo = DefineError("RoomNo");
+                msgInfo = DefineError("(RoomNo)");
             else if (string.IsNullOrEmpty(cardRegisterInfo.ArriveDate))
-                msgInfo = DefineError("ArriveDate");
+                msgInfo = DefineError("(ArriveDate)");
             else if (string.IsNullOrEmpty(cardRegisterInfo.DepartureDate))
-                msgInfo = DefineError("DepartureDate");
+                msgInfo = DefineError("(DepartureDate)");
             else if(!CheckDate(cardRegisterInfo.SystemDate))
             {
                 msgInfo.Status = "Error";
                 msgInfo.FailureReason = "1006";
-                msgInfo.ErrorDescription = "Date check error.";
+                msgInfo.ErrorDescription = "日付 チェックエラー。";
             }
             else if(!CheckDate(cardRegisterInfo.ArriveDate))
             {
                 msgInfo.Status = "Error";
                 msgInfo.FailureReason = "1006";
-                msgInfo.ErrorDescription = "Date check error.";
+                msgInfo.ErrorDescription = "日付 チェックエラー。";
             }
             else if(!CheckDate(cardRegisterInfo.DepartureDate))
             {
                 msgInfo.Status = "Error";
                 msgInfo.FailureReason = "1006";
-                msgInfo.ErrorDescription = "Date check error.";
+                msgInfo.ErrorDescription = "日付 チェックエラー。";
             }
             else if(!CheckExistForCommonRequest(cardRegisterInfo.SystemID,cardRegisterInfo.PmsID,cardRegisterInfo.PmsPassword,cardRegisterInfo.HotelCode,cardRegisterInfo.MachineNo))
             {
                 msgInfo.Status = "Error";
                 msgInfo.FailureReason = "1002";
-                msgInfo.ErrorDescription = "There is something wrong with Common Request and required items.";
+                msgInfo.ErrorDescription = "Common request と必須項目に問題が発生しています。";
             } 
             return msgInfo;
         }     
@@ -627,20 +627,20 @@ namespace eRegistrationCardSystem.Controllers
             ReturnMessageInfo msgInfo = new ReturnMessageInfo();
             msgInfo.Status = "Success";
             if (string.IsNullOrEmpty(cardRegisterInfo.SystemID))
-                msgInfo = DefineError("SystemID");
+                msgInfo = DefineError("(SystemID)");
             else if (string.IsNullOrEmpty(cardRegisterInfo.PmsID))
-                msgInfo = DefineError("PmsID");
+                msgInfo = DefineError("(PmsID)");
             else if (string.IsNullOrEmpty(cardRegisterInfo.PmsPassword))
-                msgInfo = DefineError("PmsPassword");
+                msgInfo = DefineError("(PmsPassword)");
             else if (string.IsNullOrEmpty(cardRegisterInfo.HotelCode))
-                msgInfo = DefineError("HotelCode");
+                msgInfo = DefineError("(HotelCode)");
             else if (string.IsNullOrEmpty(cardRegisterInfo.MachineNo))
-                msgInfo = DefineError("MachineNo");
+                msgInfo = DefineError("(MachineNo)");
             else if (!CheckExistForCommonRequest(cardRegisterInfo.SystemID,cardRegisterInfo.PmsID, cardRegisterInfo.PmsPassword, cardRegisterInfo.HotelCode, cardRegisterInfo.MachineNo))
             {
                 msgInfo.Status = "Error";
                 msgInfo.FailureReason = "1002";
-                msgInfo.ErrorDescription = "There is something wrong with Common Request and required items.";
+                msgInfo.ErrorDescription = "Common request と必須項目に問題が発生しています。";
             }
             return msgInfo;
         }                
@@ -649,18 +649,18 @@ namespace eRegistrationCardSystem.Controllers
             ReturnMessageInfo msgInfo = new ReturnMessageInfo();
             msgInfo.Status = "Success";
             if (string.IsNullOrEmpty(status))
-                msgInfo = DefineError("Status");
+                msgInfo = DefineError("(Status)");
             else if (string.IsNullOrEmpty(dt.Rows[0]["systemdate"].ToString()))
-                msgInfo = DefineError("SystemDate");
+                msgInfo = DefineError("(SystemDate)");
             else if(string.IsNullOrEmpty(dt.Rows[0]["reservationno"].ToString()))
-                msgInfo= DefineError("ReservationNo");
+                msgInfo= DefineError("(ReservationNo)");
             else if (string.IsNullOrEmpty(dt.Rows[0]["roomno"].ToString()))
-                msgInfo = DefineError("RoomNo");
+                msgInfo = DefineError("(RoomNo)");
             else if (!CheckDate(dt.Rows[0]["systemdate"].ToString()))
             {
                 msgInfo.Status = "Error";
                 msgInfo.FailureReason = "1006";
-                msgInfo.ErrorDescription = "Date check error.";
+                msgInfo.ErrorDescription = "日付 チェックエラー。";
             }
             return msgInfo;
         }
@@ -675,7 +675,7 @@ namespace eRegistrationCardSystem.Controllers
             ReturnMessageInfo msgInfo = new ReturnMessageInfo();
             msgInfo.Status = "Error";
             msgInfo.FailureReason = "1001";
-            msgInfo.ErrorDescription = colName + " is null";
+            msgInfo.ErrorDescription =colName + " は　NULL です。";
             return msgInfo;
         }
 
@@ -783,7 +783,7 @@ namespace eRegistrationCardSystem.Controllers
             if (dtpmsid.Rows.Count == 0)
             {
                 status = false;
-                loginStatus = new { Status = "Error", Result = "Invalid PmsID" }; // invalid pmsid
+                loginStatus = new { Status = "Error", Result = "PmsID 無効" }; // invalid pmsid
             }
             if (status == true)
             {
@@ -794,7 +794,7 @@ namespace eRegistrationCardSystem.Controllers
                 if (dt.Rows.Count == 0)
                 {
                     status = false;
-                    loginStatus = new { Status = "Error", Result = "Invalid PmsPassword" }; // invalid pmspassword
+                    loginStatus = new { Status = "Error", Result = "PmsPassword 無効" }; // invalid pmspassword
                 }
             }
             if(status==true)
@@ -806,7 +806,7 @@ namespace eRegistrationCardSystem.Controllers
                 if (dt.Rows.Count == 0)
                 {
                     status = false;
-                    loginStatus = new { Status = "Error", Result = "Invalid Hotel Code" }; // invalid pmspassword
+                    loginStatus = new { Status = "Error", Result = "Hotel Code 無効" }; // invalid pmspassword
                 }
             }
             if (status == true)
@@ -819,7 +819,7 @@ namespace eRegistrationCardSystem.Controllers
                 if (dt.Rows.Count == 0)
                 {
                     status = false;
-                    loginStatus = new { Status = "Error", Result = "Invalid MachineNo" }; // invalid machine no
+                    loginStatus = new { Status = "Error", Result = "MachineNo 無効" }; // invalid machine no
                 }
             }
             return loginStatus;

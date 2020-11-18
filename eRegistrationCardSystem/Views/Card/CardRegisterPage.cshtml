@@ -20,7 +20,7 @@
         width: 95%;
         white-space: nowrap;
         vertical-align: middle;
-    }
+    }   
 </style>
 
 <div id="divkokomuTable" style="background-color:white;">
@@ -281,9 +281,22 @@
              //save guest information
             $("#btnfinish").click(function () {
 
+
                 if (!checkSessionExpire()) {
                     //get kokomu table as image
+                    //var element = $("#divkokomuTable");
+
                     var element = $("#divkokomuTable");
+                    element.find("label").each(function () {
+                        this.style.marginBottom = "7px";
+                        this.style.fontFamily = "メイリオ, Meiryo, ＭＳ Ｐゴシック, MS PGothic, Helvetica Neue, Helvetica, Arial, Verdana, sans-serif";
+                    });
+                    //var element1 = $(".kokomuTable tr td");
+                    //element1.find("label").each(function () {
+                    //    this.style.marginBottom = "7px";
+                    //});
+
+                    
                     html2canvas(element, {
                         onrendered: function (canvas) {
                             $('.kokomuTable tr td').each(function () {

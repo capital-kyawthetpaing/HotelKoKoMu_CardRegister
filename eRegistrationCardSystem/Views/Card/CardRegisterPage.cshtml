@@ -14,6 +14,7 @@
     }
 
     .clsPolicy {
+      
         text-overflow: ellipsis;
         display: inline-block;
         overflow: hidden;
@@ -21,13 +22,15 @@
         white-space: nowrap;
         vertical-align: middle;
     }
-    /*.lbl {
-        padding-bottom: 2px;
+
+   /* .lbl {
+       
         font-family: 'ヒラギノ角ゴ ProN W3', 'Hiragino Kaku Gothic ProN', "メイリオ", Meiryo, 'ＭＳ Ｐゴシック', 'MS PGothic', 'Helvetica Neue', Helvetica, Arial, Verdana, sans-serif;
     }*/
+   
 </style>
 
-<div id="divkokomuTable" style="background-color:white;">
+<div id="divkokomuTable" style="background-color: white;">
     <table class="table-bordered kokomuTable">
         <tbody>
             <tr>
@@ -187,7 +190,6 @@
         var GuestName, GuestNameHW, KanaName, KanaNameHW, ZipCode, ZipCodeHW, Tel, TelHW, Address1, AddressHW1, Address2, AddressHW2, Company, CompanyHW, Nationality, NationalityHW, Passport, PassportHW, Sign;
         var getCanvas, CardRegisterInfo, cardObj;
         $(document).ready(function () {
-
            CardRegisterInfo = { SystemID: $("#lblsystemid").text(), PmsID: $("#lblPmsId").text(), PmsPassword: $("#lblPmsPassword").text(), HotelCode: $("#lblhotelCode").text(), MachineNo: $("#lblmachineno").text() };
            $("#divLoading").show();
 
@@ -288,11 +290,15 @@
                 if (!checkSessionExpire()) {
                     //get kokomu table as image
                     var element = $("#divkokomuTable");
-                    element.find("label").each(function () {
-                        this.style.marginBottom = "4px";
+                    var element1 = $('.kokomuTable tr td');
+                    element1.find("label").each(function () {
+                        this.style.marginBottom = "5px";
+                        
                     });
+                   
 
                     html2canvas(element, {
+                        
                         onrendered: function (canvas) {
                             $('.kokomuTable tr td').each(function () {
                                 if ($(this).find("label").attr("id") == "lblGuestName")
@@ -369,11 +375,12 @@
                             }
                         }
                     });
+                    
                 }
                 else {
                     window.location.href = "@Url.Action("Login", "Card")";
                 }
-             });
+            });
         });
 
         function BindPolicyInformation() {
@@ -551,7 +558,7 @@
         // for creating label control
         function CreateLabelControl(commonVal, commonID) {
             if (commonVal != "")
-                return '<label class="lbl" id="' + commonID + '">' + commonVal + '</label>';
+                return '<label   id="' + commonID + '">' + commonVal + '</label>';
         }
 
         //for creating image control

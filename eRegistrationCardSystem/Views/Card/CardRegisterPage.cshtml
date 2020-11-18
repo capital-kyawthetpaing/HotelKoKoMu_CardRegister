@@ -190,6 +190,7 @@
         var GuestName, GuestNameHW, KanaName, KanaNameHW, ZipCode, ZipCodeHW, Tel, TelHW, Address1, AddressHW1, Address2, AddressHW2, Company, CompanyHW, Nationality, NationalityHW, Passport, PassportHW, Sign;
         var getCanvas, CardRegisterInfo, cardObj;
         $(document).ready(function () {
+
            CardRegisterInfo = { SystemID: $("#lblsystemid").text(), PmsID: $("#lblPmsId").text(), PmsPassword: $("#lblPmsPassword").text(), HotelCode: $("#lblhotelCode").text(), MachineNo: $("#lblmachineno").text() };
            $("#divLoading").show();
 
@@ -290,16 +291,30 @@
                 if (!checkSessionExpire()) {
                     //get kokomu table as image
                     var element = $("#divkokomuTable");
-                    var element1 = $('.kokomuTable tr td');
-                    element1.find("label").each(function () {
-                        this.style.marginBottom = "5px";
-                        
-                    });
+                    var element1 = $('.kokomuTable tr td'); 
+                  
                    
+                    element1.find("label").each(function () {
+                        this.style.marginBottom = "8px";
+                        this.style.fontFamily = "メイリオ, Meiryo, ＭＳ Ｐゴシック, MS PGothic, Helvetica Neue, Helvetica, Arial, Verdana, sans-serif";
+                    });
+
+                    //var element2 = $("#divCheck");
+                    //element2.find("label").each(function () {
+                    //    this.style.fontFamily = "メイリオ, Meiryo, ＭＳ Ｐゴシック, MS PGothic, Helvetica Neue, Helvetica, Arial, Verdana, sans-serif";
+                    //});
+                  
 
                     html2canvas(element, {
-                        
                         onrendered: function (canvas) {
+
+                            var element1 = $('.kokomuTable tr td');
+                            element1.find("label").each(function () {
+                                this.style.marginBottom = "0px";
+                            });
+
+                          
+
                             $('.kokomuTable tr td').each(function () {
                                 if ($(this).find("label").attr("id") == "lblGuestName")
                                     GuestName = $("#lblGuestName").text();
@@ -346,9 +361,9 @@
                                 else
                                     PassportHW = $("#imgPassport").attr('src');
                             });
+
                             var guestInfo = { SystemID: $("#lblsystemid").text(), PmsID: $("#lblPmsId").text(), PmsPassword: $("#lblPmsPassword").text(), HotelCode: $("#lblhotelCode").text(), MachineNo: $("#lblmachineno").text(), ReservationNo: $("#lblReservationNo").text(), RoomNo: $("#lblRoomNo").text(), SystemDate: $("#lblSystemDate").text(), NameKanji: GuestName, NameKana: KanaName, ZipCode: ZipCode, Tel: Tel, Address1: Address1, Address2: Address2, Company: Company, Nationality: Nationality, PassportNo: Passport, Sign: $("#imgSign").attr('src'), ImageData: canvas.toDataURL("image/jpg") };
                             var response = CalltoApiController('@Url.Action("setRegistrationCard", "api/CardAPI/")', guestInfo);
-
                             if (response.Status == "Success") {
                                 Swal.fire({
                                     title: ' ありがとうございました。',

@@ -407,7 +407,8 @@ namespace eRegistrationCardSystem.Controllers
                 Sqlprms[2] = new NpgsqlParameter("@PmsPassword", NpgsqlDbType.Varchar) { Value = cardRegisterInfo.PmsPassword };
                 Sqlprms[3] = new NpgsqlParameter("@HotelCode", NpgsqlDbType.Varchar) { Value = cardRegisterInfo.HotelCode };
                 Sqlprms[4] = new NpgsqlParameter("@MachineNo", NpgsqlDbType.Varchar) { Value = cardRegisterInfo.MachineNo };
-                string sql1 = "select systemdate,reservationno,roomno,flag,complete_flag from trn_guestinformation where systemid = @SystemID and pmsid = @PmsID and  PmsPassword= @pmspassword and hotel_code= @HotelCode and machineno=@MachineNo and (flag!=2 and flag!=9) and complete_flag=0 limit 1";
+                //string sql1 = "select systemdate,reservationno,roomno,flag,complete_flag from trn_guestinformation where systemid = @SystemID and pmsid = @PmsID and  PmsPassword= @pmspassword and hotel_code= @HotelCode and machineno=@MachineNo and (flag!=2 and flag!=9) and complete_flag=0 limit 1";
+                string sql1 = "select systemdate,reservationno,roomno,flag,complete_flag from trn_guestinformation where systemid = @SystemID and pmsid = @PmsID and  PmsPassword= @pmspassword and hotel_code= @HotelCode and machineno=@MachineNo and flag in ('1','0') and complete_flag=0 ";
                 Tuple<string, ReturnMessageInfo> result1 = await bdl.SelectJson(sql1, Sqlprms);
                 DataTable dt = JsonConvert.DeserializeObject<DataTable>(result1.Item1);
                 msgInfo = result1.Item2;
@@ -757,7 +758,7 @@ namespace eRegistrationCardSystem.Controllers
             para[1] = new NpgsqlParameter("@systemdate", NpgsqlDbType.Varchar) { Value = cardRegisterInfo.SystemDate };
             para[2] = new NpgsqlParameter("@reservationno", NpgsqlDbType.Varchar) { Value = cardRegisterInfo.ReservationNo };
             para[3] = new NpgsqlParameter("@roomno", NpgsqlDbType.Varchar) { Value = cardRegisterInfo.RoomNo };
-            string cmdText = "Select created_date from trn_guestinformation where hotel_code=@hotelcode and systemdate=@systemdate and reservationno = @reservationno and roomno = @roomno";
+            string cmdText = "Select created_date from trn_guestinformation where hotel_code=@hotelcode and systemdate=@systemdate and reservationno = @reservationno and roomno = @roomno and flag not in('2','9')";
             DataTable dt = bdl.SelectDataTable_Info(cmdText, para);
             if (dt.Rows.Count > 0)
             {

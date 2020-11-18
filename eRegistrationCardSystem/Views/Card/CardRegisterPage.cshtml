@@ -21,6 +21,10 @@
         white-space: nowrap;
         vertical-align: middle;
     }
+    /*.lbl {
+        padding-bottom: 2px;
+        font-family: 'ヒラギノ角ゴ ProN W3', 'Hiragino Kaku Gothic ProN', "メイリオ", Meiryo, 'ＭＳ Ｐゴシック', 'MS PGothic', 'Helvetica Neue', Helvetica, Arial, Verdana, sans-serif;
+    }*/
 </style>
 
 <div id="divkokomuTable" style="background-color:white;">
@@ -284,6 +288,10 @@
                 if (!checkSessionExpire()) {
                     //get kokomu table as image
                     var element = $("#divkokomuTable");
+                    element.find("label").each(function () {
+                        this.style.marginBottom = "4px";
+                    });
+
                     html2canvas(element, {
                         onrendered: function (canvas) {
                             $('.kokomuTable tr td').each(function () {
@@ -543,7 +551,7 @@
         // for creating label control
         function CreateLabelControl(commonVal, commonID) {
             if (commonVal != "")
-                return '<label id="' + commonID + '">' + commonVal + '</label>';
+                return '<label class="lbl" id="' + commonID + '">' + commonVal + '</label>';
         }
 
         //for creating image control

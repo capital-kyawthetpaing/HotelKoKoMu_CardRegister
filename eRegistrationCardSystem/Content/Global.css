@@ -30,14 +30,14 @@ table {
     height: 45px;
 }
 
-.kokomuTable td label {
-    margin-bottom:3px;
-}
-
 /*.kokomuTable td label {
+    margin-bottom:3px;
+}*/
+
+.kokomuTable td label {
     width: 100%;
     margin: 0px;
-}*/
+}
 
 textarea {
     width: 100%;

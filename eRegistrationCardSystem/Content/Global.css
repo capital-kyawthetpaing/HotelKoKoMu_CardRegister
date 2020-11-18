@@ -1,5 +1,5 @@
 ﻿body {
-    margin-top:0px;
+    margin-top: 0px;
     font-family: 'ヒラギノ角ゴ ProN W3', 'Hiragino Kaku Gothic ProN', "メイリオ", Meiryo, 'ＭＳ Ｐゴシック', 'MS PGothic', 'Helvetica Neue', Helvetica, Arial, Verdana, sans-serif;
 }
 
@@ -28,10 +28,12 @@ table {
 
 .kokomuTable tr {
     height: 45px;
+  
 }
 
 /*.kokomuTable td label {
-    margin-bottom:3px;
+    margin-bottom:2px;
+  
 }*/
 
 .kokomuTable td label {

@@ -14,16 +14,23 @@
     }
 
     .clsPolicy {
+      
         text-overflow: ellipsis;
         display: inline-block;
         overflow: hidden;
         width: 95%;
         white-space: nowrap;
         vertical-align: middle;
-    }   
+    }
+
+   /* .lbl {
+       
+        font-family: 'ヒラギノ角ゴ ProN W3', 'Hiragino Kaku Gothic ProN', "メイリオ", Meiryo, 'ＭＳ Ｐゴシック', 'MS PGothic', 'Helvetica Neue', Helvetica, Arial, Verdana, sans-serif;
+    }*/
+   
 </style>
 
-<div id="divkokomuTable" style="background-color:white;">
+<div id="divkokomuTable" style="background-color: white;">
     <table class="table-bordered kokomuTable">
         <tbody>
             <tr>
@@ -281,24 +288,33 @@
              //save guest information
             $("#btnfinish").click(function () {
 
-
                 if (!checkSessionExpire()) {
                     //get kokomu table as image
-                    //var element = $("#divkokomuTable");
-
                     var element = $("#divkokomuTable");
-                    element.find("label").each(function () {
-                        this.style.marginBottom = "7px";
+                    var element1 = $('.kokomuTable tr td'); 
+                  
+                   
+                    element1.find("label").each(function () {
+                        this.style.marginBottom = "8px";
                         this.style.fontFamily = "メイリオ, Meiryo, ＭＳ Ｐゴシック, MS PGothic, Helvetica Neue, Helvetica, Arial, Verdana, sans-serif";
                     });
-                    //var element1 = $(".kokomuTable tr td");
-                    //element1.find("label").each(function () {
-                    //    this.style.marginBottom = "7px";
-                    //});
 
-                    
+                    //var element2 = $("#divCheck");
+                    //element2.find("label").each(function () {
+                    //    this.style.fontFamily = "メイリオ, Meiryo, ＭＳ Ｐゴシック, MS PGothic, Helvetica Neue, Helvetica, Arial, Verdana, sans-serif";
+                    //});
+                  
+
                     html2canvas(element, {
                         onrendered: function (canvas) {
+
+                            var element1 = $('.kokomuTable tr td');
+                            element1.find("label").each(function () {
+                                this.style.marginBottom = "0px";
+                            });
+
+                          
+
                             $('.kokomuTable tr td').each(function () {
                                 if ($(this).find("label").attr("id") == "lblGuestName")
                                     GuestName = $("#lblGuestName").text();
@@ -345,9 +361,9 @@
                                 else
                                     PassportHW = $("#imgPassport").attr('src');
                             });
+
                             var guestInfo = { SystemID: $("#lblsystemid").text(), PmsID: $("#lblPmsId").text(), PmsPassword: $("#lblPmsPassword").text(), HotelCode: $("#lblhotelCode").text(), MachineNo: $("#lblmachineno").text(), ReservationNo: $("#lblReservationNo").text(), RoomNo: $("#lblRoomNo").text(), SystemDate: $("#lblSystemDate").text(), NameKanji: GuestName, NameKana: KanaName, ZipCode: ZipCode, Tel: Tel, Address1: Address1, Address2: Address2, Company: Company, Nationality: Nationality, PassportNo: Passport, Sign: $("#imgSign").attr('src'), ImageData: canvas.toDataURL("image/jpg") };
                             var response = CalltoApiController('@Url.Action("setRegistrationCard", "api/CardAPI/")', guestInfo);
-
                             if (response.Status == "Success") {
                                 Swal.fire({
                                     title: ' ありがとうございました。',
@@ -374,11 +390,12 @@
                             }
                         }
                     });
+                    
                 }
                 else {
                     window.location.href = "@Url.Action("Login", "Card")";
                 }
-             });
+            });
         });
 
         function BindPolicyInformation() {
@@ -556,7 +573,7 @@
         // for creating label control
         function CreateLabelControl(commonVal, commonID) {
             if (commonVal != "")
-                return '<label id="' + commonID + '">' + commonVal + '</label>';
+                return '<label   id="' + commonID + '">' + commonVal + '</label>';
         }
 
         //for creating image control
